@@ -1,0 +1,9 @@
+<?php
+
+$database_class = 'MySQLDatabase';
+$database_host = 'localhost';
+$database_user = '';
+$database_password = '';
+$database_instance = 'todo';
+
+?>

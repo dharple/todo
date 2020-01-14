@@ -1,0 +1,30 @@
+td {
+	vertical-align: top;
+}
+
+.section {
+	font-weight: bold;
+	font-variant: small-caps;
+}
+
+A.section_link {
+	text-decoration: none;
+	color: black;
+}
+
+.high_priority {
+	color: blue;
+}
+
+.estimate {
+	color: red;
+}
+
+.closed {
+	text-decoration: line-through;
+}
+
+.estimate_total {
+	color: red;
+	font-weight: bold;
+}
