@@ -4,27 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa9c225ea75d946937063346056e6350",
+    "content-hash": "7da58b2a0bde54f0af55c9388f28ff6b",
     "packages": [],
     "packages-dev": [
         {
             "name": "dharple/outsanity-phpcs",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dharple/outsanity-phpcs.git",
-                "reference": "fb543871488e957b1fbb98c006d022281e71d78d"
+                "reference": "87686f6b3f338d9ddf73fd88103c37552ef82ea1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dharple/outsanity-phpcs/zipball/fb543871488e957b1fbb98c006d022281e71d78d",
-                "reference": "fb543871488e957b1fbb98c006d022281e71d78d",
+                "url": "https://api.github.com/repos/dharple/outsanity-phpcs/zipball/87686f6b3f338d9ddf73fd88103c37552ef82ea1",
+                "reference": "87686f6b3f338d9ddf73fd88103c37552ef82ea1",
                 "shasum": ""
+            },
+            "require": {
+                "ork/phpcs": "^2.0",
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD 2-Clause License"
+                "BSD-2-Clause"
             ],
             "authors": [
                 {
@@ -33,7 +37,40 @@
                 }
             ],
             "description": "My personal PHPCS rules",
-            "time": "2020-01-14T05:31:53+00:00"
+            "time": "2020-01-14T13:44:45+00:00"
+        },
+        {
+            "name": "ork/phpcs",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AlexHowansky/ork-phpcs.git",
+                "reference": "89c2bc11889d26140218d54e0b9cdb2371809b84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AlexHowansky/ork-phpcs/zipball/89c2bc11889d26140218d54e0b9cdb2371809b84",
+                "reference": "89c2bc11889d26140218d54e0b9cdb2371809b84",
+                "shasum": ""
+            },
+            "require": {
+                "squizlabs/php_codesniffer": "^3.5.3"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Howansky",
+                    "email": "alex.howansky@gmail.com",
+                    "homepage": "https://github.com/AlexHowansky"
+                }
+            ],
+            "description": "A set of PHPCS rules that describe the Ork coding standard.",
+            "homepage": "http://github.com/AlexHowansky/ork-phpcs",
+            "time": "2020-01-14T18:00:38+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
