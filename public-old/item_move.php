@@ -1,13 +1,13 @@
 <?php
 
-require_once("include/common.php");
-require_once("include/DateUtils.php");
+require_once('include/common.php');
+require_once('include/DateUtils.php');
 
 $user_id = $_SESSION['user_id'];
 
-if($user_id !== '0') {
-	header('Location: index.php');
-	exit();
+if ($user_id !== '0') {
+    header('Location: index.php');
+    exit();
 }
 
 ?>
@@ -34,8 +34,8 @@ if($user_id !== '0') {
 
 <?php
 
-$userList = new SimpleList($db, "User");
-$users = $userList->load("ORDER BY username");
+$userList = new SimpleList($db, 'User');
+$users = $userList->load('ORDER BY username');
 
 ?>
 
@@ -50,8 +50,8 @@ $users = $userList->load("ORDER BY username");
 <option value="">Choose...</option>
 <?php
 
-foreach($users as $user) {
-	print("<option value=\"" . $user->getId() . "\">" . $user->getUsername() . "</option>");
+foreach ($users as $user) {
+    print('<option value="' . $user->getId() . '">' . $user->getUsername() . '</option>');
 }
 
 ?>
@@ -63,8 +63,8 @@ foreach($users as $user) {
 <option value="">Choose...</option>
 <?php
 
-foreach($users as $user) {
-	print("<option value=\"" . $user->getId() . "\">" . $user->getUsername() . "</option>");
+foreach ($users as $user) {
+    print('<option value="' . $user->getId() . '">' . $user->getUsername() . '</option>');
 }
 
 ?>

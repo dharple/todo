@@ -8,11 +8,11 @@ include_once('include/display_settings.php');
 ?>
 <html>
 <head>
-<title>To Do List For <?php print(date("F jS, Y")); ?></title>
+<title>To Do List For <?php print(date('F jS, Y')); ?></title>
 <link rel="stylesheet" href="styles/printable.php" type="text/css">
 </head>
 <body onLoad="window.print();">
-<p align=center><b><?php print(date("F jS, Y")); ?></b> - <b><?php print($user->getFullname()); ?></b></p>
+<p align=center><b><?php print(date('F jS, Y')); ?></b> - <b><?php print($user->getFullname()); ?></b></p>
 
 <?php
 
@@ -22,19 +22,19 @@ include_once('include/display_settings.php');
 
 $itemStats = new ItemStats($db, $_SESSION['user_id']);
 
-$footer = "<i>Items Done Today: " . $itemStats->doneToday() . ", Yesterday: " . $itemStats->doneYesterday();
-$footer .= ", This Week: " . $itemStats->doneThisWeek() . ", Last Week: " . $itemStats->doneLastWeek();
-$footer .= ", This Month: " . $itemStats->doneThisMonth() . ", Last Month: " . $itemStats->doneLastMonth();
-$footer .= ", Since Start: " . $itemStats->doneTotal();
+$footer = '<i>Items Done Today: ' . $itemStats->doneToday() . ', Yesterday: ' . $itemStats->doneYesterday();
+$footer .= ', This Week: ' . $itemStats->doneThisWeek() . ', Last Week: ' . $itemStats->doneLastWeek();
+$footer .= ', This Month: ' . $itemStats->doneThisMonth() . ', Last Month: ' . $itemStats->doneLastMonth();
+$footer .= ', Since Start: ' . $itemStats->doneTotal();
 
 $query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '$user_id' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
 $result = $db->query($query);
 $row = $db->fetchRow($result);
-$footer .= ", Avg: " . number_format($row[0], 1) . " days";
+$footer .= ', Avg: ' . number_format($row[0], 1) . ' days';
 
-$footer .= "<br><br>Items Shown: {GRAND_TOTAL}";
-$footer .= "<br>Items Not Shown: {NOT_SHOWN}";
-$footer .= "</i>";
+$footer .= '<br><br>Items Shown: {GRAND_TOTAL}';
+$footer .= '<br>Items Not Shown: {NOT_SHOWN}';
+$footer .= '</i>';
 
 /*
  *

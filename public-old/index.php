@@ -5,95 +5,86 @@ require_once('include/ItemStats.php');
 require_once('include/DateUtils.php');
 require_once('include/ListDisplay.php');
 
-// Defaults 
+// Defaults
 
 include_once('include/display_settings.php');
 
-// Handle POST 
+// Handle POST
 
 if (count($_POST)) {
-	if ($_POST["submitButton"] == "Mark Done") {
-		foreach($_POST["itemIds"] as $itemId) {
-			$item = new Item($db, $itemId);
-			if ($item->getId() != $itemId) {
-				print("Unable to load item #" . $itemId . "<br>");
-				continue;
-			}
+    if ($_POST['submitButton'] == 'Mark Done') {
+        foreach ($_POST['itemIds'] as $itemId) {
+            $item = new Item($db, $itemId);
+            if ($item->getId() != $itemId) {
+                print('Unable to load item #' . $itemId . '<br>');
+                continue;
+            }
 
-			$item->setStatus("Closed");
-			$dateUtils = new DateUtils();
-			$item->setCompleted($dateUtils->getNow());
-			$ret = $item->save();
+            $item->setStatus('Closed');
+            $dateUtils = new DateUtils();
+            $item->setCompleted($dateUtils->getNow());
+            $ret = $item->save();
 
-			if (!$ret) {
-				print("An error occured while updating item #" . $itemId . " - " . $item->getTask() . ".<br>");
-				print($item->getErrorNumber() . ": " . $item->getErrorMessage());
-				print("<br>");
-				print("<hr>");
-			}
-		}
-	}
-	else if ($_POST["submitButton"] == "Add New") {
-		header("Location: item_edit.php?op=add");
-		die();
-	}
-	else if ($_POST["submitButton"] == "Bulk") {
-		header("Location: item_bulk_add.php");
-		die();
-	}
-	else if ($_POST["submitButton"] == "Edit") {
-		header("Location: item_edit.php?op=edit&ids=" . urlencode(serialize($_POST["itemIds"])));
-		die();
-	}
-	else if ($_POST["submitButton"] == "Estimate") {
-		header("Location: item_estimate.php?ids=" . urlencode(serialize($_POST["itemIds"])));
-		die();
-	}
-	else if ($_POST["submitButton"] == "Edit Sections") {
-		header("Location: section_edit.php");
-		die();
-	}
-	else if ($_POST["submitButton"] == "Logout") {
-		session_unset();
-		header("Location: login.php");
-		die();
-	}
-	else if ($_POST["submitButton"] == "My Account") {
-		header("Location: account.php");
-		die();
-	}
-	else if ($_POST["submitButton"] == "Prioritize") {
-		header("Location: item_prioritize.php?ids=" . urlencode(serialize($_POST["itemIds"])));
-		die();
-	}
-	else if ($_POST["submitButton"] == "Duplicate") {
-		foreach($_POST["itemIds"] as $itemId) {
-			$item = new Item($db, $itemId);
-			if ($item->getId() != $itemId) {
-				print("Unable to load item #" . $itemId . "<br>");
-				continue;
-			}
+            if (!$ret) {
+                print('An error occured while updating item #' . $itemId . ' - ' . $item->getTask() . '.<br>');
+                print($item->getErrorNumber() . ': ' . $item->getErrorMessage());
+                print('<br>');
+                print('<hr>');
+            }
+        }
+    } elseif ($_POST['submitButton'] == 'Add New') {
+        header('Location: item_edit.php?op=add');
+        die();
+    } elseif ($_POST['submitButton'] == 'Bulk') {
+        header('Location: item_bulk_add.php');
+        die();
+    } elseif ($_POST['submitButton'] == 'Edit') {
+        header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
+        die();
+    } elseif ($_POST['submitButton'] == 'Estimate') {
+        header('Location: item_estimate.php?ids=' . urlencode(serialize($_POST['itemIds'])));
+        die();
+    } elseif ($_POST['submitButton'] == 'Edit Sections') {
+        header('Location: section_edit.php');
+        die();
+    } elseif ($_POST['submitButton'] == 'Logout') {
+        session_unset();
+        header('Location: login.php');
+        die();
+    } elseif ($_POST['submitButton'] == 'My Account') {
+        header('Location: account.php');
+        die();
+    } elseif ($_POST['submitButton'] == 'Prioritize') {
+        header('Location: item_prioritize.php?ids=' . urlencode(serialize($_POST['itemIds'])));
+        die();
+    } elseif ($_POST['submitButton'] == 'Duplicate') {
+        foreach ($_POST['itemIds'] as $itemId) {
+            $item = new Item($db, $itemId);
+            if ($item->getId() != $itemId) {
+                print('Unable to load item #' . $itemId . '<br>');
+                continue;
+            }
 
-			$dateUtils = new DateUtils();
+            $dateUtils = new DateUtils();
 
-			$newItem = new Item($db);
+            $newItem = new Item($db);
 
-			$newItem->setCreated($dateUtils->getNow());
-			$newItem->setUserId($_SESSION['user_id']);
-			$newItem->setTask($item->getTask());
-			$newItem->setSectionId($item->getSectionId());
-			$newItem->setStatus('Open');
-			$newItem->setPriority($item->getPriority());
-			$ret = $newItem->save();
+            $newItem->setCreated($dateUtils->getNow());
+            $newItem->setUserId($_SESSION['user_id']);
+            $newItem->setTask($item->getTask());
+            $newItem->setSectionId($item->getSectionId());
+            $newItem->setStatus('Open');
+            $newItem->setPriority($item->getPriority());
+            $ret = $newItem->save();
 
-			if (!$ret) {
-				print("An error occured while duplicating item #" . $itemId . " - " . $item->getTask() . ".<br>");
-				print($newItem->getErrorNumber() . ": " . $newItem->getErrorMessage());
-				print("<br>");
-				print("<hr>");
-			}
-		}
-	}
+            if (!$ret) {
+                print('An error occured while duplicating item #' . $itemId . ' - ' . $item->getTask() . '.<br>');
+                print($newItem->getErrorNumber() . ': ' . $newItem->getErrorMessage());
+                print('<br>');
+                print('<hr>');
+            }
+        }
+    }
 }
 
 $listDisplay = new ListDisplay($db, $_SESSION['user_id']);
@@ -106,7 +97,7 @@ $listDisplay->setFilterAging($display_filter_aging);
 $listDisplay->setShowEstimate($display_show_estimate);
 $listDisplay->setShowInactive($display_show_inactive);
 $listDisplay->setShowSection($display_show_section);
-$listDisplay->setSectionLink("index.php?show_section={SECTION_ID}");
+$listDisplay->setSectionLink('index.php?show_section={SECTION_ID}');
 $listDisplay->setShowPriority($display_show_priority);
 
 $itemStats = new ItemStats($db, $_SESSION['user_id']);
@@ -116,7 +107,7 @@ $user_id = $_SESSION['user_id'];
 ?>
 <html>
 <head>
-<title>To Do List For <?php print(date("F jS, Y")); ?></title>
+<title>To Do List For <?php print(date('F jS, Y')); ?></title>
 <link rel="stylesheet" href="styles/display.php" type="text/css">
 <meta name="robots" content="noindex, nofollow">
 </head>
@@ -130,7 +121,7 @@ $user_id = $_SESSION['user_id'];
 
 Items Done:<br>
 &nbsp;&nbsp; Today: <a href="show_done.php?view=today">
-<?php 
+<?php
 print($itemStats->doneToday());
 ?></a>,
 Yesterday: <a href="show_done.php?view=yesterday">
@@ -203,13 +194,12 @@ Filter Closed Items:&nbsp;&nbsp;
 
 
 foreach ($closed_display as $value => $display) {
-	print(' ');
-	if ($display_filter_closed == $value) {
-		print($display);
-	}
-	else {
-		print("<a href=\"index.php?filter_closed=" . $value . "\">" . $display . "</a>");
-	}
+    print(' ');
+    if ($display_filter_closed == $value) {
+        print($display);
+    } else {
+        print('<a href="index.php?filter_closed=' . $value . '">' . $display . '</a>');
+    }
 }
 
 ?>
@@ -219,13 +209,12 @@ Filter Priority:&nbsp;&nbsp;
 <?php
 
 foreach ($priority_display as $value => $display) {
-	print(" ");
-	if ($display_filter_priority == $value) {
-		print($display);
-	}
-	else {
-		print("<a href=\"index.php?filter_priority=" . $value . "\">" . $display . "</a>");
-	}
+    print(' ');
+    if ($display_filter_priority == $value) {
+        print($display);
+    } else {
+        print('<a href="index.php?filter_priority=' . $value . '">' . $display . '</a>');
+    }
 }
 
 ?>
@@ -235,13 +224,12 @@ Show Priority:&nbsp;&nbsp;
 <?php
 
 foreach ($show_priority_display as $value => $display) {
-	print(" ");
-	if ($display_show_priority == $value) {
-		print($display);
-	}
-	else {
-		print("<a href=\"index.php?show_priority=" . $value . "\">" . $display . "</a>");
-	}
+    print(' ');
+    if ($display_show_priority == $value) {
+        print($display);
+    } else {
+        print('<a href="index.php?show_priority=' . $value . '">' . $display . '</a>');
+    }
 }
 
 ?>
@@ -251,13 +239,12 @@ Filter Aging:&nbsp;&nbsp;
 <?php
 
 foreach ($aging_display as $value => $display) {
-	print(" ");
-	if ($display_filter_aging == $value) {
-		print($display);
-	}
-	else {
-		print("<a href=\"index.php?filter_aging=" . $value . "\">" . $display . "</a>");
-	}
+    print(' ');
+    if ($display_filter_aging == $value) {
+        print($display);
+    } else {
+        print('<a href="index.php?filter_aging=' . $value . '">' . $display . '</a>');
+    }
 }
 
 ?>
@@ -267,11 +254,10 @@ foreach ($aging_display as $value => $display) {
 Show Estimates:&nbsp;&nbsp;
 <?php
 
-if ($display_show_estimate == "y") {
-	print("Yes <a href=\"index.php?show_estimate=n\">No</a>");
-}
-else {
-	print("<a href=\"index.php?show_estimate=y\">Yes</a> No");
+if ($display_show_estimate == 'y') {
+    print('Yes <a href="index.php?show_estimate=n">No</a>');
+} else {
+    print('<a href="index.php?show_estimate=y">Yes</a> No');
 }
 
 ?>
@@ -280,11 +266,10 @@ else {
 Show Inactive Sections:&nbsp;&nbsp;
 <?php
 
-if($display_show_inactive == "y") {
-	print("Yes <a href=\"index.php?show_inactive=n\">No</a>");
-}
-else {
-	print("<a href=\"index.php?show_inactive=y\">Yes</a> No");
+if ($display_show_inactive == 'y') {
+    print('Yes <a href="index.php?show_inactive=n">No</a>');
+} else {
+    print('<a href="index.php?show_inactive=y">Yes</a> No');
 }
 
 ?>
@@ -293,9 +278,9 @@ Display Settings: <a href="index.php?reset_display_settings=1">Reset</a>
 <br>
 
 <?php
-	print("<a href=\"\" onClick=\"window.open('printable.php','todoList','height=400,width=600'); return false;\">Printable Version</a>");
-	print('<br>');
-	print("<a href=\"export_menu.php\">Exportable Version</a>");
+    print("<a href=\"\" onClick=\"window.open('printable.php','todoList','height=400,width=600'); return false;\">Printable Version</a>");
+    print('<br>');
+    print('<a href="export_menu.php">Exportable Version</a>');
 ?>
 
 </td>
@@ -323,24 +308,40 @@ $sectionCount = $sectionList->count("WHERE user_id = '$user_id' AND status = 'Ac
 <br>
 
 <table width="100%" cellpadding=0 cellspacing=0 border=0>
-	<tr>
-		<td align=left>
-			<input type="submit" name="submitButton" value="Edit" <?php if ($itemCount == 0) print("disabled") ;?>>
-			<input type="submit" name="submitButton" value="Mark Done" <?php if ($itemCount == 0) print("disabled") ;?>>
-			<input type="submit" name="submitButton" value="Estimate" <?php if ($itemCount == 0) print("disabled") ;?>>
-			<input type="submit" name="submitButton" value="Prioritize" <?php if ($itemCount == 0) print("disabled") ;?>>
-			<?php if($display_filter_closed != 'none') { ?> <input type="submit" name="submitButton" value="Duplicate" <?php if ($itemCount == 0) print("disabled") ;?>> <?php } ?>
-		</td>
-		<td align=center>
-			<input type="submit" name="submitButton" value="My Account">
-			<input type="submit" name="submitButton" value="Logout">
-		</td>
-		<td align=right>
-			<input type="submit" name="submitButton" value="Bulk" <?php if ($sectionCount == 0) print("disabled") ;?>>
-			<input type="submit" name="submitButton" value="Add New" <?php if ($sectionCount == 0) print("disabled") ;?>>
-			<input type="submit" name="submitButton" value="Edit Sections">
-		</td>
-	</tr>
+    <tr>
+        <td align=left>
+            <input type="submit" name="submitButton" value="Edit" <?php if ($itemCount == 0) {
+                print('disabled') ;
+                                                                  }?>>
+            <input type="submit" name="submitButton" value="Mark Done" <?php if ($itemCount == 0) {
+                print('disabled') ;
+                                                                       }?>>
+            <input type="submit" name="submitButton" value="Estimate" <?php if ($itemCount == 0) {
+                print('disabled') ;
+                                                                      }?>>
+            <input type="submit" name="submitButton" value="Prioritize" <?php if ($itemCount == 0) {
+                print('disabled') ;
+                                                                        }?>>
+            <?php if ($display_filter_closed != 'none') {
+                ?> <input type="submit" name="submitButton" value="Duplicate" <?php if ($itemCount == 0) {
+    print('disabled') ;
+                }?>> <?php
+            } ?>
+        </td>
+        <td align=center>
+            <input type="submit" name="submitButton" value="My Account">
+            <input type="submit" name="submitButton" value="Logout">
+        </td>
+        <td align=right>
+            <input type="submit" name="submitButton" value="Bulk" <?php if ($sectionCount == 0) {
+                print('disabled') ;
+                                                                  }?>>
+            <input type="submit" name="submitButton" value="Add New" <?php if ($sectionCount == 0) {
+                print('disabled') ;
+                                                                     }?>>
+            <input type="submit" name="submitButton" value="Edit Sections">
+        </td>
+    </tr>
 </table>
 
 </form>

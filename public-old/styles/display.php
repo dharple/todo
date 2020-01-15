@@ -8,5 +8,3 @@ $stylesheet_id = $user->getDisplayStylesheetId();
 $stylesheet = new UserStylesheet($db, $stylesheet_id);
 
 print($stylesheet->getContents());
-
-?>

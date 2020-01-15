@@ -5,12 +5,12 @@ require_once('include/ItemStats.php');
 require_once('include/ListDisplay.php');
 include_once('include/display_settings.php');
 
-header("Content-Disposition: attachment; filename=\"todo-" . date("Ymd") . ".php\"");
+header('Content-Disposition: attachment; filename="todo-' . date('Ymd') . '.php"');
 
 ?>
 <html>
 <head>
-<title>To Do List For <?php print(date("F jS, Y")); ?></title>
+<title>To Do List For <?php print(date('F jS, Y')); ?></title>
 <style type="text/css">
 <!--
 <?php
@@ -27,7 +27,7 @@ print($stylesheet->getContents());
 </style>
 </head>
 <body>
-<p align=center><b><?php print(date("F jS, Y")); ?></b></p>
+<p align=center><b><?php print(date('F jS, Y')); ?></b></p>
 <?php
 
 /*
@@ -36,21 +36,21 @@ print($stylesheet->getContents());
 
 $itemStats = new ItemStats($db, $_SESSION['user_id']);
 
-$footer = "<i>Items Done Today: " . $itemStats->doneToday() . ", Yesterday: " . $itemStats->doneYesterday();
-$footer .= ", This Week: " . $itemStats->doneThisWeek() . ", Last Week: " . $itemStats->doneLastWeek();
-$footer .= ", This Month: " . $itemStats->doneThisMonth() . ", Last Month: " . $itemStats->doneLastMonth();
-$footer .= ", Since Start: " . $itemStats->doneTotal();
+$footer = '<i>Items Done Today: ' . $itemStats->doneToday() . ', Yesterday: ' . $itemStats->doneYesterday();
+$footer .= ', This Week: ' . $itemStats->doneThisWeek() . ', Last Week: ' . $itemStats->doneLastWeek();
+$footer .= ', This Month: ' . $itemStats->doneThisMonth() . ', Last Month: ' . $itemStats->doneLastMonth();
+$footer .= ', Since Start: ' . $itemStats->doneTotal();
 
 $query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '$user_id' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
 $result = $db->query($query);
 $row = $db->fetchRow($result);
-$footer .= ", Avg: " . number_format($row[0], 1) . " days";
+$footer .= ', Avg: ' . number_format($row[0], 1) . ' days';
 
-$footer .= "<br><br>Items Shown: {GRAND_TOTAL}";
+$footer .= '<br><br>Items Shown: {GRAND_TOTAL}';
 
-$footer .= "<br>Items Not Shown: {NOT_SHOWN}";
+$footer .= '<br>Items Not Shown: {NOT_SHOWN}';
 
-$footer .= "</i>";
+$footer .= '</i>';
 
 /*
  *

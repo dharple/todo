@@ -1,6 +1,6 @@
 <?php
 
-require_once("include/common.php");
+require_once('include/common.php');
 require_once('include/ICSExport.php');
 
 $icsExport = new ICSExport($db, $_SESSION['user_id']);
@@ -15,10 +15,8 @@ $icsExport->setShowPriority($display_show_priority);
 
 $headers = $icsExport->getHeaders();
 
-foreach($headers as $header) {
-	header($header);
+foreach ($headers as $header) {
+    header($header);
 }
 
 print($icsExport->getOutput());
-
-?>

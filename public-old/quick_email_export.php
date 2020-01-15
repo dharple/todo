@@ -1,12 +1,12 @@
 <?php
-$is_login = TRUE;
+$is_login = true;
 
 require_once('include/common.php');
 
-if(isset($_REQUEST['user_id'])) {
-	$_SESSION['user_id'] = $_REQUEST['user_id'];
-	$user = new User($db, $_SESSION['user_id']);
-	$user_id = $_SESSION['user_id'];
+if (isset($_REQUEST['user_id'])) {
+    $_SESSION['user_id'] = $_REQUEST['user_id'];
+    $user = new User($db, $_SESSION['user_id']);
+    $user_id = $_SESSION['user_id'];
 }
 
 require_once('include/ItemStats.php');
@@ -16,7 +16,7 @@ include_once('include/display_settings.php');
 ?>
 <html>
 <head>
-<title>To Do List For <?php print(date("F jS, Y")); ?></title>
+<title>To Do List For <?php print(date('F jS, Y')); ?></title>
 <style type="text/css">
 <!--
 <?php
@@ -33,7 +33,7 @@ print($stylesheet->getContents());
 </style>
 </head>
 <body>
-<p align=center><b><?php print(date("F jS, Y")); ?></b></p>
+<p align=center><b><?php print(date('F jS, Y')); ?></b></p>
 <?php
 
 /*
@@ -59,7 +59,7 @@ print($listDisplay->getOutput());
 ?>
 </body>
 <?php
-if(isset($_REQUEST['user_id'])) {
-	$_SESSION['user_id'] = '';
+if (isset($_REQUEST['user_id'])) {
+    $_SESSION['user_id'] = '';
 }
 ?>

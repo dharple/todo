@@ -3,23 +3,22 @@
 require_once('include/common.php');
 require_once('include/DateUtils.php');
 
-// Defaults 
+// Defaults
 
 include_once('include/display_settings.php');
 
-// Handle POST 
+// Handle POST
 
 $refresh_url = '';
 
-if(count($_POST)) {
-	if($_POST["submitButton"] == "Export") {
-		if($_POST['version'] == 'html') {
-			$refresh_url = 'export_basic.php';
-		}
-		else if($_POST['version'] == 'ics') {
-			$refresh_url = 'export_ics.php';
-		}
-	}
+if (count($_POST)) {
+    if ($_POST['submitButton'] == 'Export') {
+        if ($_POST['version'] == 'html') {
+            $refresh_url = 'export_basic.php';
+        } elseif ($_POST['version'] == 'ics') {
+            $refresh_url = 'export_ics.php';
+        }
+    }
 }
 
 ?>
@@ -29,8 +28,8 @@ if(count($_POST)) {
 <link rel="stylesheet" href="styles/display.php" type="text/css">
 <meta name="robots" content="noindex, nofollow">
 <?php
-if($refresh_url) {
-	print("<meta http-equiv=\"refresh\" content=\"1;url=$refresh_url\">");
+if ($refresh_url) {
+    print("<meta http-equiv=\"refresh\" content=\"1;url=$refresh_url\">");
 }
 ?>
 </head>
@@ -52,8 +51,8 @@ if($refresh_url) {
 
 <?php
 
-if($refresh_url) {
-	print("<table width=100%><tr align=center><td><b>Starting download</b></td></tr></table><br><hr><br>");
+if ($refresh_url) {
+    print('<table width=100%><tr align=center><td><b>Starting download</b></td></tr></table><br><hr><br>');
 }
 
 ?>
@@ -88,11 +87,11 @@ Show Priority:
 Filter Aging:
 </td>
 <td>
-<b><?php 
+<b><?php
 
-print($aging_display[$display_filter_aging]); 
-if($display_filter_aging != 'all') {
-	print(' days old');
+print($aging_display[$display_filter_aging]);
+if ($display_filter_aging != 'all') {
+    print(' days old');
 }
 
 ?></b>
@@ -103,7 +102,7 @@ if($display_filter_aging != 'all') {
 Show Estimates:
 </td>
 <td>
-<b><?php print($display_show_estimate=='y'?'Yes':'No'); ?></b>
+<b><?php print($display_show_estimate == 'y' ? 'Yes' : 'No'); ?></b>
 </td>
 </tr>
 <tr>
@@ -111,7 +110,7 @@ Show Estimates:
 Show Inactive Sections:
 </td>
 <td>
-<b><?php print($display_show_inactive=='y'?'Yes':'No'); ?></b>
+<b><?php print($display_show_inactive == 'y' ? 'Yes' : 'No'); ?></b>
 </td>
 </tr>
 <tr>
@@ -120,14 +119,13 @@ Show Section:
 </td>
 <td>
 <b>
-<?php 
+<?php
 
-if($display_show_section == 0) {
-	print('All');
-}
-else {
-	$section = new Section($db, $display_show_section);
-	print($section->getName());
+if ($display_show_section == 0) {
+    print('All');
+} else {
+    $section = new Section($db, $display_show_section);
+    print($section->getName());
 }
 
 ?>
@@ -156,11 +154,11 @@ Version:
 </table>
 
 <table width="100%" cellpadding=0 cellspacing=0 border=0>
-	<tr>
-		<td align=left>
-			<input type="submit" name="submitButton" value="Export">
-		</td>
-	</tr>
+    <tr>
+        <td align=left>
+            <input type="submit" name="submitButton" value="Export">
+        </td>
+    </tr>
 </table>
 
 </form>
