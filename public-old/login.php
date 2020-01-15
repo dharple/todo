@@ -2,7 +2,7 @@
 
 $is_login = true;
 
-require_once('include/common.php');
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $error_message = '';
 

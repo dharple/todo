@@ -1,5 +1,9 @@
 <?php
 
+if (!isset($_SESSION['user_id'])) {
+    return;
+}
+
 // Reset To Defaults //
 
 if (isset($_REQUEST['reset_display_settings'])) {

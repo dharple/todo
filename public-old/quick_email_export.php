@@ -1,7 +1,6 @@
 <?php
-$is_login = true;
 
-require_once('include/common.php');
+$is_login = true;
 
 if (isset($_REQUEST['user_id'])) {
     $_SESSION['user_id'] = $_REQUEST['user_id'];
@@ -9,9 +8,7 @@ if (isset($_REQUEST['user_id'])) {
     $user_id = $_SESSION['user_id'];
 }
 
-
-
-include_once('include/display_settings.php');
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 ?>
 <html>

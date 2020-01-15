@@ -1,7 +1,6 @@
 <?php
 
-require_once('include/common.php');
-include_once('include/display_settings.php');
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 header('Content-Disposition: attachment; filename="todo-' . date('Ymd') . '.php"');
 

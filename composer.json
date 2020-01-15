@@ -32,6 +32,9 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "files": [
+            "src/Legacy/include/common.php"
+        ]
     }
 }

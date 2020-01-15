@@ -12,6 +12,9 @@ class MySQLiDatabase implements Database
     public function connect($host, $user, $pass, $db)
     {
         $this->conn = mysqli_connect($host, $user, $pass);
+        if ($this->conn === false) {
+            throw new \Exception('Cannot connect to database');
+        }
         mysqli_select_db($this->conn, $db);
     }
 

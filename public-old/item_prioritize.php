@@ -1,8 +1,6 @@
 <?php
 
-require_once('include/common.php');
-
-include_once('include/display_settings.php');
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {

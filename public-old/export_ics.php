@@ -1,6 +1,6 @@
 <?php
 
-require_once('include/common.php');
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $icsExport = new \App\Legacy\ICSExport($db, $_SESSION['user_id']);
 

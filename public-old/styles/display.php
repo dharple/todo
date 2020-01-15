@@ -1,5 +1,6 @@
 <?php
-require_once('../include/common.php');
+
+require_once dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
 header('Content-type: text/css');
 

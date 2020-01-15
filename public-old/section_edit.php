@@ -1,7 +1,6 @@
 <?php
 
-require_once('include/common.php');
-
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $user_id = $_SESSION['user_id'];
 
