@@ -163,7 +163,7 @@ class ListDisplay extends BaseDisplay
         $sectionRenderers = [];
 
         foreach ($sections as $section) {
-            $sectionDisplay = new SectionDisplay($this->db, &$section);
+            $sectionDisplay = new SectionDisplay($this->db, $section);
 
             $sectionDisplay->setIds($this->displayIds);
             $sectionDisplay->setFilterClosed($this->displayFilterClosed);
@@ -225,7 +225,7 @@ class ListDisplay extends BaseDisplay
 
         $columnCount = 0;
         foreach ($sectionCounts as $id => $sectionLength) {
-            $sectionDisplay = &$sectionRenderers[$id];
+            $sectionDisplay = $sectionRenderers[$id];
 
             if ($columnCount == $this->columns - 1) {
                     array_push($outputSectionRenderers[$columnCount], $sectionDisplay);

@@ -226,11 +226,11 @@ class SectionDisplay extends BaseDisplay
             }
 
             if ($this->displayShowEstimateEditor == 'y') {
-                $itemDisplay = new ItemDisplayEstimateEditor($db, &$item);
+                $itemDisplay = new ItemDisplayEstimateEditor($db, $item);
             } elseif ($this->displayShowPriorityEditor == 'y') {
-                $itemDisplay = new ItemDisplayPriorityEditor($db, &$item);
+                $itemDisplay = new ItemDisplayPriorityEditor($db, $item);
             } else {
-                $itemDisplay = new ItemDisplay($db, &$item);
+                $itemDisplay = new ItemDisplay($db, $item);
             }
 
             $itemDisplay->setShowEstimate($this->displayShowEstimate);
