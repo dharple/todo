@@ -20,25 +20,27 @@ use App\Legacy\Entity\Section;
 <b>Done List
 <?php
 
-if ($_REQUEST['view'] == 'month') {
+$view = $_REQUEST['view'] ?? '';
+
+if ($view == 'month') {
     print(' - This Month');
-} elseif ($_REQUEST['view'] == 'lastmonth') {
+} elseif ($view == 'lastmonth') {
     print(' - Last Month');
-} elseif ($_REQUEST['view'] == 'week') {
+} elseif ($view == 'week') {
     print(' - This Week');
-} elseif ($_REQUEST['view'] == 'lastweek') {
+} elseif ($view == 'lastweek') {
     print(' - Last Week');
-} elseif ($_REQUEST['view'] == 'today') {
+} elseif ($view == 'today') {
     print(' - Today');
-} elseif ($_REQUEST['view'] == 'yesterday') {
+} elseif ($view == 'yesterday') {
     print(' - Yesterday');
-} elseif ($_REQUEST['view'] == 'month3') {
+} elseif ($view == 'month3') {
     print(' - Past 3 Months');
-} elseif ($_REQUEST['view'] == 'month6') {
+} elseif ($view == 'month6') {
     print(' - Past 6 Months');
-} elseif ($_REQUEST['view'] == 'month9') {
+} elseif ($view == 'month9') {
     print(' - Past 9 Months');
-} elseif ($_REQUEST['view'] == 'month12') {
+} elseif ($view == 'month12') {
     print(' - Past 12 Months');
 } else {
     print(' - All Items');
@@ -60,7 +62,7 @@ if ($_REQUEST['view'] == 'month') {
 <?php
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '$user_id'");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "'");
 $sectionsById = [];
 foreach ($sections as $section) {
     $sectionsById[$section->getId()] = $section->getName();

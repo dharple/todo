@@ -44,7 +44,7 @@ if (is_array($ids) && count($ids)) {
 } else {
     $user_id = $_SESSION['user_id'];
     $itemList = new SimpleList($db, Item::class);
-    $items = $itemList->load("WHERE user_id = '$user_id' AND status = 'Open' AND estimate <= 0");
+    $items = $itemList->load("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Open' AND estimate <= 0");
     $ids = [];
     foreach ($items as $item) {
         array_push($ids, $item->getId());

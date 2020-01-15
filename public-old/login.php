@@ -42,7 +42,7 @@ if (count($_POST)) {
 <?php
 
 if ($error_message != '') {
-    print("<span style=\"color: red;\">$error_message</span><br><hr><br>");
+    print('<span style="color: red;">' . $error_message . '</span><br><hr><br>');
 }
 
 ?>

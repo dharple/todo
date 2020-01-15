@@ -41,13 +41,15 @@ class BaseObject
                 continue;
             }
 
+            if ($field == 'completed' && empty($value)) {
+                continue;
+            }
+
             if ($value == 'NOW()') {
                 //
                 // XXX - Expand this
                 //
                 array_push($queryElements, $field . '=' . $value);
-            } elseif ($field == 'completed' && empty($value)) {
-                // do nothing
             } else {
                 array_push($queryElements, $field . "='" . addslashes($value) . "'");
             }

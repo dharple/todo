@@ -26,7 +26,7 @@ if (count($_POST)) {
 <meta name="robots" content="noindex, nofollow">
 <?php
 if ($refresh_url) {
-    print("<meta http-equiv=\"refresh\" content=\"1;url=$refresh_url\">");
+    print('<meta http-equiv="refresh" content="1;url=' . htmlspecialchars($refresh_url) . '">');
 }
 ?>
 </head>

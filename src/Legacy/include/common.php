@@ -17,7 +17,7 @@ if (isset($_SERVER['REQUEST_URI'])) {
         session_cache_limiter('nocache');
     }
     $GLOBALS['session_handler'] = new Session($GLOBALS['db'], $session_max_lifetime);
-    $GLOBALS['session_handler']->use_me();
+    $GLOBALS['session_handler']->initialize();
     session_name('cwci'); // cookie in Welsh
     session_start();
 

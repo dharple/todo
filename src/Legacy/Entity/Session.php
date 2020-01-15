@@ -48,8 +48,6 @@ class Session extends BaseObject
 
     public function read($session_id)
     {
-        global $_SERVER;
-
         $this->loadBySessionId($session_id);
 
         // Stop Session Stealing //
@@ -67,8 +65,6 @@ class Session extends BaseObject
 
     public function write($session_id, $value)
     {
-        global $_SERVER;
-
         $this->loadBySessionId($session_id);
 
         // Stop Session Stealing //
@@ -107,7 +103,7 @@ class Session extends BaseObject
         return true;
     }
 
-    public function use_me()
+    public function initialize()
     {
         session_set_save_handler(
             [$this, 'open'],

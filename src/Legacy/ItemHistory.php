@@ -29,16 +29,16 @@ class ItemHistory
     public function execute($start = '', $end = '')
     {
         if ($start != '') {
-            $whereClause = " AND item.completed >= '$start' AND item.completed <= '$end'";
+            $whereClause = " AND item.completed >= '" . addslashes($start) . "' AND item.completed <= '" . addslashes($end) . "'";
         } else {
             $whereClause = '';
         }
 
-        $baseQuery = "WHERE item.user_id = '" . $this->user_id . "' AND item.status = 'Closed'" . $whereClause;
+        $baseQuery = "WHERE item.user_id = '" . addslashes($this->user_id) . "' AND item.status = 'Closed'" . $whereClause;
         if ($this->ordering == 'section') {
-            $query = "LEFT JOIN section ON item.section_id = section.id ${baseQuery} ORDER BY TO_DAYS(item.completed) DESC, section.name, item.task";
+            $query = 'LEFT JOIN section ON item.section_id = section.id ' . $baseQuery . ' ORDER BY TO_DAYS(item.completed) DESC, section.name, item.task';
         } else {
-            $query = "${baseQuery} ORDER BY TO_DAYS(completed) DESC, task";
+            $query = $baseQuery . ' ORDER BY TO_DAYS(completed) DESC, task';
         }
 
         return $this->itemList->load($query);

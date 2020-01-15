@@ -177,10 +177,10 @@ print($itemStats->doneTotal());
 Average Turnaround: <?php
 
 /* Ugly */
-$query = "UPDATE item SET created = completed WHERE user_id = '$user_id' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
+$query = "UPDATE item SET created = completed WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
 $result = $db->query($query);
 
-$query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '$user_id' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
+$query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '" . addslashes($user_id) . "' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
 $result = $db->query($query);
 $row = $db->fetchRow($result);
 print(number_format($row[0], 1));
@@ -300,7 +300,7 @@ print($listDisplay->getOutput());
 $itemCount = $listDisplay->getOutputCount();
 
 $sectionList = new SimpleList($db, Section::class);
-$sectionCount = $sectionList->count("WHERE user_id = '$user_id' AND status = 'Active'");
+$sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Active'");
 
 ?>
 

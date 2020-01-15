@@ -69,8 +69,7 @@ if (count($_POST)) {
 <?php
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
-
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY name");
 
 if ($_REQUEST['op'] == 'edit') {
     print('Editing...<br><br>');

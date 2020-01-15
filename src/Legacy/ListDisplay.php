@@ -63,7 +63,7 @@ class ListDisplay extends BaseDisplay
     public function setColumnFooter($column, $content)
     {
         $colspan = $this->getDisplayWidth();
-        $fixed = "<tr><td colspan=$colspan>";
+        $fixed = '<tr><td colspan=' . $colspan . '>';
         $fixed .= $content;
         $fixed .= '</td></tr>';
 
@@ -142,7 +142,7 @@ class ListDisplay extends BaseDisplay
 
         $sectionList = new SimpleList($this->db, Section::class);
 
-        $query = "WHERE user_id = '$this->userId'";
+        $query = "WHERE user_id = '" . addslashes($this->userId) . "'";
 
         if ($this->displayShowInactive != 'y') {
             $query .= " AND status = 'Active'";
@@ -338,7 +338,7 @@ class ListDisplay extends BaseDisplay
 
         $total = 0;
 
-        $query = "SELECT COUNT(*) FROM item WHERE user_id = '$this->userId' AND status = 'Open'";
+        $query = "SELECT COUNT(*) FROM item WHERE user_id = '" . addslashes($this->userId) . "' AND status = 'Open'";
         $result = $this->db->query($query);
         if ($result) {
             $row = $this->db->fetchRow($result);

@@ -42,7 +42,7 @@ class ICSExport extends BaseExport
 
         $sectionList = new SimpleList($this->db, Section::class);
 
-        $query = "WHERE user_id = '$user_id'";
+        $query = "WHERE user_id = '" . addslashes($user_id) . "'";
 
         if ($GLOBALS['display_show_inactive'] != 'y') {
             $query .= " AND status = 'Active'";

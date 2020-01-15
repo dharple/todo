@@ -2,6 +2,8 @@
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer" xsi:noNamespaceSchemaLocation="phpcs.xsd">
 
     <rule ref="vendor/dharple/outsanity-phpcs/Outsanity/ruleset.xml">
+        <exclude name="Generic.Files.LineLength.TooLong" />
+        <exclude name="Generic.Metrics.CyclomaticComplexity" />
         <exclude name="Ork.Formatting.AlphabeticalMethodNames.OutOfOrder" />
         <exclude name="Ork.Formatting.AlphabeticalPropertyNames.OutOfOrder" />
     </rule>

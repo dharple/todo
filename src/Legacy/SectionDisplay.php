@@ -185,7 +185,7 @@ class SectionDisplay extends BaseDisplay
         $output = '';
 
         $colspan = $this->getDisplayWidth();
-        $output .= "<tr><td colspan=$colspan class=\"section\">";
+        $output .= '<tr><td colspan=' . $colspan . ' class="section">';
         if ($this->displaySectionLink) {
             $output .= '<a class="section_link" href="' . str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink) . '">';
         }
@@ -245,7 +245,7 @@ class SectionDisplay extends BaseDisplay
             $this->padding++;
         }
 
-        $output .= "<tr><td colspan=$colspan>&nbsp;</td></tr>";
+        $output .= '<tr><td colspan=' . $colspan . '>&nbsp;</td></tr>';
 
         $this->output = $output;
     }

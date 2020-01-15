@@ -79,7 +79,7 @@ if (count($_POST)) {
 if ($edit_stylesheet_id == 'new') {
     print('<select name="sheet_type">');
     foreach (['display', 'print', 'export'] as $sheet_type) {
-        print("<option value=\"$sheet_type\"");
+        print('<option value="' . $sheet_type . '"');
         if ($sheet_type == $stylesheet->getSheetType()) {
             print(' selected');
         }
@@ -100,7 +100,7 @@ if ($edit_stylesheet_id == 'new') {
 <?php
 print('<select name="public">');
 foreach (['n', 'y'] as $public) {
-    print("<option value=\"$public\"");
+    print('<option value="' . $public . '"');
     if ($public == $stylesheet->getPublic()) {
         print(' selected');
     }

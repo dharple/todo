@@ -77,7 +77,7 @@ if (count($_POST)) {
             $id = $_POST['toggle_section_id'];
             if ($id == 'all') {
                 $sectionList = new SimpleList($db, Section::class);
-                $sections = $sectionList->load("WHERE user_id = '$user_id' AND status = 'Inactive'");
+                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Inactive'");
             } else {
                 if ($id > 0) {
                     $sections = [new Section($db, $id)];
@@ -86,13 +86,10 @@ if (count($_POST)) {
                 }
             }
             foreach ($sections as $section) {
-// print("Updating: " . $section->getName() . "<br>\n");
-
                 if ($section->getStatus() == 'Inactive' && $_POST['resetStartTimes'] == 'yes') {
-// print("Fixing times<br>\n");
                     $dateUtils = new DateUtils();
                     $now = $dateUtils->getNow();
-                    $query = "UPDATE item SET created='$now' WHERE section_id = '" . $section->getId() . "' AND status = 'Open'";
+                    $query = "UPDATE item SET created='" . $now . "' WHERE section_id = '" . $section->getId() . "' AND status = 'Open'";
                     $result = $db->query($query);
                 }
                 $section->setStatus('Active');
@@ -105,7 +102,7 @@ if (count($_POST)) {
             $id = $_POST['toggle_section_id'];
             if ($id == 'all') {
                 $sectionList = new SimpleList($db, Section::class);
-                $sections = $sectionList->load("WHERE user_id = '$user_id' AND status = 'Active'");
+                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Active'");
             } else {
                 if ($id > 0) {
                     $sections = [new Section($db, $id)];
@@ -114,7 +111,6 @@ if (count($_POST)) {
                 }
             }
             foreach ($sections as $section) {
-// print("Updating: " . $section->getName() . "\n");
                 $section->setStatus('Inactive');
                 $ret = $section->save();
                 if (!$ret) {
@@ -153,7 +149,7 @@ Rename:<br>
 <?php
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY name");
 
 foreach ($sections as $section) {
     print('<option value="' . $section->getId() . '">' . $section->getName() . '</option>');
@@ -176,9 +172,6 @@ Change Status:<br>
 <option value="">Choose...</option>
 <option value="all">All</option>
 <?php
-
-$sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
 
 foreach ($sections as $section) {
     print('<option value="' . $section->getId() . '">' . $section->getName() . ' (' . $section->getStatus() . ')</option>');

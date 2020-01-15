@@ -52,7 +52,7 @@ if ($_REQUEST['view'] == 'month') {
 <?php
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '$user_id'");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "'");
 $sectionsById = [];
 foreach ($sections as $section) {
     $sectionsById[$section->getId()] = $section->getName();

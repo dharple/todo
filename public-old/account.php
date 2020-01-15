@@ -67,7 +67,7 @@ if (count($_POST)) {
 <?php
 
 if ($error_message != '') {
-    print("<span style=\"color: red;\">$error_message</span><br><hr><br>");
+    print('<span style="color: red;">' . $error_message . '</span><br><hr><br>');
 }
 
 $user = new User($db, $_SESSION['user_id']);
@@ -115,14 +115,14 @@ $timezones = [
 $current_tz = $user->getTimezone();
 
 foreach ($timezones as $tz) {
-    print("<option value=\"$tz\"");
+    print('<option value="' . $id . '"');
     if ($current_tz == $tz) {
         print(' selected');
     } elseif ($tz == 'Other' && !in_array($current_tz, $timezones)) {
         print(' selected');
     }
 
-    print(">$tz</option>");
+    print('>' . $tz . '</option>');
 }
 
 $other_tz = '';
@@ -144,12 +144,12 @@ Display Stylesheet:
 <select name="display_stylesheet_id">
 <?php
 
-$stylesheets = $stylesheetList->load("WHERE sheet_type = 'display' AND (user_id = '$user_id' OR public = 'y')");
+$stylesheets = $stylesheetList->load("WHERE sheet_type = 'display' AND (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
 $current_id = $user->getDisplayStylesheetId();
 
 foreach ($stylesheets as $stylesheet) {
     $id = $stylesheet->getId();
-    print("<option value=\"$id\"");
+    print('<option value="' . $id . '"');
     if ($current_id == $id) {
         print(' selected');
     }
@@ -170,12 +170,12 @@ Print Stylesheet:
 <select name="print_stylesheet_id">
 <?php
 
-$stylesheets = $stylesheetList->load("WHERE sheet_type = 'print' AND (user_id = '$user_id' OR public = 'y')");
+$stylesheets = $stylesheetList->load("WHERE sheet_type = 'print' AND (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
 $current_id = $user->getPrintStylesheetId();
 
 foreach ($stylesheets as $stylesheet) {
     $id = $stylesheet->getId();
-    print("<option value=\"$id\"");
+    print('<option value="' . $id . '"');
     if ($current_id == $id) {
         print(' selected');
     }
@@ -196,12 +196,12 @@ Export Stylesheet:
 <select name="export_stylesheet_id">
 <?php
 
-$stylesheets = $stylesheetList->load("WHERE sheet_type = 'export' AND (user_id = '$user_id' OR public = 'y')");
+$stylesheets = $stylesheetList->load("WHERE sheet_type = 'export' AND (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
 $current_id = $user->getExportStylesheetId();
 
 foreach ($stylesheets as $stylesheet) {
     $id = $stylesheet->getId();
-    print("<option value=\"$id\"");
+    print('<option value="' . $id . '"');
     if ($current_id == $id) {
         print(' selected');
     }
@@ -245,12 +245,12 @@ Edit Stylesheet:
 <select name="stylesheet_id">
 <?php
 
-$stylesheets = $stylesheetList->load("WHERE (user_id = '$user_id' OR public = 'y')");
+$stylesheets = $stylesheetList->load("WHERE (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
 $current_id = $user->getDisplayStylesheetId();
 
 foreach ($stylesheets as $stylesheet) {
     $id = $stylesheet->getId();
-    print("<option value=\"$id\"");
+    print('<option value="' . $id . '"');
     if ($current_id == $id) {
         print(' selected');
     }

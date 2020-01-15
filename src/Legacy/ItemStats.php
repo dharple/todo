@@ -8,11 +8,11 @@ class ItemStats extends ItemHistory
     public function execute($start = '', $end = '')
     {
         if ($start != '') {
-            $whereClause = " AND completed >= '$start' AND completed <= '$end'";
+            $whereClause = " AND completed >= '" . addslashes($start) . "' AND completed <= '" . addslashes($end) . "'";
         } else {
             $whereClause = '';
         }
 
-        return $this->itemList->count("WHERE user_id = '$this->user_id' AND status = 'Closed'" . $whereClause);
+        return $this->itemList->count("WHERE user_id = '" . addslashes($this->user_id) . "' AND status = 'Closed'" . $whereClause);
     }
 }

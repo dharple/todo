@@ -95,7 +95,7 @@ Section:
 <?php
 
 $ids = [];
-$query = "SELECT section_id, MAX(created) AS created FROM item WHERE user_id = '$user_id' GROUP BY section_id ORDER BY created DESC LIMIT 5";
+$query = "SELECT section_id, MAX(created) AS created FROM item WHERE user_id = '" . addslashes($user_id) . "' GROUP BY section_id ORDER BY created DESC LIMIT 5";
 $result = $db->query($query);
 while ($row = $db->fetchRow($result)) {
     array_push($ids, $row[0]);
@@ -103,7 +103,7 @@ while ($row = $db->fetchRow($result)) {
 
 if (count($ids) > 0) {
     $sectionList = new SimpleList($db, Section::class);
-    $sections = $sectionList->load("WHERE user_id = '$user_id' AND id IN (" . implode(',', $ids) . ')');
+    $sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' AND id IN (" . implode(',', $ids) . ')');
 
     foreach ($ids as $id) {
         foreach ($sections as $section) {
@@ -131,7 +131,7 @@ if (count($ids) > 0) {
 }
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY name");
 
 $sectionCache = [];
 foreach ($sections as $section) {
@@ -181,7 +181,7 @@ Tasks (newline separated):<br>
 <?php
 
 $recurringItemList = new SimpleList($db, RecurringItem::class);
-$recurringItems = $recurringItemList->load("WHERE user_id = '$user_id' ORDER BY task");
+$recurringItems = $recurringItemList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY task");
 
 if (count($recurringItems) > 0) {
     ?>
