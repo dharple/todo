@@ -37,7 +37,6 @@ class SectionDisplay extends BaseDisplay
     public function __construct($db, $section)
     {
         $this->db = $db;
-        $this->user_id = $user_id;
 
         if (is_object($section)) {
             $this->section = $section;
@@ -226,11 +225,11 @@ class SectionDisplay extends BaseDisplay
             }
 
             if ($this->displayShowEstimateEditor == 'y') {
-                $itemDisplay = new ItemDisplayEstimateEditor($db, $item);
+                $itemDisplay = new ItemDisplayEstimateEditor($this->db, $item);
             } elseif ($this->displayShowPriorityEditor == 'y') {
-                $itemDisplay = new ItemDisplayPriorityEditor($db, $item);
+                $itemDisplay = new ItemDisplayPriorityEditor($this->db, $item);
             } else {
-                $itemDisplay = new ItemDisplay($db, $item);
+                $itemDisplay = new ItemDisplay($this->db, $item);
             }
 
             $itemDisplay->setShowEstimate($this->displayShowEstimate);

@@ -50,7 +50,7 @@ class BaseObject
             return false;
         }
 
-        if ($this->data[$this->idField] == 0) {
+        if (empty($this->data[$this->idField])) {
             $this->data[$this->idField] = $this->db->lastInsertId();
         }
 

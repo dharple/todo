@@ -159,6 +159,7 @@ class ListDisplay extends BaseDisplay
 
         $itemCount = 0;
         $realItemCount = 0;
+        $grandEstimate = 0;
 
         $sectionRenderers = [];
 

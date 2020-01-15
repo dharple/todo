@@ -2,7 +2,7 @@
 
 // Reset To Defaults //
 
-if ($_REQUEST['reset_display_settings']) {
+if (isset($_REQUEST['reset_display_settings'])) {
     unset($_SESSION['filter_closed']);
     unset($_SESSION['filter_priority']);
     unset($_SESSION['filter_aging']);

@@ -9,7 +9,7 @@ $user_id = $_SESSION['user_id'];
 if (count($_POST)) {
     $dateUtils = new DateUtils();
 
-    $tasks = split("[\r\n]", stripslashes($_POST['tasks']));
+    $tasks = preg_split("/[\r\n]/", stripslashes($_POST['tasks']));
     foreach ($tasks as $task) {
         $task = trim($task);
         if ($task == '') {
@@ -26,7 +26,7 @@ if (count($_POST)) {
         $item->setPriority($_POST['priority']);
         $item->save();
 
-        if ($_POST['recurring'] == '1') {
+        if (isset($_POST['recurring'])) {
             $recurring_item = new RecurringItem($db);
 
             $recurring_item->setUserId($user_id);

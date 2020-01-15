@@ -50,6 +50,7 @@ CREATE TABLE session (
   id int(10) unsigned NOT NULL auto_increment,
   session_id VARCHAR(255) NOT NULL,
   stamp DATETIME NOT NULL,
+  ip VARCHAR(255) NULL,
   contents TEXT,
   PRIMARY KEY  (id),
   UNIQUE (session_id),

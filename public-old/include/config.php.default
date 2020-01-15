@@ -5,3 +5,10 @@ $database_host = 'localhost';
 $database_user = '';
 $database_password = '';
 $database_instance = 'todo';
+
+$session_max_lifetime = 3600;
+
+$todo_priority = [
+    'high' => 1,
+    'low'  => 10,
+];
