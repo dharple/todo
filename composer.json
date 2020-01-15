@@ -13,11 +13,14 @@
             "email": "dharple@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "phpstan/phpstan": "^0.12.5"
+    },
     "scripts": {
-        "go-old": "php -S localhost:8666 -t public-old",
-        "phpcbf": "phpcbf",
-        "phpcs":  "phpcs"
+        "go-old":  "php -S localhost:8666 -t public-old",
+        "phpcbf":  "phpcbf",
+        "phpcs":   "phpcs",
+        "phpstan": "phpstan analyze"
     },
     "config": {
         "preferred-install": {
