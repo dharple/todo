@@ -2,6 +2,8 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\Entity\UserStylesheet;
+
 $user_id = $_SESSION['user_id'];
 
 if ($_REQUEST['stylesheet_id'] > 0) {
@@ -10,7 +12,7 @@ if ($_REQUEST['stylesheet_id'] > 0) {
     $stylesheet_id = 0;
 }
 
-$stylesheet = new \App\Legacy\UserStylesheet($db);
+$stylesheet = new UserStylesheet($db);
 $edit_stylesheet_id = 'new';
 
 if ($stylesheet_id > 0) {

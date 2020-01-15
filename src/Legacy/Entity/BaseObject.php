@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Legacy;
+namespace App\Legacy\Entity;
 
 class BaseObject
 {
@@ -8,11 +8,24 @@ class BaseObject
     public $db;
     public $data;
     public $tableName;
-    public $idField;
+    protected $idField = 'id';
+
+    public function __construct($db, $id = 0)
+    {
+        $this->db = $db;
+
+        if ($id) {
+            $this->load($id);
+        }
+    }
 
     public function load($id)
     {
-        $query = 'SELECT * FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . $id . "'";
+        if (!is_numeric($id)) {
+            throw new \Exception('could not find ' . get_class($this) . ' with ID ' . $id);
+        }
+
+        $query = 'SELECT * FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . addslashes($id) . "'";
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
 
@@ -33,6 +46,8 @@ class BaseObject
                 // XXX - Expand this
                 //
                 array_push($queryElements, $field . '=' . $value);
+            } elseif ($field == 'completed' && empty($value)) {
+                // do nothing
             } else {
                 array_push($queryElements, $field . "='" . addslashes($value) . "'");
             }
@@ -41,7 +56,7 @@ class BaseObject
         if (empty($this->data[$this->idField])) {
             $query = 'INSERT INTO ' . $this->tableName . ' SET ' . implode(',', $queryElements);
         } else {
-            $query = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', $queryElements) . ' WHERE ' . $this->idField . " = '" . $this->data[$this->idField] . "'";
+            $query = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', $queryElements) . ' WHERE ' . $this->idField . " = '" . addslashes($this->data[$this->idField]) . "'";
         }
 
         $result = $this->db->query($query);
@@ -60,7 +75,7 @@ class BaseObject
     public function delete()
     {
         if ($this->data[$this->idField] > 0) {
-            $query = 'DELETE FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . $this->data[$this->idField] . "'";
+            $query = 'DELETE FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . addslashes($this->data[$this->idField]) . "'";
             $result = $this->db->query($query);
             if ($result) {
                 return true;

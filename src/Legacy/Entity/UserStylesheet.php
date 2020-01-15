@@ -1,20 +1,11 @@
 <?php
 
-namespace App\Legacy;
+namespace App\Legacy\Entity;
 
 class UserStylesheet extends BaseObject
 {
 
-    public function __construct($db, $id = 0)
-    {
-        $this->db = $db;
-        $this->tableName = 'user_stylesheet';
-        $this->idField = 'id';
-
-        if ($id) {
-            $this->load($id);
-        }
-    }
+    public $tableName = 'user_stylesheet';
 
     public function getUserId()
     {

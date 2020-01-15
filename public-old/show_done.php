@@ -2,6 +2,11 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\SimpleList;
+use App\Legacy\DateUtils;
+use App\Legacy\ItemHistory;
+use App\Legacy\Entity\Section;
+
 ?>
 <html>
 <head>
@@ -54,7 +59,7 @@ if ($_REQUEST['view'] == 'month') {
 
 <?php
 
-$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
+$sectionList = new SimpleList($db, Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id'");
 $sectionsById = [];
 foreach ($sections as $section) {
@@ -62,10 +67,10 @@ foreach ($sections as $section) {
 }
 unset($sections);
 
-$dateUtils = new \App\Legacy\DateUtils();
+$dateUtils = new DateUtils();
 
 
-$itemHistory = new \App\Legacy\ItemHistory($db, $user_id);
+$itemHistory = new ItemHistory($db, $user_id);
 
 switch ($_REQUEST['view']) {
     case 'month':

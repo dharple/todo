@@ -2,11 +2,15 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\Entity\User;
+use App\Legacy\Entity\UserStylesheet;
+use App\Legacy\SimpleList;
+
 $error_message = '';
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {
-        $user = new \App\Legacy\User($db, $_SESSION['user_id']);
+        $user = new User($db, $_SESSION['user_id']);
 
         $user->setFullname(stripslashes($_POST['fullname']));
         if ($_POST['timezone'] == 'Other') {
@@ -20,7 +24,7 @@ if (count($_POST)) {
 
         $user->save();
     } elseif ($_POST['submitButton'] == 'Change Password') {
-        $user = new \App\Legacy\User($db, $_SESSION['user_id']);
+        $user = new User($db, $_SESSION['user_id']);
 
         $ret = $user->confirmPassword($_POST['old_password']);
         if ($ret && $_POST['new_password'] == $_POST['confirm']) {
@@ -66,12 +70,12 @@ if ($error_message != '') {
     print("<span style=\"color: red;\">$error_message</span><br><hr><br>");
 }
 
-$user = new \App\Legacy\User($db, $_SESSION['user_id']);
+$user = new User($db, $_SESSION['user_id']);
 $user_id = $_SESSION['user_id'];
 
-$stylesheetList = new \App\Legacy\SimpleList($db, \App\Legacy\UserStylesheet::class);
+$stylesheetList = new SimpleList($db, UserStylesheet::class);
 
-$userList = new \App\Legacy\SimpleList($db, \App\Legacy\User::class);
+$userList = new SimpleList($db, User::class);
 $tempUsers = $userList->load('');
 
 $allUsers = [];

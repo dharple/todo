@@ -2,6 +2,8 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\Entity\Section;
+
 // Handle POST
 
 $refresh_url = '';
@@ -119,7 +121,7 @@ Show Section:
 if ($display_show_section == 0) {
     print('All');
 } else {
-    $section = new \App\Legacy\Section($db, $display_show_section);
+    $section = new Section($db, $display_show_section);
     print($section->getName());
 }
 

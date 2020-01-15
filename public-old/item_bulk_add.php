@@ -2,10 +2,16 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\DateUtils;
+use App\Legacy\Entity\Item;
+use App\Legacy\Entity\RecurringItem;
+use App\Legacy\Entity\Section;
+use App\Legacy\SimpleList;
+
 $user_id = $_SESSION['user_id'];
 
 if (count($_POST)) {
-    $dateUtils = new \App\Legacy\DateUtils();
+    $dateUtils = new DateUtils();
 
     $tasks = preg_split("/[\r\n]/", stripslashes($_POST['tasks']));
     foreach ($tasks as $task) {
@@ -14,7 +20,7 @@ if (count($_POST)) {
             continue;
         }
 
-        $item = new \App\Legacy\Item($db);
+        $item = new Item($db);
 
         $item->setCreated($dateUtils->getNow());
         $item->setUserId($user_id);
@@ -25,7 +31,7 @@ if (count($_POST)) {
         $item->save();
 
         if (isset($_POST['recurring'])) {
-            $recurring_item = new \App\Legacy\RecurringItem($db);
+            $recurring_item = new RecurringItem($db);
 
             $recurring_item->setUserId($user_id);
             $recurring_item->setTask($task);
@@ -96,7 +102,7 @@ while ($row = $db->fetchRow($result)) {
 }
 
 if (count($ids) > 0) {
-    $sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
+    $sectionList = new SimpleList($db, Section::class);
     $sections = $sectionList->load("WHERE user_id = '$user_id' AND id IN (" . implode(',', $ids) . ')');
 
     foreach ($ids as $id) {
@@ -124,7 +130,7 @@ if (count($ids) > 0) {
     print('<option value="">-------------------------</option>');
 }
 
-$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
+$sectionList = new SimpleList($db, Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
 
 $sectionCache = [];
@@ -174,7 +180,7 @@ Tasks (newline separated):<br>
 
 <?php
 
-$recurringItemList = new \App\Legacy\SimpleList($db, \App\Legacy\RecurringItem::class);
+$recurringItemList = new SimpleList($db, RecurringItem::class);
 $recurringItems = $recurringItemList->load("WHERE user_id = '$user_id' ORDER BY task");
 
 if (count($recurringItems) > 0) {

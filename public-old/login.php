@@ -4,11 +4,13 @@ $is_login = true;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\Entity\User;
+
 $error_message = '';
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Login') {
-        $user = new \App\Legacy\User($db);
+        $user = new User($db);
         $ret = $user->login($_POST['username'], $_POST['password']);
 
         if ($ret) {

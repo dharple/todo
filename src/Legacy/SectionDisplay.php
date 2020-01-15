@@ -2,6 +2,9 @@
 
 namespace App\Legacy;
 
+use App\Legacy\Entity\Item;
+use App\Legacy\Entity\Section;
+
 class SectionDisplay extends BaseDisplay
 {
     public $db;

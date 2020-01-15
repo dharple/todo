@@ -2,10 +2,12 @@
 
 namespace App\Legacy;
 
+use App\Legacy\Entity\Item;
+
 class ItemHistory
 {
 
-    public $userId;
+    public $user_id;
     public $itemList;
     public $dateUtils;
     public $ordering;

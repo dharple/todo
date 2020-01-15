@@ -1,24 +1,15 @@
 <?php
 
-namespace App\Legacy;
+namespace App\Legacy\Entity;
 
 class User extends BaseObject
 {
 
-    public function __construct($db, $id = 0)
-    {
-        $this->db = $db;
-        $this->tableName = 'user';
-        $this->idField = 'id';
-
-        if ($id) {
-            $this->load($id);
-        }
-    }
+    public $tableName = 'user';
 
     public function login($username, $password)
     {
-        $query = "SELECT id FROM user WHERE username = '$username' AND password = ENCRYPT('$password', password)";
+        $query = "SELECT id FROM user WHERE username = '" . addslashes($username) . "' AND password = ENCRYPT('" . addslashes($password) . "', password)";
 
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);

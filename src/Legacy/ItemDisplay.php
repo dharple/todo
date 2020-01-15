@@ -2,6 +2,8 @@
 
 namespace App\Legacy;
 
+use App\Legacy\Entity\Item;
+
 class ItemDisplay extends BaseDisplay
 {
     public $db;

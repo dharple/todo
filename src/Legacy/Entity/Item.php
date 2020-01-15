@@ -1,20 +1,11 @@
 <?php
 
-namespace App\Legacy;
+namespace App\Legacy\Entity;
 
 class Item extends BaseObject
 {
 
-    public function __construct($db, $id = 0)
-    {
-        $this->db = $db;
-        $this->tableName = 'item';
-        $this->idField = 'id';
-
-        if ($id) {
-            $this->load($id);
-        }
-    }
+    public $tableName = 'item';
 
     public function getSectionId()
     {

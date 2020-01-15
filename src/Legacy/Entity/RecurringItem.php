@@ -1,20 +1,11 @@
 <?php
 
-namespace App\Legacy;
+namespace App\Legacy\Entity;
 
 class RecurringItem extends BaseObject
 {
 
-    public function __construct($db, $id = 0)
-    {
-        $this->db = $db;
-        $this->tableName = 'recurring_item';
-        $this->idField = 'id';
-
-        if ($id) {
-            $this->load($id);
-        }
-    }
+    public $tableName = 'recurring_item';
 
     public function getUserId()
     {

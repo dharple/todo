@@ -2,6 +2,8 @@
 
 namespace App\Legacy;
 
+use App\Legacy\Entity\Section;
+
 class ListDisplay extends BaseDisplay
 {
     public $db;

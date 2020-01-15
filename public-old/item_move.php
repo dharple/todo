@@ -2,6 +2,9 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\SimpleList;
+use App\Legacy\Entity\User;
+
 $user_id = $_SESSION['user_id'];
 
 if ($user_id !== '0') {
@@ -33,7 +36,7 @@ if ($user_id !== '0') {
 
 <?php
 
-$userList = new \App\Legacy\SimpleList($db, \App\Legacy\User::class);
+$userList = new SimpleList($db, User::class);
 $users = $userList->load('ORDER BY username');
 
 ?>

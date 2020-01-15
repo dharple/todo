@@ -2,6 +2,9 @@
 
 namespace App\Legacy;
 
+use App\Legacy\Entity\Item;
+use App\Legacy\Entity\Section;
+
 class ICSExport extends BaseExport
 {
     public $db;
@@ -41,7 +44,7 @@ class ICSExport extends BaseExport
 
         $query = "WHERE user_id = '$user_id'";
 
-        if ($display_show_inactive != 'y') {
+        if ($GLOBALS['display_show_inactive'] != 'y') {
             $query .= " AND status = 'Active'";
         }
 

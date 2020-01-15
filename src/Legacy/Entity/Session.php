@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Legacy;
+namespace App\Legacy\Entity;
 
 class Session extends BaseObject
 {
@@ -8,11 +8,11 @@ class Session extends BaseObject
     public $regenerate;
     public $maxLifetime;
 
+    public $tableName = 'session';
+
     public function __construct($db, $maxLifetime = null)
     {
-        $this->db = $db;
-        $this->tableName = 'session';
-        $this->idField = 'id';
+        parent::__construct($db);
 
         $this->regenerate = false;
 
@@ -90,7 +90,7 @@ class Session extends BaseObject
         return true;
     }
 
-    public function destroy($session_idid)
+    public function destroy($session_id)
     {
         $this->loadBySessionId($session_id);
 

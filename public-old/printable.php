@@ -2,6 +2,9 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\ItemStats;
+use App\Legacy\ListDisplay;
+
 ?>
 <html>
 <head>
@@ -17,7 +20,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
  * Results
  */
 
-$itemStats = new \App\Legacy\ItemStats($db, $_SESSION['user_id']);
+$itemStats = new ItemStats($db, $_SESSION['user_id']);
 
 $footer = '<i>Items Done Today: ' . $itemStats->doneToday() . ', Yesterday: ' . $itemStats->doneYesterday();
 $footer .= ', This Week: ' . $itemStats->doneThisWeek() . ', Last Week: ' . $itemStats->doneLastWeek();
@@ -37,7 +40,7 @@ $footer .= '</i>';
  *
  */
 
-$listDisplay = new \App\Legacy\ListDisplay($db, $_SESSION['user_id']);
+$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
 $listDisplay->setColumns($display_num_columns);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 

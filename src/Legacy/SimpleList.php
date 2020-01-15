@@ -40,7 +40,7 @@ class SimpleList
         $query = 'SELECT COUNT(*) FROM ' . $this->obj->tableName . ' ' . $criteria;
         $result = $this->db->query($query);
         if (!$result) {
-            return $ret;
+            return 0;
         }
 
         $row = $this->db->fetchRow($result);

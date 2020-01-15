@@ -2,10 +2,15 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\DateUtils;
+use App\Legacy\Entity\Item;
+use App\Legacy\Entity\Section;
+use App\Legacy\SimpleList;
+
 $user_id = $_SESSION['user_id'];
 
 if (count($_POST)) {
-    $dateUtils = new \App\Legacy\DateUtils();
+    $dateUtils = new DateUtils();
 
     if (!is_array($_POST['task'])) {
         $_POST['task'] = [];
@@ -13,11 +18,11 @@ if (count($_POST)) {
 
     foreach ($_POST['task'] as $itemId => $task) {
         if ($itemId == 'new') {
-            $item = new \App\Legacy\Item($db);
+            $item = new Item($db);
             $item->setCreated($dateUtils->getNow());
             $item->setUserId($user_id);
         } else {
-            $item = new \App\Legacy\Item($db, $itemId);
+            $item = new Item($db, $itemId);
             $item->setCompleted($_POST['completed'][$itemId]);
         }
         $item->setTask(stripslashes($task));
@@ -63,7 +68,7 @@ if (count($_POST)) {
 
 <?php
 
-$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
+$sectionList = new SimpleList($db, Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
 
 
@@ -84,11 +89,11 @@ if ($_REQUEST['op'] == 'edit') {
 
 foreach ($itemIds as $itemId) {
     if ($itemId == 'new') {
-        $item = new \App\Legacy\Item($db);
+        $item = new Item($db);
         $item->setStatus('Open');
         $item->setPriority('Normal');
     } else {
-        $item = new \App\Legacy\Item($db, $itemId);
+        $item = new Item($db, $itemId);
     }
 
     print('Item Id #: ' . $itemId . "<br><br>\n");

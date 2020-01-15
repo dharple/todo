@@ -2,10 +2,14 @@
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Legacy\Entity\Item;
+use App\Legacy\SimpleList;
+use App\Legacy\ListDisplay;
+
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {
         foreach ($_POST['itemEstimate'] as $itemId => $estimate) {
-            $item = new \App\Legacy\Item($db, $itemId);
+            $item = new Item($db, $itemId);
             if ($item->getId() != $itemId) {
                 print('Unable to load item #' . $itemId . '<br>');
                 continue;
@@ -24,7 +28,7 @@ if (count($_POST)) {
     }
 }
 
-$listDisplay = new \App\Legacy\ListDisplay($db, $_SESSION['user_id']);
+$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
 $listDisplay->setColumns(1);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 $listDisplay->setShowEstimateEditor('y');
@@ -39,7 +43,7 @@ if (is_array($ids) && count($ids)) {
     $listDisplay->setIds($ids);
 } else {
     $user_id = $_SESSION['user_id'];
-    $itemList = new \App\Legacy\SimpleList($db, \App\Legacy\Item::class);
+    $itemList = new SimpleList($db, Item::class);
     $items = $itemList->load("WHERE user_id = '$user_id' AND status = 'Open' AND estimate <= 0");
     $ids = [];
     foreach ($items as $item) {
