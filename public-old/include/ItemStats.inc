@@ -6,7 +6,7 @@ require_once('DateUtils.inc');
 class ItemStats extends ItemHistory
 {
 
-    function execute($start = '', $end = '')
+    public function execute($start = '', $end = '')
     {
         if ($start != '') {
             $whereClause = " AND completed >= '$start' AND completed <= '$end'";

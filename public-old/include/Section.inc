@@ -5,7 +5,7 @@ require_once('BaseObject.inc');
 class Section extends BaseObject
 {
 
-    function Section($db, $id = 0)
+    public function __construct($db, $id = 0)
     {
         $this->db = $db;
         $this->tableName = 'section';
@@ -16,32 +16,32 @@ class Section extends BaseObject
         }
     }
 
-    function getName()
+    public function getName()
     {
         return $this->data['name'];
     }
 
-    function setName($name)
+    public function setName($name)
     {
         $this->data['name'] = $name;
     }
 
-    function getUserId()
+    public function getUserId()
     {
         return $this->data['user_id'];
     }
 
-    function setUserId($user_id)
+    public function setUserId($user_id)
     {
         $this->data['user_id'] = $user_id;
     }
 
-    function getStatus()
+    public function getStatus()
     {
         return $this->data['status'];
     }
 
-    function setStatus($status)
+    public function setStatus($status)
     {
         $this->data['status'] = $status;
     }

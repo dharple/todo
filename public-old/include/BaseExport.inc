@@ -2,25 +2,25 @@
 
 class BaseExport
 {
-    var $output = '';
-    var $outputBuilt = false;
+    public $output = '';
+    public $outputBuilt = false;
 
-    var $headers = [];
-    var $headersBuilt = false;
+    public $headers = [];
+    public $headersBuilt = false;
 
-    var $displayFilterClosed = 'none';
-    var $displayFilterPriority = 'all';
-    var $displayFilterAging = 'all';
-    var $displayShowEstimate = 'n';
-    var $displayShowInactive = 'n';
+    public $displayFilterClosed = 'none';
+    public $displayFilterPriority = 'all';
+    public $displayFilterAging = 'all';
+    public $displayShowEstimate = 'n';
+    public $displayShowInactive = 'n';
 
-    function buildOutput()
+    public function buildOutput()
     {
         $this->output = '';
         $this->outputBuilt = true;
     }
 
-    function getOutput()
+    public function getOutput()
     {
         if (!$this->outputBuilt) {
             $this->buildOutput();
@@ -29,13 +29,13 @@ class BaseExport
         return $this->output;
     }
 
-    function buildHeaders()
+    public function buildHeaders()
     {
         $this->headers = [];
         $this->headersBuilt = true;
     }
 
-    function getHeaders()
+    public function getHeaders()
     {
         if (!$this->headersBuilt) {
             $this->buildHeaders();
@@ -44,27 +44,27 @@ class BaseExport
         return $this->headers;
     }
 
-    function setFilterClosed($displayFilterClosed)
+    public function setFilterClosed($displayFilterClosed)
     {
         $this->displayFilterClosed = $displayFilterClosed;
     }
 
-    function setFilterPriority($displayFilterPriority)
+    public function setFilterPriority($displayFilterPriority)
     {
         $this->displayFilterPriority = $displayFilterPriority;
     }
 
-    function setFilterAging($displayFilterAging)
+    public function setFilterAging($displayFilterAging)
     {
         $this->displayFilterAging = $displayFilterAging;
     }
 
-    function setShowInactive($displayShowInactive)
+    public function setShowInactive($displayShowInactive)
     {
         $this->displayShowInactive = $displayShowInactive;
     }
 
-    function setShowEstimate($displayShowEstimate)
+    public function setShowEstimate($displayShowEstimate)
     {
         $this->displayShowEstimate = $displayShowEstimate;
     }

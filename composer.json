@@ -15,7 +15,15 @@
     ],
     "require": {},
     "scripts": {
+        "go-old": "php -S localhost:8666 -t public-old",
         "phpcbf": "phpcbf",
         "phpcs":  "phpcs"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "process-timeout": 0,
+        "sort-packages": true
     }
 }

@@ -5,12 +5,12 @@ require_once('DateUtils.inc');
 class ItemHistory
 {
 
-    var $userId;
-    var $itemList;
-    var $dateUtils;
-    var $ordering;
+    public $userId;
+    public $itemList;
+    public $dateUtils;
+    public $ordering;
 
-    function ItemHistory($db, $user_id)
+    public function __construct($db, $user_id)
     {
         $this->user_id = $user_id;
         $this->itemList = new SimpleList($db, 'Item');
@@ -19,12 +19,12 @@ class ItemHistory
         $this->ordering = 'task';
     }
 
-    function setOrdering($ordering)
+    public function setOrdering($ordering)
     {
         $this->ordering = $ordering;
     }
 
-    function execute($start = '', $end = '')
+    public function execute($start = '', $end = '')
     {
         if ($start != '') {
             $whereClause = " AND item.completed >= '$start' AND item.completed <= '$end'";
@@ -42,35 +42,35 @@ class ItemHistory
         return $this->itemList->load($query);
     }
 
-    function doneToday()
+    public function doneToday()
     {
         $start = $this->dateUtils->getDate('now', 'Y-m-d 00:00:00');
         $end = $this->dateUtils->getDate('now', 'Y-m-d 23:59:59');
         return $this->execute($start, $end);
     }
 
-    function doneYesterday()
+    public function doneYesterday()
     {
         $start = $this->dateUtils->getDate('yesterday', 'Y-m-d 00:00:00');
         $end = $this->dateUtils->getDate('yesterday', 'Y-m-d 23:59:59');
         return $this->execute($start, $end);
     }
 
-    function doneThisWeek()
+    public function doneThisWeek()
     {
         $start = $this->dateUtils->getWeekStart('now', 'Y-m-d 00:00:00');
         $end = $this->dateUtils->getWeekEnd('now', 'Y-m-d 23:59:59');
         return $this->execute($start, $end);
     }
 
-    function doneLastWeek()
+    public function doneLastWeek()
     {
         $start = $this->dateUtils->getWeekStart('-1 week', 'Y-m-d 00:00:00');
         $end = $this->dateUtils->getWeekEnd('-1 week', 'Y-m-d 23:59:59');
         return $this->execute($start, $end);
     }
 
-    function doneThisMonth()
+    public function doneThisMonth()
     {
         $work = date('Y-m-15');
         $start = $this->dateUtils->getMonthStart($work, 'Y-m-d 00:00:00');
@@ -78,7 +78,7 @@ class ItemHistory
         return $this->execute($start, $end);
     }
 
-    function doneLastMonth()
+    public function doneLastMonth()
     {
         $work = date('Y-m-15') . ' -1 month';
         $start = $this->dateUtils->getMonthStart($work, 'Y-m-d 00:00:00');
@@ -86,7 +86,7 @@ class ItemHistory
         return $this->execute($start, $end);
     }
 
-    function donePreviousMonths($distance)
+    public function donePreviousMonths($distance)
     {
         $work = ' -' . intval($distance) . ' month';
         $start = $this->dateUtils->getDate($work, 'Y-m-d 00:00:00');
@@ -94,7 +94,7 @@ class ItemHistory
         return $this->execute($start, $end);
     }
 
-    function doneTotal()
+    public function doneTotal()
     {
         return $this->execute();
     }

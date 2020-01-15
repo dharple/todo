@@ -2,16 +2,16 @@
 
 class BaseDisplay
 {
-    var $output = '';
-    var $outputBuilt = false;
+    public $output = '';
+    public $outputBuilt = false;
 
-    function buildOutput()
+    public function buildOutput()
     {
         $this->output = '';
         $this->outputBuilt = true;
     }
 
-    function getOutput()
+    public function getOutput()
     {
         if (!$this->outputBuilt) {
             $this->buildOutput();
@@ -20,7 +20,7 @@ class BaseDisplay
         return $this->output;
     }
 
-    function drawEstimate($estimate, $text = 'Total')
+    public function drawEstimate($estimate, $text = 'Total')
     {
         $output = '';
         $output .= '<tr>';

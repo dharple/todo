@@ -5,7 +5,7 @@ require_once('ItemDisplay.inc');
 class ItemDisplayPriorityEditor extends ItemDisplay
 {
 
-    function drawItem($item)
+    public function drawItem($item)
     {
         $output = '';
         $output .= '<tr>';

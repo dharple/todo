@@ -5,22 +5,21 @@ require_once('Database.inc');
 class BaseObject
 {
 
-    var $db;
-    var $data;
-    var $tableName;
-    var $idField;
+    public $db;
+    public $data;
+    public $tableName;
+    public $idField;
 
-    function load($id)
+    public function load($id)
     {
         $query = 'SELECT * FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . $id . "'";
-    // print_r($query);
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
 
         $this->data = $row;
     }
 
-    function save()
+    public function save()
     {
         $queryElements = [];
 
@@ -44,7 +43,6 @@ class BaseObject
         } else {
             $query = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', $queryElements) . ' WHERE ' . $this->idField . " = '" . $this->data[$this->idField] . "'";
         }
-        // print_r($query);
 
         $result = $this->db->query($query);
 
@@ -59,7 +57,7 @@ class BaseObject
         return true;
     }
 
-    function delete()
+    public function delete()
     {
         if ($this->data[$this->idField] > 0) {
             $query = 'DELETE FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . $this->data[$this->idField] . "'";
@@ -72,27 +70,27 @@ class BaseObject
         return false;
     }
 
-    function setData($data)
+    public function setData($data)
     {
         $this->data = $data;
     }
 
-    function getId()
+    public function getId()
     {
         return $this->data[$this->idField];
     }
 
-    function clearId()
+    public function clearId()
     {
         $this->data[$this->idField] = 0;
     }
 
-    function getErrorMessage()
+    public function getErrorMessage()
     {
         return $this->db->getErrorMessage();
     }
 
-    function getErrorNumber()
+    public function getErrorNumber()
     {
         return $this->db->getErrorNumber();
     }

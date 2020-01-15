@@ -5,7 +5,7 @@ require_once('BaseObject.inc');
 class RecurringItem extends BaseObject
 {
 
-    function RecurringItem($db, $id = 0)
+    public function __construct($db, $id = 0)
     {
         $this->db = $db;
         $this->tableName = 'recurring_item';
@@ -16,22 +16,22 @@ class RecurringItem extends BaseObject
         }
     }
 
-    function getUserId()
+    public function getUserId()
     {
         return $this->data['user_id'];
     }
 
-    function setUserId($user_id)
+    public function setUserId($user_id)
     {
         $this->data['user_id'] = $user_id;
     }
 
-    function getTask()
+    public function getTask()
     {
         return $this->data['task'];
     }
 
-    function setTask($task)
+    public function setTask($task)
     {
         $this->data['task'] = $task;
     }

@@ -5,15 +5,15 @@ require_once('include/Item.inc');
 
 class ItemDisplay extends BaseDisplay
 {
-    var $db;
-    var $displayShowEstimate = 'n';
-    var $displayCheckClosed = 'n';
-    var $displayShowPriority = 'n';
-    var $internalPriorityLevels = [];
-    var $item;
-    var $id;
+    public $db;
+    public $displayShowEstimate = 'n';
+    public $displayCheckClosed = 'n';
+    public $displayShowPriority = 'n';
+    public $internalPriorityLevels = [];
+    public $item;
+    public $id;
 
-    function ItemDisplay($db, $item)
+    public function __construct($db, $item)
     {
         $this->db = $db;
 
@@ -26,27 +26,27 @@ class ItemDisplay extends BaseDisplay
         }
     }
 
-    function setShowEstimate($displayShowEstimate)
+    public function setShowEstimate($displayShowEstimate)
     {
         $this->displayShowEstimate = $displayShowEstimate;
     }
 
-    function setCheckClosed($displayCheckClosed)
+    public function setCheckClosed($displayCheckClosed)
     {
         $this->displayCheckClosed = $displayCheckClosed;
     }
 
-    function setShowPriority($displayShowPriority)
+    public function setShowPriority($displayShowPriority)
     {
         $this->displayShowPriority = $displayShowPriority;
     }
 
-    function setInternalPriorityLevels($internalPriorityLevels)
+    public function setInternalPriorityLevels($internalPriorityLevels)
     {
         $this->internalPriorityLevels = $internalPriorityLevels;
     }
 
-    function buildOutput()
+    public function buildOutput()
     {
         if ($this->item) {
             $item = $this->item;
@@ -58,7 +58,7 @@ class ItemDisplay extends BaseDisplay
         $this->outputBuilt = true;
     }
 
-    function drawItem($item)
+    public function drawItem($item)
     {
         $output = '';
         $output .= '<tr>';
@@ -104,7 +104,7 @@ class ItemDisplay extends BaseDisplay
         return $output;
     }
 
-    function getOutputCount()
+    public function getOutputCount()
     {
         return 1;
     }

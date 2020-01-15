@@ -5,14 +5,14 @@ require_once('include/BaseExport.inc');
 class ExportDisplay
 {
 
-    var $export;
+    public $export;
 
-    function ExportDisplay($export)
+    public function __construct($export)
     {
         $this->export = $export;
     }
 
-    function doDraw()
+    public function doDraw()
     {
         $headers = $this->export->getHeaders();
 
@@ -25,7 +25,7 @@ class ExportDisplay
         print($this->export->getOutput());
     }
 
-    function doDownload()
+    public function doDownload()
     {
         $headers = $this->export->getHeaders();
 
@@ -38,7 +38,7 @@ class ExportDisplay
         print($this->export->getOutput());
     }
 
-    function doEmail($email)
+    public function doEmail($email)
     {
         $body = '';
 

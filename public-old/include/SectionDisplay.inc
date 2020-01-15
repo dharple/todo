@@ -11,30 +11,30 @@ require_once('include/DateUtils.inc');
 
 class SectionDisplay extends BaseDisplay
 {
-    var $db;
-    var $displayIds;
-    var $displayFilterClosed = 'none';
-    var $displayFilterPriority = 'all';
-    var $displayFilterAging = 'all';
-    var $displayShowEstimate = 'n';
-    var $displayShowEstimateEditor = 'n';
-    var $displayShowSplit = 'all';
-    var $displayCheckClosed = 'n';
-    var $displayShowSection = 0;
-    var $displaySectionLink = '';
-    var $displayShowPriority = 'n';
-    var $displayShowPriorityEditor = 'n';
-    var $internalPriorityLevels = [];
-    var $splitPoint = 0;
+    public $db;
+    public $displayIds;
+    public $displayFilterClosed = 'none';
+    public $displayFilterPriority = 'all';
+    public $displayFilterAging = 'all';
+    public $displayShowEstimate = 'n';
+    public $displayShowEstimateEditor = 'n';
+    public $displayShowSplit = 'all';
+    public $displayCheckClosed = 'n';
+    public $displayShowSection = 0;
+    public $displaySectionLink = '';
+    public $displayShowPriority = 'n';
+    public $displayShowPriorityEditor = 'n';
+    public $internalPriorityLevels = [];
+    public $splitPoint = 0;
 
-    var $id;
-    var $section;
+    public $id;
+    public $section;
 
-    var $itemCount = 0;
-    var $padding = 0;
-    var $estimate = 0;
+    public $itemCount = 0;
+    public $padding = 0;
+    public $estimate = 0;
 
-    function SectionDisplay($db, $section)
+    public function __construct($db, $section)
     {
         $this->db = $db;
         $this->user_id = $user_id;
@@ -48,22 +48,22 @@ class SectionDisplay extends BaseDisplay
         }
     }
 
-    function setFilterClosed($displayFilterClosed)
+    public function setFilterClosed($displayFilterClosed)
     {
         $this->displayFilterClosed = $displayFilterClosed;
     }
 
-    function setFilterPriority($displayFilterPriority)
+    public function setFilterPriority($displayFilterPriority)
     {
         $this->displayFilterPriority = $displayFilterPriority;
     }
 
-    function setFilterAging($displayFilterAging)
+    public function setFilterAging($displayFilterAging)
     {
         $this->displayFilterAging = $displayFilterAging;
     }
 
-    function getDisplayWidth()
+    public function getDisplayWidth()
     {
         $width = 4;
         if ($this->displayShowEstimate) {
@@ -72,62 +72,62 @@ class SectionDisplay extends BaseDisplay
         return $width;
     }
 
-    function setIds($ids)
+    public function setIds($ids)
     {
         $this->displayIds = $ids;
     }
 
-    function setShowEstimate($displayShowEstimate)
+    public function setShowEstimate($displayShowEstimate)
     {
         $this->displayShowEstimate = $displayShowEstimate;
     }
 
-    function setShowEstimateEditor($displayShowEstimateEditor)
+    public function setShowEstimateEditor($displayShowEstimateEditor)
     {
         $this->displayShowEstimateEditor = $displayShowEstimateEditor;
     }
 
-    function setShowSplit($displayShowSplit)
+    public function setShowSplit($displayShowSplit)
     {
         $this->displayShowSplit = $displayShowSplit;
     }
 
-    function setSplitPoint($splitPoint)
+    public function setSplitPoint($splitPoint)
     {
         $this->splitPoint = $splitPoint;
     }
 
-    function setCheckClosed($displayCheckClosed)
+    public function setCheckClosed($displayCheckClosed)
     {
         $this->displayCheckClosed = $displayCheckClosed;
     }
 
-    function setShowSection($displayShowSection)
+    public function setShowSection($displayShowSection)
     {
         $this->displayShowSection = $displayShowSection;
     }
 
-    function setSectionLink($displaySectionLink)
+    public function setSectionLink($displaySectionLink)
     {
         $this->displaySectionLink = $displaySectionLink;
     }
 
-    function setShowPriority($displayShowPriority)
+    public function setShowPriority($displayShowPriority)
     {
         $this->displayShowPriority = $displayShowPriority;
     }
 
-    function setShowPriorityEditor($displayShowPriorityEditor)
+    public function setShowPriorityEditor($displayShowPriorityEditor)
     {
         $this->displayShowPriorityEditor = $displayShowPriorityEditor;
     }
 
-    function setInternalPriorityLevels($internalPriorityLevels)
+    public function setInternalPriorityLevels($internalPriorityLevels)
     {
         $this->internalPriorityLevels = $internalPriorityLevels;
     }
 
-    function buildOutput()
+    public function buildOutput()
     {
         if ($this->section) {
             $section = $this->section;
@@ -255,22 +255,22 @@ class SectionDisplay extends BaseDisplay
         $this->output = $output;
     }
 
-    function getOutputCount()
+    public function getOutputCount()
     {
         return $this->itemCount;
     }
 
-    function getOutputLength()
+    public function getOutputLength()
     {
         return $this->itemCount + $this->padding;
     }
 
-    function getOutputEstimate()
+    public function getOutputEstimate()
     {
         return $this->estimate;
     }
 
-    function getId()
+    public function getId()
     {
         return $this->id;
     }

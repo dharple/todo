@@ -5,7 +5,7 @@ require_once('BaseObject.inc');
 class User extends BaseObject
 {
 
-    function User($db, $id = 0)
+    public function __construct($db, $id = 0)
     {
         $this->db = $db;
         $this->tableName = 'user';
@@ -16,7 +16,7 @@ class User extends BaseObject
         }
     }
 
-    function login($username, $password)
+    public function login($username, $password)
     {
         $query = "SELECT id FROM user WHERE username = '$username' AND password = ENCRYPT('$password', password)";
 
@@ -31,33 +31,33 @@ class User extends BaseObject
         }
     }
 
-    function getUsername()
+    public function getUsername()
     {
         return $this->data['username'];
     }
 
-    function setUsername($username)
+    public function setUsername($username)
     {
         $this->data['username'] = $username;
     }
 
-    function getFullname()
+    public function getFullname()
     {
         return $this->data['fullname'];
     }
 
-    function setFullname($fullname)
+    public function setFullname($fullname)
     {
         $this->data['fullname'] = $fullname;
     }
 
-    function confirmPassword($password)
+    public function confirmPassword($password)
     {
         $check = crypt($password, $this->data['password']);
         return ($check == $this->data['password']);
     }
 
-    function setPassword($password)
+    public function setPassword($password)
     {
         $salt = substr(trim($this->data['password']), -2);
         if ($salt == '') {
@@ -67,42 +67,42 @@ class User extends BaseObject
         $this->data['password'] = crypt($password, $salt);
     }
 
-    function getTimezone()
+    public function getTimezone()
     {
         return $this->data['timezone'];
     }
 
-    function setTimezone($timezone)
+    public function setTimezone($timezone)
     {
         $this->data['timezone'] = $timezone;
     }
 
-    function getDisplayStylesheetId()
+    public function getDisplayStylesheetId()
     {
         return $this->data['display_stylesheet_id'];
     }
 
-    function setDisplayStylesheetId($display_stylesheet_id)
+    public function setDisplayStylesheetId($display_stylesheet_id)
     {
         $this->data['display_stylesheet_id'] = $display_stylesheet_id;
     }
 
-    function getPrintStylesheetId()
+    public function getPrintStylesheetId()
     {
         return $this->data['print_stylesheet_id'];
     }
 
-    function setPrintStylesheetId($print_stylesheet_id)
+    public function setPrintStylesheetId($print_stylesheet_id)
     {
         $this->data['print_stylesheet_id'] = $print_stylesheet_id;
     }
 
-    function getExportStylesheetId()
+    public function getExportStylesheetId()
     {
         return $this->data['export_stylesheet_id'];
     }
 
-    function setExportStylesheetId($export_stylesheet_id)
+    public function setExportStylesheetId($export_stylesheet_id)
     {
         $this->data['export_stylesheet_id'] = $export_stylesheet_id;
     }

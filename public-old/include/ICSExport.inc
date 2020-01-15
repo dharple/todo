@@ -9,20 +9,20 @@ require_once('include/DateUtils.inc');
 
 class ICSExport extends BaseExport
 {
-    var $db;
+    public $db;
 
-    var $userId;
+    public $userId;
 
-    var $method = 'REQUEST';
-    var $lineTerminators = "\r\n";
+    public $method = 'REQUEST';
+    public $lineTerminators = "\r\n";
 
-    function ICSExport($db, $userId)
+    public function __construct($db, $userId)
     {
         $this->db = $db;
         $this->userId = $userId;
     }
 
-    function buildHeaders()
+    public function buildHeaders()
     {
         $this->headers = [];
 
@@ -32,7 +32,7 @@ class ICSExport extends BaseExport
         array_push($this->headers, 'Content-Transfer-Encoding: 7bit');
     }
 
-    function buildOutput()
+    public function buildOutput()
     {
 
         $ret = 'BEGIN:VCALENDAR' . $this->lineTerminators;

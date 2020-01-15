@@ -7,61 +7,61 @@ require_once('include/SectionDisplay.inc');
 
 class ListDisplay extends BaseDisplay
 {
-    var $db;
-    var $columns = 2;
-    var $columnFooters;
-    var $displayIds;
-    var $displayFilterClosed = 'none';
-    var $displayFilterPriority = 'all';
-    var $displayFilterAging = 'all';
-    var $displayShowEstimate = 'n';
-    var $displayShowEstimateEditor = 'n';
-    var $displayShowInactive = 'n';
-    var $displayCheckClosed = 'n';
-    var $displayShowSection = 0;
-    var $displaySectionLink = '';
-    var $displayShowPriority = 'n';
-    var $displayShowPriorityEditor = 'n';
-    var $internalPriorityLevels = [];
+    public $db;
+    public $columns = 2;
+    public $columnFooters;
+    public $displayIds;
+    public $displayFilterClosed = 'none';
+    public $displayFilterPriority = 'all';
+    public $displayFilterAging = 'all';
+    public $displayShowEstimate = 'n';
+    public $displayShowEstimateEditor = 'n';
+    public $displayShowInactive = 'n';
+    public $displayCheckClosed = 'n';
+    public $displayShowSection = 0;
+    public $displaySectionLink = '';
+    public $displayShowPriority = 'n';
+    public $displayShowPriorityEditor = 'n';
+    public $internalPriorityLevels = [];
 
-    var $userId;
-    var $itemCount;
+    public $userId;
+    public $itemCount;
 
-    var $splitThreshold = 10;
-    var $splitMinimumChunk = 3;
+    public $splitThreshold = 10;
+    public $splitMinimumChunk = 3;
 
-    function ListDisplay($db, $userId)
+    public function __construct($db, $userId)
     {
         $this->db = $db;
         $this->userId = $userId;
     }
 
-    function setFilterClosed($displayFilterClosed)
+    public function setFilterClosed($displayFilterClosed)
     {
         $this->displayFilterClosed = $displayFilterClosed;
     }
 
-    function setFilterPriority($displayFilterPriority)
+    public function setFilterPriority($displayFilterPriority)
     {
         $this->displayFilterPriority = $displayFilterPriority;
     }
 
-    function setFilterAging($displayFilterAging)
+    public function setFilterAging($displayFilterAging)
     {
         $this->displayFilterAging = $displayFilterAging;
     }
 
-    function setShowInactive($displayShowInactive)
+    public function setShowInactive($displayShowInactive)
     {
         $this->displayShowInactive = $displayShowInactive;
     }
 
-    function setColumns($columns)
+    public function setColumns($columns)
     {
         $this->columns = $columns;
     }
 
-    function setColumnFooter($column, $content)
+    public function setColumnFooter($column, $content)
     {
         $colspan = $this->getDisplayWidth();
         $fixed = "<tr><td colspan=$colspan>";
@@ -71,7 +71,7 @@ class ListDisplay extends BaseDisplay
         $this->columnFooters[$column] = $fixed;
     }
 
-    function getDisplayWidth()
+    public function getDisplayWidth()
     {
         $width = 4;
         if ($this->displayShowEstimate) {
@@ -80,52 +80,52 @@ class ListDisplay extends BaseDisplay
         return $width;
     }
 
-    function setIds($ids)
+    public function setIds($ids)
     {
         $this->displayIds = $ids;
     }
 
-    function setShowEstimate($displayShowEstimate)
+    public function setShowEstimate($displayShowEstimate)
     {
         $this->displayShowEstimate = $displayShowEstimate;
     }
 
-    function setShowEstimateEditor($displayShowEstimateEditor)
+    public function setShowEstimateEditor($displayShowEstimateEditor)
     {
         $this->displayShowEstimateEditor = $displayShowEstimateEditor;
     }
 
-    function setCheckClosed($displayCheckClosed)
+    public function setCheckClosed($displayCheckClosed)
     {
         $this->displayCheckClosed = $displayCheckClosed;
     }
 
-    function setShowSection($displayShowSection)
+    public function setShowSection($displayShowSection)
     {
         $this->displayShowSection = $displayShowSection;
     }
 
-    function setSectionLink($displaySectionLink)
+    public function setSectionLink($displaySectionLink)
     {
         $this->displaySectionLink = $displaySectionLink;
     }
 
-    function setShowPriority($displayShowPriority)
+    public function setShowPriority($displayShowPriority)
     {
         $this->displayShowPriority = $displayShowPriority;
     }
 
-    function setShowPriorityEditor($displayShowPriorityEditor)
+    public function setShowPriorityEditor($displayShowPriorityEditor)
     {
         $this->displayShowPriorityEditor = $displayShowPriorityEditor;
     }
 
-    function setInternalPriorityLevels($internalPriorityLevels)
+    public function setInternalPriorityLevels($internalPriorityLevels)
     {
         $this->internalPriorityLevels = $internalPriorityLevels;
     }
 
-    function buildOutput()
+    public function buildOutput()
     {
 
         // Sanity Checking
@@ -323,7 +323,7 @@ class ListDisplay extends BaseDisplay
         $this->outputBuilt = true;
     }
 
-    function getOutputCount()
+    public function getOutputCount()
     {
         return $this->itemCount;
     }
@@ -331,7 +331,7 @@ class ListDisplay extends BaseDisplay
     /**
      * Replaces {GRAND_TOTAL} and {COLUMN_TOTAL} with the appropriate values.
      */
-    function replaceTotals($string, $grand_total, $column_total)
+    public function replaceTotals($string, $grand_total, $column_total)
     {
         $string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
         $string = str_replace('{COLUMN_TOTAL}', $column_total, $string);

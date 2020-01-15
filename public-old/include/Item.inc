@@ -5,7 +5,7 @@ require_once('BaseObject.inc');
 class Item extends BaseObject
 {
 
-    function Item($db, $id = 0)
+    public function __construct($db, $id = 0)
     {
         $this->db = $db;
         $this->tableName = 'item';
@@ -16,82 +16,82 @@ class Item extends BaseObject
         }
     }
 
-    function getSectionId()
+    public function getSectionId()
     {
         return $this->data['section_id'];
     }
 
-    function setSectionId($section_id)
+    public function setSectionId($section_id)
     {
         $this->data['section_id'] = $section_id;
     }
 
-    function getTask()
+    public function getTask()
     {
         return $this->data['task'];
     }
 
-    function setTask($task)
+    public function setTask($task)
     {
         $this->data['task'] = $task;
     }
 
-    function getStatus()
+    public function getStatus()
     {
         return $this->data['status'];
     }
 
-    function setStatus($status)
+    public function setStatus($status)
     {
         $this->data['status'] = $status;
     }
 
-    function getCreated()
+    public function getCreated()
     {
         return $this->data['created'];
     }
 
-    function setCreated($created)
+    public function setCreated($created)
     {
         $this->data['created'] = $created;
     }
 
-    function getCompleted()
+    public function getCompleted()
     {
         return $this->data['completed'];
     }
 
-    function setCompleted($completed)
+    public function setCompleted($completed)
     {
         $this->data['completed'] = $completed;
     }
 
-    function getPriority()
+    public function getPriority()
     {
         return $this->data['priority'];
     }
 
-    function setPriority($priority)
+    public function setPriority($priority)
     {
         $this->data['priority'] = $priority;
     }
 
-    function getEstimate()
+    public function getEstimate()
     {
         return $this->data['estimate'];
     }
 
-    function setEstimate($estimate)
+    public function setEstimate($estimate)
     {
         $this->data['estimate'] = $estimate;
     }
 
-    function getUserId()
+    public function getUserId()
     {
         return $this->data['user_id'];
     }
 
-    function setUserId($user_id)
+    public function setUserId($user_id)
     {
         $this->data['user_id'] = $user_id;
     }

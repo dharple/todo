@@ -5,17 +5,17 @@ require_once('BaseObject.inc');
 class SimpleList
 {
 
-    var $obj;
-    var $objName;
+    public $obj;
+    public $objName;
 
-    function SimpleList($db, $objName)
+    public function __construct($db, $objName)
     {
         $this->db = $db;
         $this->objName = $objName;
         $this->obj = new $objName($db);
     }
 
-    function load($criteria)
+    public function load($criteria)
     {
         $ret = [];
 
@@ -34,7 +34,7 @@ class SimpleList
         return $ret;
     }
 
-    function count($criteria)
+    public function count($criteria)
     {
         $query = 'SELECT COUNT(*) FROM ' . $this->obj->tableName . ' ' . $criteria;
         $result = $this->db->query($query);
