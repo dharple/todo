@@ -27,13 +27,13 @@ if ($session_handler->regenerate) {
     session_regenerate_id();
 }
 
-if ($_SESSION['user_id'] == '' && !$is_login) {
-    header('Location: login.php');
+if (empty($_SESSION['user_id']) && empty($is_login)) {
+    header('Location: /login.php');
     exit();
 }
 
-$user = new User($db, $_SESSION['user_id']);
-$user_id = $_SESSION['user_id'];
+$user = new User($db, $_SESSION['user_id'] ?? 0);
+$user_id = $_SESSION['user_id'] ?? 0;
 
 if ($user->getTimezone() != '') {
     putenv('TZ=' . $user->getTimezone());

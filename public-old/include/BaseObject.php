@@ -38,7 +38,7 @@ class BaseObject
             }
         }
 
-        if ($this->data[$this->idField] == 0) {
+        if (empty($this->data[$this->idField])) {
             $query = 'INSERT INTO ' . $this->tableName . ' SET ' . implode(',', $queryElements);
         } else {
             $query = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', $queryElements) . ' WHERE ' . $this->idField . " = '" . $this->data[$this->idField] . "'";
