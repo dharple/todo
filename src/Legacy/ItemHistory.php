@@ -1,6 +1,6 @@
 <?php
 
-require_once('DateUtils.php');
+namespace App\Legacy;
 
 class ItemHistory
 {
@@ -13,7 +13,7 @@ class ItemHistory
     public function __construct($db, $user_id)
     {
         $this->user_id = $user_id;
-        $this->itemList = new SimpleList($db, 'Item');
+        $this->itemList = new SimpleList($db, Item::class);
         $this->dateUtils = new DateUtils();
 
         $this->ordering = 'task';

@@ -1,8 +1,8 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/DateUtils.php');
-require_once('include/ItemHistory.php');
+
+
 
 ?>
 <html>
@@ -56,7 +56,7 @@ if ($_REQUEST['view'] == 'month') {
 
 <?php
 
-$sectionList = new SimpleList($db, 'Section');
+$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id'");
 $sectionsById = [];
 foreach ($sections as $section) {
@@ -64,10 +64,10 @@ foreach ($sections as $section) {
 }
 unset($sections);
 
-$dateUtils = new DateUtils();
+$dateUtils = new \App\Legacy\DateUtils();
 
 
-$itemHistory = new ItemHistory($db, $user_id);
+$itemHistory = new \App\Legacy\ItemHistory($db, $user_id);
 
 switch ($_REQUEST['view']) {
     case 'month':

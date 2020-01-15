@@ -1,13 +1,13 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/ListDisplay.php');
+
 include_once('include/display_settings.php');
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {
         foreach ($_POST['itemEstimate'] as $itemId => $estimate) {
-            $item = new Item($db, $itemId);
+            $item = new \App\Legacy\Item($db, $itemId);
             if ($item->getId() != $itemId) {
                 print('Unable to load item #' . $itemId . '<br>');
                 continue;
@@ -26,7 +26,7 @@ if (count($_POST)) {
     }
 }
 
-$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
+$listDisplay = new \App\Legacy\ListDisplay($db, $_SESSION['user_id']);
 $listDisplay->setColumns(1);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 $listDisplay->setShowEstimateEditor('y');
@@ -41,7 +41,7 @@ if (is_array($ids) && count($ids)) {
     $listDisplay->setIds($ids);
 } else {
     $user_id = $_SESSION['user_id'];
-    $itemList = new SimpleList($db, 'Item');
+    $itemList = new \App\Legacy\SimpleList($db, \App\Legacy\Item::class);
     $items = $itemList->load("WHERE user_id = '$user_id' AND status = 'Open' AND estimate <= 0");
     $ids = [];
     foreach ($items as $item) {

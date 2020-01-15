@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Legacy;
+
 interface Database
 {
     public function connect($host, $user, $pass, $db);

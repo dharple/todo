@@ -1,9 +1,6 @@
 <?php
 
-require_once('include/BaseDisplay.php');
-require_once('include/SimpleList.php');
-require_once('include/Section.php');
-require_once('include/SectionDisplay.php');
+namespace App\Legacy;
 
 class ListDisplay extends BaseDisplay
 {
@@ -141,7 +138,7 @@ class ListDisplay extends BaseDisplay
 
         //
 
-        $sectionList = new SimpleList($this->db, 'Section');
+        $sectionList = new SimpleList($this->db, Section::class);
 
         $query = "WHERE user_id = '$this->userId'";
 

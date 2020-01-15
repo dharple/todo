@@ -1,8 +1,8 @@
 <?php
 
-require_once('ItemDisplay.php');
+namespace App\Legacy;
 
-class ItemDisplayEstimateEditor extends ItemDisplay
+class ItemDisplayPriorityEditor extends ItemDisplay
 {
 
     public function drawItem($item)
@@ -13,7 +13,7 @@ class ItemDisplayEstimateEditor extends ItemDisplay
         $output .= '&nbsp;';
         $output .= '</td>';
         $output .= '<td>';
-        $output .= '<input type=text size=5 align=right name="itemEstimate[' . $item->getId() . ']" value=' . $item->getEstimate() . '>';
+        $output .= '<input type=text size=3 align=right name="itemPriority[' . $item->getId() . ']" value=' . $item->getPriority() . '>';
         $output .= '</td>';
         $output .= '<td>';
         $output .= '&nbsp;';

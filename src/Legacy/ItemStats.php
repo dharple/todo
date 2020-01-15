@@ -1,7 +1,6 @@
 <?php
 
-require_once('ItemHistory.php');
-require_once('DateUtils.php');
+namespace App\Legacy;
 
 class ItemStats extends ItemHistory
 {

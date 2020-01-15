@@ -1,11 +1,6 @@
 <?php
 
-require_once('include/BaseExport.php');
-require_once('include/SimpleList.php');
-require_once('include/Section.php');
-require_once('include/Item.php');
-require_once('include/DateUtils.php');
-
+namespace App\Legacy;
 
 class ICSExport extends BaseExport
 {
@@ -42,7 +37,7 @@ class ICSExport extends BaseExport
 
         $user_id = $_SESSION['user_id'];
 
-        $sectionList = new SimpleList($this->db, 'Section');
+        $sectionList = new SimpleList($this->db, Section::class);
 
         $query = "WHERE user_id = '$user_id'";
 
@@ -54,7 +49,7 @@ class ICSExport extends BaseExport
 
         $sections = $sectionList->load($query);
 
-        $itemList = new SimpleList($this->db, 'Item');
+        $itemList = new SimpleList($this->db, Item::class);
 
         $itemCount = 0;
 

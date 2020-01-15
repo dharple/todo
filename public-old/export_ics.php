@@ -1,9 +1,8 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/ICSExport.php');
 
-$icsExport = new ICSExport($db, $_SESSION['user_id']);
+$icsExport = new \App\Legacy\ICSExport($db, $_SESSION['user_id']);
 
 $icsExport->setFilterClosed($display_filter_closed);
 $icsExport->setFilterPriority($display_filter_priority);

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Legacy;
+
 class BaseDisplay
 {
     public $output = '';

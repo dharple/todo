@@ -1,9 +1,9 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/ItemStats.php');
-require_once('include/DateUtils.php');
-require_once('include/ListDisplay.php');
+
+
+
 
 // Defaults
 
@@ -14,14 +14,14 @@ include_once('include/display_settings.php');
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Mark Done') {
         foreach ($_POST['itemIds'] as $itemId) {
-            $item = new Item($db, $itemId);
+            $item = new \App\Legacy\Item($db, $itemId);
             if ($item->getId() != $itemId) {
                 print('Unable to load item #' . $itemId . '<br>');
                 continue;
             }
 
             $item->setStatus('Closed');
-            $dateUtils = new DateUtils();
+            $dateUtils = new \App\Legacy\DateUtils();
             $item->setCompleted($dateUtils->getNow());
             $ret = $item->save();
 
@@ -59,15 +59,15 @@ if (count($_POST)) {
         die();
     } elseif ($_POST['submitButton'] == 'Duplicate') {
         foreach ($_POST['itemIds'] as $itemId) {
-            $item = new Item($db, $itemId);
+            $item = new \App\Legacy\Item($db, $itemId);
             if ($item->getId() != $itemId) {
                 print('Unable to load item #' . $itemId . '<br>');
                 continue;
             }
 
-            $dateUtils = new DateUtils();
+            $dateUtils = new \App\Legacy\DateUtils();
 
-            $newItem = new Item($db);
+            $newItem = new \App\Legacy\Item($db);
 
             $newItem->setCreated($dateUtils->getNow());
             $newItem->setUserId($_SESSION['user_id']);
@@ -87,7 +87,7 @@ if (count($_POST)) {
     }
 }
 
-$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
+$listDisplay = new \App\Legacy\ListDisplay($db, $_SESSION['user_id']);
 $listDisplay->setColumns($display_num_columns);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 
@@ -100,7 +100,7 @@ $listDisplay->setShowSection($display_show_section);
 $listDisplay->setSectionLink('index.php?show_section={SECTION_ID}');
 $listDisplay->setShowPriority($display_show_priority);
 
-$itemStats = new ItemStats($db, $_SESSION['user_id']);
+$itemStats = new \App\Legacy\ItemStats($db, $_SESSION['user_id']);
 
 $user_id = $_SESSION['user_id'];
 
@@ -299,7 +299,7 @@ print($listDisplay->getOutput());
 
 $itemCount = $listDisplay->getOutputCount();
 
-$sectionList = new SimpleList($db, 'Section');
+$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
 $sectionCount = $sectionList->count("WHERE user_id = '$user_id' AND status = 'Active'");
 
 ?>

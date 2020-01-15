@@ -8,7 +8,7 @@ $error_message = '';
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Login') {
-        $user = new User($db);
+        $user = new \App\Legacy\User($db);
         $ret = $user->login($_POST['username'], $_POST['password']);
 
         if ($ret) {

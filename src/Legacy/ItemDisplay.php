@@ -1,7 +1,6 @@
 <?php
 
-require_once('include/BaseDisplay.php');
-require_once('include/Item.php');
+namespace App\Legacy;
 
 class ItemDisplay extends BaseDisplay
 {

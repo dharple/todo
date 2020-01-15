@@ -1,13 +1,6 @@
 <?php
 
-require_once('include/BaseDisplay.php');
-require_once('include/SimpleList.php');
-require_once('include/Item.php');
-require_once('include/Section.php');
-require_once('include/ItemDisplay.php');
-require_once('include/ItemDisplayEstimateEditor.php');
-require_once('include/ItemDisplayPriorityEditor.php');
-require_once('include/DateUtils.php');
+namespace App\Legacy;
 
 class SectionDisplay extends BaseDisplay
 {
@@ -134,7 +127,7 @@ class SectionDisplay extends BaseDisplay
             $section = new Section($this->db, $this->id);
         }
 
-        $itemList = new SimpleList($this->db, 'Item');
+        $itemList = new SimpleList($this->db, Item::class);
 
         $this->itemCount = 0;
         $this->padding = 0;

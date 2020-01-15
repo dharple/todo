@@ -1,8 +1,6 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/ItemStats.php');
-require_once('include/ListDisplay.php');
 include_once('include/display_settings.php');
 
 header('Content-Disposition: attachment; filename="todo-' . date('Ymd') . '.php"');
@@ -15,10 +13,10 @@ header('Content-Disposition: attachment; filename="todo-' . date('Ymd') . '.php"
 <!--
 <?php
 
-require_once('include/UserStylesheet.php');
+
 
 $stylesheet_id = $user->getExportStylesheetId();
-$stylesheet = new UserStylesheet($db, $stylesheet_id);
+$stylesheet = new \App\Legacy\UserStylesheet($db, $stylesheet_id);
 
 print($stylesheet->getContents());
 
@@ -34,7 +32,7 @@ print($stylesheet->getContents());
  * Results
  */
 
-$itemStats = new ItemStats($db, $_SESSION['user_id']);
+$itemStats = new \App\Legacy\ItemStats($db, $_SESSION['user_id']);
 
 $footer = '<i>Items Done Today: ' . $itemStats->doneToday() . ', Yesterday: ' . $itemStats->doneYesterday();
 $footer .= ', This Week: ' . $itemStats->doneThisWeek() . ', Last Week: ' . $itemStats->doneLastWeek();
@@ -56,7 +54,7 @@ $footer .= '</i>';
  *
  */
 
-$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
+$listDisplay = new \App\Legacy\ListDisplay($db, $_SESSION['user_id']);
 $listDisplay->setColumns($display_num_columns);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 

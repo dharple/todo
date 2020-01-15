@@ -1,9 +1,6 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/ItemStats.php');
-require_once('include/DateUtils.php');
-require_once('include/ListDisplay.php');
 
 // Defaults
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once('BaseObject.php');
+namespace App\Legacy;
 
 class SimpleList
 {

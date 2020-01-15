@@ -1,7 +1,7 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/DateUtils.php');
+
 
 $user_id = $_SESSION['user_id'];
 
@@ -54,7 +54,7 @@ if (count($_POST)) {
             $name = trim(stripslashes($name));
 
             if ($name != '') {
-                $section = new Section($db);
+                $section = new \App\Legacy\Section($db);
                 $section->setName($name);
                 $section->setUserId($user_id);
                 $ret = $section->save();
@@ -65,18 +65,18 @@ if (count($_POST)) {
 
             $id = $_POST['edit_section_id'];
             if ($id > 0) {
-                $section = new Section($db, $id);
+                $section = new \App\Legacy\Section($db, $id);
                 $section->setName($name);
                 $ret = $section->save();
             }
         } elseif ($_POST['submitButton'] == 'Activate') {
             $id = $_POST['toggle_section_id'];
             if ($id == 'all') {
-                $sectionList = new SimpleList($db, 'Section');
+                $sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
                 $sections = $sectionList->load("WHERE user_id = '$user_id' AND status = 'Inactive'");
             } else {
                 if ($id > 0) {
-                    $sections = [new Section($db, $id)];
+                    $sections = [new \App\Legacy\Section($db, $id)];
                 } else {
                     $sections = []; // skip the next loop
                 }
@@ -86,7 +86,7 @@ if (count($_POST)) {
 
                 if ($section->getStatus() == 'Inactive' && $_POST['resetStartTimes'] == 'yes') {
 // print("Fixing times<br>\n");
-                    $dateUtils = new DateUtils();
+                    $dateUtils = new \App\Legacy\DateUtils();
                     $now = $dateUtils->getNow();
                     $query = "UPDATE item SET created='$now' WHERE section_id = '" . $section->getId() . "' AND status = 'Open'";
                     $result = $db->query($query);
@@ -100,11 +100,11 @@ if (count($_POST)) {
         } elseif ($_POST['submitButton'] == 'Deactivate') {
             $id = $_POST['toggle_section_id'];
             if ($id == 'all') {
-                $sectionList = new SimpleList($db, 'Section');
+                $sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
                 $sections = $sectionList->load("WHERE user_id = '$user_id' AND status = 'Active'");
             } else {
                 if ($id > 0) {
-                    $sections = [new Section($db, $id)];
+                    $sections = [new \App\Legacy\Section($db, $id)];
                 } else {
                     $sections = []; // skip the next loop
                 }
@@ -148,7 +148,7 @@ Rename:<br>
 <option value="">Choose...</option>
 <?php
 
-$sectionList = new SimpleList($db, 'Section');
+$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
 
 foreach ($sections as $section) {
@@ -173,7 +173,7 @@ Change Status:<br>
 <option value="all">All</option>
 <?php
 
-$sectionList = new SimpleList($db, 'Section');
+$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
 
 foreach ($sections as $section) {

@@ -1,7 +1,6 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/DateUtils.php');
 
 // Defaults
 
@@ -124,7 +123,7 @@ Show Section:
 if ($display_show_section == 0) {
     print('All');
 } else {
-    $section = new Section($db, $display_show_section);
+    $section = new \App\Legacy\Section($db, $display_show_section);
     print($section->getName());
 }
 

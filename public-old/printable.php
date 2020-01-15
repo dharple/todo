@@ -1,8 +1,8 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/ItemStats.php');
-require_once('include/ListDisplay.php');
+
+
 include_once('include/display_settings.php');
 
 ?>
@@ -20,7 +20,7 @@ include_once('include/display_settings.php');
  * Results
  */
 
-$itemStats = new ItemStats($db, $_SESSION['user_id']);
+$itemStats = new \App\Legacy\ItemStats($db, $_SESSION['user_id']);
 
 $footer = '<i>Items Done Today: ' . $itemStats->doneToday() . ', Yesterday: ' . $itemStats->doneYesterday();
 $footer .= ', This Week: ' . $itemStats->doneThisWeek() . ', Last Week: ' . $itemStats->doneLastWeek();
@@ -40,7 +40,7 @@ $footer .= '</i>';
  *
  */
 
-$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
+$listDisplay = new \App\Legacy\ListDisplay($db, $_SESSION['user_id']);
 $listDisplay->setColumns($display_num_columns);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 

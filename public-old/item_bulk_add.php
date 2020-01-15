@@ -1,13 +1,13 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/DateUtils.php');
-require_once('include/RecurringItem.php');
+
+
 
 $user_id = $_SESSION['user_id'];
 
 if (count($_POST)) {
-    $dateUtils = new DateUtils();
+    $dateUtils = new \App\Legacy\DateUtils();
 
     $tasks = preg_split("/[\r\n]/", stripslashes($_POST['tasks']));
     foreach ($tasks as $task) {
@@ -16,7 +16,7 @@ if (count($_POST)) {
             continue;
         }
 
-        $item = new Item($db);
+        $item = new \App\Legacy\Item($db);
 
         $item->setCreated($dateUtils->getNow());
         $item->setUserId($user_id);
@@ -27,7 +27,7 @@ if (count($_POST)) {
         $item->save();
 
         if (isset($_POST['recurring'])) {
-            $recurring_item = new RecurringItem($db);
+            $recurring_item = new \App\Legacy\RecurringItem($db);
 
             $recurring_item->setUserId($user_id);
             $recurring_item->setTask($task);
@@ -98,7 +98,7 @@ while ($row = $db->fetchRow($result)) {
 }
 
 if (count($ids) > 0) {
-    $sectionList = new SimpleList($db, 'Section');
+    $sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
     $sections = $sectionList->load("WHERE user_id = '$user_id' AND id IN (" . implode(',', $ids) . ')');
 
     foreach ($ids as $id) {
@@ -126,7 +126,7 @@ if (count($ids) > 0) {
     print('<option value="">-------------------------</option>');
 }
 
-$sectionList = new SimpleList($db, 'Section');
+$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
 
 $sectionCache = [];
@@ -176,7 +176,7 @@ Tasks (newline separated):<br>
 
 <?php
 
-$recurringItemList = new SimpleList($db, 'RecurringItem');
+$recurringItemList = new \App\Legacy\SimpleList($db, \App\Legacy\RecurringItem::class);
 $recurringItems = $recurringItemList->load("WHERE user_id = '$user_id' ORDER BY task");
 
 if (count($recurringItems) > 0) {

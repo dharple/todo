@@ -1,12 +1,12 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/DateUtils.php');
+
 
 $user_id = $_SESSION['user_id'];
 
 if (count($_POST)) {
-    $dateUtils = new DateUtils();
+    $dateUtils = new \App\Legacy\DateUtils();
 
     if (!is_array($_POST['task'])) {
         $_POST['task'] = [];
@@ -14,11 +14,11 @@ if (count($_POST)) {
 
     foreach ($_POST['task'] as $itemId => $task) {
         if ($itemId == 'new') {
-            $item = new Item($db);
+            $item = new \App\Legacy\Item($db);
             $item->setCreated($dateUtils->getNow());
             $item->setUserId($user_id);
         } else {
-            $item = new Item($db, $itemId);
+            $item = new \App\Legacy\Item($db, $itemId);
             $item->setCompleted($_POST['completed'][$itemId]);
         }
         $item->setTask(stripslashes($task));
@@ -64,7 +64,7 @@ if (count($_POST)) {
 
 <?php
 
-$sectionList = new SimpleList($db, 'Section');
+$sectionList = new \App\Legacy\SimpleList($db, \App\Legacy\Section::class);
 $sections = $sectionList->load("WHERE user_id = '$user_id' ORDER BY name");
 
 
@@ -85,11 +85,11 @@ if ($_REQUEST['op'] == 'edit') {
 
 foreach ($itemIds as $itemId) {
     if ($itemId == 'new') {
-        $item = new Item($db);
+        $item = new \App\Legacy\Item($db);
         $item->setStatus('Open');
         $item->setPriority('Normal');
     } else {
-        $item = new Item($db, $itemId);
+        $item = new \App\Legacy\Item($db, $itemId);
     }
 
     print('Item Id #: ' . $itemId . "<br><br>\n");

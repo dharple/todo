@@ -1,15 +1,10 @@
 <?php
 
-require_once('config.php');
+require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
-require_once($database_class . '.php');
-require_once('SimpleList.php');
-require_once('Section.php');
-require_once('Item.php');
-require_once('User.php');
-require_once('Session.php');
+require_once __DIR__ . '/config.php';
 
-$db = new $database_class();
+$db = new \App\Legacy\MySQLiDatabase();
 $db->connect($database_host, $database_user, $database_password, $database_instance);
 
 if (strpos($_SERVER['REQUEST_URI'], '/styles/') !== false) {
@@ -18,7 +13,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/styles/') !== false) {
 } else {
     session_cache_limiter('nocache');
 }
-$session_handler = new Session($db, $session_max_lifetime);
+$session_handler = new \App\Legacy\Session($db, $session_max_lifetime);
 $session_handler->use_me();
 session_name('cwci'); // cookie in Welsh
 session_start();
@@ -32,7 +27,7 @@ if (empty($_SESSION['user_id']) && empty($is_login)) {
     exit();
 }
 
-$user = new User($db, $_SESSION['user_id'] ?? 0);
+$user = new \App\Legacy\User($db, $_SESSION['user_id'] ?? 0);
 $user_id = $_SESSION['user_id'] ?? 0;
 
 if ($user->getTimezone() != '') {

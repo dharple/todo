@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Legacy;
+
 class BaseExport
 {
     public $output = '';

@@ -1,7 +1,7 @@
 <?php
 
 require_once('include/common.php');
-require_once('include/DateUtils.php');
+
 
 $user_id = $_SESSION['user_id'];
 
@@ -34,7 +34,7 @@ if ($user_id !== '0') {
 
 <?php
 
-$userList = new SimpleList($db, 'User');
+$userList = new \App\Legacy\SimpleList($db, \App\Legacy\User::class);
 $users = $userList->load('ORDER BY username');
 
 ?>

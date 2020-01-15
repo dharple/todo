@@ -1,6 +1,6 @@
 <?php
 
-require_once('include/BaseExport.php');
+namespace App\Legacy;
 
 class ExportDisplay
 {
