@@ -5,330 +5,350 @@ require_once('include/SimpleList.inc');
 require_once('include/Section.inc');
 require_once('include/SectionDisplay.inc');
 
-class ListDisplay extends BaseDisplay {
-	var $db;
-	var $columns = 2;
-	var $columnFooters;
-	var $displayIds;
-	var $displayFilterClosed = 'none';
-	var $displayFilterPriority = 'all';
-	var $displayFilterAging = 'all';
-	var $displayShowEstimate = 'n';
-	var $displayShowEstimateEditor = 'n';
-	var $displayShowInactive = 'n';
-	var $displayCheckClosed = 'n';
-	var $displayShowSection = 0;
-	var $displaySectionLink = '';
-	var $displayShowPriority = 'n';
-	var $displayShowPriorityEditor = 'n';
-	var $internalPriorityLevels = array();
-
-	var $userId;
-	var $itemCount;
-
-	var $splitThreshold = 10;
-	var $splitMinimumChunk = 3;
-
-	function ListDisplay($db, $userId) {
-		$this->db = $db;
-		$this->userId = $userId;
-	}
-
-	function setFilterClosed($displayFilterClosed) {
-		$this->displayFilterClosed = $displayFilterClosed;
-	}
-
-	function setFilterPriority($displayFilterPriority) {
-		$this->displayFilterPriority = $displayFilterPriority;
-	}
+class ListDisplay extends BaseDisplay
+{
+    var $db;
+    var $columns = 2;
+    var $columnFooters;
+    var $displayIds;
+    var $displayFilterClosed = 'none';
+    var $displayFilterPriority = 'all';
+    var $displayFilterAging = 'all';
+    var $displayShowEstimate = 'n';
+    var $displayShowEstimateEditor = 'n';
+    var $displayShowInactive = 'n';
+    var $displayCheckClosed = 'n';
+    var $displayShowSection = 0;
+    var $displaySectionLink = '';
+    var $displayShowPriority = 'n';
+    var $displayShowPriorityEditor = 'n';
+    var $internalPriorityLevels = [];
+
+    var $userId;
+    var $itemCount;
+
+    var $splitThreshold = 10;
+    var $splitMinimumChunk = 3;
+
+    function ListDisplay($db, $userId)
+    {
+        $this->db = $db;
+        $this->userId = $userId;
+    }
+
+    function setFilterClosed($displayFilterClosed)
+    {
+        $this->displayFilterClosed = $displayFilterClosed;
+    }
+
+    function setFilterPriority($displayFilterPriority)
+    {
+        $this->displayFilterPriority = $displayFilterPriority;
+    }
+
+    function setFilterAging($displayFilterAging)
+    {
+        $this->displayFilterAging = $displayFilterAging;
+    }
+
+    function setShowInactive($displayShowInactive)
+    {
+        $this->displayShowInactive = $displayShowInactive;
+    }
+
+    function setColumns($columns)
+    {
+        $this->columns = $columns;
+    }
+
+    function setColumnFooter($column, $content)
+    {
+        $colspan = $this->getDisplayWidth();
+        $fixed = "<tr><td colspan=$colspan>";
+        $fixed .= $content;
+        $fixed .= '</td></tr>';
+
+        $this->columnFooters[$column] = $fixed;
+    }
+
+    function getDisplayWidth()
+    {
+        $width = 4;
+        if ($this->displayShowEstimate) {
+            $width += 2;
+        }
+        return $width;
+    }
+
+    function setIds($ids)
+    {
+        $this->displayIds = $ids;
+    }
+
+    function setShowEstimate($displayShowEstimate)
+    {
+        $this->displayShowEstimate = $displayShowEstimate;
+    }
+
+    function setShowEstimateEditor($displayShowEstimateEditor)
+    {
+        $this->displayShowEstimateEditor = $displayShowEstimateEditor;
+    }
+
+    function setCheckClosed($displayCheckClosed)
+    {
+        $this->displayCheckClosed = $displayCheckClosed;
+    }
+
+    function setShowSection($displayShowSection)
+    {
+        $this->displayShowSection = $displayShowSection;
+    }
+
+    function setSectionLink($displaySectionLink)
+    {
+        $this->displaySectionLink = $displaySectionLink;
+    }
 
-	function setFilterAging($displayFilterAging) {
-		$this->displayFilterAging = $displayFilterAging;
-	}
+    function setShowPriority($displayShowPriority)
+    {
+        $this->displayShowPriority = $displayShowPriority;
+    }
 
-	function setShowInactive($displayShowInactive) {
-		$this->displayShowInactive = $displayShowInactive;
-	}
-
-	function setColumns($columns) {
-		$this->columns = $columns;
-	}
-
-	function setColumnFooter($column, $content) {
-		$colspan = $this->getDisplayWidth();
-		$fixed = "<tr><td colspan=$colspan>";
-		$fixed .= $content;
-		$fixed .= "</td></tr>";
-
-		$this->columnFooters[$column] = $fixed;
-	}
-
-	function getDisplayWidth() {
-		$width = 4;
-		if ($this->displayShowEstimate) {
-			$width += 2;
-		}
-		return $width;
-	}
-
-	function setIds($ids) {
-		$this->displayIds = $ids;
-	}
-
-	function setShowEstimate($displayShowEstimate) {
-		$this->displayShowEstimate = $displayShowEstimate;
-	}
-
-	function setShowEstimateEditor($displayShowEstimateEditor) {
-		$this->displayShowEstimateEditor = $displayShowEstimateEditor;
-	}
-
-	function setCheckClosed($displayCheckClosed) {
-		$this->displayCheckClosed = $displayCheckClosed;
-	}
-
-	function setShowSection($displayShowSection) {
-		$this->displayShowSection = $displayShowSection;
-	}
-
-	function setSectionLink($displaySectionLink) {
-		$this->displaySectionLink = $displaySectionLink;
-	}
-
-	function setShowPriority($displayShowPriority) {
-		$this->displayShowPriority = $displayShowPriority;
-	}
-
-	function setShowPriorityEditor($displayShowPriorityEditor) {
-		$this->displayShowPriorityEditor = $displayShowPriorityEditor;
-	}
-
-	function setInternalPriorityLevels($internalPriorityLevels) {
-		$this->internalPriorityLevels = $internalPriorityLevels;
-	}
+    function setShowPriorityEditor($displayShowPriorityEditor)
+    {
+        $this->displayShowPriorityEditor = $displayShowPriorityEditor;
+    }
 
-	function buildOutput() {
+    function setInternalPriorityLevels($internalPriorityLevels)
+    {
+        $this->internalPriorityLevels = $internalPriorityLevels;
+    }
 
-		// Sanity Checking 
-		$this->columns = intval($this->columns);
+    function buildOutput()
+    {
 
-		if($this->columns < 1)
-			$this->columns = 1;
+        // Sanity Checking
+        $this->columns = intval($this->columns);
 
-		if($this->columns > 10)
-			$this->columns = 10;
+        if ($this->columns < 1) {
+            $this->columns = 1;
+        }
 
-		//
+        if ($this->columns > 10) {
+            $this->columns = 10;
+        }
 
-		$sectionList = new SimpleList($this->db, 'Section');
+        //
 
-		$query = "WHERE user_id = '$this->userId'";
+        $sectionList = new SimpleList($this->db, 'Section');
 
-		if($this->displayShowInactive != "y") {
-			$query .= " AND status = 'Active'";
-		}
+        $query = "WHERE user_id = '$this->userId'";
 
-		if($this->displayShowSection != 0) {
-			$query .= " AND id = '" . $this->displayShowSection . "'";
-		}
+        if ($this->displayShowInactive != 'y') {
+            $query .= " AND status = 'Active'";
+        }
 
-		$query .= " ORDER BY name";
+        if ($this->displayShowSection != 0) {
+            $query .= " AND id = '" . $this->displayShowSection . "'";
+        }
 
-		$sections = $sectionList->load($query);
+        $query .= ' ORDER BY name';
 
-		$itemCount = 0;
-		$realItemCount = 0;
+        $sections = $sectionList->load($query);
 
-		$sectionRenderers = array();
+        $itemCount = 0;
+        $realItemCount = 0;
 
-		foreach($sections as $section) {
-			$sectionDisplay = new SectionDisplay($this->db, &$section);
+        $sectionRenderers = [];
 
-			$sectionDisplay->setIds($this->displayIds);
-			$sectionDisplay->setFilterClosed($this->displayFilterClosed);
-			$sectionDisplay->setFilterPriority($this->displayFilterPriority);
-			$sectionDisplay->setFilterAging($this->displayFilterAging);
-			$sectionDisplay->setShowEstimate($this->displayShowEstimate);
-			$sectionDisplay->setShowEstimateEditor($this->displayShowEstimateEditor);
-			$sectionDisplay->setCheckClosed($this->displayCheckClosed);
-			$sectionDisplay->setShowSection($this->displayShowSection);
-			$sectionDisplay->setSectionLink($this->displaySectionLink);
-			$sectionDisplay->setShowPriority($this->displayShowPriority);
-			$sectionDisplay->setShowPriorityEditor($this->displayShowPriorityEditor);
-			$sectionDisplay->setInternalPriorityLevels($this->internalPriorityLevels);
+        foreach ($sections as $section) {
+            $sectionDisplay = new SectionDisplay($this->db, &$section);
 
-			$sectionDisplay->buildOutput();
+            $sectionDisplay->setIds($this->displayIds);
+            $sectionDisplay->setFilterClosed($this->displayFilterClosed);
+            $sectionDisplay->setFilterPriority($this->displayFilterPriority);
+            $sectionDisplay->setFilterAging($this->displayFilterAging);
+            $sectionDisplay->setShowEstimate($this->displayShowEstimate);
+            $sectionDisplay->setShowEstimateEditor($this->displayShowEstimateEditor);
+            $sectionDisplay->setCheckClosed($this->displayCheckClosed);
+            $sectionDisplay->setShowSection($this->displayShowSection);
+            $sectionDisplay->setSectionLink($this->displaySectionLink);
+            $sectionDisplay->setShowPriority($this->displayShowPriority);
+            $sectionDisplay->setShowPriorityEditor($this->displayShowPriorityEditor);
+            $sectionDisplay->setInternalPriorityLevels($this->internalPriorityLevels);
 
-			if($sectionDisplay->getOutputCount() == 0)
-				continue;
+            $sectionDisplay->buildOutput();
 
-			$itemCount += $sectionDisplay->getOutputLength();
-			$realItemCount += $sectionDisplay->getOutputCount();
-			$grandEstimate += $sectionDisplay->getOutputEstimate();
+            if ($sectionDisplay->getOutputCount() == 0) {
+                continue;
+            }
 
-			array_push($sectionRenderers, $sectionDisplay);
-		}
+            $itemCount += $sectionDisplay->getOutputLength();
+            $realItemCount += $sectionDisplay->getOutputCount();
+            $grandEstimate += $sectionDisplay->getOutputEstimate();
 
-		if($itemCount == 0) {
-			$this->output = "<b>No Items</b><br>";
-			$this->outputBuilt = TRUE;
-			$this->itemCount = 0;
-			return;
-		}
+            array_push($sectionRenderers, $sectionDisplay);
+        }
 
-		//
-		// Split Columns
-		//
+        if ($itemCount == 0) {
+            $this->output = '<b>No Items</b><br>';
+            $this->outputBuilt = true;
+            $this->itemCount = 0;
+            return;
+        }
 
-		// Find Total Length
+        //
+        // Split Columns
+        //
 
-		$outputSectionRenderers = array();
-		for($i = 0; $i < $this->columns; $i++) 
-			$outputSectionRenderers[$i] = array();
+        // Find Total Length
 
-		$totalLength = 0;
-		$sectionCounts = array();
-		foreach($sectionRenderers as $id => $sectionDisplay) {
-			$sectionDisplay->buildOutput();
+        $outputSectionRenderers = [];
+        for ($i = 0; $i < $this->columns; $i++) {
+            $outputSectionRenderers[$i] = [];
+        }
 
-			$sectionCounts[$id] = $sectionDisplay->getOutputLength();
+        $totalLength = 0;
+        $sectionCounts = [];
+        foreach ($sectionRenderers as $id => $sectionDisplay) {
+            $sectionDisplay->buildOutput();
 
-			$totalLength += $sectionDisplay->getOutputLength();
-		}
+            $sectionCounts[$id] = $sectionDisplay->getOutputLength();
 
-		$desiredLength = $totalLength / $this->columns;
+            $totalLength += $sectionDisplay->getOutputLength();
+        }
 
-		$buildLength = 0;
+        $desiredLength = $totalLength / $this->columns;
 
-		$columnCount = 0;
-		foreach($sectionCounts as $id => $sectionLength) {
-			$sectionDisplay = &$sectionRenderers[$id];
+        $buildLength = 0;
 
-			if($columnCount == $this->columns - 1) {
-					array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
-					continue;
-			}
+        $columnCount = 0;
+        foreach ($sectionCounts as $id => $sectionLength) {
+            $sectionDisplay = &$sectionRenderers[$id];
 
-			$realSectionLength = $sectionDisplay->getOutputCount();
+            if ($columnCount == $this->columns - 1) {
+                    array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
+                    continue;
+            }
 
-			$workBuildLength = $buildLength + $sectionLength;
-			if($workBuildLength > $desiredLength) {
-				if($realSectionLength > $this->splitThreshold && (abs($desiredLength - $buildLength) > $this->splitMinimumChunk)) {
-					// Splittable
+            $realSectionLength = $sectionDisplay->getOutputCount();
 
-					$splitPoint = ($desiredLength - $buildLength);
+            $workBuildLength = $buildLength + $sectionLength;
+            if ($workBuildLength > $desiredLength) {
+                if ($realSectionLength > $this->splitThreshold && (abs($desiredLength - $buildLength) > $this->splitMinimumChunk)) {
+                    // Splittable
 
+                    $splitPoint = ($desiredLength - $buildLength);
 
-					if($splitPoint < $this->splitMinimumChunk) {
-						$splitPoint = $this->splitMinimumChunk;
-					}
-					else if($realSectionLength - $splitPoint < $this->splitMinimumChunk) {
-						$splitPoint = $realSectionLength - $this->splitMinimumChunk;
-					}
 
-					if(substr(phpversion(), 0, 1) == '5')
-						$newSectionDisplay = clone $sectionDisplay;
-					else
-						$newSectionDisplay = $sectionDisplay;
+                    if ($splitPoint < $this->splitMinimumChunk) {
+                        $splitPoint = $this->splitMinimumChunk;
+                    } elseif ($realSectionLength - $splitPoint < $this->splitMinimumChunk) {
+                        $splitPoint = $realSectionLength - $this->splitMinimumChunk;
+                    }
 
-					$newSectionDisplay->setShowSplit('first');
-					$newSectionDisplay->setSplitPoint($splitPoint);
+                    if (substr(phpversion(), 0, 1) == '5') {
+                        $newSectionDisplay = clone $sectionDisplay;
+                    } else {
+                        $newSectionDisplay = $sectionDisplay;
+                    }
 
-					$newSectionDisplay->buildOutput();
+                    $newSectionDisplay->setShowSplit('first');
+                    $newSectionDisplay->setSplitPoint($splitPoint);
 
-					array_push($outputSectionRenderers[$columnCount], $newSectionDisplay);
+                    $newSectionDisplay->buildOutput();
 
-					$columnCount++;
-					$buildLength = 0;
+                    array_push($outputSectionRenderers[$columnCount], $newSectionDisplay);
 
-					$sectionDisplay->setShowSplit('last');
-					$sectionDisplay->setSplitPoint($splitPoint);
+                    $columnCount++;
+                    $buildLength = 0;
 
-					$sectionDisplay->buildOutput();
+                    $sectionDisplay->setShowSplit('last');
+                    $sectionDisplay->setSplitPoint($splitPoint);
 
-				}
-				else if($id > 0) {
-					// Not Splittable
+                    $sectionDisplay->buildOutput();
+                } elseif ($id > 0) {
+                    // Not Splittable
 
-					$columnCount++;
-					$buildLength = 0;
-				}
-			}
+                    $columnCount++;
+                    $buildLength = 0;
+                }
+            }
 
-			array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
+            array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
 
-			// Use The Method getOutputLength Instead of $sectionLength //
-			$buildLength += $sectionDisplay->getOutputLength();
-		}
+            // Use The Method getOutputLength Instead of $sectionLength //
+            $buildLength += $sectionDisplay->getOutputLength();
+        }
 
-		$ret = "<table width=100% cellspacing=5>";
-		$ret .= "<tr valign=top>";
+        $ret = '<table width=100% cellspacing=5>';
+        $ret .= '<tr valign=top>';
 
-		$td_open = "<td width=\"" . intval(100/$this->columns) . "%\"><table>\n";
-		$td_close = "</table></td>\n";
+        $td_open = '<td width="' . intval(100 / $this->columns) . "%\"><table>\n";
+        $td_close = "</table></td>\n";
 
-		$columnRealItemCount = 0;
+        $columnRealItemCount = 0;
 
-		foreach($outputSectionRenderers as $columnCount => $list) {
-			$ret .= $td_open;
-			$columnRealItemCount = 0;
+        foreach ($outputSectionRenderers as $columnCount => $list) {
+            $ret .= $td_open;
+            $columnRealItemCount = 0;
 
-			if(count($list) == 0)
-				$ret .= "&nbsp;";
+            if (count($list) == 0) {
+                $ret .= '&nbsp;';
+            }
 
-			foreach($list as $sectionDisplay) {
-				$ret .= $sectionDisplay->getOutput();
+            foreach ($list as $sectionDisplay) {
+                $ret .= $sectionDisplay->getOutput();
 
-				$columnRealItemCount += $sectionDisplay->getOutputCount();
-			}
+                $columnRealItemCount += $sectionDisplay->getOutputCount();
+            }
 
-			$ret .= $this->replaceTotals($this->columnFooters[$columnCount], $realItemCount, $columnRealItemCount);
+            $ret .= $this->replaceTotals($this->columnFooters[$columnCount], $realItemCount, $columnRealItemCount);
 
-			if($this->displayShowEstimate == 'y') {
-				if($columnCount == $this->columns - 1 || count($outputSectionRenderers[$columnCount]) == 0) { 
-					$ret .= $this->drawEstimate($grandEstimate, 'Grand Total');
-				}
-			}
+            if ($this->displayShowEstimate == 'y') {
+                if ($columnCount == $this->columns - 1 || count($outputSectionRenderers[$columnCount]) == 0) {
+                    $ret .= $this->drawEstimate($grandEstimate, 'Grand Total');
+                }
+            }
 
-			$ret .= $td_close;
-		}
+            $ret .= $td_close;
+        }
 
-		$ret .= "</tr>\n";
-		$ret .= "</table>\n";
+        $ret .= "</tr>\n";
+        $ret .= "</table>\n";
 
-		$this->itemCount = $realItemCount;
-		$this->output = $ret;
-		$this->outputBuilt = TRUE;
-	}
+        $this->itemCount = $realItemCount;
+        $this->output = $ret;
+        $this->outputBuilt = true;
+    }
 
-	function getOutputCount() {
-		return $this->itemCount;
-	}
+    function getOutputCount()
+    {
+        return $this->itemCount;
+    }
 
-	/**
-	 * Replaces {GRAND_TOTAL} and {COLUMN_TOTAL} with the appropriate values.
-	 */
-	function replaceTotals($string, $grand_total, $column_total) {
-		$string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
-		$string = str_replace('{COLUMN_TOTAL}', $column_total, $string);
+    /**
+     * Replaces {GRAND_TOTAL} and {COLUMN_TOTAL} with the appropriate values.
+     */
+    function replaceTotals($string, $grand_total, $column_total)
+    {
+        $string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
+        $string = str_replace('{COLUMN_TOTAL}', $column_total, $string);
 
-		$total = 0;
+        $total = 0;
 
-		$query = "SELECT COUNT(*) FROM item WHERE user_id = '$this->userId' AND status = 'Open'";
-		$result = $this->db->query($query);
-		if($result) {
-			$row = $this->db->fetchRow($result);
-			$total = $row[0];
-		}
-		else {
-			$total = $grand_total;
-		}
+        $query = "SELECT COUNT(*) FROM item WHERE user_id = '$this->userId' AND status = 'Open'";
+        $result = $this->db->query($query);
+        if ($result) {
+            $row = $this->db->fetchRow($result);
+            $total = $row[0];
+        } else {
+            $total = $grand_total;
+        }
 
-		$string = str_replace('{NOT_SHOWN}', $total - $grand_total, $string);
+        $string = str_replace('{NOT_SHOWN}', $total - $grand_total, $string);
 
-		return $string;
-	}
-
+        return $string;
+    }
 }
-
-?>

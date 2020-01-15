@@ -2,51 +2,55 @@
 
 require_once('include/BaseExport.inc');
 
-class ExportDisplay {
+class ExportDisplay
+{
 
-	var $export;
+    var $export;
 
-	function ExportDisplay($export) {
-		$this->export = $export;
-	}
+    function ExportDisplay($export)
+    {
+        $this->export = $export;
+    }
 
-	function doDraw() {
-		$headers = $this->export->getHeaders();
+    function doDraw()
+    {
+        $headers = $this->export->getHeaders();
 
-		foreach($headers as $name => $value) {
-			header("$name: $value");
-		}
+        foreach ($headers as $name => $value) {
+            header("$name: $value");
+        }
 
-		header("Content-Disposition: inline; filename=\"" . $this->export->getFilename() . "\"");
+        header('Content-Disposition: inline; filename="' . $this->export->getFilename() . '"');
 
-		print($this->export->getOutput());
-	}
+        print($this->export->getOutput());
+    }
 
-	function doDownload() {
-		$headers = $this->export->getHeaders();
+    function doDownload()
+    {
+        $headers = $this->export->getHeaders();
 
-		foreach($headers as $name => $value) {
-			header("$name: $value");
-		}
+        foreach ($headers as $name => $value) {
+            header("$name: $value");
+        }
 
-		header("Content-Disposition: attachment; filename=\"" . $this->export->getFilename() . "\"");
+        header('Content-Disposition: attachment; filename="' . $this->export->getFilename() . '"');
 
-		print($this->export->getOutput());
-	}
+        print($this->export->getOutput());
+    }
 
-	function doEmail($email) {
-		$body = '';
+    function doEmail($email)
+    {
+        $body = '';
 
-		$headers = $this->export->getHeaders();
+        $headers = $this->export->getHeaders();
 
-		foreach($headers as $name => $value) {
-			$body .= "$name: $value\n";
-		}
-		$body .= "Content-Disposition: inline; filename=\"" . $this->export->getFilename() . "\"\n";
+        foreach ($headers as $name => $value) {
+            $body .= "$name: $value\n";
+        }
+        $body .= 'Content-Disposition: inline; filename="' . $this->export->getFilename() . "\"\n";
 
-		$body .= "\n";
+        $body .= "\n";
 
-		$body .= $this->export->getOutput();
-	}
-
+        $body .= $this->export->getOutput();
+    }
 }

@@ -2,36 +2,34 @@
 
 require_once('ItemDisplay.inc');
 
-class ItemDisplayEstimateEditor extends ItemDisplay {
+class ItemDisplayEstimateEditor extends ItemDisplay
+{
 
-	function drawItem($item) {
-		$output = '';
-		$output .= "<tr>";
-		$output .= "<td>";
-		$output .= "&nbsp;";
-		$output .= "</td>";
-		$output .= "<td>";
-		$output .= "<input type=text size=5 align=right name=\"itemEstimate[" . $item->getId() . "]\" value=" . $item->getEstimate() . ">";
-		$output .= "</td>";
-		$output .= "<td>";
-		$output .= "&nbsp;";
-		$output .= "</td>";
-		$output .= "<td";
-		if ($item->getStatus() != "Open") {
-			$output .= " class=\"closed\"";
-		}
-		else if($item->getPriority() <= 2) {
-			$output .= " class=\"high_priority\"";
-		}
-		$output .= ">";
-		$output .= htmlspecialchars($item->getTask());
-		$output .= "</td>";
-		$output .= "</tr>";
-		$output .= "\n";
+    function drawItem($item)
+    {
+        $output = '';
+        $output .= '<tr>';
+        $output .= '<td>';
+        $output .= '&nbsp;';
+        $output .= '</td>';
+        $output .= '<td>';
+        $output .= '<input type=text size=5 align=right name="itemEstimate[' . $item->getId() . ']" value=' . $item->getEstimate() . '>';
+        $output .= '</td>';
+        $output .= '<td>';
+        $output .= '&nbsp;';
+        $output .= '</td>';
+        $output .= '<td';
+        if ($item->getStatus() != 'Open') {
+            $output .= ' class="closed"';
+        } elseif ($item->getPriority() <= 2) {
+            $output .= ' class="high_priority"';
+        }
+        $output .= '>';
+        $output .= htmlspecialchars($item->getTask());
+        $output .= '</td>';
+        $output .= '</tr>';
+        $output .= "\n";
 
-		return $output;
-	}
-
+        return $output;
+    }
 }
-
-?>
