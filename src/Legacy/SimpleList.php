@@ -5,6 +5,7 @@ namespace App\Legacy;
 class SimpleList
 {
 
+    public $db;
     public $obj;
     public $objName;
 

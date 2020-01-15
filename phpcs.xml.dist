@@ -7,5 +7,6 @@
     </rule>
 
     <file>public-old</file>
+    <file>src</file>
 
 </ruleset>
