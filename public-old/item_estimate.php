@@ -58,7 +58,7 @@ if (is_array($ids) && count($ids)) {
 <html>
 <head>
 <title>Estimate Editor</title>
-<link rel="stylesheet" href="styles/display.php" type="text/css">
+<link rel="stylesheet" href="styles/basic.css" type="text/css">
 </head>
 <body>
 

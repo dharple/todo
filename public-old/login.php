@@ -31,7 +31,7 @@ if (count($_POST)) {
 <html>
 <head>
 <title>To Do List</title>
-<link rel="stylesheet" href="styles/display.php" type="text/css">
+<link rel="stylesheet" href="styles/basic.css" type="text/css">
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body>

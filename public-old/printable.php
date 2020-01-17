@@ -9,7 +9,8 @@ use App\Legacy\ListDisplay;
 <html>
 <head>
 <title>To Do List For <?php print(date('F jS, Y')); ?></title>
-<link rel="stylesheet" href="styles/printable.php" type="text/css">
+<link rel="stylesheet" href="styles/basic.css" type="text/css">
+<link rel="stylesheet" href="styles/printable.css" type="text/css">
 </head>
 <body onLoad="window.print();">
 <p align=center><b><?php print(date('F jS, Y')); ?></b> - <b><?php print($user->getFullname()); ?></b></p>

@@ -108,7 +108,7 @@ $user_id = $_SESSION['user_id'];
 <html>
 <head>
 <title>To Do List For <?php print(date('F jS, Y')); ?></title>
-<link rel="stylesheet" href="styles/display.php" type="text/css">
+<link rel="stylesheet" href="styles/basic.css" type="text/css">
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body>

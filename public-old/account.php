@@ -3,7 +3,6 @@
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use App\Legacy\Entity\User;
-use App\Legacy\Entity\UserStylesheet;
 use App\Legacy\SimpleList;
 
 $error_message = '';
@@ -18,9 +17,6 @@ if (count($_POST)) {
         } else {
             $user->setTimezone(stripslashes($_POST['timezone']));
         }
-        $user->setDisplayStylesheetId($_POST['display_stylesheet_id']);
-        $user->setPrintStylesheetId($_POST['print_stylesheet_id']);
-        $user->setExportStylesheetId($_POST['export_stylesheet_id']);
 
         $user->save();
     } elseif ($_POST['submitButton'] == 'Change Password') {
@@ -37,9 +33,6 @@ if (count($_POST)) {
                 $error_message = 'New passwords do not match';
             }
         }
-    } elseif ($_POST['submitButton'] == 'Edit Stylesheet') {
-        header('Location: stylesheet_edit.php?stylesheet_id=' . $_POST['stylesheet_id']);
-        die();
     }
 }
 
@@ -72,8 +65,6 @@ if ($error_message != '') {
 
 $user = new User($db, $_SESSION['user_id']);
 $user_id = $_SESSION['user_id'];
-
-$stylesheetList = new SimpleList($db, UserStylesheet::class);
 
 $userList = new SimpleList($db, User::class);
 $tempUsers = $userList->load('');
@@ -136,84 +127,6 @@ if (!in_array($current_tz, $timezones)) {
 </td>
 </tr>
 
-<tr>
-<td align=right>
-Display Stylesheet:
-</td>
-<td align=left>
-<select name="display_stylesheet_id">
-<?php
-
-$stylesheets = $stylesheetList->load("WHERE sheet_type = 'display' AND (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
-$current_id = $user->getDisplayStylesheetId();
-
-foreach ($stylesheets as $stylesheet) {
-    $id = $stylesheet->getId();
-    print('<option value="' . $id . '"');
-    if ($current_id == $id) {
-        print(' selected');
-    }
-
-    print('>' . $stylesheet->getSheetName() . ' (' . $allUsers[$stylesheet->getUserId()] . ')</option>');
-}
-
-?>
-</select>
-</td>
-</tr>
-
-<tr>
-<td align=right>
-Print Stylesheet:
-</td>
-<td align=left>
-<select name="print_stylesheet_id">
-<?php
-
-$stylesheets = $stylesheetList->load("WHERE sheet_type = 'print' AND (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
-$current_id = $user->getPrintStylesheetId();
-
-foreach ($stylesheets as $stylesheet) {
-    $id = $stylesheet->getId();
-    print('<option value="' . $id . '"');
-    if ($current_id == $id) {
-        print(' selected');
-    }
-
-    print('>' . $stylesheet->getSheetName() . ' (' . $allUsers[$stylesheet->getUserId()] . ')</option>');
-}
-
-?>
-</select>
-</td>
-</tr>
-
-<tr>
-<td align=right>
-Export Stylesheet:
-</td>
-<td align=left>
-<select name="export_stylesheet_id">
-<?php
-
-$stylesheets = $stylesheetList->load("WHERE sheet_type = 'export' AND (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
-$current_id = $user->getExportStylesheetId();
-
-foreach ($stylesheets as $stylesheet) {
-    $id = $stylesheet->getId();
-    print('<option value="' . $id . '"');
-    if ($current_id == $id) {
-        print(' selected');
-    }
-
-    print('>' . $stylesheet->getSheetName() . ' (' . $allUsers[$stylesheet->getUserId()] . ')</option>');
-}
-
-?>
-</select>
-</td>
-</tr>
-
 </table>
 
 <input type=submit name="submitButton" value="Update">
@@ -229,43 +142,6 @@ Change Password<br><br>
 </table>
 
 <input type=submit name="submitButton" value="Change Password">
-
-</form>
-
-<hr>
-
-<form method="POST" action="account.php">
-
-<table>
-<tr>
-<td align=right>
-Edit Stylesheet:
-</td>
-<td align=left>
-<select name="stylesheet_id">
-<?php
-
-$stylesheets = $stylesheetList->load("WHERE (user_id = '" . addslashes($user_id) . "' OR public = 'y')");
-$current_id = $user->getDisplayStylesheetId();
-
-foreach ($stylesheets as $stylesheet) {
-    $id = $stylesheet->getId();
-    print('<option value="' . $id . '"');
-    if ($current_id == $id) {
-        print(' selected');
-    }
-
-    print('>' . $stylesheet->getSheetName() . ' / ' . ucfirst($stylesheet->getSheetType()) . ' / ' . $allUsers[$stylesheet->getUserId()] . '</option>');
-}
-
-?>
-</select>
-</td>
-</tr>
-
-</table>
-
-<input type=submit name="submitButton" value="Edit Stylesheet">
 
 </form>
 

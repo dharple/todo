@@ -13,18 +13,7 @@ header('Content-Disposition: attachment; filename="todo-' . date('Ymd') . '.html
 <head>
 <title>To Do List For <?php print(date('F jS, Y')); ?></title>
 <style type="text/css">
-<!--
-<?php
-
-
-
-$stylesheet_id = $user->getExportStylesheetId();
-$stylesheet = new UserStylesheet($db, $stylesheet_id);
-
-print($stylesheet->getContents());
-
-?>
--->
+<?php file_get_contents('styles/basic.css'); ?>
 </style>
 </head>
 <body>

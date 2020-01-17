@@ -29,7 +29,7 @@ if ($user_id !== '0') {
 <html>
 <head>
 <title>Admin Page</title>
-<link rel="stylesheet" href="styles/display.php" type="text/css">
+<link rel="stylesheet" href="styles/basic.css" type="text/css">
 <meta name="robots" content="noindex, nofollow">
 </head>
 <body>

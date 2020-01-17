@@ -22,7 +22,7 @@ if (count($_POST)) {
 <html>
 <head>
 <title>Export Menu</title>
-<link rel="stylesheet" href="styles/display.php" type="text/css">
+<link rel="stylesheet" href="styles/basic.css" type="text/css">
 <meta name="robots" content="noindex, nofollow">
 <?php
 if ($refresh_url) {

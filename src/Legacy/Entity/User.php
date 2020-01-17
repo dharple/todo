@@ -67,34 +67,4 @@ class User extends BaseObject
     {
         $this->data['timezone'] = $timezone;
     }
-
-    public function getDisplayStylesheetId()
-    {
-        return $this->data['display_stylesheet_id'];
-    }
-
-    public function setDisplayStylesheetId($display_stylesheet_id)
-    {
-        $this->data['display_stylesheet_id'] = $display_stylesheet_id;
-    }
-
-    public function getPrintStylesheetId()
-    {
-        return $this->data['print_stylesheet_id'];
-    }
-
-    public function setPrintStylesheetId($print_stylesheet_id)
-    {
-        $this->data['print_stylesheet_id'] = $print_stylesheet_id;
-    }
-
-    public function getExportStylesheetId()
-    {
-        return $this->data['export_stylesheet_id'];
-    }
-
-    public function setExportStylesheetId($export_stylesheet_id)
-    {
-        $this->data['export_stylesheet_id'] = $export_stylesheet_id;
-    }
 }
