@@ -27,3 +27,5 @@ composer go-old
 
 Connect to http://localhost:8666 and log in.
 
+The password is in sql/data.sql, as are all of your worst fears.
+

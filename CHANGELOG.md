@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated the software to work under a modern version of PHP.
   - Add an autoloader, namespaces, little things.
+  - Removed deprecated functions and features.
 
 ### Fixed
 - An injection attack on the login page, in the laziest way possible.
