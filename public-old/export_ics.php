@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
 use App\Legacy\ICSExport;
 
 $icsExport = new ICSExport($db, $_SESSION['user_id']);

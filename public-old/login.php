@@ -1,9 +1,5 @@
 <?php
 
-$is_login = true;
-
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
 use App\Legacy\Entity\User;
 
 $error_message = '';

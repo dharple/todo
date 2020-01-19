@@ -1,6 +1,7 @@
 <?php
 
-require_once dirname(dirname(dirname(__DIR__))) . '/config.php';
+require dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
+include dirname(dirname(dirname(__DIR__))) . '/config.php';
 
 use App\Legacy\Entity\Session;
 use App\Legacy\Entity\User;
@@ -25,7 +26,7 @@ if (isset($_SERVER['REQUEST_URI'])) {
         session_regenerate_id();
     }
 
-    if (empty($_SESSION['user_id']) && empty($GLOBALS['is_login'])) {
+    if (empty($_SESSION['user_id']) && !preg_match('/login.php/', $_SERVER['SCRIPT_NAME'])) {
         header('Location: /login.php');
         exit();
     }
@@ -41,4 +42,4 @@ if (isset($_SERVER['REQUEST_URI'])) {
 $todo_priority['normal'] = intval((($todo_priority['low'] - $todo_priority['high']) / 2) + $todo_priority['high']);
 $GLOBALS['todo_priority'] = $todo_priority;
 
-require_once __DIR__ . '/display_settings.php';
+require __DIR__ . '/display_settings.php';

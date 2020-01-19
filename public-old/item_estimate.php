@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
 use App\Legacy\Entity\Item;
 use App\Legacy\SimpleList;
 use App\Legacy\ListDisplay;
