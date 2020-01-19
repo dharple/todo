@@ -25,7 +25,7 @@ if (count($_POST)) {
             $item = new Item($db, $itemId);
             $item->setCompleted($_POST['completed'][$itemId]);
         }
-        $item->setTask(stripslashes($task));
+        $item->setTask($task);
         $item->setSectionId($_POST['section'][$itemId]);
         $item->setStatus($_POST['status'][$itemId]);
         $item->setPriority($_POST['priority'][$itemId]);
@@ -63,7 +63,7 @@ if (count($_POST)) {
 
 <form method="POST" action="item_edit.php">
     <input type="hidden" name="op" value="<?php print($_REQUEST['op']); ?>">
-    <input type="hidden" name="ids" value="<?php print(htmlspecialchars(stripslashes($_REQUEST['ids']))); ?>">
+    <input type="hidden" name="ids" value="<?php print(htmlspecialchars($_REQUEST['ids'] ?? '')); ?>">
 
 
 <?php
@@ -74,7 +74,7 @@ $sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' O
 if ($_REQUEST['op'] == 'edit') {
     print('Editing...<br><br>');
 
-    $itemIds = unserialize(stripslashes($_REQUEST['ids']));
+    $itemIds = unserialize($_REQUEST['ids']);
 
     if (!is_array($itemIds)) {
         $itemIds = [];

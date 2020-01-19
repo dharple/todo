@@ -44,7 +44,7 @@ $listDisplay->setFilterPriority($display_filter_priority);
 $listDisplay->setFilterAging($display_filter_aging);
 $listDisplay->setShowInactive($display_show_inactive);
 
-$ids = unserialize(stripslashes($_REQUEST['ids']));
+$ids = unserialize($_REQUEST['ids']);
 if (is_array($ids) && count($ids)) {
     $listDisplay->setIds($ids);
 } else {
@@ -83,7 +83,7 @@ if (is_array($ids) && count($ids)) {
 <br>
 
 <form method=POST action="item_prioritize.php">
-    <input type="hidden" name="ids" value="<?php print(htmlspecialchars(stripslashes($_REQUEST['ids']))); ?>">
+    <input type="hidden" name="ids" value="<?php print(htmlspecialchars($_REQUEST['ids'])); ?>">
 
 <?php
 

@@ -11,11 +11,11 @@ if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {
         $user = new User($db, $_SESSION['user_id']);
 
-        $user->setFullname(stripslashes($_POST['fullname']));
+        $user->setFullname($_POST['fullname']);
         if ($_POST['timezone'] == 'Other') {
-            $user->setTimezone(stripslashes($_POST['timezone_other']));
+            $user->setTimezone($_POST['timezone_other']);
         } else {
-            $user->setTimezone(stripslashes($_POST['timezone']));
+            $user->setTimezone($_POST['timezone']);
         }
 
         $user->save();

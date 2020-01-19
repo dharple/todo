@@ -13,7 +13,7 @@ $user_id = $_SESSION['user_id'];
 if (count($_POST)) {
     $dateUtils = new DateUtils();
 
-    $tasks = preg_split("/[\r\n]/", stripslashes($_POST['tasks']));
+    $tasks = preg_split("/[\r\n]/", $_POST['tasks']);
     foreach ($tasks as $task) {
         $task = trim($task);
         if ($task == '') {

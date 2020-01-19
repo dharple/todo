@@ -304,7 +304,7 @@ class ListDisplay extends BaseDisplay
                 $columnRealItemCount += $sectionDisplay->getOutputCount();
             }
 
-            $ret .= $this->replaceTotals($this->columnFooters[$columnCount], $realItemCount, $columnRealItemCount);
+            $ret .= $this->replaceTotals($this->columnFooters[$columnCount] ?? '', $realItemCount, $columnRealItemCount);
 
             if ($this->displayShowEstimate == 'y') {
                 if ($columnCount == $this->columns - 1 || count($outputSectionRenderers[$columnCount]) == 0) {

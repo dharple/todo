@@ -55,7 +55,7 @@ if (count($_POST)) {
 
         if ($_POST['submitButton'] == 'Add') {
             $name = $_POST['add_name'];
-            $name = trim(stripslashes($name));
+            $name = trim($name);
 
             if ($name != '') {
                 $section = new Section($db);
@@ -65,7 +65,7 @@ if (count($_POST)) {
             }
         } elseif ($_POST['submitButton'] == 'Rename') {
             $name = $_POST['edit_name'];
-            $name = trim(stripslashes($name));
+            $name = trim($name);
 
             $id = $_POST['edit_section_id'];
             if ($id > 0) {
