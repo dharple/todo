@@ -257,11 +257,7 @@ class ListDisplay extends BaseDisplay
                         $splitPoint = $realSectionLength - $this->splitMinimumChunk;
                     }
 
-                    if (substr(phpversion(), 0, 1) == '5') {
-                        $newSectionDisplay = clone $sectionDisplay;
-                    } else {
-                        $newSectionDisplay = $sectionDisplay;
-                    }
+                    $newSectionDisplay = clone $sectionDisplay;
 
                     $newSectionDisplay->setShowSplit('first');
                     $newSectionDisplay->setSplitPoint($splitPoint);
