@@ -62,80 +62,27 @@
     <hr>
     <br>
     <form method="POST">
-        <table width="100%" cellspacing="5">
-            <tr valign="top">
-                <td width="50%">
-                    <table>
-                        <tr>
-                            <td colspan="6" class="section">
-                                <a class="section_link" href="index.php?show_section=1">House</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                &nbsp;
-                            </td>
-                            <td>
-                                <input type="checkbox" name="itemIds[]" value="1">
-                            </td>
-                            <td>
-                                &nbsp;
-                            </td>
-                            <td>
-                                Drain hot water heater
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">
-                                &nbsp;
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td width="50%">
-                    <table>
-                        <tr>
-                            <td colspan="6" class="section">
-                                <a class="section_link" href="index.php?show_section=2">Work</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                &nbsp;
-                            </td>
-                            <td>
-                                <input type="checkbox" name="itemIds[]" value="2">
-                            </td>
-                            <td>
-                                &nbsp;
-                            </td>
-                            <td>
-                                Finish TPS Report
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                &nbsp;
-                            </td>
-                            <td>
-                                <input type="checkbox" name="itemIds[]" value="3">
-                            </td>
-                            <td>
-                                &nbsp;
-                            </td>
-                            <td>
-                                Migrate away from HTML tables
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">
-                                &nbsp;
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset class="todoList">
+                    <legend><a href="/section/1">House</a></legend>
+
+                    <input type="checkbox" id="item1" name="item[1]">
+                    <label for="item1">Drain hot water heater</label>
+                </fieldset>
+            </div>
+            <div class="col-md-6">
+                <fieldset class="todoList">
+                    <legend><a href="/section/2">Work</a></legend>
+
+                    <input type="checkbox" id="item2" name="item[2]">
+                    <label for="item2">Finish TPS Report</label><br />
+
+                    <input type="checkbox" id="item3" name="item[3]">
+                    <label for="item3">Migrate away from HTML tables</label>
+                </fieldset>
+            </div>
+        </div>
         <hr>
         <br>
         <table width="100%" cellpadding="0" cellspacing="0" border="0">

@@ -12,16 +12,6 @@ td {
     font-size: 14pt;
 }
 
-.section {
-    font-weight: bold;
-    font-variant: small-caps;
-}
-
-A.section_link {
-    text-decoration: none;
-    color: black;
-}
-
 .high_priority {
     color: blue;
 }
@@ -39,3 +29,18 @@ A.section_link {
     font-weight: bold;
 }
 
+fieldset.todoList legend {
+    font-size: 14pt;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+fieldset.todoList a {
+    text-decoration: none;
+    color: black;
+}
+
+fieldset.todoList input {
+    margin-left: 1rem !important;
+    margin-right: .5rem !important;
+}
