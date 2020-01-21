@@ -1,0 +1,41 @@
+.main-window {
+    width: 100%;
+}
+
+.login-window {
+    width: 100%;
+    max-width: 400px;
+}
+
+td {
+    vertical-align: top;
+    font-size: 14pt;
+}
+
+.section {
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+A.section_link {
+    text-decoration: none;
+    color: black;
+}
+
+.high_priority {
+    color: blue;
+}
+
+.estimate {
+    color: red;
+}
+
+.closed {
+    text-decoration: line-through;
+}
+
+.estimate_total {
+    color: red;
+    font-weight: bold;
+}
+

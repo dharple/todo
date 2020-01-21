@@ -5,6 +5,12 @@ doctrine:
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '5.7'
+
+        types:
+            date:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateType
+            datetime: Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateTimeType
+            time:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType
+
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -16,3 +22,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+        filters:
+            SoftDeleteable:
+                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                enabled: true
+

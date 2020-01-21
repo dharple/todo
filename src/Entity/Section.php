@@ -1,78 +1,47 @@
 <?php
 
+/**
+ * This file is part of the TodoList package.
+ *
+ * (c) Doug Harple <dharple@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SectionRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  */
-class Section
+class Section extends AbstractEntity
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $active;
+    protected $id;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="section")
      */
-    private $items;
+    protected $items;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $name;
 
     public function __construct()
     {
         $this->items = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getActive(): ?bool
-    {
-        return $this->active;
-    }
-
-    public function setActive(bool $active): self
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Item[]
-     */
-    public function getItems(): Collection
-    {
-        return $this->items;
     }
 
     public function addItem(Item $item): self
@@ -85,6 +54,24 @@ class Section
         return $this;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
     public function removeItem(Item $item): self
     {
         if ($this->items->contains($item)) {
@@ -94,6 +81,13 @@ class Section
                 $item->setSection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

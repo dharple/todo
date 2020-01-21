@@ -1,7 +1,7 @@
 <?php
 
-require dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
-include dirname(dirname(dirname(__DIR__))) . '/config.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
+include dirname(__DIR__) . '/config.php';
 
 use App\Legacy\Entity\Session;
 use App\Legacy\Entity\User;

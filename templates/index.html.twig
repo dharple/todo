@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Todo
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid main-window">
+
+    <table width="100%">
+        <tr>
+            <td align="left" valign="top">
+                <b>To Do List For DH</b><br>
+                Items Done:<br>
+                &nbsp;&nbsp; Today: <a href="show_done.php?view=today">1</a>,
+                    Yesterday: <a href="show_done.php?view=yesterday">0</a><br>
+                &nbsp;&nbsp; This Week: <a href="show_done.php?view=week">1</a>,
+                    Last Week: <a href="show_done.php?view=lastweek">2</a><br>
+                &nbsp;&nbsp; This Month: <a href="show_done.php?view=month">3</a>,
+                    Last Month: <a href="show_done.php?view=lastmonth">0</a><br>
+                &nbsp;&nbsp; 3 / 6 / 9 / 12
+                    Months: <a href="show_done.php?view=month3">3</a> /
+                    <a href="show_done.php?view=month6">3</a> /
+                    <a href="show_done.php?view=month9">3</a> /
+                    <a href="show_done.php?view=month12">3</a><br>
+                Items Done Since Start: <a href="show_done.php">3</a><br>
+                Average Turnaround: 2.3 days<br>
+            </td>
+            <td align="right" valign="top">
+                Filter Closed Items:&nbsp;&nbsp;
+                    <a href="index.php?filter_closed=all">All</a>
+                    <a href="index.php?filter_closed=recently">Recently</a>
+                    <a href="index.php?filter_closed=today">Today</a>
+                    None<br>
+                Filter Priority:&nbsp;&nbsp;
+                    All <a href="index.php?filter_priority=high">1</a>
+                    <a href="index.php?filter_priority=normal">1-5</a>
+                    <a href="index.php?filter_priority=low">1-10</a><br>
+                Show Priority:&nbsp;&nbsp;
+                    <a href="index.php?show_priority=y">All</a>
+                    <a href="index.php?show_priority=above_normal">Above Normal</a>
+                    None<br>
+                Filter Aging:&nbsp;&nbsp;
+                    All
+                    <a href="index.php?filter_aging=30">30</a>
+                    <a href="index.php?filter_aging=60">60</a>
+                    <a href="index.php?filter_aging=90">90</a>
+                    <a href="index.php?filter_aging=365">365</a> days old<br>
+                Show Estimates:&nbsp;&nbsp;
+                    <a href="index.php?show_estimate=y">Yes</a>
+                    No<br>
+                Show Inactive Sections:&nbsp;&nbsp;
+                    <a href="index.php?show_inactive=y">Yes</a>
+                    No<br>
+                Display Settings: <a href="index.php?reset_display_settings=1">Reset</a><br>
+                <a href="" onclick="window.open('printable.php','todoList','height=400,width=600'); return false;">Printable Version</a><br>
+                <a href="export_menu.php">Exportable Version</a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <hr>
+    <br>
+    <form method="POST">
+        <table width="100%" cellspacing="5">
+            <tr valign="top">
+                <td width="50%">
+                    <table>
+                        <tr>
+                            <td colspan="6" class="section">
+                                <a class="section_link" href="index.php?show_section=1">House</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <input type="checkbox" name="itemIds[]" value="1">
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                Drain hot water heater
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td width="50%">
+                    <table>
+                        <tr>
+                            <td colspan="6" class="section">
+                                <a class="section_link" href="index.php?show_section=2">Work</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <input type="checkbox" name="itemIds[]" value="2">
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                Finish TPS Report
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <input type="checkbox" name="itemIds[]" value="3">
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                Migrate away from HTML tables
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <br>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td align="left">
+                    <input type="submit" name="submitButton" value="Edit">
+                    <input type="submit" name="submitButton" value="Mark Done">
+                    <input type="submit" name="submitButton" value="Estimate">
+                    <input type="submit" name="submitButton" value="Prioritize">
+                </td>
+                <td align="center">
+                    <input type="submit" name="submitButton" value="My Account">
+                    <input type="submit" name="submitButton" value="Logout">
+                </td>
+                <td align="right">
+                    <input type="submit" name="submitButton" value="Bulk">
+                    <input type="submit" name="submitButton" value="Add New">
+                    <input type="submit" name="submitButton" value="Edit Sections">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</div>
+{% endblock %}
