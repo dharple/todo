@@ -1,6 +1,15 @@
-###> legacy
+###> normal development ###
+*.patch
+*.orig
+*.rej
+###< normal development ###
+
+###> app ###
+###< app ###
+
+###> legacy app ###
 config.php
-###<
+###< legacy app ###
 
 ###> symfony/framework-bundle ###
 /.env.local
