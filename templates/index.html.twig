@@ -5,106 +5,63 @@
 {% endblock %}
 
 {% block body %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3 sticky-top">
+    <a class="navbar-brand" href="{{ path('app_home') }}">Todo List</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="">Add New</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Bulk Add</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Print</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Export</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div class="container-fluid main-window">
-
-    <table width="100%">
-        <tr>
-            <td align="left" valign="top">
-                <b>To Do List For DH</b><br>
-                Items Done:<br>
-                &nbsp;&nbsp; Today: <a href="show_done.php?view=today">1</a>,
-                    Yesterday: <a href="show_done.php?view=yesterday">0</a><br>
-                &nbsp;&nbsp; This Week: <a href="show_done.php?view=week">1</a>,
-                    Last Week: <a href="show_done.php?view=lastweek">2</a><br>
-                &nbsp;&nbsp; This Month: <a href="show_done.php?view=month">3</a>,
-                    Last Month: <a href="show_done.php?view=lastmonth">0</a><br>
-                &nbsp;&nbsp; 3 / 6 / 9 / 12
-                    Months: <a href="show_done.php?view=month3">3</a> /
-                    <a href="show_done.php?view=month6">3</a> /
-                    <a href="show_done.php?view=month9">3</a> /
-                    <a href="show_done.php?view=month12">3</a><br>
-                Items Done Since Start: <a href="show_done.php">3</a><br>
-                Average Turnaround: 2.3 days<br>
-            </td>
-            <td align="right" valign="top">
-                Filter Closed Items:&nbsp;&nbsp;
-                    <a href="index.php?filter_closed=all">All</a>
-                    <a href="index.php?filter_closed=recently">Recently</a>
-                    <a href="index.php?filter_closed=today">Today</a>
-                    None<br>
-                Filter Priority:&nbsp;&nbsp;
-                    All <a href="index.php?filter_priority=high">1</a>
-                    <a href="index.php?filter_priority=normal">1-5</a>
-                    <a href="index.php?filter_priority=low">1-10</a><br>
-                Show Priority:&nbsp;&nbsp;
-                    <a href="index.php?show_priority=y">All</a>
-                    <a href="index.php?show_priority=above_normal">Above Normal</a>
-                    None<br>
-                Filter Aging:&nbsp;&nbsp;
-                    All
-                    <a href="index.php?filter_aging=30">30</a>
-                    <a href="index.php?filter_aging=60">60</a>
-                    <a href="index.php?filter_aging=90">90</a>
-                    <a href="index.php?filter_aging=365">365</a> days old<br>
-                Show Estimates:&nbsp;&nbsp;
-                    <a href="index.php?show_estimate=y">Yes</a>
-                    No<br>
-                Show Inactive Sections:&nbsp;&nbsp;
-                    <a href="index.php?show_inactive=y">Yes</a>
-                    No<br>
-                Display Settings: <a href="index.php?reset_display_settings=1">Reset</a><br>
-                <a href="" onclick="window.open('printable.php','todoList','height=400,width=600'); return false;">Printable Version</a><br>
-                <a href="export_menu.php">Exportable Version</a>
-            </td>
-        </tr>
-    </table>
-    <br>
-    <hr>
-    <br>
-    <form method="POST">
-        <div class="row">
-            <div class="col-md-6">
-                <fieldset class="todoList">
-                    <legend><a href="/section/1">House</a></legend>
-
-                    <input type="checkbox" id="item1" name="item[1]">
-                    <label for="item1">Drain hot water heater</label>
-                </fieldset>
-            </div>
-            <div class="col-md-6">
-                <fieldset class="todoList">
-                    <legend><a href="/section/2">Work</a></legend>
-
-                    <input type="checkbox" id="item2" name="item[2]">
-                    <label for="item2">Finish TPS Report</label><br />
-
-                    <input type="checkbox" id="item3" name="item[3]">
-                    <label for="item3">Migrate away from HTML tables</label>
-                </fieldset>
-            </div>
+    <div class="row">
+        <div class="col text-center">
+            <b>Todo List For DH</b>
         </div>
-        <hr>
-        <br>
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-            <tr>
-                <td align="left">
-                    <input type="submit" name="submitButton" value="Edit">
-                    <input type="submit" name="submitButton" value="Mark Done">
-                    <input type="submit" name="submitButton" value="Estimate">
-                    <input type="submit" name="submitButton" value="Prioritize">
-                </td>
-                <td align="center">
-                    <input type="submit" name="submitButton" value="My Account">
-                    <input type="submit" name="submitButton" value="Logout">
-                </td>
-                <td align="right">
-                    <input type="submit" name="submitButton" value="Bulk">
-                    <input type="submit" name="submitButton" value="Add New">
-                    <input type="submit" name="submitButton" value="Edit Sections">
-                </td>
-            </tr>
-        </table>
-    </form>
+    </div>
 
+    <hr class="mx-4" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <fieldset class="todoList" data-id="1">
+                <legend>House <span class="badge badge-secondary">1</span></legend>
+
+                <input type="checkbox" id="item1" name="item[1]">
+                <label for="item1">Drain hot water heater</label>
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset class="todoList" data-id="2">
+                <legend>Work <span class="badge badge-secondary">2</span></legend>
+
+                <input type="checkbox" id="item2" name="item[2]">
+                <label for="item2">Finish TPS Report</label><br />
+
+                <input type="checkbox" id="item3" name="item[3]">
+                <label for="item3">Migrate away from HTML tables</label>
+            </fieldset>
+        </div>
+    </div>
 </div>
 {% endblock %}
