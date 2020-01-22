@@ -7,11 +7,6 @@
     max-width: 400px;
 }
 
-td {
-    vertical-align: top;
-    font-size: 14pt;
-}
-
 .high_priority {
     color: blue;
 }
@@ -43,4 +38,10 @@ fieldset.todoList a {
 fieldset.todoList input {
     margin-left: 1rem !important;
     margin-right: .5rem !important;
+}
+
+h1 {
+    font-size: 14pt;
+    font-weight: bold;
+    font-variant: small-caps;
 }
