@@ -27,7 +27,7 @@ if (count($_POST)) {
         $item->setSectionId($_POST['section'][$itemId]);
         $item->setStatus($_POST['status'][$itemId]);
         $item->setPriority($_POST['priority'][$itemId]);
-        $item->setEstimate($_POST['estimate'][$itemId]);
+        $item->setEstimate((int)$_POST['estimate'][$itemId]);
         $item->save();
     }
 
