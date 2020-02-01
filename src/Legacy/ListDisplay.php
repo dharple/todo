@@ -237,8 +237,8 @@ class ListDisplay extends BaseDisplay
             $sectionDisplay = $sectionRenderers[$id];
 
             if ($columnCount == $this->columns - 1) {
-                    array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
-                    continue;
+                array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
+                continue;
             }
 
             $realSectionLength = $sectionDisplay->getOutputCount();
