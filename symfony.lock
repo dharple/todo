@@ -17,9 +17,6 @@
     "behat/transliterator": {
         "version": "v1.3.0"
     },
-    "dharple/outsanity-phpcs": {
-        "version": "v0.2.1"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -131,6 +128,9 @@
     },
     "ork/phpcs": {
         "version": "2.1.0"
+    },
+    "outsanity/phpcs": {
+        "version": "v0.3.0"
     },
     "php": {
         "version": "7.2"
