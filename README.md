@@ -17,7 +17,7 @@ Copy `config.php.default` to `config.php`.  Edit it and set the database paramet
 Load the contents of the `sql/` directory in to the database.
 
 ```bash
-cat sql/tables.sql sql/data.sql | mysql -u DB_USER -p DB_NAME
+cat sql/*.sql | mysql -u DB_USER -p DB_NAME
 ```
 
 Start the server:
@@ -27,5 +27,5 @@ composer go-old
 
 Connect to http://localhost:8666 and log in.
 
-The password is in sql/data.sql, as are all of your worst fears.
+The password is in `sql/02-data.sql`, as are all of your worst fears.
 
