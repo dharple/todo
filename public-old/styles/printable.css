@@ -10,3 +10,8 @@ input {
 td {
     font-size: 12pt;
 }
+
+.high_priority {
+    font-weight: bold;
+    color: black;
+}
