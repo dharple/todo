@@ -35,7 +35,7 @@ class ListDisplay extends BaseDisplay
     public $userId;
     public $itemCount;
 
-    public $splitThreshold = 10;
+    public $splitThreshold = 9;
     public $splitMinimumChunk = 3;
 
     public function __construct($db, $userId)
