@@ -203,7 +203,7 @@ class SectionDisplay extends BaseDisplay
             $output .= '</a>';
         }
         if ($this->displayShowSplit == 'last') {
-            $output .= " (con't)";
+            $output .= " (cont'd)";
         } elseif ($section->getStatus() == 'Inactive') {
             $output .= ' (Inactive)';
         }
