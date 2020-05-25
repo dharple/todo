@@ -2,4 +2,21 @@
 
 PASS=$(grep _pass $(dirname $0)/../config.php | cut -f 2 -d "'")
 
-mysqldump --opt --skip-extended-insert -u todo -p"$PASS" todo_old | gzip -c - > ~/Dropbox/backup/todo/todo-old.sql.gz
+DEST=~/Dropbox/backup/todo/todo-old.sql.gz
+WORK=/tmp/todo-$$.sql.gz
+
+mysqldump --opt --skip-extended-insert -u todo -p"$PASS" todo_old | gzip -c - > $WORK
+
+COPY=yes
+if [ -f $DEST ] ; then
+	zdiff --ignore-matching-lines="Dump completed on" $DEST $WORK
+	if [ $? -eq 0 ] ; then
+		COPY=no
+	fi
+fi
+
+if [ "$COPY" = "yes" ] ; then
+	cp $WORK $DEST
+fi
+
+rm -f $WORK
