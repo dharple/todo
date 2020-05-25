@@ -1,0 +1,5 @@
+#!/bin/sh
+
+PASS=$(grep _pass $(dirname $0)/../config.php | cut -f 2 -d "'")
+
+mysqldump --opt --skip-extended-insert -u todo -p"$PASS" todo_old | gzip -c - > ~/Dropbox/backup/todo/todo-old.sql.gz
