@@ -82,7 +82,7 @@ foreach ($tempUsers as $tempUser) {
 Full Name:
 </td>
 <td align=left>
-<input type="text" name="fullname" value="<?php print(htmlspecialchars($user->getFullname())); ?>">
+<input type="text" name="fullname" value="<?php print(htmlspecialchars($user->getFullname())); ?>" data-lpignore="true" />
 </td>
 </tr>
 
@@ -121,7 +121,7 @@ if (!in_array($current_tz, $timezones)) {
 
 ?>
 </select>
-<input type="text" name="timezone_other" value="<?php print(htmlspecialchars($other_tz)); ?>" />
+<input type="text" name="timezone_other" value="<?php print(htmlspecialchars($other_tz)); ?>" data-lpignore="true" />
 </td>
 </tr>
 
