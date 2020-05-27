@@ -112,9 +112,9 @@ foreach ($itemIds as $itemId) {
     print('</select>');
     print("<br>\n");
 
-    print('Task: ');
-    print('<input type=text name=task[' . $itemId . '] value="' .
-            htmlspecialchars($item->getTask()) . '">');
+    print('<span style="vertical-align: top; padding-right: 3pt;">Task:</span>');
+    print('<textarea name="task[' . $itemId . ']" rows=1 cols=60>' .
+            htmlspecialchars($item->getTask()) . '</textarea>');
     print("<br>\n");
 
     if ($itemId == 'new') {
