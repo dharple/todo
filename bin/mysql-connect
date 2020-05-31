@@ -1,0 +1,8 @@
+#!/bin/sh
+
+PASS=$(grep _pass $(dirname $0)/../config.php | cut -f 2 -d "'")
+
+DEST=~/Dropbox/backup/todo/todo-old.sql.gz
+WORK=/tmp/todo-$$.sql.gz
+
+mysql -u todo -p"$PASS" todo_old
