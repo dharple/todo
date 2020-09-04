@@ -1,0 +1,23 @@
+<table width="100%" cellpadding=0 cellspacing=0 border=0>
+    <tr>
+        <td align=left>
+            <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit" {% if not hasItems %}disabled{% endif %} />
+            <input type="submit" class="btn btn-primary" name="submitButton" value="Mark Done" {% if not hasItems %}disabled{% endif %} />
+            <input type="submit" class="btn btn-secondary" name="submitButton" value="Estimate" {% if not hasItems %}disabled{% endif %} />
+            <input type="submit" class="btn btn-secondary" name="submitButton" value="Prioritize" {% if not hasItems %}disabled{% endif %} />
+            {% if showDuplicate %}
+                <input type="submit" class="btn btn-secondary" name="submitButton" value="Duplicate" {% if not hasItems %}disabled{% endif %} />
+            {% endif %}
+        </td>
+        <td align=center>
+            <input type="submit" class="btn btn-secondary" name="submitButton" value="My Account">
+            <input type="submit" class="btn btn-danger" name="submitButton" value="Logout">
+        </td>
+        <td align=right>
+            <input type="submit" class="btn btn-primary" name="submitButton" value="Bulk" {% if not hasSections %}disabled{% endif %} />
+            <input type="submit" class="btn btn-secondary" name="submitButton" value="Add New" {% if not hasSections %}disabled{% endif %} />
+            <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit Sections">
+        </td>
+    </tr>
+</table>
+

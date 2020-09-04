@@ -310,42 +310,18 @@ $sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user_id) .
 <hr>
 <br>
 
-<table width="100%" cellpadding=0 cellspacing=0 border=0>
-    <tr>
-        <td align=left>
-            <input type="submit" name="submitButton" value="Edit" <?php if ($itemCount == 0) {
-                print('disabled') ;
-                                                                  }?>>
-            <input type="submit" name="submitButton" value="Mark Done" <?php if ($itemCount == 0) {
-                print('disabled') ;
-                                                                       }?>>
-            <input type="submit" name="submitButton" value="Estimate" <?php if ($itemCount == 0) {
-                print('disabled') ;
-                                                                      }?>>
-            <input type="submit" name="submitButton" value="Prioritize" <?php if ($itemCount == 0) {
-                print('disabled') ;
-                                                                        }?>>
-            <?php if ($display_filter_closed != 'none') {
-                ?> <input type="submit" name="submitButton" value="Duplicate" <?php if ($itemCount == 0) {
-    print('disabled') ;
-                }?>> <?php
-            } ?>
-        </td>
-        <td align=center>
-            <input type="submit" name="submitButton" value="My Account">
-            <input type="submit" name="submitButton" value="Logout">
-        </td>
-        <td align=right>
-            <input type="submit" name="submitButton" value="Bulk" <?php if ($sectionCount == 0) {
-                print('disabled') ;
-                                                                  }?>>
-            <input type="submit" name="submitButton" value="Add New" <?php if ($sectionCount == 0) {
-                print('disabled') ;
-                                                                     }?>>
-            <input type="submit" name="submitButton" value="Edit Sections">
-        </td>
-    </tr>
-</table>
+<?php
+
+$loader = new \Twig\Loader\FilesystemLoader(dirname(dirname(__FILE__)) . '/templates');
+$twig = new \Twig\Environment($loader);
+
+$twig->display('partials/index/footer.html.twig', [
+    'hasItems'      => ($itemCount > 0),
+    'hasSections'   => ($sectionCount > 0),
+    'showDuplicate' => ($display_filter_closed != 'none'),
+]);
+
+?>
 
 </form>
 
