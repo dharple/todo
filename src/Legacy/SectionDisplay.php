@@ -23,7 +23,7 @@ class SectionDisplay extends BaseDisplay
     public $displayFilterAging = 'all';
     public $displayShowEstimate = 'n';
     public $displayShowEstimateEditor = 'n';
-    public $displayCheckClosed = 'n';
+    public $displayPrintable = false;
     public $displayShowSection = 0;
     public $displaySectionLink = '';
     public $displayShowPriority = 'n';
@@ -88,9 +88,9 @@ class SectionDisplay extends BaseDisplay
         $this->displayShowEstimateEditor = $displayShowEstimateEditor;
     }
 
-    public function setCheckClosed($displayCheckClosed)
+    public function setPrintable($displayPrintable)
     {
-        $this->displayCheckClosed = $displayCheckClosed;
+        $this->displayPrintable = $displayPrintable;
     }
 
     public function setShowSection($displayShowSection)
@@ -173,7 +173,9 @@ class SectionDisplay extends BaseDisplay
             $this->estimate += $item->getEstimate();
         }
 
-        if ($this->displayShowEstimateEditor == 'y') {
+        if ($this->displayPrintable) {
+            $template = 'printable';
+        } elseif ($this->displayShowEstimateEditor == 'y') {
             $template = 'estimate_editor';
         } elseif ($this->displayShowPriorityEditor == 'y') {
             $template = 'priority_editor';
@@ -187,7 +189,6 @@ class SectionDisplay extends BaseDisplay
             'priorityNormal'     => $this->internalPriorityLevels['normal'],
             'section'            => $section,
             'sectionUrl'         => str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink),
-            'showClosedCheck'    => $this->displayCheckClosed,
             'showEstimate'       => $this->displayShowEstimate,
             'showPriority'       => $this->displayShowPriority,
             'showSectionLink'    => isset($this->displaySectionLink) ? 'y' : 'n',

@@ -23,7 +23,7 @@ class ListDisplay extends BaseDisplay
     public $displayShowEstimate = 'n';
     public $displayShowEstimateEditor = 'n';
     public $displayShowInactive = 'n';
-    public $displayCheckClosed = 'n';
+    public $displayPrintable = false;
     public $displayShowSection = 0;
     public $displaySectionLink = '';
     public $displayShowPriority = 'n';
@@ -89,9 +89,9 @@ class ListDisplay extends BaseDisplay
         $this->displayShowEstimateEditor = $displayShowEstimateEditor;
     }
 
-    public function setCheckClosed($displayCheckClosed)
+    public function setPrintable($displayPrintable)
     {
-        $this->displayCheckClosed = $displayCheckClosed;
+        $this->displayPrintable = $displayPrintable;
     }
 
     public function setShowSection($displayShowSection)
@@ -152,7 +152,7 @@ class ListDisplay extends BaseDisplay
             $sectionDisplay->setFilterAging($this->displayFilterAging);
             $sectionDisplay->setShowEstimate($this->displayShowEstimate);
             $sectionDisplay->setShowEstimateEditor($this->displayShowEstimateEditor);
-            $sectionDisplay->setCheckClosed($this->displayCheckClosed);
+            $sectionDisplay->setPrintable($this->displayPrintable);
             $sectionDisplay->setShowSection($this->displayShowSection);
             $sectionDisplay->setSectionLink($this->displaySectionLink);
             $sectionDisplay->setShowPriority($this->displayShowPriority);

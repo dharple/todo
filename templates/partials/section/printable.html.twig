@@ -2,11 +2,7 @@
     <div class="row mb-1">
         <div class="col-12">
             <span class="section-label">
-                {% if showSectionLink == 'y' %}
-                    <a class="section-link" href="{{ sectionUrl }}">{{ section.name }}</a>
-                {% else %}
-                    {{ section.name }}
-                {% endif %}
+                {{ section.name }}
                 {% if section.status == 'Inactive' %}
                     (Inactive)
                 {% endif %}
@@ -18,14 +14,18 @@
             <div class="col-1 text-right">
                 {% if showPriority == 'y' or (showPriority == 'above_normal' and item.priority < priorityNormal) %}
                     {{ item.priority }}
-                {% else %}
-                    &nbsp;
                 {% endif %}
+            </div>
+            <div class="col-1 text-right">
                 <span class="align-top">
-                    <input class="list-item" id="item-{{ item.id }}" type="checkbox" name="itemIds[]" value="{{ item.id }}"/>
+                    {% if item.status == 'Open' %}
+                        &#x2610;
+                    {% else %}
+                        &#x2611;
+                    {% endif %}
                 </span>
             </div>
-            <div class="col-11 text-left">
+            <div class="col text-left">
                 <label class="list-item-label" label-for="item-{{ item.id }}">
                     {% if showEstimate == 'y' %}
                         <span class="estimate">
@@ -41,7 +41,7 @@
     {% endfor %}
     {% if showEstimate == 'y' %}
         <div class="row justify-content-end">
-            <div class="col-11">
+            <div class="col-10">
                 <span class="estimate-total">{{ totalEstimate | number_format(1) }} Total</span>
             </div>
         </div>

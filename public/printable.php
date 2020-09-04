@@ -54,7 +54,7 @@ $listDisplay->setShowInactive($display_show_inactive);
 $listDisplay->setShowSection($display_show_section);
 $listDisplay->setShowPriority($display_show_priority);
 
-$listDisplay->setCheckClosed('y');
+$listDisplay->setPrintable(true);
 
 $listDisplay->setFooter($footer);
 
