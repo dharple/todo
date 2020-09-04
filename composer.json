@@ -25,6 +25,11 @@
         }
     },
     "scripts": {
-        "go":      "php -S localhost:8666 -t public -d auto_prepend_file=../include/common.php"
+        "go":      "php -S localhost:8666 -t public -d auto_prepend_file=../include/common.php",
+        "phpcbf":  "phpcbf",
+        "phpcs":   "phpcs"
+    },
+    "require-dev": {
+        "outsanity/phpcs": "*"
     }
 }

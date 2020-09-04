@@ -3,3 +3,5 @@ config.php
 *.patch
 *.rej
 /vendor/
+.phpcs-cache
+phpcs.xml
