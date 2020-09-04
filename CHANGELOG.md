@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
+- Moved `public-old/` to `public/`.
 - Updated the software to work under a modern version of PHP.
   - Removed calls to stripslashes().
+  - Removed PHP 4 logic.
 
 ### Removed
+- Removed quick email export functionality.
 - Removed user-controlled stylesheets.
 
 ## [1.1.0] - 2020-01-16

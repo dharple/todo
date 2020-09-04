@@ -12,6 +12,9 @@
     "require": {
         "php": "^7.2.5"
     },
+    "require-dev": {
+        "outsanity/phpcs": "*"
+    },
     "config": {
         "preferred-install": {
             "*": "dist"
@@ -28,8 +31,5 @@
         "go":      "php -S localhost:8666 -t public -d auto_prepend_file=../include/common.php",
         "phpcbf":  "phpcbf",
         "phpcs":   "phpcs"
-    },
-    "require-dev": {
-        "outsanity/phpcs": "*"
     }
 }

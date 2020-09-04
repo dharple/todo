@@ -1,7 +1,7 @@
 config.php
 *.orig
 *.patch
-*.rej
-/vendor/
 .phpcs-cache
 phpcs.xml
+*.rej
+/vendor/
