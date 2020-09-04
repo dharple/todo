@@ -1,3 +1,7 @@
+div.container {
+    max-width: 100%;
+}
+
 td {
     vertical-align: top;
     font-size: 14pt;
@@ -17,8 +21,12 @@ div.wrapper-small {
 }
 
 div.section {
-    vertical-align: top;
     break-inside: avoid;
+}
+
+div.item-row {
+    padding-bottom: 5px;
+    line-height: 1;
 }
 
 .section-label {
@@ -29,15 +37,6 @@ div.section {
 a.section-link {
     text-decoration: none;
     color: black;
-}
-
-ul.list {
-    list-style-type: none;
-    padding-left: 20px;
-}
-
-input.list-item {
-    margin-right: 20px;
 }
 
 .high_priority {

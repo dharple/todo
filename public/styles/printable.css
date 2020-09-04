@@ -1,12 +1,3 @@
-body {
-    margin: 0in;
-}
-
-input {
-    width: 30px;
-    height: 12px;
-}
-
 td {
     font-size: 12pt;
 }
@@ -15,14 +6,6 @@ div.wrapper {
     column-count: 2;
     column-fill: auto;
     font-size: 12pt;
-}
-
-ul.list {
-    padding-left: 10px;
-}
-
-input.list-item {
-    margin-right: 10px;
 }
 
 .high_priority {

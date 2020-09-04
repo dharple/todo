@@ -1,23 +1,31 @@
-<div class="section">
-    <span class="section-label">
-        {% if showSectionLink == 'y' %}
-            <a class="section-link" href="{{ sectionUrl }}">{{ section.name }}</a>
-        {% else %}
-            {{ section.name }}
-        {% endif %}
-        {% if section.status == 'Inactive' %}
-            (Inactive)
-        {% endif %}
-    </span>
-    <ul class="list">
-        {% for item in items %}
-            <li>
+<div class="section mb-3">
+    <div class="row mb-1">
+        <div class="col-12">
+            <span class="section-label">
+                {% if showSectionLink == 'y' %}
+                    <a class="section-link" href="{{ sectionUrl }}">{{ section.name }}</a>
+                {% else %}
+                    {{ section.name }}
+                {% endif %}
+                {% if section.status == 'Inactive' %}
+                    (Inactive)
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    {% for item in items %}
+        <div class="row item-row">
+            <div class="col-1 text-right">
                 {% if showPriority == 'y' or (showPriority == 'above_normal' and item.priority < priorityNormal) %}
                     {{ item.priority }}
                 {% else %}
                     &nbsp;
                 {% endif %}
-                <input class="list-item" id="item-{{ item.id }}" type="checkbox" name="itemIds[]" value="{{ item.id }}" {% if showClosedCheck == 'y' and item.status != 'Open' %}checked=true{% endif %}/>
+                <span class="align-top">
+                    <input class="list-item" id="item-{{ item.id }}" type="checkbox" name="itemIds[]" value="{{ item.id }}" {% if showClosedCheck == 'y' and item.status != 'Open' %}checked=true{% endif %}/>
+                </span>
+            </div>
+            <div class="col-11 text-left">
                 <label class="list-item-label" label-for="item-{{ item.id }}">
                     {% if showEstimate == 'y' %}
                         <span class="estimate">
@@ -28,10 +36,14 @@
                         {{ item.task }}
                     </span>
                 </label>
-            </li>
-        {% endfor %}
-    </ul>
+            </div>
+        </div>
+    {% endfor %}
     {% if showEstimate == 'y' %}
-        <span class="estimate-total">{{ totalEstimate | number_format(1) }} Total</span>
+        <div class="row justify-content-end">
+            <div class="col-11">
+                <span class="estimate-total">{{ totalEstimate | number_format(1) }} Total</span>
+            </div>
+        </div>
     {% endif %}
 </div>
