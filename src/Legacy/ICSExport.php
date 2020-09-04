@@ -39,7 +39,7 @@ class ICSExport extends BaseExport
         array_push($this->headers, 'Content-Transfer-Encoding: 7bit');
     }
 
-    public function buildOutput()
+    protected function buildOutput()
     {
 
         $ret = 'BEGIN:VCALENDAR' . $this->lineTerminators;

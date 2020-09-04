@@ -1,0 +1,37 @@
+<div class="section">
+    <span class="section-label">
+        {% if showSectionLink == 'y' %}
+            <a class="section-link" href="{{ sectionUrl }}">{{ section.name }}</a>
+        {% else %}
+            {{ section.name }}
+        {% endif %}
+        {% if section.status == 'Inactive' %}
+            (Inactive)
+        {% endif %}
+    </span>
+    <ul class="list">
+        {% for item in items %}
+            <li>
+                {% if showPriority == 'y' or (showPriority == 'above_normal' and item.priority < priorityNormal) %}
+                    {{ item.priority }}
+                {% else %}
+                    &nbsp;
+                {% endif %}
+                <input class="list-item" id="item-{{ item.id }}" type="checkbox" name="itemIds[]" value="{{ item.id }}" {% if showClosedCheck == 'y' and item.status != 'Open' %}checked=true{% endif %}/>
+                <label class="list-item-label" label-for="item-{{ item.id }}">
+                    {% if showEstimate == 'y' %}
+                        <span class="estimate">
+                            {{ item.estimate }}
+                        </span>
+                    {% endif %}
+                    <span class="{% if item.status != 'Open' %}closed{% elseif item.priority <= priorityHigh %}high_priority{% endif %}">
+                        {{ item.task }}
+                    </span>
+                </label>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if showEstimate == 'y' %}
+        <span class="estimate-total">{{ totalEstimate | number_format(1) }} Total</span>
+    {% endif %}
+</div>

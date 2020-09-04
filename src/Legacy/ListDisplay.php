@@ -119,7 +119,7 @@ class ListDisplay extends BaseDisplay
         $this->internalPriorityLevels = $internalPriorityLevels;
     }
 
-    public function buildOutput()
+    protected function buildOutput()
     {
 
         $sectionList = new SimpleList($this->db, Section::class);
@@ -159,7 +159,7 @@ class ListDisplay extends BaseDisplay
             $sectionDisplay->setShowPriorityEditor($this->displayShowPriorityEditor);
             $sectionDisplay->setInternalPriorityLevels($this->internalPriorityLevels);
 
-            $sectionDisplay->buildOutput();
+            $sectionDisplay->getOutput();
 
             if ($sectionDisplay->getOutputCount() == 0) {
                 continue;

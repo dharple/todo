@@ -34,7 +34,6 @@ class SectionDisplay extends BaseDisplay
     public $section;
 
     public $itemCount = 0;
-    public $padding = 0;
     public $estimate = 0;
 
     public function __construct($db, $section)
@@ -119,7 +118,7 @@ class SectionDisplay extends BaseDisplay
         $this->internalPriorityLevels = $internalPriorityLevels;
     }
 
-    public function buildOutput()
+    protected function buildOutput()
     {
         if ($this->section) {
             $section = $this->section;
@@ -128,10 +127,6 @@ class SectionDisplay extends BaseDisplay
         }
 
         $itemList = new SimpleList($this->db, Item::class);
-
-        $this->itemCount = 0;
-        $this->padding = 0;
-        $this->outputBuilt = true;
 
         $dateUtils = new DateUtils();
 
@@ -167,74 +162,44 @@ class SectionDisplay extends BaseDisplay
 
         $items = $itemList->load($query);
 
-        if (count($items) == 0) {
+        $this->itemCount = count($items);
+
+        if ($this->itemCount == 0) {
+            $this->outputBuilt = true;
             return;
         }
 
-        $output = '';
-
-        $colspan = $this->getDisplayWidth();
-        $output .= '<div class="section">';
-        $output .= '<span class="section-label">';
-        if ($this->displaySectionLink) {
-            $output .= '<a class="section-link" href="' . str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink) . '">';
-        }
-        $output .= $section->getName();
-        if ($this->displaySectionLink) {
-            $output .= '</a>';
-        }
-        if ($section->getStatus() == 'Inactive') {
-            $output .= ' (Inactive)';
-        }
-        $output .= '</span>';
-        $output .= '<ul class="list">';
-
-        $this->itemCount = 0;
-        $this->padding = 2;
-
-        $count = 0;
         foreach ($items as $item) {
-            $count++;
-
-            if ($this->displayShowEstimateEditor == 'y') {
-                $itemDisplay = new ItemDisplayEstimateEditor($this->db, $item);
-            } elseif ($this->displayShowPriorityEditor == 'y') {
-                $itemDisplay = new ItemDisplayPriorityEditor($this->db, $item);
-            } else {
-                $itemDisplay = new ItemDisplay($this->db, $item);
-            }
-
-            $itemDisplay->setShowEstimate($this->displayShowEstimate);
-            $itemDisplay->setCheckClosed($this->displayCheckClosed);
-            $itemDisplay->setShowPriority($this->displayShowPriority);
-            $itemDisplay->setInternalPriorityLevels($this->internalPriorityLevels);
-
-            $output .= $itemDisplay->getOutput();
-            $this->itemCount += $itemDisplay->getOutputCount();
-
             $this->estimate += $item->getEstimate();
         }
 
-        $output .= '</ul>';
-
-        if ($this->displayShowEstimate == 'y') {
-            $output .= $this->drawEstimate($this->estimate);
-            $this->padding++;
+        if ($this->displayShowEstimateEditor == 'y') {
+            $template = 'estimate_editor';
+        } elseif ($this->displayShowPriorityEditor == 'y') {
+            $template = 'priority_editor';
+        } else {
+            $template = 'main';
         }
 
-        $output .= '</div>';
+        $this->output = $this->render(sprintf('partials/section/%s.html.twig', $template), [
+            'items'              => $items,
+            'priorityHigh'       => 2,
+            'priorityNormal'     => $this->internalPriorityLevels['normal'],
+            'section'            => $section,
+            'sectionUrl'         => str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink),
+            'showClosedCheck'    => $this->displayCheckClosed,
+            'showEstimate'       => $this->displayShowEstimate,
+            'showPriority'       => $this->displayShowPriority,
+            'showSectionLink'    => isset($this->displaySectionLink) ? 'y' : 'n',
+            'totalEstimate'      => $this->estimate,
+        ]);
 
-        $this->output = $output;
+        $this->outputBuilt = true;
     }
 
     public function getOutputCount()
     {
         return $this->itemCount;
-    }
-
-    public function getOutputLength()
-    {
-        return $this->itemCount + $this->padding;
     }
 
     public function getOutputEstimate()

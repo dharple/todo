@@ -11,15 +11,33 @@
 
 namespace App\Legacy;
 
-class BaseDisplay
-{
-    public $output = '';
-    public $outputBuilt = false;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
-    public function buildOutput()
+abstract class BaseDisplay
+{
+    protected $output = '';
+    protected $outputBuilt = false;
+
+    /**
+     * Holds the twig renderer.
+     *
+     * @var Environment
+     */
+    protected $twig;
+
+    protected function buildOutput()
     {
         $this->output = '';
         $this->outputBuilt = true;
+    }
+
+    protected function drawEstimate($estimate, $label = 'Total')
+    {
+        return $this->render('partials/estimate.html.twig', [
+            'estimate' => $estimate,
+            'label'    => $label,
+        ]);
     }
 
     public function getOutput()
@@ -31,15 +49,18 @@ class BaseDisplay
         return $this->output;
     }
 
-    public function drawEstimate($estimate, $text = 'Total')
+    protected function getTwig()
     {
-        $output = '<span class="estimate-total">';
-        $output .= number_format($estimate, 1);
-        $output .= '&nbsp;';
-        $output .= $text;
-        $output .= '</span>';
-        $output .= "\n";
+        if (!isset($this->twig)) {
+            $loader = new FilesystemLoader(dirname(dirname(dirname(__FILE__))) . '/templates');
+            $this->twig = new Environment($loader);
+        }
 
-        return $output;
+        return $this->twig;
+    }
+
+    protected function render($template, $variables = [])
+    {
+        return $this->getTwig()->render($template, $variables);
     }
 }

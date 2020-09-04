@@ -11,7 +11,7 @@
 
 namespace App\Legacy;
 
-class BaseExport
+abstract class BaseExport
 {
     public $output = '';
     public $outputBuilt = false;
@@ -25,7 +25,7 @@ class BaseExport
     public $displayShowEstimate = 'n';
     public $displayShowInactive = 'n';
 
-    public function buildOutput()
+    protected function buildOutput()
     {
         $this->output = '';
         $this->outputBuilt = true;

@@ -1,0 +1,17 @@
+<div class="section">
+    <span class="section-label">
+        {{ section.name }}
+    </span>
+    <ul class="list">
+        {% for item in items %}
+            <li>
+                <input class="list-item" id="item-{{ item.id }}" type="text" size="3" align="right" name="itemPriority[{{ item.id }}]" value="{{ item.priority }}" />
+                <label class="list-item-label" label-for="item-{{ item.id }}">
+                    <span class="{% if item.status != 'Open' %}closed{% elseif item.priority <= priorityHigh %}high_priority{% endif %}">
+                        {{ item.task }}
+                    </span>
+                </label>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

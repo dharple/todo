@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
+- Replaced inline HTML generation with twig templates.
 - Replaced table tags, and the complicated splitting logic, with divs and CSS
   column controls
 
