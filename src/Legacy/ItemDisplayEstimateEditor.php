@@ -16,18 +16,12 @@ class ItemDisplayEstimateEditor extends ItemDisplay
 
     public function drawItem($item)
     {
-        $output = '';
-        $output .= '<tr>';
-        $output .= '<td>';
-        $output .= '&nbsp;';
-        $output .= '</td>';
-        $output .= '<td>';
-        $output .= '<input type=text size=5 align=right name="itemEstimate[' . $item->getId() . ']" value=' . $item->getEstimate() . '>';
-        $output .= '</td>';
-        $output .= '<td>';
-        $output .= '&nbsp;';
-        $output .= '</td>';
-        $output .= '<td';
+        $id = 'item-' . $item->getId();
+
+        $output = '<li>';
+        $output .= '<input class="list-item" id="' . htmlspecialchars($id) . '" type="text" size="3" align="right" name="itemEstimate[' . $item->getId() . ']" value="' . $item->getEstimate() . '">';
+        $output .= '<label class="list-item-label" label-for="' . htmlspecialchars($id) . '">';
+        $output .= '<span';
         if ($item->getStatus() != 'Open') {
             $output .= ' class="closed"';
         } elseif ($item->getPriority() <= 2) {
@@ -35,8 +29,8 @@ class ItemDisplayEstimateEditor extends ItemDisplay
         }
         $output .= '>';
         $output .= htmlspecialchars($item->getTask());
-        $output .= '</td>';
-        $output .= '</tr>';
+        $output .= '</span>';
+        $output .= '</li>';
         $output .= "\n";
 
         return $output;

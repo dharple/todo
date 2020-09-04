@@ -40,7 +40,6 @@ $footer .= '</i>';
  */
 
 $listDisplay = new ListDisplay($db, $_SESSION['user_id']);
-$listDisplay->setColumns($display_num_columns);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 
 $listDisplay->setFilterClosed($display_filter_closed);
@@ -53,7 +52,7 @@ $listDisplay->setShowPriority($display_show_priority);
 
 $listDisplay->setCheckClosed('y');
 
-$listDisplay->setColumnFooter(1, $footer);
+$listDisplay->setFooter($footer);
 
 print($listDisplay->getOutput());
 

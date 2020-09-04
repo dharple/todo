@@ -16,8 +16,6 @@ use App\Legacy\Entity\Section;
 class ListDisplay extends BaseDisplay
 {
     public $db;
-    public $columns = 2;
-    public $columnFooters;
     public $displayIds;
     public $displayFilterClosed = 'none';
     public $displayFilterPriority = 'all';
@@ -30,13 +28,11 @@ class ListDisplay extends BaseDisplay
     public $displaySectionLink = '';
     public $displayShowPriority = 'n';
     public $displayShowPriorityEditor = 'n';
+    public $footer;
     public $internalPriorityLevels = [];
 
     public $userId;
     public $itemCount;
-
-    public $splitThreshold = 9;
-    public $splitMinimumChunk = 3;
 
     public function __construct($db, $userId)
     {
@@ -64,19 +60,9 @@ class ListDisplay extends BaseDisplay
         $this->displayShowInactive = $displayShowInactive;
     }
 
-    public function setColumns($columns)
+    public function setFooter($footer)
     {
-        $this->columns = $columns;
-    }
-
-    public function setColumnFooter($column, $content)
-    {
-        $colspan = $this->getDisplayWidth();
-        $fixed = '<tr><td colspan=' . $colspan . '>';
-        $fixed .= $content;
-        $fixed .= '</td></tr>';
-
-        $this->columnFooters[$column] = $fixed;
+        $this->footer = $footer;
     }
 
     public function getDisplayWidth()
@@ -136,19 +122,6 @@ class ListDisplay extends BaseDisplay
     public function buildOutput()
     {
 
-        // Sanity Checking
-        $this->columns = intval($this->columns);
-
-        if ($this->columns < 1) {
-            $this->columns = 1;
-        }
-
-        if ($this->columns > 10) {
-            $this->columns = 10;
-        }
-
-        //
-
         $sectionList = new SimpleList($this->db, Section::class);
 
         $query = "WHERE user_id = '" . addslashes($this->userId) . "'";
@@ -166,7 +139,6 @@ class ListDisplay extends BaseDisplay
         $sections = $sectionList->load($query);
 
         $itemCount = 0;
-        $realItemCount = 0;
         $grandEstimate = 0;
 
         $sectionRenderers = [];
@@ -193,8 +165,7 @@ class ListDisplay extends BaseDisplay
                 continue;
             }
 
-            $itemCount += $sectionDisplay->getOutputLength();
-            $realItemCount += $sectionDisplay->getOutputCount();
+            $itemCount += $sectionDisplay->getOutputCount();
             $grandEstimate += $sectionDisplay->getOutputEstimate();
 
             array_push($sectionRenderers, $sectionDisplay);
@@ -207,123 +178,25 @@ class ListDisplay extends BaseDisplay
             return;
         }
 
-        //
-        // Split Columns
-        //
+        $class = (count($sectionRenderers) > 1) ? 'wrapper-large' : 'wrapper-small';
 
-        // Find Total Length
+        $ret = '<div class="wrapper ' . htmlspecialchars($class) . '">';
 
-        $outputSectionRenderers = [];
-        for ($i = 0; $i < $this->columns; $i++) {
-            $outputSectionRenderers[$i] = [];
+        foreach ($sectionRenderers as $sectionDisplay) {
+            $ret .= $sectionDisplay->getOutput();
         }
 
-        $totalLength = 0;
-        $sectionCounts = [];
-        foreach ($sectionRenderers as $id => $sectionDisplay) {
-            $sectionDisplay->buildOutput();
-
-            $sectionCounts[$id] = $sectionDisplay->getOutputLength();
-
-            $totalLength += $sectionDisplay->getOutputLength();
+        $ret .= '<div class="section">';
+        if ($this->displayShowEstimate == 'y') {
+            $ret .= $this->drawEstimate($grandEstimate, 'Grand Total');
         }
 
-        $desiredLength = $totalLength / $this->columns;
+        $ret .= $this->replaceTotals($this->footer ?? '', $itemCount);
+        $ret .= '</div>';
 
-        $buildLength = 0;
+        $ret .= '</div>';
 
-        $columnCount = 0;
-        foreach ($sectionCounts as $id => $sectionLength) {
-            $sectionDisplay = $sectionRenderers[$id];
-
-            if ($columnCount == $this->columns - 1) {
-                array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
-                continue;
-            }
-
-            $realSectionLength = $sectionDisplay->getOutputCount();
-
-            $workBuildLength = $buildLength + $sectionLength;
-            if ($workBuildLength > $desiredLength) {
-                if ($realSectionLength > $this->splitThreshold && (abs($desiredLength - $buildLength) > $this->splitMinimumChunk)) {
-                    // Splittable
-
-                    $splitPoint = ($desiredLength - $buildLength);
-
-
-                    if ($splitPoint < $this->splitMinimumChunk) {
-                        $splitPoint = $this->splitMinimumChunk;
-                    } elseif ($realSectionLength - $splitPoint < $this->splitMinimumChunk) {
-                        $splitPoint = $realSectionLength - $this->splitMinimumChunk;
-                    }
-
-                    $newSectionDisplay = clone $sectionDisplay;
-
-                    $newSectionDisplay->setShowSplit('first');
-                    $newSectionDisplay->setSplitPoint($splitPoint);
-
-                    $newSectionDisplay->buildOutput();
-
-                    array_push($outputSectionRenderers[$columnCount], $newSectionDisplay);
-
-                    $columnCount++;
-                    $buildLength = 0;
-
-                    $sectionDisplay->setShowSplit('last');
-                    $sectionDisplay->setSplitPoint($splitPoint);
-
-                    $sectionDisplay->buildOutput();
-                } elseif ($id > 0) {
-                    // Not Splittable
-
-                    $columnCount++;
-                    $buildLength = 0;
-                }
-            }
-
-            array_push($outputSectionRenderers[$columnCount], $sectionDisplay);
-
-            // Use The Method getOutputLength Instead of $sectionLength //
-            $buildLength += $sectionDisplay->getOutputLength();
-        }
-
-        $ret = '<table width=100% cellspacing=5>';
-        $ret .= '<tr valign=top>';
-
-        $td_open = '<td width="' . intval(100 / $this->columns) . "%\"><table>\n";
-        $td_close = "</table></td>\n";
-
-        $columnRealItemCount = 0;
-
-        foreach ($outputSectionRenderers as $columnCount => $list) {
-            $ret .= $td_open;
-            $columnRealItemCount = 0;
-
-            if (count($list) == 0) {
-                $ret .= '&nbsp;';
-            }
-
-            foreach ($list as $sectionDisplay) {
-                $ret .= $sectionDisplay->getOutput();
-
-                $columnRealItemCount += $sectionDisplay->getOutputCount();
-            }
-
-            $ret .= $this->replaceTotals($this->columnFooters[$columnCount] ?? '', $realItemCount, $columnRealItemCount);
-
-            if ($this->displayShowEstimate == 'y') {
-                if ($columnCount == $this->columns - 1 || count($outputSectionRenderers[$columnCount]) == 0) {
-                    $ret .= $this->drawEstimate($grandEstimate, 'Grand Total');
-                }
-            }
-
-            $ret .= $td_close;
-        }
-
-        $ret .= "</tr>\n";
-        $ret .= "</table>\n";
-
-        $this->itemCount = $realItemCount;
+        $this->itemCount = $itemCount;
         $this->output = $ret;
         $this->outputBuilt = true;
     }
@@ -334,12 +207,11 @@ class ListDisplay extends BaseDisplay
     }
 
     /**
-     * Replaces {GRAND_TOTAL} and {COLUMN_TOTAL} with the appropriate values.
+     * Replaces {GRAND_TOTAL} and {NOT_SHOWN} with the appropriate values.
      */
-    public function replaceTotals($string, $grand_total, $column_total)
+    public function replaceTotals($string, $grand_total)
     {
         $string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
-        $string = str_replace('{COLUMN_TOTAL}', $column_total, $string);
 
         $total = 0;
 

@@ -70,9 +70,8 @@ class ItemDisplay extends BaseDisplay
 
     public function drawItem($item)
     {
-        $output = '';
-        $output .= '<tr>';
-        $output .= '<td>';
+        $output = '<li>';
+
         if ($this->displayShowPriority == 'y') {
             $output .= $item->getPriority();
         } elseif ($this->displayShowPriority == 'above_normal' && $item->getPriority() < $this->internalPriorityLevels['normal']) {
@@ -80,26 +79,23 @@ class ItemDisplay extends BaseDisplay
         } else {
             $output .= '&nbsp;';
         }
-        $output .= '</td>';
-        $output .= '<td>';
-        $output .= '<input type=checkbox name=itemIds[] value=' . $item->getId();
+
+        $id = 'item-' . $item->getId();
+
+        $output .= '<input class="list-item" id="' . htmlspecialchars($id) . '" type="checkbox" name="itemIds[]" value="' . $item->getId() . '"';
         if ($this->displayCheckClosed == 'y' && $item->getStatus() != 'Open') {
             $output .= ' checked=true';
         }
         $output .= '>';
-        $output .= '</td>';
-        $output .= '<td>';
-        $output .= '&nbsp;';
-        $output .= '</td>';
+
+        $output .= '<label class="list-item-label" label-for="' . htmlspecialchars($id) . '">';
+
         if ($this->displayShowEstimate == 'y') {
-            $output .= '<td align=right class="estimate">';
+            $output .= '<span class="estimate">';
             $output .= $item->getEstimate();
-            $output .= '</td>';
-            $output .= '<td>';
-            $output .= '&nbsp;';
-            $output .= '</td>';
+            $output .= '</span>';
         }
-        $output .= '<td';
+        $output .= '<span';
         if ($item->getStatus() != 'Open') {
             $output .= ' class="closed"';
         } elseif ($item->getPriority() <= 2) {
@@ -107,8 +103,11 @@ class ItemDisplay extends BaseDisplay
         }
         $output .= '>';
         $output .= htmlspecialchars($item->getTask());
-        $output .= '</td>';
-        $output .= '</tr>';
+        $output .= '</span>';
+
+        $output .= '</label>';
+
+        $output .= '</li>';
         $output .= "\n";
 
         return $output;

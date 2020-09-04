@@ -33,7 +33,6 @@ if (count($_POST)) {
 }
 
 $listDisplay = new ListDisplay($db, $_SESSION['user_id']);
-$listDisplay->setColumns(2);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 $listDisplay->setShowPriorityEditor('y');
 

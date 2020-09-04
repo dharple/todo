@@ -33,21 +33,11 @@ class BaseDisplay
 
     public function drawEstimate($estimate, $text = 'Total')
     {
-        $output = '';
-        $output .= '<tr>';
-        $output .= '<td colspan=3>';
-        $output .= '&nbsp;';
-        $output .= '</td>';
-        $output .= '<td align=right class="estimate_total">';
+        $output = '<span class="estimate-total">';
         $output .= number_format($estimate, 1);
-        $output .= '</td>';
-        $output .= '<td>';
         $output .= '&nbsp;';
-        $output .= '</td>';
-        $output .= '<td class="estimate_total">';
         $output .= $text;
-        $output .= '</td>';
-        $output .= '</tr>';
+        $output .= '</span>';
         $output .= "\n";
 
         return $output;

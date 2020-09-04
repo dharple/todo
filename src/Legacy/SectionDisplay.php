@@ -23,14 +23,12 @@ class SectionDisplay extends BaseDisplay
     public $displayFilterAging = 'all';
     public $displayShowEstimate = 'n';
     public $displayShowEstimateEditor = 'n';
-    public $displayShowSplit = 'all';
     public $displayCheckClosed = 'n';
     public $displayShowSection = 0;
     public $displaySectionLink = '';
     public $displayShowPriority = 'n';
     public $displayShowPriorityEditor = 'n';
     public $internalPriorityLevels = [];
-    public $splitPoint = 0;
 
     public $id;
     public $section;
@@ -89,16 +87,6 @@ class SectionDisplay extends BaseDisplay
     public function setShowEstimateEditor($displayShowEstimateEditor)
     {
         $this->displayShowEstimateEditor = $displayShowEstimateEditor;
-    }
-
-    public function setShowSplit($displayShowSplit)
-    {
-        $this->displayShowSplit = $displayShowSplit;
-    }
-
-    public function setSplitPoint($splitPoint)
-    {
-        $this->splitPoint = $splitPoint;
     }
 
     public function setCheckClosed($displayCheckClosed)
@@ -183,51 +171,30 @@ class SectionDisplay extends BaseDisplay
             return;
         }
 
-        if ($this->displayShowSplit == 'first' || $this->displayShowSplit == 'last') {
-            if ($this->splitPoint > 0 && $this->splitPoint < count($items)) {
-                $half = $this->splitPoint;
-            } else {
-                $half = (int) (count($items) * 2.0 / 3.0);
-            }
-        }
-
         $output = '';
 
         $colspan = $this->getDisplayWidth();
-        $output .= '<tr><td colspan=' . $colspan . ' class="section">';
+        $output .= '<div class="section">';
+        $output .= '<span class="section-label">';
         if ($this->displaySectionLink) {
-            $output .= '<a class="section_link" href="' . str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink) . '">';
+            $output .= '<a class="section-link" href="' . str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink) . '">';
         }
         $output .= $section->getName();
         if ($this->displaySectionLink) {
             $output .= '</a>';
         }
-        if ($this->displayShowSplit == 'last') {
-            $output .= " (cont'd)";
-        } elseif ($section->getStatus() == 'Inactive') {
+        if ($section->getStatus() == 'Inactive') {
             $output .= ' (Inactive)';
         }
-        $output .= '</td></tr>';
+        $output .= '</span>';
+        $output .= '<ul class="list">';
 
         $this->itemCount = 0;
         $this->padding = 2;
-        if ($this->displayShowSplit != 'last') {
-            $this->estimate = 0;
-        }
 
         $count = 0;
         foreach ($items as $item) {
             $count++;
-
-            if ($this->displayShowSplit == 'first') {
-                if ($count > $half) {
-                    continue;
-                }
-            } elseif ($this->displayShowSplit == 'last') {
-                if ($count <= $half) {
-                    continue;
-                }
-            }
 
             if ($this->displayShowEstimateEditor == 'y') {
                 $itemDisplay = new ItemDisplayEstimateEditor($this->db, $item);
@@ -248,13 +215,14 @@ class SectionDisplay extends BaseDisplay
             $this->estimate += $item->getEstimate();
         }
 
-        if ($this->displayShowEstimate == 'y' && $this->displayShowSplit != 'first') {
-            $output .= $this->drawEstimate($this->estimate);
+        $output .= '</ul>';
 
+        if ($this->displayShowEstimate == 'y') {
+            $output .= $this->drawEstimate($this->estimate);
             $this->padding++;
         }
 
-        $output .= '<tr><td colspan=' . $colspan . '>&nbsp;</td></tr>';
+        $output .= '</div>';
 
         $this->output = $output;
     }
