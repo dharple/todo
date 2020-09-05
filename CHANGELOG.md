@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Export functionality
 - The remnants of the recurring item functionality.
 
+### Fixed
+- Items shown / not shown on printable sheet no longer includes completed
+  items.
+
 ## [1.2.0] - 2020-09-03
 ### Changed
 - Moved `public-old/` to `public/`.

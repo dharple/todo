@@ -146,11 +146,16 @@ class SectionDisplay extends BaseDisplay
 
         $items = $itemList->load($query);
 
-        $this->itemCount = count($items);
-
-        if ($this->itemCount == 0) {
+        if (count(items) == 0) {
             $this->outputBuilt = true;
             return;
+        }
+
+        $this->itemCount = 0;
+        foreach ($items as $item) {
+            if ($item->getStatus() == 'Open') {
+                $this->itemCount++;
+            }
         }
 
         if ($this->displayPrintable) {
