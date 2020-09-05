@@ -2,7 +2,6 @@
 
 use App\Legacy\DateUtils;
 use App\Legacy\Entity\Item;
-use App\Legacy\Entity\RecurringItem;
 use App\Legacy\Entity\Section;
 use App\Legacy\SimpleList;
 
@@ -27,14 +26,6 @@ if (count($_POST)) {
         $item->setStatus('Open');
         $item->setPriority($_POST['priority']);
         $item->save();
-
-        if (isset($_POST['recurring'])) {
-            $recurring_item = new RecurringItem($db);
-
-            $recurring_item->setUserId($user_id);
-            $recurring_item->setTask($task);
-            $recurring_item->save();
-        }
     }
 
     if ($_REQUEST['submitButton'] == 'Do It') {
@@ -49,26 +40,6 @@ if (count($_POST)) {
 <title>Item Bulk Add</title>
 </head>
 <body>
-
-<script language="JavaScript">
-
-function copy_items(form) {
-    var items = form.recurring_items;
-
-    var build = '';
-
-    for(var i = 0; i < items.length; i++) {
-        if(!items.options[i].selected)
-            continue;
-
-        build += items.options[i].text + "\n";
-    }
-
-    if(build != '')
-        form.tasks.value += "\n" + build;
-}
-
-</script>
 
 <table width=100%>
 <tr>
@@ -163,10 +134,6 @@ for ($priority = $todo_priority['high']; $priority <= $todo_priority['low']; $pr
 </select>
 <br>
 
-Recurring:
-<input type="checkbox" name="recurring" value="1" />
-<br>
-
 <table>
 <tr>
 <td>
@@ -175,41 +142,6 @@ Tasks (newline separated):<br>
 <textarea name="tasks" cols=60 rows=15></textarea><br>
 
 </td>
-
-<?php
-
-$recurringItemList = new SimpleList($db, RecurringItem::class);
-$recurringItems = $recurringItemList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY task");
-
-if (count($recurringItems) > 0) {
-    ?>
-
-<td>&nbsp;&nbsp;&nbsp;</td>
-
-<td align="left" valign="top">
-
-<br>
-
-<select name="recurring_items" size="10" multiple>
-    <?php
-
-    foreach ($recurringItems as $recurringItem) {
-        print('<option value=' . $recurringItem->getId() . '>');
-        print($recurringItem->getTask());
-        print('</option>');
-    }
-
-    ?>
-</select>
-
-<br>
-<input type="button" value="Copy" onClick="copy_items(this.form)" />
-
-</tr>
-
-    <?php
-}
-?>
 
 </table>
 
