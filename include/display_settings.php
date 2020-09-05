@@ -10,7 +10,6 @@ if (isset($_REQUEST['reset_display_settings'])) {
     unset($_SESSION['filter_closed']);
     unset($_SESSION['filter_priority']);
     unset($_SESSION['filter_aging']);
-    unset($_SESSION['show_estimate']);
     unset($_SESSION['show_inactive']);
     unset($_SESSION['num_columns']);
     unset($_SESSION['show_section']);
@@ -22,7 +21,6 @@ if (isset($_REQUEST['reset_display_settings'])) {
 $GLOBALS['display_filter_closed'] = 'none';
 $GLOBALS['display_filter_aging'] = 'all';
 $GLOBALS['display_filter_priority'] = 'all';
-$GLOBALS['display_show_estimate'] = 'n';
 $GLOBALS['display_show_inactive'] = 'n';
 $GLOBALS['display_num_columns'] = 2;
 $GLOBALS['display_show_section'] = 0;
@@ -63,18 +61,6 @@ if (isset($_REQUEST['filter_aging'])) {
 }
 
 $_SESSION['filter_aging'] = $GLOBALS['display_filter_aging'];
-
-// Estimate //
-
-if (isset($_SESSION['show_estimate'])) {
-    $GLOBALS['display_show_estimate'] = $_SESSION['show_estimate'];
-}
-
-if (isset($_REQUEST['show_estimate'])) {
-    $GLOBALS['display_show_estimate'] = $_REQUEST['show_estimate'];
-}
-
-$_SESSION['show_estimate'] = $GLOBALS['display_show_estimate'];
 
 // Inactive //
 
