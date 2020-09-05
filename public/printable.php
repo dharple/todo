@@ -9,7 +9,6 @@ use App\Legacy\ListDisplay;
 <title>To Do List For <?php print(date('F jS, Y')); ?></title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <link rel="stylesheet" href="styles/basic.css" type="text/css">
-<link rel="stylesheet" href="styles/printable.css" type="text/css">
 </head>
 <body onLoad="window.print();">
 <div class="container">

@@ -58,3 +58,26 @@ a.section-link {
     font-weight: bold;
     margin-left: 63px;
 }
+
+@media print {
+    body {
+        font-family: "Times New Roman";
+        font-size: 16pt;
+    }
+
+    div.wrapper {
+        column-count: 2;
+        column-fill: auto;
+        font-size: 16pt;
+    }
+
+    div.item-row {
+        padding-bottom: 0;
+        line-height: 1.15;
+    }
+
+    .high_priority {
+        font-weight: bold;
+        color: black;
+    }
+}
