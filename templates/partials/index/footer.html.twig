@@ -3,7 +3,6 @@
         <td align=left>
             <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit" {% if not hasItems %}disabled{% endif %} />
             <input type="submit" class="btn btn-primary" name="submitButton" value="Mark Done" {% if not hasItems %}disabled{% endif %} />
-            <input type="submit" class="btn btn-secondary" name="submitButton" value="Estimate" {% if not hasItems %}disabled{% endif %} />
             <input type="submit" class="btn btn-secondary" name="submitButton" value="Prioritize" {% if not hasItems %}disabled{% endif %} />
             {% if showDuplicate %}
                 <input type="submit" class="btn btn-secondary" name="submitButton" value="Duplicate" {% if not hasItems %}disabled{% endif %} />

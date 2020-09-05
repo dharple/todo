@@ -21,8 +21,6 @@ class SectionDisplay extends BaseDisplay
     public $displayFilterClosed = 'none';
     public $displayFilterPriority = 'all';
     public $displayFilterAging = 'all';
-    public $displayShowEstimate = 'n';
-    public $displayShowEstimateEditor = 'n';
     public $displayPrintable = false;
     public $displayShowSection = 0;
     public $displaySectionLink = '';
@@ -34,7 +32,6 @@ class SectionDisplay extends BaseDisplay
     public $section;
 
     public $itemCount = 0;
-    public $estimate = 0;
 
     public function __construct($db, $section)
     {
@@ -67,25 +64,12 @@ class SectionDisplay extends BaseDisplay
     public function getDisplayWidth()
     {
         $width = 4;
-        if ($this->displayShowEstimate) {
-            $width += 2;
-        }
         return $width;
     }
 
     public function setIds($ids)
     {
         $this->displayIds = $ids;
-    }
-
-    public function setShowEstimate($displayShowEstimate)
-    {
-        $this->displayShowEstimate = $displayShowEstimate;
-    }
-
-    public function setShowEstimateEditor($displayShowEstimateEditor)
-    {
-        $this->displayShowEstimateEditor = $displayShowEstimateEditor;
     }
 
     public function setPrintable($displayPrintable)
@@ -169,14 +153,8 @@ class SectionDisplay extends BaseDisplay
             return;
         }
 
-        foreach ($items as $item) {
-            $this->estimate += $item->getEstimate();
-        }
-
         if ($this->displayPrintable) {
             $template = 'printable';
-        } elseif ($this->displayShowEstimateEditor == 'y') {
-            $template = 'estimate_editor';
         } elseif ($this->displayShowPriorityEditor == 'y') {
             $template = 'priority_editor';
         } else {
@@ -189,10 +167,8 @@ class SectionDisplay extends BaseDisplay
             'priorityNormal'     => $this->internalPriorityLevels['normal'],
             'section'            => $section,
             'sectionUrl'         => str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink),
-            'showEstimate'       => $this->displayShowEstimate,
             'showPriority'       => $this->displayShowPriority,
             'showSectionLink'    => isset($this->displaySectionLink) ? 'y' : 'n',
-            'totalEstimate'      => $this->estimate,
         ]);
 
         $this->outputBuilt = true;
@@ -201,11 +177,6 @@ class SectionDisplay extends BaseDisplay
     public function getOutputCount()
     {
         return $this->itemCount;
-    }
-
-    public function getOutputEstimate()
-    {
-        return $this->estimate;
     }
 
     public function getId()

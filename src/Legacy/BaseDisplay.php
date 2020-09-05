@@ -32,14 +32,6 @@ abstract class BaseDisplay
         $this->outputBuilt = true;
     }
 
-    protected function drawEstimate($estimate, $label = 'Total')
-    {
-        return $this->render('partials/estimate.html.twig', [
-            'estimate' => $estimate,
-            'label'    => $label,
-        ]);
-    }
-
     public function getOutput()
     {
         if (!$this->outputBuilt) {

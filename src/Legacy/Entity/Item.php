@@ -76,16 +76,6 @@ class Item extends BaseObject
         $this->data['priority'] = $priority;
     }
 
-    public function getEstimate()
-    {
-        return $this->data['estimate'];
-    }
-
-    public function setEstimate($estimate)
-    {
-        $this->data['estimate'] = $estimate;
-    }
-
     public function getUserId()
     {
         return $this->data['user_id'];

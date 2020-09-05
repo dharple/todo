@@ -48,7 +48,6 @@ $listDisplay->setInternalPriorityLevels($todo_priority);
 $listDisplay->setFilterClosed($display_filter_closed);
 $listDisplay->setFilterPriority($display_filter_priority);
 $listDisplay->setFilterAging($display_filter_aging);
-$listDisplay->setShowEstimate($display_show_estimate);
 $listDisplay->setShowInactive($display_show_inactive);
 $listDisplay->setShowSection($display_show_section);
 $listDisplay->setShowPriority($display_show_priority);

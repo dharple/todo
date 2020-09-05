@@ -27,7 +27,6 @@ if (count($_POST)) {
         $item->setSectionId($_POST['section'][$itemId]);
         $item->setStatus($_POST['status'][$itemId]);
         $item->setPriority($_POST['priority'][$itemId]);
-        $item->setEstimate((int)$_POST['estimate'][$itemId]);
         $item->save();
     }
 
@@ -160,11 +159,6 @@ foreach ($itemIds as $itemId) {
                 htmlspecialchars($item->getCompleted()) . '">');
         print("<br>\n");
     }
-
-    print('Estimate: ');
-    print('<input type=text name=estimate[' . $itemId . '] value="' .
-            htmlspecialchars($item->getEstimate()) . '">');
-    print("<br>\n");
 
     print("<br>\n");
 

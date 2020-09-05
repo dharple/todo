@@ -39,9 +39,6 @@ if (count($_POST)) {
     } elseif ($_POST['submitButton'] == 'Edit') {
         header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
         die();
-    } elseif ($_POST['submitButton'] == 'Estimate') {
-        header('Location: item_estimate.php?ids=' . urlencode(serialize($_POST['itemIds'])));
-        die();
     } elseif ($_POST['submitButton'] == 'Edit Sections') {
         header('Location: section_edit.php');
         die();
@@ -91,7 +88,6 @@ $listDisplay->setInternalPriorityLevels($todo_priority);
 $listDisplay->setFilterClosed($display_filter_closed);
 $listDisplay->setFilterPriority($display_filter_priority);
 $listDisplay->setFilterAging($display_filter_aging);
-$listDisplay->setShowEstimate($display_show_estimate);
 $listDisplay->setShowInactive($display_show_inactive);
 $listDisplay->setShowSection($display_show_section);
 $listDisplay->setSectionLink('index.php?show_section={SECTION_ID}');
@@ -250,18 +246,6 @@ foreach ($aging_display as $value => $display) {
 
 ?>
  days old
-<br>
-
-Show Estimates:&nbsp;&nbsp;
-<?php
-
-if ($display_show_estimate == 'y') {
-    print('Yes <a href="index.php?show_estimate=n">No</a>');
-} else {
-    print('<a href="index.php?show_estimate=y">Yes</a> No');
-}
-
-?>
 <br>
 
 Show Inactive Sections:&nbsp;&nbsp;

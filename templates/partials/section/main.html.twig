@@ -27,11 +27,6 @@
             </div>
             <div class="col-11 text-left">
                 <label class="list-item-label" label-for="item-{{ item.id }}">
-                    {% if showEstimate == 'y' %}
-                        <span class="estimate">
-                            {{ item.estimate }}
-                        </span>
-                    {% endif %}
                     <span class="{% if item.status != 'Open' %}closed{% elseif item.priority <= priorityHigh %}high_priority{% endif %}">
                         {{ item.task }}
                     </span>
@@ -39,11 +34,4 @@
             </div>
         </div>
     {% endfor %}
-    {% if showEstimate == 'y' %}
-        <div class="row justify-content-end">
-            <div class="col-11">
-                <span class="estimate-total">{{ totalEstimate | number_format(1) }} Total</span>
-            </div>
-        </div>
-    {% endif %}
 </div>

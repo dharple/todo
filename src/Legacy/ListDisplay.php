@@ -20,8 +20,6 @@ class ListDisplay extends BaseDisplay
     public $displayFilterClosed = 'none';
     public $displayFilterPriority = 'all';
     public $displayFilterAging = 'all';
-    public $displayShowEstimate = 'n';
-    public $displayShowEstimateEditor = 'n';
     public $displayShowInactive = 'n';
     public $displayPrintable = false;
     public $displayShowSection = 0;
@@ -68,25 +66,12 @@ class ListDisplay extends BaseDisplay
     public function getDisplayWidth()
     {
         $width = 4;
-        if ($this->displayShowEstimate) {
-            $width += 2;
-        }
         return $width;
     }
 
     public function setIds($ids)
     {
         $this->displayIds = $ids;
-    }
-
-    public function setShowEstimate($displayShowEstimate)
-    {
-        $this->displayShowEstimate = $displayShowEstimate;
-    }
-
-    public function setShowEstimateEditor($displayShowEstimateEditor)
-    {
-        $this->displayShowEstimateEditor = $displayShowEstimateEditor;
     }
 
     public function setPrintable($displayPrintable)
@@ -139,7 +124,6 @@ class ListDisplay extends BaseDisplay
         $sections = $sectionList->load($query);
 
         $itemCount = 0;
-        $grandEstimate = 0;
 
         $sectionRenderers = [];
 
@@ -150,8 +134,6 @@ class ListDisplay extends BaseDisplay
             $sectionDisplay->setFilterClosed($this->displayFilterClosed);
             $sectionDisplay->setFilterPriority($this->displayFilterPriority);
             $sectionDisplay->setFilterAging($this->displayFilterAging);
-            $sectionDisplay->setShowEstimate($this->displayShowEstimate);
-            $sectionDisplay->setShowEstimateEditor($this->displayShowEstimateEditor);
             $sectionDisplay->setPrintable($this->displayPrintable);
             $sectionDisplay->setShowSection($this->displayShowSection);
             $sectionDisplay->setSectionLink($this->displaySectionLink);
@@ -166,7 +148,6 @@ class ListDisplay extends BaseDisplay
             }
 
             $itemCount += $sectionDisplay->getOutputCount();
-            $grandEstimate += $sectionDisplay->getOutputEstimate();
 
             array_push($sectionRenderers, $sectionDisplay);
         }
@@ -187,10 +168,6 @@ class ListDisplay extends BaseDisplay
         }
 
         $ret .= '<div class="section">';
-        if ($this->displayShowEstimate == 'y') {
-            $ret .= $this->drawEstimate($grandEstimate, 'Grand Total');
-        }
-
         $ret .= $this->replaceTotals($this->footer ?? '', $itemCount);
         $ret .= '</div>';
 
