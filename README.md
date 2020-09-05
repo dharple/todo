@@ -22,7 +22,7 @@ cat sql/*.sql | mysql -u DB_USER -p DB_NAME
 
 Start the server:
 ```bash
-composer go-old
+composer go
 ```
 
 Connect to http://localhost:8666 and log in.
