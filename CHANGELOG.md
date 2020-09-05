@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   column controls
 
 ### Removed
+- Abhorrent admin functionality.
 - Estimation support
 - Export functionality
 - The remnants of the recurring item functionality.

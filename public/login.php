@@ -11,11 +11,7 @@ if (count($_POST)) {
 
         if ($ret) {
             $_SESSION['user_id'] = $user->getId();
-            if ($user->getId() === '0') {
-                header('Location: admin.php');
-            } else {
-                header('Location: index.php');
-            }
+            header('Location: index.php');
             exit();
         } else {
             $error_message = 'Invalid Login';
