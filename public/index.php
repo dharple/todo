@@ -280,8 +280,6 @@ Display Settings: <a href="index.php?reset_display_settings=1">Reset</a>
 
 <?php
     print("<a href=\"\" onClick=\"window.open('printable.php','todoList','height=400,width=600'); return false;\">Printable Version</a>");
-    print('<br>');
-    print('<a href="export_menu.php">Exportable Version</a>');
 ?>
 
 </td>

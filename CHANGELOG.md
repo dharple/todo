@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced table tags, and the complicated splitting logic, with divs and CSS
   column controls
 
+### Removed
+- Export functionality
+
 ## [1.2.0] - 2020-09-03
 ### Changed
 - Moved `public-old/` to `public/`.
