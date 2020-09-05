@@ -19,14 +19,11 @@ if (count($_POST)) {
     }
 }
 
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'To Do List',
+]);
+
 ?>
-<html>
-<head>
-<title>To Do List</title>
-<link rel="stylesheet" href="styles/basic.css" type="text/css">
-<meta name="robots" content="noindex, nofollow">
-</head>
-<body>
 
 <form method=POST>
 
@@ -65,5 +62,6 @@ if ($error_message != '') {
 
 </form>
 
-<body>
-</html>
+<?php
+
+$twig->display('partials/page/footer.html.twig');

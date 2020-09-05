@@ -97,17 +97,11 @@ $itemStats = new ItemStats($db, $_SESSION['user_id']);
 
 $user_id = $_SESSION['user_id'];
 
-?>
-<html>
-<head>
-<title>To Do List For <?php print(date('F jS, Y')); ?></title>
-<meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<link rel="stylesheet" href="styles/basic.css" type="text/css">
-</head>
-<body>
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'To Do List For ' . date('F jS, Y')
+]);
 
-<div class="container">
+?>
 
 <div>
 <table width=100%>
@@ -294,9 +288,6 @@ $sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user_id) .
 
 <?php
 
-$loader = new \Twig\Loader\FilesystemLoader(dirname(dirname(__FILE__)) . '/templates');
-$twig = new \Twig\Environment($loader);
-
 $twig->display('partials/index/footer.html.twig', [
     'hasItems'      => ($itemCount > 0),
     'hasSections'   => ($sectionCount > 0),
@@ -307,9 +298,6 @@ $twig->display('partials/index/footer.html.twig', [
 
 </form>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<?php
 
-</body>
-</html>
+$twig->display('partials/page/footer.html.twig');

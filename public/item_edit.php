@@ -36,12 +36,11 @@ if (count($_POST)) {
     }
 }
 
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'Item Editor',
+]);
+
 ?>
-<html>
-<head>
-<title>Item Editor</title>
-</head>
-<body>
 
 <table width=100%>
 <tr>
@@ -176,3 +175,7 @@ if ($_REQUEST['op'] == 'add') {
 }
 ?>
 </form>
+
+<?php
+
+$twig->display('partials/page/footer.html.twig');

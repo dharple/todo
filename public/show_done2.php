@@ -5,12 +5,11 @@ use App\Legacy\DateUtils;
 use App\Legacy\ItemHistory;
 use App\Legacy\Entity\Section;
 
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'Items Done',
+]);
+
 ?>
-<html>
-<head>
-<title>Items Done</title>
-</head>
-<body>
 
 <table width=100%>
 <tr>
@@ -152,5 +151,7 @@ if ($lastDate != '') {
 ?>
 
 </table>
-</body>
-</html>
+
+<?php
+
+$twig->display('partials/page/footer.html.twig');

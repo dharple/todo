@@ -57,13 +57,11 @@ if (is_array($ids) && count($ids)) {
     }
 }
 
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'Priority Editor',
+]);
+
 ?>
-<html>
-<head>
-<title>Priority Editor</title>
-<link rel="stylesheet" href="styles/basic.css" type="text/css">
-</head>
-<body>
 
 <table width=100%>
 <tr>
@@ -97,5 +95,6 @@ $itemCount = $listDisplay->getOutputCount();
 
 </form>
 
-</body>
-</html>
+<?php
+
+$twig->display('partials/page/footer.html.twig');

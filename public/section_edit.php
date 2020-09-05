@@ -7,10 +7,11 @@ use App\Legacy\SimpleList;
 
 $user_id = $_SESSION['user_id'];
 
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'Section Editor',
+]);
+
 ?>
-<html>
-<head>
-<title>Section Editor</title>
 
 <script language="JavaScript">
 
@@ -25,9 +26,6 @@ function updateEditor(selectList, inputBox) {
 }
 
 </script>
-
-</head>
-<body>
 
 <table width=100%>
 <tr>
@@ -192,8 +190,8 @@ to
 <hr>
 <br>
 
-
 </form>
 
-</body>
-</html>
+<?php
+
+$twig->display('partials/page/footer.html.twig');

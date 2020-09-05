@@ -34,12 +34,11 @@ if (count($_POST)) {
     }
 }
 
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'Account Editor',
+]);
+
 ?>
-<html>
-<head>
-<title>Account Editor</title>
-</head>
-<body>
 
 <table width=100%>
 <tr>
@@ -143,5 +142,6 @@ Change Password<br><br>
 
 </form>
 
-</body>
-</html>
+<?php
+
+$twig->display('partials/page/footer.html.twig');

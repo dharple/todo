@@ -42,4 +42,7 @@ if (isset($_SERVER['REQUEST_URI'])) {
 $todo_priority['normal'] = intval((($todo_priority['low'] - $todo_priority['high']) / 2) + $todo_priority['high']);
 $GLOBALS['todo_priority'] = $todo_priority;
 
+$loader = new \Twig\Loader\FilesystemLoader(dirname(dirname(__FILE__)) . '/templates');
+$twig = new \Twig\Environment($loader);
+
 require __DIR__ . '/display_settings.php';

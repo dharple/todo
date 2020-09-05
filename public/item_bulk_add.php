@@ -34,12 +34,11 @@ if (count($_POST)) {
     }
 }
 
+$twig->display('partials/page/header.html.twig', [
+    'title' => 'Item Bulk Add',
+]);
+
 ?>
-<html>
-<head>
-<title>Item Bulk Add</title>
-</head>
-<body>
 
 <table width=100%>
 <tr>
@@ -152,5 +151,6 @@ Tasks (newline separated):<br>
 
 </form>
 
-</body>
-</html>
+<?php
+
+$twig->display('partials/page/footer.html.twig');
