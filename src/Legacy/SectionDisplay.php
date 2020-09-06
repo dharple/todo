@@ -146,7 +146,7 @@ class SectionDisplay extends BaseDisplay
 
         $items = $itemList->load($query);
 
-        if (count(items) == 0) {
+        if (count($items) == 0) {
             $this->outputBuilt = true;
             return;
         }

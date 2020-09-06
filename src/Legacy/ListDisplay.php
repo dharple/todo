@@ -201,7 +201,7 @@ class ListDisplay extends BaseDisplay
             $total = $grand_total;
         }
 
-        $string = str_replace('{NOT_SHOWN}', $total - $grand_total, $string);
+        $string = str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grand_total), $string);
 
         return $string;
     }
