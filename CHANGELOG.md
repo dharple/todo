@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Items shown / not shown on printable sheet no longer includes completed
   items.
+- Sections with no open items were not getting rendered even if closed items
+  were present and the view requested them.
 
 ## [1.2.0] - 2020-09-03
 ### Changed

@@ -127,6 +127,9 @@ class ListDisplay extends BaseDisplay
 
         $sectionRenderers = [];
 
+        $sectionOutput = '';
+        $sectionsDrawn = 0;
+
         foreach ($sections as $section) {
             $sectionDisplay = new SectionDisplay($this->db, $section);
 
@@ -141,31 +144,30 @@ class ListDisplay extends BaseDisplay
             $sectionDisplay->setShowPriorityEditor($this->displayShowPriorityEditor);
             $sectionDisplay->setInternalPriorityLevels($this->internalPriorityLevels);
 
-            $sectionDisplay->getOutput();
+            $build = $sectionDisplay->getOutput();
 
-            if ($sectionDisplay->getOutputCount() == 0) {
+            if (empty($build)) {
                 continue;
             }
 
-            $itemCount += $sectionDisplay->getOutputCount();
+            $sectionOutput .= $build;
+            $sectionsDrawn++;
 
-            array_push($sectionRenderers, $sectionDisplay);
+            $itemCount += $sectionDisplay->getOutputCount();
         }
 
-        if ($itemCount == 0) {
+        if (empty($sectionOutput)) {
             $this->output = '<b>No Items</b><br>';
             $this->outputBuilt = true;
             $this->itemCount = 0;
             return;
         }
 
-        $class = (count($sectionRenderers) > 1) ? 'wrapper-large' : 'wrapper-small';
+        $class = ($sectionsDrawn > 1) ? 'wrapper-large' : 'wrapper-small';
 
         $ret = '<div class="wrapper ' . htmlspecialchars($class) . '">';
 
-        foreach ($sectionRenderers as $sectionDisplay) {
-            $ret .= $sectionDisplay->getOutput();
-        }
+        $ret .= $sectionOutput;
 
         $ret .= '<div class="section">';
         $ret .= $this->replaceTotals($this->footer ?? '', $itemCount);
