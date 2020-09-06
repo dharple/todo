@@ -7,6 +7,17 @@ use App\Legacy\Entity\Session;
 use App\Legacy\Entity\User;
 use App\Legacy\MySQLiDatabase;
 
+if (
+    !isset($database_host) ||
+    !isset($database_instance) ||
+    !isset($database_password) ||
+    !isset($database_user) ||
+    !isset($session_max_lifetime) ||
+    !isset($todo_priority)
+) {
+    throw new \Exception('Missing configuration values');
+}
+
 $GLOBALS['db'] = new MySQLiDatabase();
 $GLOBALS['db']->connect($database_host, $database_user, $database_password, $database_instance);
 
