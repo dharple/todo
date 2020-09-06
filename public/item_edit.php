@@ -54,8 +54,6 @@ $twig->display('partials/page/header.html.twig', [
 </table>
 
 <hr>
-<br>
-
 
 <form method="POST" action="item_edit.php">
     <input type="hidden" name="op" value="<?php print($_REQUEST['op']); ?>">

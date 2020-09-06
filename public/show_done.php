@@ -52,7 +52,6 @@ if ($view == 'month') {
 </table>
 
 <hr>
-<br>
 
 <table width=100%>
 

@@ -39,7 +39,6 @@ function updateEditor(selectList, inputBox) {
 </table>
 
 <hr>
-<br>
 
 <?php
 

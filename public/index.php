@@ -265,10 +265,7 @@ Display Settings: <a href="index.php?reset_display_settings=1">Reset</a>
 </table>
 </div>
 
-<br>
-
 <hr>
-<br>
 
 <form method=POST>
 

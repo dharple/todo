@@ -75,7 +75,6 @@ $twig->display('partials/page/header.html.twig', [
 </table>
 
 <hr>
-<br>
 
 <form method=POST action="item_prioritize.php">
     <input type="hidden" name="ids" value="<?php print(htmlspecialchars($_REQUEST['ids'])); ?>">

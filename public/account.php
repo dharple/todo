@@ -52,7 +52,6 @@ $twig->display('partials/page/header.html.twig', [
 </table>
 
 <hr>
-<br>
 
 <?php
 
