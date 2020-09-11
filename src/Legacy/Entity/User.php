@@ -18,17 +18,20 @@ class User extends BaseObject
 
     public function login($username, $password)
     {
-        $query = "SELECT id FROM user WHERE username = '" . addslashes($username) . "' AND password = ENCRYPT('" . addslashes($password) . "', password)";
-
+        $query = "SELECT id, password FROM user WHERE username = '" . addslashes($username) . "'";
         $result = $this->db->query($query);
         $row = $this->db->fetchAssoc($result);
 
-        if ($row['id'] !== null) {
-            $this->load($row['id']);
-            return true;
-        } else {
+        if (empty($row)) {
             return false;
         }
+
+        if (!password_verify($password, $row['password'])) {
+            return false;
+        }
+
+        $this->load($row['id']);
+        return true;
     }
 
     public function getUsername()
@@ -53,18 +56,12 @@ class User extends BaseObject
 
     public function confirmPassword($password)
     {
-        $check = crypt($password, $this->data['password']);
-        return ($check == $this->data['password']);
+        return password_verify($password, $this->data['password']);
     }
 
     public function setPassword($password)
     {
-        $salt = substr(trim($this->data['password']), -2);
-        if ($salt == '') {
-            $salt = '69';
-        }
-
-        $this->data['password'] = crypt($password, $salt);
+        $this->data['password'] = password_hash($password, PASSWORD_DEFAULT);
     }
 
     public function getTimezone()
