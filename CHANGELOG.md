@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bootstrap
 
 ### Changed
+- Minimum PHP version is now 7.4.3.
 - Replaced inline HTML generation with twig templates.
 - Replaced table tags, and the complicated splitting logic, with divs and CSS
   column controls
@@ -18,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Estimation support
 - Export functionality
 - The remnants of the recurring item functionality.
+
+### Security
+- Passwords are now hashed using modern methods.
 
 ### Fixed
 - Items shown / not shown on printable sheet no longer includes completed
