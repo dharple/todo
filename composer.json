@@ -11,11 +11,11 @@
     ],
     "require": {
         "php": "^7.4.3",
-        "phpstan/phpstan": "^0.12.42",
         "twig/twig": "^3.0"
     },
     "require-dev": {
-        "outsanity/phpcs": "*"
+        "outsanity/phpcs": "*",
+        "phpstan/phpstan": "^0.12.42"
     },
     "config": {
         "preferred-install": {
