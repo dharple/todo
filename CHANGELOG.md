@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Minimum PHP version is now 7.4.3.
+- Replaced config.php with symfony/dotenv.
 - Replaced inline HTML generation with twig templates.
 - Replaced separate "printable" page with CSS-based controls on the index page.
 - Replaced table tags, and the complicated splitting logic, with divs and CSS
