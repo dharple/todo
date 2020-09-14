@@ -1,5 +1,6 @@
 #!/bin/sh
+#
+# See README.md to get --login-path working.
+#
 
-PASS=$(grep _pass $(dirname $0)/../config.php | cut -f 2 -d "'")
-
-mysql -u todo -p"$PASS" todo
+mysql --login-path=todo-old todo_old

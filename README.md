@@ -29,3 +29,11 @@ Connect to http://localhost:8666 and log in.
 
 The password is in `sql/02-data.sql`, as are all of your worst fears.
 
+# Scripts
+
+The `bin` directory has several scripts that require a `.mylogin.cnf` file.
+
+```bash
+mysql_config_editor set --login-path=todo-old --user=todo --password
+```
+

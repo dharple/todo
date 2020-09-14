@@ -1,11 +1,12 @@
 #!/bin/sh
+#
+# See README.md to get --login-path working.
+#
 
-PASS=$(grep _pass $(dirname $0)/../config.php | cut -f 2 -d "'")
-
-DEST=~/Dropbox/backup/todo/todo.sql.gz
+DEST=~/Dropbox/backup/todo/todo_old.sql.gz
 WORK=/tmp/todo-$$.sql.gz
 
-mysqldump --opt --skip-extended-insert --no-tablespaces -u todo -p"$PASS" todo | gzip -c - > $WORK
+mysqldump --login-path=todo-old --opt --skip-extended-insert --no-tablespaces todo_old | gzip -c - > $WORK
 
 COPY=yes
 if [ -f $DEST ] ; then
