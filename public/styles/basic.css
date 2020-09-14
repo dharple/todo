@@ -47,6 +47,14 @@ a.section-link {
     text-decoration: line-through;
 }
 
+.print {
+    display: none;
+}
+
+.noprint {
+    display: initial;
+}
+
 @media print {
     body {
         font-family: "Times New Roman";
@@ -68,4 +76,13 @@ a.section-link {
         font-weight: bold;
         color: black;
     }
+
+    .print {
+        display: initial;
+    }
+
+    .noprint {
+        display: none;
+    }
+
 }

@@ -21,7 +21,6 @@ class SectionDisplay extends BaseDisplay
     public $displayFilterClosed = 'none';
     public $displayFilterPriority = 'all';
     public $displayFilterAging = 'all';
-    public $displayPrintable = false;
     public $displayShowSection = 0;
     public $displaySectionLink = '';
     public $displayShowPriority = 'n';
@@ -70,11 +69,6 @@ class SectionDisplay extends BaseDisplay
     public function setIds($ids)
     {
         $this->displayIds = $ids;
-    }
-
-    public function setPrintable($displayPrintable)
-    {
-        $this->displayPrintable = $displayPrintable;
     }
 
     public function setShowSection($displayShowSection)
@@ -158,9 +152,7 @@ class SectionDisplay extends BaseDisplay
             }
         }
 
-        if ($this->displayPrintable) {
-            $template = 'printable';
-        } elseif ($this->displayShowPriorityEditor == 'y') {
+        if ($this->displayShowPriorityEditor == 'y') {
             $template = 'priority_editor';
         } else {
             $template = 'main';

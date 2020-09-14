@@ -21,7 +21,6 @@ class ListDisplay extends BaseDisplay
     public $displayFilterPriority = 'all';
     public $displayFilterAging = 'all';
     public $displayShowInactive = 'n';
-    public $displayPrintable = false;
     public $displayShowSection = 0;
     public $displaySectionLink = '';
     public $displayShowPriority = 'n';
@@ -72,11 +71,6 @@ class ListDisplay extends BaseDisplay
     public function setIds($ids)
     {
         $this->displayIds = $ids;
-    }
-
-    public function setPrintable($displayPrintable)
-    {
-        $this->displayPrintable = $displayPrintable;
     }
 
     public function setShowSection($displayShowSection)
@@ -137,7 +131,6 @@ class ListDisplay extends BaseDisplay
             $sectionDisplay->setFilterClosed($this->displayFilterClosed);
             $sectionDisplay->setFilterPriority($this->displayFilterPriority);
             $sectionDisplay->setFilterAging($this->displayFilterAging);
-            $sectionDisplay->setPrintable($this->displayPrintable);
             $sectionDisplay->setShowSection($this->displayShowSection);
             $sectionDisplay->setSectionLink($this->displaySectionLink);
             $sectionDisplay->setShowPriority($this->displayShowPriority);

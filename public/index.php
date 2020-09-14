@@ -82,6 +82,16 @@ if (count($_POST)) {
     }
 }
 
+// Ugly
+$query = "UPDATE item SET created = completed WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
+$result = $db->query($query);
+
+$query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '" . addslashes($user_id) . "' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
+$result = $db->query($query);
+$row = $db->fetchRow($result);
+$avg = $row[0];
+//
+
 $listDisplay = new ListDisplay($db, $_SESSION['user_id']);
 $listDisplay->setInternalPriorityLevels($todo_priority);
 
@@ -95,6 +105,11 @@ $listDisplay->setShowPriority($display_show_priority);
 
 $itemStats = new ItemStats($db, $_SESSION['user_id']);
 
+$listDisplay->setFooter($twig->render('partials/index/summary.php.twig', [
+    'avg'       => $avg,
+    'itemStats' => $itemStats,
+]));
+
 $user_id = $_SESSION['user_id'];
 
 $twig->display('partials/page/header.html.twig', [
@@ -103,7 +118,7 @@ $twig->display('partials/page/header.html.twig', [
 
 ?>
 
-<div>
+<div class="noprint">
 <table width=100%>
 <tr>
 <td align=left valign=top>
@@ -165,18 +180,7 @@ print($itemStats->doneTotal());
 ?></a>
 <br>
 
-Average Turnaround: <?php
-
-/* Ugly */
-$query = "UPDATE item SET created = completed WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
-$result = $db->query($query);
-
-$query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '" . addslashes($user_id) . "' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
-$result = $db->query($query);
-$row = $db->fetchRow($result);
-print(number_format($row[0], 1));
-
-?> days
+Average Turnaround: <?= number_format($avg, 1) ?> days
 <br>
 </td>
 <td align=right valign=top>
@@ -254,18 +258,18 @@ if ($display_show_inactive == 'y') {
 ?>
 <br>
 Display Settings: <a href="index.php?reset_display_settings=1">Reset</a>
-<br>
-
-<?php
-    print("<a href=\"\" onClick=\"window.open('printable.php','todoList','height=400,width=600'); return false;\">Printable Version</a>");
-?>
 
 </td>
 </tr>
 </table>
-</div>
 
 <hr>
+
+</div>
+
+<div class="print">
+<p align=center><b><?php print(date('F jS, Y')); ?></b> - <b><?php print($user->getFullname()); ?></b></p>
+</div>
 
 <form method=POST>
 
@@ -280,6 +284,7 @@ $sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user_id) .
 
 ?>
 
+<div class="noprint">
 <hr>
 <br>
 
@@ -292,6 +297,7 @@ $twig->display('partials/index/footer.html.twig', [
 ]);
 
 ?>
+</div>
 
 </form>
 

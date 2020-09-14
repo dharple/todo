@@ -15,7 +15,7 @@
     </div>
     {% for item in items %}
         <div class="row item-row">
-            <div class="col-1 text-right">
+            <div class="col-1 text-right noprint">
                 {% if showPriority == 'y' or (showPriority == 'above_normal' and item.priority < priorityNormal) %}
                     {{ item.priority }}
                 {% else %}
@@ -25,7 +25,21 @@
                     <input class="list-item" id="item-{{ item.id }}" type="checkbox" name="itemIds[]" value="{{ item.id }}"/>
                 </span>
             </div>
-            <div class="col-11 text-left">
+            <div class="col-1 text-right print">
+                {% if showPriority == 'y' or (showPriority == 'above_normal' and item.priority < priorityNormal) %}
+                    {{ item.priority }}
+                {% endif %}
+            </div>
+            <div class="col-1 text-right print">
+                <span class="align-top">
+                    {% if item.status == 'Open' %}
+                        &#x2610;
+                    {% else %}
+                        &#x2611;
+                    {% endif %}
+                </span>
+            </div>
+            <div class="col text-left">
                 <label class="list-item-label" label-for="item-{{ item.id }}">
                     <span class="{% if item.status != 'Open' %}closed{% elseif item.priority <= priorityHigh %}high_priority{% endif %}">
                         {{ item.task }}

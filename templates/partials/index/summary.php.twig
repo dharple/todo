@@ -1,0 +1,18 @@
+<div class="print">
+    <i>
+    Items Done
+        Today: {{ itemStats.doneToday }},
+        Yesterday: {{ itemStats.doneYesterday }},
+        This Week: {{ itemStats.doneThisWeek }},
+        Last Week: {{ itemStats.doneLastWeek }},
+        This Month: {{ itemStats.doneThisMonth }},
+        Last Month: {{ itemStats.doneLastMonth }},
+        Since Start: {{ itemStats.doneTotal }},
+        Avg: {{ avg | number_format(1) }} days
+    <br />
+    <br />
+    Items Shown: {GRAND_TOTAL}
+    <br />
+    Items Not Shown: {NOT_SHOWN}
+    </i>
+</div>
