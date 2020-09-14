@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced separate "printable" page with CSS-based controls on the index page.
 - Replaced table tags, and the complicated splitting logic, with divs and CSS
   column controls
+- Timezones are now based on modern names.
+- Timezones are now set using modern methods.
 
 ### Removed
 - Abhorrent admin functionality.
@@ -25,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Passwords are now hashed using modern methods.
 
 ### Fixed
+- A bug that stopped users from being able to set their timezone.
 - Items shown / not shown on printable sheet no longer includes completed
   items.
 - Sections with no open items were not getting rendered even if closed items

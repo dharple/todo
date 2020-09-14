@@ -91,18 +91,13 @@ Timezone:
 <td align=left>
 <select name="timezone">
 <?php
-$timezones = [
-    'US/Eastern',
-    'US/Central',
-    'US/Mountain',
-    'US/Pacific',
-    'Other'
-];
+$timezones = timezone_identifiers_list(DateTimeZone::PER_COUNTRY, 'US');
+$timezones[] = 'Other';
 
 $current_tz = $user->getTimezone();
 
 foreach ($timezones as $tz) {
-    print('<option value="' . $id . '"');
+    print('<option value="' . $tz . '"');
     if ($current_tz == $tz) {
         print(' selected');
     } elseif ($tz == 'Other' && !in_array($current_tz, $timezones)) {

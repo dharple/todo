@@ -21,33 +21,29 @@ if (
 $GLOBALS['db'] = new MySQLiDatabase();
 $GLOBALS['db']->connect($database_host, $database_user, $database_password, $database_instance);
 
-if (isset($_SERVER['REQUEST_URI'])) {
-    if (strpos($_SERVER['REQUEST_URI'], '/styles/') !== false) {
-        session_cache_expire(30);
-        session_cache_limiter('public');
-    } else {
-        session_cache_limiter('nocache');
-    }
-    $GLOBALS['session_handler'] = new Session($GLOBALS['db'], $session_max_lifetime);
-    $GLOBALS['session_handler']->initialize();
-    session_name('cwci'); // cookie in Welsh
-    session_start();
+session_cache_limiter('nocache');
 
-    if ($GLOBALS['session_handler']->regenerate) {
-        session_regenerate_id();
-    }
+$GLOBALS['session_handler'] = new Session($GLOBALS['db'], $session_max_lifetime);
+$GLOBALS['session_handler']->initialize();
+session_name('cwci'); // cookie in Welsh
+session_start();
 
-    if (empty($_SESSION['user_id']) && !preg_match('/login.php/', $_SERVER['SCRIPT_NAME'])) {
-        header('Location: /login.php');
-        exit();
-    }
+if ($GLOBALS['session_handler']->regenerate) {
+    session_regenerate_id();
+}
 
-    $GLOBALS['user'] = new User($GLOBALS['db'], $_SESSION['user_id'] ?? 0);
-    $GLOBALS['user_id'] = $_SESSION['user_id'] ?? 0;
+if (empty($_SESSION['user_id']) && !preg_match('/login.php/', $_SERVER['SCRIPT_NAME'])) {
+    header('Location: /login.php');
+    exit();
+}
 
-    if ($GLOBALS['user']->getTimezone() != '') {
-        putenv('TZ=' . $GLOBALS['user']->getTimezone());
-    }
+$GLOBALS['user'] = new User($GLOBALS['db'], $_SESSION['user_id'] ?? 0);
+$GLOBALS['user_id'] = $_SESSION['user_id'] ?? 0;
+
+if ($GLOBALS['user']->getTimezone() != '') {
+    date_default_timezone_set($GLOBALS['user']->getTimezone());
+    $query = 'SET time_zone="' . addslashes($GLOBALS['user']->getTimezone()) . '"';
+    $GLOBALS['db']->query($query);
 }
 
 $todo_priority['normal'] = intval((($todo_priority['low'] - $todo_priority['high']) / 2) + $todo_priority['high']);
