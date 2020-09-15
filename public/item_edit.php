@@ -67,6 +67,8 @@ $twig->display('partials/page/header.html.twig', [
 $sectionList = new SimpleList($db, Section::class);
 $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
 
+$itemIds = [];
+
 if ($_REQUEST['op'] == 'edit') {
     print('Editing...<br><br>');
 
@@ -81,8 +83,7 @@ if ($_REQUEST['op'] == 'edit') {
     $itemIds = ['new'];
 }
 
-
-foreach ($_REQUEST['itemIds'] as $itemId) {
+foreach ($itemIds as $itemId) {
     if ($itemId == 'new') {
         $item = new Item($db);
         $item->setStatus('Open');
