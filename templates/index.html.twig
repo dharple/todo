@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+To Do List For {{ 'now' | date('F jS, Y') }}
+{% endblock %}
+
+{% block body %}
+<div class="noprint">
+    <table width=100%>
+        <tr>
+            <td align=left valign=top>
+                <b>To Do List For {{ user.fullname }}</b>
+                <br />
+
+                Items Done:<br />
+                &nbsp;&nbsp;
+                Today: <a href="show_done.php?view=today">{{ itemStats.doneToday }}</a>,
+                Yesterday: <a href="show_done.php?view=yesterday">{{ itemStats.doneYesterday }}</a>
+                <br />
+
+                &nbsp;&nbsp;
+                This Week: <a href="show_done.php?view=week">{{ itemStats.doneThisWeek }}</a>,
+                Last Week: <a href="show_done.php?view=lastweek">{{ itemStats.doneLastWeek }}</a>
+                <br />
+
+                &nbsp;&nbsp;
+                This Month: <a href="show_done.php?view=month">{{ itemStats.doneThisMonth }}</a>,
+                Last Month: <a href="show_done.php?view=lastmonth">{{ itemStats.doneLastMonth }}</a>
+                <br />
+
+                &nbsp;&nbsp;
+                3 / 6 / 9 / 12 Months:
+                <a href="show_done.php?view=month3">{{ itemStats.donePreviousMonths(3) }}</a> /
+                <a href="show_done.php?view=month6">{{ itemStats.donePreviousMonths(6) }}</a> /
+                <a href="show_done.php?view=month9">{{ itemStats.donePreviousMonths(9) }}</a> /
+                <a href="show_done.php?view=month12">{{ itemStats.donePreviousMonths(12) }}</a>
+                <br />
+
+                Items Done Since Start: <a href="show_done.php">{{ itemStats.doneTotal }}</a>
+                <br />
+
+                Average Turnaround: {{ avg | number_format(1) }} days
+                <br />
+            </td>
+            <td align=right valign=top>
+                Filter Closed Items:&nbsp;&nbsp;
+                {% for value, label in filterClosedValues %}
+                    {% if filterClosedSelected == value %}
+                        {{ label }}
+                    {% else %}
+                        <a href="index.php?filter_closed={{ value }}">{{ label }}</a>
+                    {% endif %}
+                {% endfor %}
+                <br />
+
+                Filter Priority:&nbsp;&nbsp;
+                {% for value, label in filterPriorityValues %}
+                    {% if filterPrioritySelected == value %}
+                        {{ label }}
+                    {% else %}
+                        <a href="index.php?filter_priority={{ value }}">{{ label }}</a>
+                    {% endif %}
+                {% endfor %}
+                <br />
+
+                Show Priority:&nbsp;&nbsp;
+                {% for value, label in showPriorityValues %}
+                    {% if showPrioritySelected == value %}
+                        {{ label }}
+                    {% else %}
+                        <a href="index.php?show_priority={{ value }}">{{ label }}</a>
+                    {% endif %}
+                {% endfor %}
+                <br />
+
+                Filter Aging:&nbsp;&nbsp;
+                {% for value, label in filterAgingValues %}
+                    {% if filterAgingSelected == value %}
+                        {{ label }}
+                    {% else %}
+                        <a href="index.php?filter_aging={{ value }}">{{ label }}</a>
+                    {% endif %}
+                {% endfor %}
+                days old
+                <br />
+
+                Show Inactive Sections:&nbsp;&nbsp;
+                {% if showInactiveSelected == 'y' %}
+                    Yes <a href="index.php?show_inactive=n">No</a>
+                {% else %}
+                    <a href="index.php?show_inactive=y">Yes</a> No
+                {% endif %}
+                <br />
+
+                Display Settings: <a href="index.php?reset_display_settings=1">Reset</a>
+            </td>
+        </tr>
+    </table>
+    <hr />
+</div>
+
+<div class="print">
+    <p align=center><b>{{ 'now' | date('F jS, Y') }}</b> - <b>{{ user.fullname }}</b></p>
+</div>
+
+<form method=POST>
+    {{ list | raw }}
+
+    <div class="noprint">
+        <hr />
+        <br />
+
+        <table width="100%" cellpadding=0 cellspacing=0 border=0>
+        <tr>
+            <td align=left>
+                <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit" {% if not hasItems %}disabled{% endif %} />
+                <input type="submit" class="btn btn-primary" name="submitButton" value="Mark Done" {% if not hasItems %}disabled{% endif %} />
+                <input type="submit" class="btn btn-secondary" name="submitButton" value="Prioritize" {% if not hasItems %}disabled{% endif %} />
+                {% if showDuplicate %}
+                    <input type="submit" class="btn btn-secondary" name="submitButton" value="Duplicate" {% if not hasItems %}disabled{% endif %} />
+                {% endif %}
+            </td>
+            <td align=center>
+                <input type="submit" class="btn btn-secondary" name="submitButton" value="My Account">
+                <input type="submit" class="btn btn-danger" name="submitButton" value="Logout">
+            </td>
+            <td align=right>
+                <input type="submit" class="btn btn-primary" name="submitButton" value="Bulk" {% if not hasSections %}disabled{% endif %} />
+                <input type="submit" class="btn btn-secondary" name="submitButton" value="Add New" {% if not hasSections %}disabled{% endif %} />
+                <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit Sections">
+            </td>
+        </tr>
+        </table>
+    </div>
+</form>
+{% endblock %}
