@@ -9,12 +9,14 @@ use App\Legacy\SimpleList;
 
 // Handle POST
 
+$errors = [];
+
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Mark Done') {
         foreach ($_POST['itemIds'] as $itemId) {
             $item = new Item($db, $itemId);
             if ($item->getId() != $itemId) {
-                print('Unable to load item #' . $itemId . '<br>');
+                $errors[] = sprintf('Unable to load item #%s', $itemId);
                 continue;
             }
 
@@ -24,10 +26,13 @@ if (count($_POST)) {
             $ret = $item->save();
 
             if (!$ret) {
-                print('An error occured while updating item #' . $itemId . ' - ' . $item->getTask() . '.<br>');
-                print($item->getErrorNumber() . ': ' . $item->getErrorMessage());
-                print('<br>');
-                print('<hr>');
+                $errors[] = sprintf(
+                    'An error occured while updating item #%s - %s.  %s: %s',
+                    $itemId,
+                    $item->getTask(),
+                    $item->getErrorNumber(),
+                    $item->getErrorMessage()
+                );
             }
         }
     } elseif ($_POST['submitButton'] == 'Add New') {
@@ -56,7 +61,7 @@ if (count($_POST)) {
         foreach ($_POST['itemIds'] as $itemId) {
             $item = new Item($db, $itemId);
             if ($item->getId() != $itemId) {
-                print('Unable to load item #' . $itemId . '<br>');
+                $errors[] = sprintf('Unable to load item #%s', $itemId);
                 continue;
             }
 
@@ -73,10 +78,13 @@ if (count($_POST)) {
             $ret = $newItem->save();
 
             if (!$ret) {
-                print('An error occured while duplicating item #' . $itemId . ' - ' . $item->getTask() . '.<br>');
-                print($newItem->getErrorNumber() . ': ' . $newItem->getErrorMessage());
-                print('<br>');
-                print('<hr>');
+                $errors[] = sprintf(
+                    'An error occured while duplicating item #%s - %s.  %s: %s',
+                    $itemId,
+                    $item->getTask(),
+                    $newItem->getErrorNumber(),
+                    $newItem->getErrorMessage()
+                );
             }
         }
     }
@@ -120,6 +128,7 @@ $sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user_id) .
 
 $twig->display('index.html.twig', [
     'avg'                    => $avg,
+    'errors'                 => $errors,
     'filterAgingSelected'    => $display_filter_aging,
     'filterAgingValues'      => $aging_display,
     'filterClosedSelected'   => $display_filter_closed,
