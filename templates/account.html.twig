@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Account Editor
+{% endblock %}
+
+{% block body %}
+<table width=100%>
+    <tr>
+        <td align=left>
+            <b>Account Editor</b>
+        </td>
+        <td align=right>
+            <a href="index.php">Home</a>
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<form method="POST" action="account.php">
+
+<table>
+    <tr>
+        <td align=right>
+            Full Name:
+        </td>
+        <td align=left>
+            <input type="text" name="fullname" value="{{ user.fullname }}" data-lpignore="true" />
+        </td>
+    </tr>
+
+    <tr>
+        <td align=right>
+            Timezone:
+        </td>
+        <td align=left>
+            <select name="timezone">
+                {% for timezone in timezones %}
+                    <option value="{{ timezone }}" {% if user.timezone == timezone %}selected{% endif %}>{{ timezone }}</option>
+                {% endfor %}
+                <option value="Other" {% if user.timezone not in timezones %}selected{% endif %}>Other</option>
+            </select>
+            <input type="text" name="timezone_other" value="{% if user.timezone not in timezones %}{{ user.timezone }}{% endif %}" data-lpignore="true" />
+        </td>
+    </tr>
+</table>
+
+<input type=submit name="submitButton" value="Update">
+
+<hr />
+
+Change Password<br /><br />
+
+<table>
+    <tr><td align=right>Old Password:</td><td><input type="password" name="old_password" value="" /></td></tr>
+    <tr><td align=right>New Password:</td><td><input type="password" name="new_password" value="" /></td></tr>
+    <tr><td align=right>Confirm:</td><td><input type="password" name="confirm" value="" /></td></tr>
+</table>
+
+<input type=submit name="submitButton" value="Change Password" />
+
+</form>
+{% endblock %}
