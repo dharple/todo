@@ -4,6 +4,10 @@ use App\Legacy\Entity\User;
 
 $errors = [];
 
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
+
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Login') {
         $user = new User($db);
@@ -21,5 +25,5 @@ if (count($_POST)) {
 
 $twig->display('login.html.twig', [
     'errors' => $errors,
-    'user'   => $GLOBALS['user'],
+    'user'   => $user,
 ]);

@@ -4,6 +4,10 @@ use App\Legacy\Entity\Item;
 use App\Legacy\ListDisplay;
 use App\Legacy\SimpleList;
 
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
+
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {
         foreach ($_POST['itemPriority'] as $itemId => $priority) {
@@ -13,10 +17,10 @@ if (count($_POST)) {
                 continue;
             }
 
-            if ($priority < $todo_priority['high']) {
-                $priority = $todo_priority['high'];
-            } elseif ($priority > $todo_priority['low']) {
-                $priority = $todo_priority['low'];
+            if ($priority < $GLOBALS['todo_priority']['high']) {
+                $priority = $GLOBALS['todo_priority']['high'];
+            } elseif ($priority > $GLOBALS['todo_priority']['low']) {
+                $priority = $GLOBALS['todo_priority']['low'];
             }
 
             $item->setPriority($priority);
@@ -32,22 +36,21 @@ if (count($_POST)) {
     }
 }
 
-$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
-$listDisplay->setInternalPriorityLevels($todo_priority);
+$listDisplay = new ListDisplay($db, $user->getId());
+$listDisplay->setInternalPriorityLevels($GLOBALS['todo_priority']);
 $listDisplay->setShowPriorityEditor('y');
 
-$listDisplay->setFilterClosed($display_filter_closed);
-$listDisplay->setFilterPriority($display_filter_priority);
-$listDisplay->setFilterAging($display_filter_aging);
-$listDisplay->setShowInactive($display_show_inactive);
+$listDisplay->setFilterClosed($GLOBALS['display_filter_closed']);
+$listDisplay->setFilterPriority($GLOBALS['display_filter_priority']);
+$listDisplay->setFilterAging($GLOBALS['display_filter_aging']);
+$listDisplay->setShowInactive($GLOBALS['display_show_inactive']);
 
 $ids = unserialize($_REQUEST['ids']);
 if (is_array($ids) && count($ids)) {
     $listDisplay->setIds($ids);
 } else {
-    $user_id = $_SESSION['user_id'];
     $itemList = new SimpleList($db, Item::class);
-    $items = $itemList->load("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Open'");
+    $items = $itemList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Open'");
     $ids = [];
     foreach ($items as $item) {
         array_push($ids, $item->getId());

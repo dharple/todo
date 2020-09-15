@@ -5,7 +5,9 @@ use App\Legacy\Entity\Item;
 use App\Legacy\Entity\Section;
 use App\Legacy\SimpleList;
 
-$user_id = $_SESSION['user_id'];
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
 
 $twig->display('partials/page/header.html.twig', [
     'title' => 'Section Editor',
@@ -55,7 +57,7 @@ if (count($_POST)) {
             if ($name != '') {
                 $section = new Section($db);
                 $section->setName($name);
-                $section->setUserId($user_id);
+                $section->setUserId($user->getId());
                 $ret = $section->save();
             }
         } elseif ($_POST['submitButton'] == 'Rename') {
@@ -72,7 +74,7 @@ if (count($_POST)) {
             $id = $_POST['toggle_section_id'];
             if ($id == 'all') {
                 $sectionList = new SimpleList($db, Section::class);
-                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Inactive'");
+                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Inactive'");
             } else {
                 if ($id > 0) {
                     $sections = [new Section($db, $id)];
@@ -97,7 +99,7 @@ if (count($_POST)) {
             $id = $_POST['toggle_section_id'];
             if ($id == 'all') {
                 $sectionList = new SimpleList($db, Section::class);
-                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Active'");
+                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Active'");
             } else {
                 if ($id > 0) {
                     $sections = [new Section($db, $id)];
@@ -116,7 +118,9 @@ if (count($_POST)) {
 
         if (!$ret) {
             print('An error occured while updating your section.<br>');
-            print($section->getErrorNumber() . ': ' . $section->getErrorMessage());
+            if (isset($section) && is_object($section)) {
+                print($section->getErrorNumber() . ': ' . $section->getErrorMessage());
+            }
             print('<br>');
             print('<hr>');
         }
@@ -144,7 +148,7 @@ Rename:<br>
 <?php
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY name");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
 
 foreach ($sections as $section) {
     print('<option value="' . $section->getId() . '">' . $section->getName() . '</option>');

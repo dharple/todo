@@ -7,6 +7,10 @@ use App\Legacy\ItemStats;
 use App\Legacy\ListDisplay;
 use App\Legacy\SimpleList;
 
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
+
 // Handle POST
 
 $errors = [];
@@ -69,7 +73,7 @@ if (count($_POST)) {
             $newItem = new Item($db);
 
             $newItem->setCreated($dateUtils->getNow());
-            $newItem->setUserId($_SESSION['user_id']);
+            $newItem->setUserId($user->getId());
             $newItem->setTask($item->getTask());
             $newItem->setSectionId($item->getSectionId());
             $newItem->setStatus('Open');
@@ -90,57 +94,55 @@ if (count($_POST)) {
 }
 
 // Ugly
-$query = "UPDATE item SET created = completed WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
+$query = "UPDATE item SET created = completed WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
 $result = $db->query($query);
 
-$query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '" . addslashes($user_id) . "' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
+$query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '" . addslashes($user->getId()) . "' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
 $result = $db->query($query);
 $row = $db->fetchRow($result);
 $avg = $row[0];
-//
+// End Ugly
 
-$listDisplay = new ListDisplay($db, $_SESSION['user_id']);
-$listDisplay->setInternalPriorityLevels($todo_priority);
+$listDisplay = new ListDisplay($db, $user->getId());
+$listDisplay->setInternalPriorityLevels($GLOBALS['todo_priority']);
 
-$listDisplay->setFilterClosed($display_filter_closed);
-$listDisplay->setFilterPriority($display_filter_priority);
-$listDisplay->setFilterAging($display_filter_aging);
-$listDisplay->setShowInactive($display_show_inactive);
-$listDisplay->setShowSection($display_show_section);
+$listDisplay->setFilterClosed($GLOBALS['display_filter_closed']);
+$listDisplay->setFilterPriority($GLOBALS['display_filter_priority']);
+$listDisplay->setFilterAging($GLOBALS['display_filter_aging']);
+$listDisplay->setShowInactive($GLOBALS['display_show_inactive']);
+$listDisplay->setShowSection($GLOBALS['display_show_section']);
 $listDisplay->setSectionLink('index.php?show_section={SECTION_ID}');
-$listDisplay->setShowPriority($display_show_priority);
+$listDisplay->setShowPriority($GLOBALS['display_show_priority']);
 
-$itemStats = new ItemStats($db, $_SESSION['user_id']);
+$itemStats = new ItemStats($db, $user->getId());
 
 $listDisplay->setFooter($twig->render('partials/index/summary.php.twig', [
     'avg'       => $avg,
     'itemStats' => $itemStats,
 ]));
 
-$user_id = $_SESSION['user_id'];
-
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 
 $sectionList = new SimpleList($db, Section::class);
-$sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user_id) . "' AND status = 'Active'");
+$sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Active'");
 
 $twig->display('index.html.twig', [
     'avg'                    => $avg,
     'errors'                 => $errors,
-    'filterAgingSelected'    => $display_filter_aging,
-    'filterAgingValues'      => $aging_display,
-    'filterClosedSelected'   => $display_filter_closed,
-    'filterClosedValues'     => $closed_display,
-    'filterPrioritySelected' => $display_filter_priority,
-    'filterPriorityValues'   => $priority_display,
+    'filterAgingSelected'    => $GLOBALS['display_filter_aging'],
+    'filterAgingValues'      => $GLOBALS['aging_display'],
+    'filterClosedSelected'   => $GLOBALS['display_filter_closed'],
+    'filterClosedValues'     => $GLOBALS['closed_display'],
+    'filterPrioritySelected' => $GLOBALS['display_filter_priority'],
+    'filterPriorityValues'   => $GLOBALS['priority_display'],
     'hasItems'               => ($itemCount > 0),
     'hasSections'            => ($sectionCount > 0),
-    'itemStats'              => $itemStats, 
+    'itemStats'              => $itemStats,
     'list'                   => $listOutput,
-    'showDuplicate'          => ($display_filter_closed != 'none'),
-    'showInactiveSelected'   => $display_show_inactive,
-    'showPrioritySelected'   => $display_show_priority,
-    'showPriorityValues'     => $show_priority_display,
+    'showDuplicate'          => ($GLOBALS['display_filter_closed'] != 'none'),
+    'showInactiveSelected'   => $GLOBALS['display_show_inactive'],
+    'showPrioritySelected'   => $GLOBALS['display_show_priority'],
+    'showPriorityValues'     => $GLOBALS['show_priority_display'],
     'user'                   => $user,
 ]);

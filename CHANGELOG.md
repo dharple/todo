@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A bug that stopped users from being able to set their timezone.
 - Items shown / not shown on printable sheet no longer includes completed
   items.
+- Explicitly bring in global variables on pages.
 - Sections with no open items were not getting rendered even if closed items
   were present and the view requested them.
 

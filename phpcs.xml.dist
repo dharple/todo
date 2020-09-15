@@ -3,7 +3,6 @@
 
     <rule ref="vendor/outsanity/phpcs/Outsanity/ruleset.xml" />
 
-    <file>bin</file>
     <file>src</file>
 
     <rule ref="Generic.Files.LineLength">

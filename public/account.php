@@ -5,9 +5,13 @@ use App\Legacy\SimpleList;
 
 $error_message = '';
 
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
+
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {
-        $user = new User($db, $_SESSION['user_id']);
+        $user = new User($db, $user->getId());
 
         $user->setFullname($_POST['fullname']);
         if ($_POST['timezone'] == 'Other') {
@@ -18,7 +22,7 @@ if (count($_POST)) {
 
         $user->save();
     } elseif ($_POST['submitButton'] == 'Change Password') {
-        $user = new User($db, $_SESSION['user_id']);
+        $user = new User($db, $user->getId());
 
         $ret = $user->confirmPassword($_POST['old_password']);
         if ($ret && $_POST['new_password'] == $_POST['confirm']) {
@@ -57,17 +61,6 @@ $twig->display('partials/page/header.html.twig', [
 
 if ($error_message != '') {
     print('<span style="color: red;">' . $error_message . '</span><br><hr><br>');
-}
-
-$user = new User($db, $_SESSION['user_id']);
-$user_id = $_SESSION['user_id'];
-
-$userList = new SimpleList($db, User::class);
-$tempUsers = $userList->load('');
-
-$allUsers = [];
-foreach ($tempUsers as $tempUser) {
-    $allUsers[$tempUser->getId()] = $tempUser->getFullname();
 }
 
 ?>

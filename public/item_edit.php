@@ -5,7 +5,9 @@ use App\Legacy\Entity\Item;
 use App\Legacy\Entity\Section;
 use App\Legacy\SimpleList;
 
-$user_id = $_SESSION['user_id'];
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
 
 if (count($_POST)) {
     $dateUtils = new DateUtils();
@@ -18,7 +20,7 @@ if (count($_POST)) {
         if ($itemId == 'new') {
             $item = new Item($db);
             $item->setCreated($dateUtils->getNow());
-            $item->setUserId($user_id);
+            $item->setUserId($user->getId());
         } else {
             $item = new Item($db, $itemId);
             $item->setCompleted($_POST['completed'][$itemId]);
@@ -63,7 +65,7 @@ $twig->display('partials/page/header.html.twig', [
 <?php
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY name");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
 
 if ($_REQUEST['op'] == 'edit') {
     print('Editing...<br><br>');
@@ -80,7 +82,7 @@ if ($_REQUEST['op'] == 'edit') {
 }
 
 
-foreach ($itemIds as $itemId) {
+foreach ($_REQUEST['itemIds'] as $itemId) {
     if ($itemId == 'new') {
         $item = new Item($db);
         $item->setStatus('Open');
@@ -135,10 +137,10 @@ foreach ($itemIds as $itemId) {
     print('<select name=priority[' . $itemId . ']>');
 
     if ($item->getPriority() == 0) {
-        $item->setPriority($todo_priority['normal']);
+        $item->setPriority($GLOBALS['todo_priority']['normal']);
     }
 
-    for ($priority = $todo_priority['high']; $priority <= $todo_priority['low']; $priority++) {
+    for ($priority = $GLOBALS['todo_priority']['high']; $priority <= $GLOBALS['todo_priority']['low']; $priority++) {
         print('<option value="' . $priority . '"');
         if ($priority == $item->getPriority()) {
             print(' selected');

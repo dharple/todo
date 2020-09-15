@@ -5,6 +5,10 @@ use App\Legacy\DateUtils;
 use App\Legacy\ItemHistory;
 use App\Legacy\Entity\Section;
 
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
+
 $twig->display('partials/page/header.html.twig', [
     'title' => 'Items Done',
 ]);
@@ -48,7 +52,7 @@ if ($_REQUEST['view'] == 'month') {
 <?php
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "'");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "'");
 $sectionsById = [];
 foreach ($sections as $section) {
     $sectionsById[$section->getId()] = $section->getName();
@@ -58,7 +62,7 @@ unset($sections);
 $dateUtils = new DateUtils();
 
 
-$itemHistory = new ItemHistory($db, $user_id);
+$itemHistory = new ItemHistory($db, $user->getId());
 $itemHistory->setOrdering('section');
 
 switch ($_REQUEST['view']) {

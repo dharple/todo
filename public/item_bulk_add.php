@@ -5,7 +5,9 @@ use App\Legacy\Entity\Item;
 use App\Legacy\Entity\Section;
 use App\Legacy\SimpleList;
 
-$user_id = $_SESSION['user_id'];
+$db = $GLOBALS['db'];
+$twig = $GLOBALS['twig'];
+$user = $GLOBALS['user'];
 
 if (count($_POST)) {
     $dateUtils = new DateUtils();
@@ -20,7 +22,7 @@ if (count($_POST)) {
         $item = new Item($db);
 
         $item->setCreated($dateUtils->getNow());
-        $item->setUserId($user_id);
+        $item->setUserId($user->getId());
         $item->setTask($task);
         $item->setSectionId($_POST['section']);
         $item->setStatus('Open');
@@ -62,7 +64,7 @@ Section:
 <?php
 
 $ids = [];
-$query = "SELECT section_id, MAX(created) AS created FROM item WHERE user_id = '" . addslashes($user_id) . "' GROUP BY section_id ORDER BY created DESC LIMIT 5";
+$query = "SELECT section_id, MAX(created) AS created FROM item WHERE user_id = '" . addslashes($user->getId()) . "' GROUP BY section_id ORDER BY created DESC LIMIT 5";
 $result = $db->query($query);
 while ($row = $db->fetchRow($result)) {
     array_push($ids, $row[0]);
@@ -70,14 +72,17 @@ while ($row = $db->fetchRow($result)) {
 
 if (count($ids) > 0) {
     $sectionList = new SimpleList($db, Section::class);
-    $sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' AND id IN (" . implode(',', $ids) . ')');
+    $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND id IN (" . implode(',', $ids) . ')');
 
     foreach ($ids as $id) {
+        $section = null;
+
         foreach ($sections as $section) {
             if ($section->getId() == $id) {
                 break;
             }
         }
+
         if (!is_object($section)) {
             continue;
         }
@@ -98,7 +103,7 @@ if (count($ids) > 0) {
 }
 
 $sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '" . addslashes($user_id) . "' ORDER BY name");
+$sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
 
 $sectionCache = [];
 foreach ($sections as $section) {
@@ -119,9 +124,9 @@ foreach ($sections as $section) {
 Priority:
 <select name=priority>
 <?php
-for ($priority = $todo_priority['high']; $priority <= $todo_priority['low']; $priority++) {
+for ($priority = $GLOBALS['todo_priority']['high']; $priority <= $GLOBALS['todo_priority']['low']; $priority++) {
     print('<option value="' . $priority . '"');
-    if ($priority == $todo_priority['normal']) {
+    if ($priority == $GLOBALS['todo_priority']['normal']) {
         print(' selected');
     }
     print('>');
