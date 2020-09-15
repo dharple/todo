@@ -21,4 +21,5 @@ if (count($_POST)) {
 
 $twig->display('login.html.twig', [
     'errors' => $errors,
+    'user'   => $GLOBALS['user'],
 ]);

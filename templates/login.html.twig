@@ -7,6 +7,11 @@ To Do List
 {% block body %}
 <div class="row h-100 align-items-center justify-content-center">
     <div class="col-3">
+        {% if user.id %}
+            <div class="mb-3 text-center">
+                You are logged in as {{ user.username }}. <a href="logout.php">Logout?</a>
+            </div>
+        {% endif %}
         <form method="post">
             <div class="form-group">
                 <label for="inputUsername">Username</label>
@@ -16,7 +21,7 @@ To Do List
                 <label for="inputPassword">Password</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" required>
             </div>
-            <input type="submit" name="submitButton" value="Login" class="btn btn-primary" />
+            <input type="submit" name="submitButton" value="Login" class="btn btn-primary btn-block btn-lg" />
         </form>
     </div>
 </div>

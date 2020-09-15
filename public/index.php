@@ -48,8 +48,7 @@ if (count($_POST)) {
         header('Location: section_edit.php');
         die();
     } elseif ($_POST['submitButton'] == 'Logout') {
-        session_unset();
-        header('Location: login.php');
+        header('Location: logout.php');
         die();
     } elseif ($_POST['submitButton'] == 'My Account') {
         header('Location: account.php');
