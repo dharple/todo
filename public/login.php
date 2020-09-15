@@ -2,7 +2,7 @@
 
 use App\Legacy\Entity\User;
 
-$error_message = '';
+$errors = [];
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Login') {
@@ -14,54 +14,11 @@ if (count($_POST)) {
             header('Location: index.php');
             exit();
         } else {
-            $error_message = 'Invalid Login';
+            $errors[] = 'Invalid login';
         }
     }
 }
 
-$twig->display('partials/page/header.html.twig', [
-    'title' => 'To Do List',
+$twig->display('login.html.twig', [
+    'errors' => $errors,
 ]);
-
-?>
-
-<form method=POST>
-
-<br>
-<?php
-
-if ($error_message != '') {
-    print('<span style="color: red;">' . $error_message . '</span><br><hr><br>');
-}
-
-?>
-
-<table cellpadding=0 cellspacing=0 border=0>
-    <tr>
-        <td align=right>
-            Username:
-        </td>
-        <td align=left>
-            <input type="text" name="username" />
-        </td>
-    </tr>
-    <tr>
-        <td align=right>
-            Password:
-        </td>
-        <td align=left>
-            <input type="password" name="password" />
-        </td>
-    </tr>
-    <tr>
-        <td align=center colspan=2>
-            <input type="submit" name="submitButton" value="Login" />
-        </td>
-    </tr>
-</table>
-
-</form>
-
-<?php
-
-$twig->display('partials/page/footer.html.twig');
