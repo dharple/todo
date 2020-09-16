@@ -1,4 +1,4 @@
-<select name="section">
+<select name="{{ selectName ?? 'section' }}">
     {% for section in sections %}
         <option value="{{ section.id }}" {% if section.id == selectedSection %}selected {% endif %}/>
             {{- section.name -}}

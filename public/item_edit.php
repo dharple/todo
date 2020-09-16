@@ -38,145 +38,27 @@ if (count($_POST)) {
     }
 }
 
-$twig->display('partials/page/header.html.twig', [
-    'title' => 'Item Editor',
-]);
-
-?>
-
-<table width=100%>
-<tr>
-<td align=left>
-<b>Item Editor</b>
-</td>
-<td align=right>
-<a href="index.php">Home</a>
-</td>
-</tr>
-</table>
-
-<hr>
-
-<form method="POST" action="item_edit.php">
-    <input type="hidden" name="op" value="<?php print($_REQUEST['op']); ?>">
-    <input type="hidden" name="ids" value="<?php print(htmlspecialchars($_REQUEST['ids'] ?? '')); ?>">
-
-
-<?php
-
 $sectionList = new SimpleList($db, Section::class);
 $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
 
-$itemIds = [];
+$items = [];
 
 if ($_REQUEST['op'] == 'edit') {
-    print('Editing...<br><br>');
-
-    $itemIds = unserialize($_REQUEST['ids']);
-
-    if (!is_array($itemIds)) {
-        $itemIds = [];
-    }
+    $itemList = new SimpleList($db, Item::class);
+    $items = $itemList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND id IN ('" . implode("','", unserialize($_REQUEST['ids'])) . "')");
 } elseif ($_REQUEST['op'] == 'add') {
-    print('Adding...<br><br>');
+    $item = new Item($db);
+    $item->setStatus('Open');
+    $item->setPriority($GLOBALS['todo_priority']['normal']);
 
-    $itemIds = ['new'];
+    $items = [ $item ];
 }
 
-foreach ($itemIds as $itemId) {
-    if ($itemId == 'new') {
-        $item = new Item($db);
-        $item->setStatus('Open');
-        $item->setPriority('Normal');
-    } else {
-        $item = new Item($db, $itemId);
-    }
-
-    print('Item Id #: ' . $itemId . "<br><br>\n");
-
-    print('Section: ');
-    print('<select name=section[' . $itemId . ']>');
-    foreach ($sections as $section) {
-        print('<option value=' . $section->getId());
-        if ($section->getId() == $item->getSectionId()) {
-            print(' selected');
-        }
-        print('>');
-        print($section->getName());
-        if ($section->getStatus() == 'Inactive') {
-            print(' (Inactive)');
-        }
-        print('</option>');
-    }
-    print('</select>');
-    print("<br>\n");
-
-    print('<span style="vertical-align: top; padding-right: 3pt;">Task:</span>');
-    print('<textarea name="task[' . $itemId . ']" rows=1 cols=60>' .
-            htmlspecialchars($item->getTask()) . '</textarea>');
-    print("<br>\n");
-
-    if ($itemId == 'new') {
-        print('<input type="hidden" name=status[' . $itemId . '] value="Open">');
-    } else {
-        print('Status: ');
-        print('<select name=status[' . $itemId . ']>');
-        foreach (['Open', 'Closed', 'Deleted'] as $status) {
-            print('<option value="' . $status . '"');
-            if ($status == $item->getStatus()) {
-                print(' selected');
-            }
-            print('>');
-            print($status);
-            print('</option>');
-        }
-        print('</select>');
-        print("<br>\n");
-    }
-
-    print('Priority: ');
-    print('<select name=priority[' . $itemId . ']>');
-
-    if ($item->getPriority() == 0) {
-        $item->setPriority($GLOBALS['todo_priority']['normal']);
-    }
-
-    for ($priority = $GLOBALS['todo_priority']['high']; $priority <= $GLOBALS['todo_priority']['low']; $priority++) {
-        print('<option value="' . $priority . '"');
-        if ($priority == $item->getPriority()) {
-            print(' selected');
-        }
-        print('>');
-        print($priority);
-        print('</option>');
-    }
-    print('</select>');
-    print("<br>\n");
-
-    if ($_REQUEST['op'] == 'edit') {
-        print('Completed: ');
-        print('<input type=text name=completed[' . $itemId . '] value="' .
-                htmlspecialchars($item->getCompleted()) . '">');
-        print("<br>\n");
-    }
-
-    print("<br>\n");
-
-    print('<hr>');
-}
-
-?>
-
-<input type=submit name="submitButton" value="Do It">
-<?php
-if ($_REQUEST['op'] == 'add') {
-    ?>
-<input type=submit name="submitButton" value="Do It, Then Add Another">
-    <?php
-}
-?>
-</form>
-
-<?php
-
-$twig->display('partials/page/footer.html.twig');
+$twig->display('item_edit.html.twig', [
+    'ids'           => $_REQUEST['ids'] ?? '',
+    'items'         => $items,
+    'op'            => $_REQUEST['op'],
+    'sections'      => $sections,
+    'statuses'      => ['Open', 'Closed', 'Deleted'],
+    'todo_priority' => $GLOBALS['todo_priority'],
+]);

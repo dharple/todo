@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Item Edit
+{% endblock %}
+
+{% block body %}
+<table width=100%>
+    <tr>
+        <td align=left>
+            <b>Item Edit</b>
+        </td>
+        <td align=right>
+            <a href="index.php">Home</a>
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<form method="POST" action="item_edit.php">
+    <input type="hidden" name="op" value="{{ op }}">
+    <input type="hidden" name="ids" value="{{ ids }}">
+
+    {% if op == 'edit' %}
+        Editing...
+    {% else %}
+        Adding...
+    {% endif %}
+    <br />
+    <br />
+
+    {% for item in items %}
+        {% set itemId = item.id ?? 'new' %}
+        Item Id #: {{ itemId }}
+        <br />
+        <br />
+
+        Section:
+        {% set selectedSection = item.sectionId %}
+        {% set selectName = 'section[' ~ itemId ~ ']' %}
+        {% include('partials/form/section.html.twig') %}
+        <br />
+
+        <span style="vertical-align: top; padding-right: 3pt;">Task:</span>
+        <textarea name="task[{{ itemId }}]" rows=1 cols=60>{{ item.task }}</textarea>
+        <br />
+
+        {% if op == 'edit' %}
+            Status:
+            <select name="status[{{ itemId }}]">
+            {% for status in statuses %}
+                <option value="{{ status }}" {% if status == item.status %}selected {% endif %}/>
+                    {{ status }}
+                </option>
+            {% endfor %}
+            </select>
+            <br />
+        {% else %}
+            <input type="hidden" name="status[{{ itemId }}]" value="Open">
+        {% endif %}
+
+        Priority:
+        {% set selectedPriority = item.priority %}
+        {% set selectName = 'priority[' ~ itemId ~ ']' %}
+        {% include 'partials/form/priority.html.twig' %}
+        <br />
+
+        {% if op == 'edit' %}
+            Completed:
+            <input type=text name=completed[{{ itemId }}] value="{{ item.completed }}">
+            <br />
+        {% endif %}
+
+        <br />
+        <hr />
+    {% endfor %}
+
+    <input type="submit" name="submitButton" value="Do It" />
+    {% if op == 'add' %}
+        <input type="submit" name="submitButton" value="Do It, Then Add Another">
+    {% endif %}
+
+</form>
+
+{% endblock %}
