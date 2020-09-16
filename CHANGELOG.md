@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - A bug that stopped users from being able to set their timezone.
+- Clicking Edit without selecting an item no longer shows a blank page.
 - Items shown / not shown on printable sheet no longer includes completed
   items.
 - Explicitly bring in global variables on pages.

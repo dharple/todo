@@ -8,12 +8,14 @@ $db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
 $user = $GLOBALS['user'];
 
+$errors = [];
+
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Update') {
         foreach ($_POST['itemPriority'] as $itemId => $priority) {
             $item = new Item($db, $itemId);
             if ($item->getId() != $itemId) {
-                print('Unable to load item #' . $itemId . '<br>');
+                $errors[] = sprintf('Unable to load item #%s', $itemId);
                 continue;
             }
 
@@ -27,12 +29,20 @@ if (count($_POST)) {
             $ret = $item->save();
 
             if (!$ret) {
-                print('An error occured while updating item #' . $itemId . ' - ' . $item->getTask() . '.<br>');
-                print($item->getErrorNumber() . ': ' . $item->getErrorMessage());
-                print('<br>');
-                print('<hr>');
+                $errors[] = sprintf(
+                    'An error occured while updating item #%s - %s.  %s: %s',
+                    $itemId,
+                    $item->getTask(),
+                    $item->getErrorNumber(),
+                    $item->getErrorMessage()
+                );
             }
         }
+    }
+
+    if (empty($errors)) {
+        header('Location: index.php');
+        exit();
     }
 }
 
@@ -44,6 +54,7 @@ $listDisplay->setFilterClosed($GLOBALS['display_filter_closed']);
 $listDisplay->setFilterPriority($GLOBALS['display_filter_priority']);
 $listDisplay->setFilterAging($GLOBALS['display_filter_aging']);
 $listDisplay->setShowInactive($GLOBALS['display_show_inactive']);
+$listDisplay->setShowSection($GLOBALS['display_show_section']);
 
 $ids = unserialize($_REQUEST['ids']);
 if (is_array($ids) && count($ids)) {
@@ -60,43 +71,12 @@ if (is_array($ids) && count($ids)) {
     }
 }
 
-$twig->display('partials/page/header.html.twig', [
-    'title' => 'Priority Editor',
-]);
-
-?>
-
-<table width=100%>
-<tr>
-<td align=left>
-<b>Priority Editor</b>
-</td>
-<td align=right>
-<a href="index.php">Home</a>
-</td>
-</tr>
-</table>
-
-<hr>
-
-<form method=POST action="item_prioritize.php">
-    <input type="hidden" name="ids" value="<?php print(htmlspecialchars($_REQUEST['ids'])); ?>">
-
-<?php
-
-print($listDisplay->getOutput());
+$listOutput = $listDisplay->getOutput();
 
 $itemCount = $listDisplay->getOutputCount();
 
-?>
-<br>
-
-<input type="submit" name="submitButton" value="Update" <?php if ($itemCount == 0) {
-    print('disabled') ;
-                                                        }?>>
-
-</form>
-
-<?php
-
-$twig->display('partials/page/footer.html.twig');
+$twig->display('item_prioritize.html.twig', [
+    'hasItems' => ($itemCount > 0),
+    'ids'      => $_REQUEST['ids'],
+    'list'     => $listOutput,
+]);

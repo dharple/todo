@@ -46,8 +46,11 @@ if (count($_POST)) {
         header('Location: item_bulk_add.php');
         die();
     } elseif ($_POST['submitButton'] == 'Edit') {
-        header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
-        die();
+        if (!empty($_POST['itemIds'])) {
+            header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
+            die();
+        }
+        $errors[] = 'Please select one or more items to edit';
     } elseif ($_POST['submitButton'] == 'Edit Sections') {
         header('Location: section_edit.php');
         die();
@@ -58,7 +61,11 @@ if (count($_POST)) {
         header('Location: account.php');
         die();
     } elseif ($_POST['submitButton'] == 'Prioritize') {
-        header('Location: item_prioritize.php?ids=' . urlencode(serialize($_POST['itemIds'])));
+        $queryString = '';
+        if (!empty($_POST['itemIds'])) {
+            $queryString = '?ids=' . urlencode(serialize($_POST['itemIds']));
+        }
+        header('Location: item_prioritize.php' . $queryString);
         die();
     } elseif ($_POST['submitButton'] == 'Duplicate') {
         foreach ($_POST['itemIds'] as $itemId) {
