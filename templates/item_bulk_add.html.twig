@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Item Bulk Add
+{% endblock %}
+
+{% block body %}
+<table width=100%>
+    <tr>
+        <td align=left>
+            <b>Item Bulk Add</b>
+        </td>
+        <td align=right>
+            <a href="index.php">Home</a>
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<form method="POST" action="item_bulk_add.php">
+
+    Bulk Adding...<br /><br />
+
+    Section:
+        <select name="section">
+            {% for section in sections %}
+                <option value="{{ section.id }}" {% if section.id == selected %}selected{% endif %} />
+                    {{ section.name }}
+                    {% if section.status == 'Inactive' %} (Inactive){% endif %}
+                </option>
+            {% endfor %}
+        </select>
+    <br />
+
+    Priority:
+        <select name="priority">
+            {% for priority in todo_priority.high..todo_priority.low %}
+                <option value="{{ priority }}" {% if priority == todo_priority.normal %}selected{% endif %} />
+                    {{ priority }}
+                </option>
+            {% endfor %}
+        </select>
+    <br />
+
+    <table>
+        <tr>
+            <td>
+                Tasks (newline separated):<br />
+                <textarea name="tasks" cols=60 rows=15></textarea><br />
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+
+    <input type="submit" name="submitButton" value="Do It">
+    <input type="submit" name="submitButton" value="Do It, Then Add Another">
+
+</form>
+
+{% endblock %}
