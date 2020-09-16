@@ -23,24 +23,11 @@ Item Bulk Add
     Bulk Adding...<br /><br />
 
     Section:
-        <select name="section">
-            {% for section in sections %}
-                <option value="{{ section.id }}" {% if section.id == selected %}selected{% endif %} />
-                    {{ section.name }}
-                    {% if section.status == 'Inactive' %} (Inactive){% endif %}
-                </option>
-            {% endfor %}
-        </select>
+    {% include('partials/form/section.html.twig') %}
     <br />
 
     Priority:
-        <select name="priority">
-            {% for priority in todo_priority.high..todo_priority.low %}
-                <option value="{{ priority }}" {% if priority == todo_priority.normal %}selected{% endif %} />
-                    {{ priority }}
-                </option>
-            {% endfor %}
-        </select>
+    {% include('partials/form/priority.html.twig') %}
     <br />
 
     <table>

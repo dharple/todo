@@ -45,8 +45,8 @@ $sectionList = new SimpleList($db, Section::class);
 $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
 
 $twig->display('item_bulk_add.html.twig', [
-    'sections'      => $sections,
-    'selected'      => $selected,
-    'title'         => 'Item Bulk Add',
-    'todo_priority' => $GLOBALS['todo_priority'],
+    'sections'         => $sections,
+    'selectedPriority' => $GLOBALS['todo_priority']['normal'],
+    'selectedSection'  => $selected,
+    'todo_priority'    => $GLOBALS['todo_priority'],
 ]);
