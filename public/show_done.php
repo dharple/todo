@@ -10,8 +10,12 @@ $twig = $GLOBALS['twig'];
 $user = $GLOBALS['user'];
 
 $view = $_REQUEST['view'] ?? '';
+$sort = $_REQUEST['sort'] ?? 'task';
 
 $itemHistory = new ItemHistory($db, $user->getId());
+if ($sort == 'section') {
+    $itemHistory->setOrdering('section');
+}
 
 switch ($view) {
     case 'month':
@@ -81,9 +85,10 @@ unset($sections);
 $dateUtils = new DateUtils();
 
 $twig->display('show_done.html.twig', [
-    'period'   => $period,
     'items'    => $items,
-    'view'     => $view,
+    'period'   => $period,
     'sections' => $sectionsById,
+    'sort'     => $sort,
+    'view'     => $view,
 ]);
 

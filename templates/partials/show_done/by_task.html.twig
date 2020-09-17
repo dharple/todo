@@ -1,0 +1,37 @@
+<table>
+
+{% set lastDate = '' %}
+
+{% for item in items %}
+    {% set thisDate = item.completed | date('F jS, Y') %}
+
+    {% if lastDate != '' and thisDate != lastDate %}
+        <tr>
+            <td colspan=4>
+                &nbsp;
+            </td>
+        </tr>
+    {% endif %}
+
+    <tr>
+        <td valign=top align=right width=10%>
+            {% if thisDate != lastDate %}
+                <nobr>{{ thisDate }}</nobr>
+            {% else %}
+                &nbsp;
+            {% endif %}
+        </td>
+        <td valign=top>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+        </td>
+        <td valign=top align=left width=75%>
+            {{ item.task }}
+        </td>
+        <td valign=top align=right>
+            <nobr>({{ attribute(sections, item.sectionId) }})</nobr>
+        </td>
+    </tr>
+    {% set lastDate = thisDate %}
+{% endfor %}
+
+</table>
