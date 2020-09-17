@@ -1,5 +1,5 @@
 body {
-    font-size: 14pt;
+    font-size: 1.2rem;
 }
 
 div.container {
@@ -8,7 +8,6 @@ div.container {
 
 div.wrapper {
     column-count: 2;
-    font-size: 14pt;
 }
 
 div.wrapper-large {
@@ -60,19 +59,22 @@ a.section-link {
 
 @media print {
     body {
-        font-family: "Times New Roman";
-        font-size: 16pt;
+        font-size: 1.2rem;
     }
 
     div.wrapper {
         column-count: 2;
         column-fill: auto;
-        font-size: 18pt;
+        font-size: 1.4rem;
     }
 
     div.item-row {
         padding-bottom: 0;
         line-height: 1.15;
+    }
+
+    div.summary {
+        font-size: 1.2rem;
     }
 
     .high_priority {
