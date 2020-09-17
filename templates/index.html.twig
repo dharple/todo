@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-To Do List For {{ 'now' | date('F jS, Y') }}
-{% endblock %}
+{% set title = "To Do List For " ~ 'now' | date('F jS, Y') %}
 
 {% block body %}
 <div class="noprint">

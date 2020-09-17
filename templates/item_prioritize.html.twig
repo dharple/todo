@@ -1,22 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-Priority Editor
-{% endblock %}
+{% set title = 'Priority Editor' %}
 
 {% block body %}
-<table width=100%>
-    <tr>
-        <td align=left>
-            <b>Priority Editor</b>
-        </td>
-        <td align=right>
-            <a href="index.php">Home</a>
-        </td>
-    </tr>
-</table>
-
-<hr />
+{% include 'partials/page/head.html.twig' %}
 
 <form method=POST action="item_prioritize.php">
     <input type="hidden" name="ids" value="{{ ids }}" />

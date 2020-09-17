@@ -1,22 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-Account Editor
-{% endblock %}
+{% set title = 'Account Editor' %}
 
 {% block body %}
-<table width=100%>
-    <tr>
-        <td align=left>
-            <b>Account Editor</b>
-        </td>
-        <td align=right>
-            <a href="index.php">Home</a>
-        </td>
-    </tr>
-</table>
-
-<hr />
+{% include 'partials/page/head.html.twig' %}
 
 <form method="POST" action="account.php">
 
