@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced separate "printable" page with CSS-based controls on the index page.
 - Replaced table tags, and the complicated splitting logic, with divs and CSS
   column controls
+- The two "Show Done" pages are now a single page with a different view.
 - Timezones are now based on modern names.
 - Timezones are now set using modern methods.
 
