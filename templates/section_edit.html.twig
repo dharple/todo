@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Section Edit' %}
+
+{% block body %}
+{% include 'partials/page/head.html.twig' %}
+
+<form method="POST">
+
+    Add New:<br />
+    <input type="text" name="add_name" />
+    <input type="submit" name="submitButton" value="Add" />
+
+    <br />
+    <br />
+    <hr />
+    <br />
+
+    Rename:<br />
+    <select name="edit_section_id">
+        <option value="">Choose...</option>
+        {% for section in sections %}
+            <option value="{{ section.id }}">
+                {{- section.name -}}
+            </option>
+        {% endfor %}
+    </select>
+    to
+    <input type="text" name="edit_name" />
+    <input type="submit" name="submitButton" value="Rename" />
+
+    <br />
+    <br />
+    <hr />
+    <br />
+
+    Change Status:<br />
+    <select name="toggle_section_id">
+        <option value="">Choose...</option>
+        <option value="all">All</option>
+        {% for section in sections %}
+            <option value="{{ section.id }}">
+                {{- section.name -}}
+            {%- if section.status == 'Inactive' %} (Inactive){% endif -%}
+            </option>
+        {% endfor %}
+    </select>
+    to
+    <input type="submit" name="submitButton" value="Deactivate" />
+    <input type="submit" name="submitButton" value="Activate" />
+    <br />
+    <input type="checkbox" name="resetStartTimes" value="yes" /> <font size="2">Reset start times when making an inactive section active?</font>
+
+    <br />
+    <br />
+    <font size="2">Note: Open items that are in sections that are switched from Inactive to Active will have their created stamp set to the current time.</font>
+
+    <br />
+    <br />
+    <hr />
+    <br />
+
+</form>
+
+{% endblock %}
