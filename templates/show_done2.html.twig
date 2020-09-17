@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% set title = "Items Done - " ~ period %}
+
+{% block body %}
+
+<table width=100%>
+    <tr>
+        <td align=left>
+            <b>{{ title }}</b>
+        </td>
+        <td align=right>
+            <a href="show_done.php?view={{ view }}">Main View</a> |
+            <a href="index.php">Home</a>
+        </td>
+    </tr>
+</table>
+
+<hr />
+
+<table>
+
+{% set lastDate = '' %}
+{% set lastSection = '' %}
+
+{% for item in items %}
+    {% set thisDate = item.completed | date('F jS, Y') %}
+    {% set thisSection = item.sectionId %}
+
+    {% if thisDate != lastDate or thisSection != lastSection %}
+        {% if lastDate != '' %}
+            </td></tr>
+        {% endif %}
+
+        {% if lastDate != '' and thisDate != lastDate %}
+            <tr>
+                <td colspan=5>
+                    <hr width="90%">
+                </td>
+            </tr>
+        {% elseif lastSection != '' and thisSection != lastSection %}
+            <tr>
+                <td colspan=5>
+                    &nbsp;
+                </td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td valign=top align=right width=10%>
+                {% if thisDate != lastDate %}
+                    <nobr>{{ thisDate }}</nobr>
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </td>
+
+            <td valign=top>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+
+            <td valign=top>
+                {% if thisSection != lastSection or thisDate != lastDate %}
+                    <nobr>{{ attribute(sections, item.sectionId) }}</nobr>
+                {% else %}
+                    &nbsp;
+                {% endif %}
+            </td>
+
+            <td valign=top>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+
+            <td valign=top align=left width=75%>
+    {% else %}
+        <br>
+    {% endif %}
+
+    {{ item.task }}
+
+    {% set lastDate = thisDate %}
+    {% set lastSection = thisSection %}
+{% endfor %}
+
+{% if lastDate != '' %}
+    </td></tr>
+{% endif %}
+
+</table>
+
+{% endblock %}

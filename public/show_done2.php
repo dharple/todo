@@ -9,47 +9,67 @@ $db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
 $user = $GLOBALS['user'];
 
-$twig->display('partials/page/header.html.twig', [
-    'title' => 'Items Done',
-]);
+$view = $_REQUEST['view'] ?? '';
 
-?>
+$itemHistory = new ItemHistory($db, $user->getId());
+$itemHistory->setOrdering('section');
 
-<table width=100%>
-<tr>
-<td align=left>
-<b>Done List
-<?php
+switch ($view) {
+    case 'month':
+        $items = $itemHistory->doneThisMonth();
+        $period = 'This Month';
+        break;
 
-if ($_REQUEST['view'] == 'month') {
-    print(' - This Month');
-} elseif ($_REQUEST['view'] == 'lastmonth') {
-    print(' - Last Month');
-} elseif ($_REQUEST['view'] == 'week') {
-    print(' - This Week');
-} elseif ($_REQUEST['view'] == 'lastweek') {
-    print(' - Last Week');
-} elseif ($_REQUEST['view'] == 'today') {
-    print(' - Today');
-} elseif ($_REQUEST['view'] == 'yesterday') {
-    print(' - Yesterday');
-} else {
-    print(' - All Items');
+    case 'lastmonth':
+        $items = $itemHistory->doneLastMonth();
+        $period = 'Last Month';
+        break;
+
+    case 'week':
+        $items = $itemHistory->doneThisWeek();
+        $period = 'This Week';
+        break;
+
+    case 'lastweek':
+        $items = $itemHistory->doneLastWeek();
+        $period = 'Last Week';
+        break;
+
+    case 'yesterday':
+        $items = $itemHistory->doneYesterday();
+        $period = 'Yesterday';
+        break;
+
+    case 'today':
+        $items = $itemHistory->doneToday();
+        $period = 'Today';
+        break;
+
+    case 'month3':
+        $items = $itemHistory->donePreviousMonths(3);
+        $period = 'Past 3 Months';
+        break;
+
+    case 'month6':
+        $items = $itemHistory->donePreviousMonths(6);
+        $period = 'Past 6 Months';
+        break;
+
+    case 'month9':
+        $items = $itemHistory->donePreviousMonths(9);
+        $period = 'Past 9 Months';
+        break;
+
+    case 'month12':
+        $items = $itemHistory->donePreviousMonths(12);
+        $period = 'Past 12 Months';
+        break;
+
+    default:
+        $items = $itemHistory->doneTotal();
+        $period = 'All';
+        break;
 }
-?></b>
-</td>
-<td align=right>
-<a href="show_done.php?view=<?php print($_REQUEST['view']); ?>">Main View</a> |
-<a href="index.php">Home</a>
-</td>
-</tr>
-</table>
-
-<hr>
-
-<table width=100%>
-
-<?php
 
 $sectionList = new SimpleList($db, Section::class);
 $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "'");
@@ -61,100 +81,10 @@ unset($sections);
 
 $dateUtils = new DateUtils();
 
+$twig->display('show_done2.html.twig', [
+    'period'   => $period,
+    'items'    => $items,
+    'view'     => $view,
+    'sections' => $sectionsById,
+]);
 
-$itemHistory = new ItemHistory($db, $user->getId());
-$itemHistory->setOrdering('section');
-
-switch ($_REQUEST['view']) {
-    case 'month':
-        $items = $itemHistory->doneThisMonth();
-        break;
-
-    case 'lastmonth':
-        $items = $itemHistory->doneLastMonth();
-        break;
-
-    case 'week':
-        $items = $itemHistory->doneThisWeek();
-        break;
-
-    case 'lastweek':
-        $items = $itemHistory->doneLastWeek();
-        break;
-
-    case 'yesterday':
-        $items = $itemHistory->doneYesterday();
-        break;
-
-    case 'today':
-        $items = $itemHistory->doneToday();
-        break;
-
-    default:
-        $items = $itemHistory->doneTotal();
-        break;
-}
-
-$lastDate = '';
-$lastSection = '';
-
-foreach ($items as $item) {
-    $thisDate = date('F jS, Y', strtotime($item->getCompleted()));
-    $thisSection = $item->getSectionId();
-
-    if ($thisDate != $lastDate || $thisSection != $lastSection) {
-        if ($lastDate != '') {
-            print("</td></tr>\n");
-        }
-
-        if ($lastDate != '' && $thisDate != $lastDate) {
-            print("<tr><td colspan=5><hr width=\"90%\"></td></tr>\n");
-        } elseif ($lastSection != 0 && $thisSection != $lastSection) {
-            print("<tr><td colspan=5>&nbsp;</td></tr>\n");
-        }
-
-        print('<tr><td valign=top align=right width=10%>');
-
-        if ($thisDate != $lastDate) {
-            print('<nobr>');
-            print($thisDate);
-            print('</nobr>');
-            $lastDate = $thisDate;
-            $lastSection = 0;
-        } else {
-            print('&nbsp;');
-        }
-
-        print('</td><td valign=top>&nbsp;&nbsp;&nbsp;&nbsp;</td>');
-
-        print('<td valign=top>');
-        if ($thisSection != $lastSection) {
-            print('<nobr>');
-            print($sectionsById[$thisSection]);
-            print('</nobr>');
-            $lastSection = $thisSection;
-        } else {
-            print('&nbsp;');
-        }
-
-        print('</td><td valign=top>&nbsp;&nbsp;&nbsp;&nbsp;</td>');
-
-        print('<td valign=top align=left width=75%>');
-    } else {
-        print('<br>');
-    }
-
-    print($item->getTask());
-}
-
-if ($lastDate != '') {
-    print("</td></tr>\n");
-}
-
-?>
-
-</table>
-
-<?php
-
-$twig->display('partials/page/footer.html.twig');
