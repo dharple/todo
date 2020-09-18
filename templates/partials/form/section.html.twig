@@ -1,4 +1,4 @@
-<select name="{{ selectName ?? 'section' }}">
+<select name="{{ selectName ?? 'section' }}" autofocus>
     {% for section in sections %}
         <option value="{{ section.id }}" {% if section.id == selectedSection %}selected {% endif %}/>
             {{- section.name -}}
