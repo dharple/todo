@@ -4,24 +4,26 @@
 
 {% block body %}
 
-<table width=100%>
-    <tr>
-        <td align=left>
-            <b>{{ title }}</b>
-        </td>
-        <td align=right>
-            {% if sort == 'section' %}
-                <a href="show_done.php?sort=task&view={{ view }}">Main View</a>
-            {% else %}
-                <a href="show_done.php?sort=section&view={{ view }}">Alternate View</a>
-            {% endif %}
-            |
-            <a href="index.php">Home</a>
-        </td>
-    </tr>
-</table>
+<div class="noprint">
+    <table width=100%>
+        <tr>
+            <td align=left>
+                <b>{{ title }}</b>
+            </td>
+            <td align=right>
+                {% if sort == 'section' %}
+                    <a href="show_done.php?sort=task&view={{ view }}">Main View</a>
+                {% else %}
+                    <a href="show_done.php?sort=section&view={{ view }}">Alternate View</a>
+                {% endif %}
+                |
+                <a href="index.php">Home</a>
+            </td>
+        </tr>
+    </table>
 
-<hr />
+    <hr />
+</div>
 
 {% if sort == 'section' %}
     {% include 'partials/show_done/by_section.html.twig' %}
