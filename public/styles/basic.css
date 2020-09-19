@@ -90,4 +90,7 @@ a.section-link {
         display: none;
     }
 
+    span.checkboxes {
+        font-family: "Times New Roman"
+    }
 }
