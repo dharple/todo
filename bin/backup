@@ -3,10 +3,10 @@
 # See README.md to get --login-path working.
 #
 
-DEST=~/Dropbox/backup/todo/todo_old.sql.gz
+DEST=~/backup/todo.sql.gz
 WORK=/tmp/todo-$$.sql.gz
 
-mysqldump --login-path=todo-old --opt --skip-extended-insert --no-tablespaces todo_old | gzip -c - > $WORK
+mysqldump --login-path=todo-old --opt --skip-extended-insert --no-tablespaces todo | gzip -c - > $WORK
 
 COPY=yes
 if [ -f $DEST ] ; then

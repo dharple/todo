@@ -3,4 +3,4 @@
 # See README.md to get --login-path working.
 #
 
-mysql --login-path=todo-old todo_old
+mysql --login-path=todo-old todo
