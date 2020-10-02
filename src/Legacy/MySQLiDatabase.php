@@ -29,6 +29,11 @@ class MySQLiDatabase implements Database
 
     public function query($query)
     {
+        file_put_contents(
+            '/tmp/todo.log',
+            sprintf("INFO [%s]: running query %s\n", get_class($this), $query),
+            FILE_APPEND
+        );
         $resultSet = mysqli_query($this->conn, $query);
         if (mysqli_error($this->conn)) {
             $this->error = mysqli_error($this->conn);
