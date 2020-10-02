@@ -29,11 +29,19 @@ class MySQLiDatabase implements Database
 
     public function query($query)
     {
-        file_put_contents(
-            '/tmp/todo.log',
-            sprintf("INFO [%s]: running query %s\n", get_class($this), $query),
-            FILE_APPEND
-        );
+        if (!preg_match('/^SELECT /i', $query)) {
+            file_put_contents(
+                '/tmp/todo.log',
+                sprintf(
+                    "%s %s %s running query %s\n",
+                    date('c'),
+                    get_class($this),
+                    'INFO',
+                    $query
+                ),
+                FILE_APPEND
+            );
+        }
         $resultSet = mysqli_query($this->conn, $query);
         if (mysqli_error($this->conn)) {
             $this->error = mysqli_error($this->conn);
@@ -41,7 +49,15 @@ class MySQLiDatabase implements Database
 
             file_put_contents(
                 '/tmp/todo.log',
-                sprintf("ERROR [%s]: error running query %s: %s [%d]\n", get_class($this), $query, $this->error, $this->errno),
+                sprintf(
+                    "%s %s %s error running query %s: %s [%d]\n",
+                    date('c'),
+                    get_class($this),
+                    'ERROR',
+                    $query,
+                    $this->error,
+                    $this->errno
+                ),
                 FILE_APPEND
             );
 
