@@ -1,9 +1,25 @@
-config.php
-.env.local
+###> normal development ###
 *.lock
 *.orig
 *.patch
-.phpcs-cache
-phpcs.xml
 *.rej
+###< normal development ###
+
+###> app ###
+config.php
+###< app ###
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
 /vendor/
+###< symfony/framework-bundle ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
