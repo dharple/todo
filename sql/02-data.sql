@@ -1,5 +1,5 @@
 
-INSERT INTO user (id, username, fullname, password, display_stylesheet_id, print_stylesheet_id, export_stylesheet_id) VALUES ('0', 'system', 'System', ENCRYPT('changeme'), 1, 2, 3);
+INSERT INTO user (id, username, fullname, password, display_stylesheet_id, print_stylesheet_id, export_stylesheet_id) VALUES ('0', 'system', 'System', '$2y$10$P3/Ja7liNmtNP9cKxFVLz.w8GQnfprg4yQmoAScXoiYx44k5Dy.Vq', 1, 2, 3);
 
 INSERT INTO user_stylesheet (id, user_id, sheet_name, sheet_type, public, contents) VALUES (
 	1, 0, 'Default', 'display', 'y',
