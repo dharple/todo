@@ -1,13 +1,14 @@
 <?php
 
 use App\Legacy\DateUtils;
-use App\Legacy\Entity\Item;
 use App\Legacy\Entity\Section;
 use App\Legacy\SimpleList;
 
 $db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
 $user = $GLOBALS['user'];
+$errors = [];
+$section = null;
 
 if (count($_POST)) {
     $relational_cleanup = [];
@@ -84,8 +85,8 @@ if (count($_POST)) {
         if (!$ret) {
             $errors[] = sprintf(
                 'An error occured while updating your section.  %s: %s',
-                is_object($section) ? $section->getErrorNumber() : 'unknown',
-                is_object($section) ? $section->getErrorMessage() : 'unknown'
+                isset($section) ? $section->getErrorNumber() : 'unknown',
+                isset($section) ? $section->getErrorMessage() : 'unknown'
             );
         }
     }

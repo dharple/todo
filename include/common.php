@@ -6,6 +6,8 @@ use App\Legacy\Entity\Session;
 use App\Legacy\Entity\User;
 use App\Legacy\MySQLiDatabase;
 use Symfony\Component\Dotenv\Dotenv;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 $dotenv = new Dotenv();
 $dotenv->loadEnv(dirname(__DIR__) . '/.env');
@@ -17,7 +19,7 @@ if (
     !isset($_ENV['DATABASE_USER']) ||
     !isset($_ENV['SESSION_MAX_LIFETIME'])
 ) {
-    throw new \Exception('Missing configuration values');
+    throw new Exception('Missing configuration values');
 }
 
 $GLOBALS['db'] = new MySQLiDatabase();
@@ -56,7 +58,7 @@ $todo_priority = [
 $todo_priority['normal'] = intval((($todo_priority['low'] - $todo_priority['high']) / 2) + $todo_priority['high']);
 $GLOBALS['todo_priority'] = $todo_priority;
 
-$loader = new \Twig\Loader\FilesystemLoader(dirname(dirname(__FILE__)) . '/templates');
-$twig = new \Twig\Environment($loader);
+$loader = new FilesystemLoader(dirname(dirname(__FILE__)) . '/templates');
+$twig = new Environment($loader);
 
 require __DIR__ . '/display_settings.php';

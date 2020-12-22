@@ -22,8 +22,7 @@ class DateUtils
     public function getDate($date = 'now', $format = 'Y-m-d H:i:s')
     {
         $then = strtotime($date);
-        $ret = date($format, $then);
-        return $ret;
+        return date($format, $then);
     }
 
     public function getWeekStart($date = 'now', $format = 'Y-m-d 00:00:00')
@@ -35,8 +34,7 @@ class DateUtils
         } else {
             $weekstart = $then;
         }
-        $ret = date($format, $weekstart);
-        return $ret;
+        return date($format, $weekstart);
     }
 
     public function getWeekEnd($date = 'now', $format = 'Y-m-d 23:59:59')
@@ -48,23 +46,20 @@ class DateUtils
         } else {
             $weekend = $then;
         }
-        $ret = date($format, $weekend);
-        return $ret;
+        return date($format, $weekend);
     }
 
     public function getMonthStart($date = 'now', $format = 'Y-m-d 00:00:00')
     {
         $then = strtotime($date);
         $monthstart = strtotime(date('Y-m-1 00:00:00', $then));
-        $ret = date($format, $monthstart);
-        return $ret;
+        return date($format, $monthstart);
     }
 
     public function getMonthEnd($date = 'now', $format = 'Y-m-d 23:59:59')
     {
         $then = strtotime($date);
         $monthend = strtotime(date('Y-m-t 00:00:00', $then));
-        $ret = date($format, $monthend);
-        return $ret;
+        return date($format, $monthend);
     }
 }

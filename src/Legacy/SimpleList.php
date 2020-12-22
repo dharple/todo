@@ -40,7 +40,7 @@ class SimpleList
             $work->setData($row);
             array_push($ret, $work);
         }
-        
+
         return $ret;
     }
 

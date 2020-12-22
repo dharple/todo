@@ -62,8 +62,7 @@ class SectionDisplay extends BaseDisplay
 
     public function getDisplayWidth()
     {
-        $width = 4;
-        return $width;
+        return 4;
     }
 
     public function setIds($ids)

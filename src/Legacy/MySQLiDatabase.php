@@ -11,6 +11,8 @@
 
 namespace App\Legacy;
 
+use Exception;
+
 class MySQLiDatabase implements Database
 {
 
@@ -22,7 +24,7 @@ class MySQLiDatabase implements Database
     {
         $this->conn = mysqli_connect($host, $user, $pass);
         if ($this->conn === false) {
-            throw new \Exception('Cannot connect to database');
+            throw new Exception('Cannot connect to database');
         }
         mysqli_select_db($this->conn, $db);
     }
@@ -69,14 +71,12 @@ class MySQLiDatabase implements Database
 
     public function fetchRow($resultSet)
     {
-        $row = mysqli_fetch_row($resultSet);
-        return $row;
+        return mysqli_fetch_row($resultSet);
     }
 
     public function fetchAssoc($resultSet)
     {
-        $row = mysqli_fetch_assoc($resultSet);
-        return $row;
+        return mysqli_fetch_assoc($resultSet);
     }
 
     public function lastInsertId()

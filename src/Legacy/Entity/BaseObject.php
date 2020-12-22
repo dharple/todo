@@ -11,6 +11,8 @@
 
 namespace App\Legacy\Entity;
 
+use Exception;
+
 class BaseObject
 {
 
@@ -31,7 +33,7 @@ class BaseObject
     public function load($id)
     {
         if (!is_numeric($id)) {
-            throw new \Exception('could not find ' . get_class($this) . ' with ID ' . $id);
+            throw new Exception('could not find ' . get_class($this) . ' with ID ' . $id);
         }
 
         $query = 'SELECT * FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . addslashes($id) . "'";

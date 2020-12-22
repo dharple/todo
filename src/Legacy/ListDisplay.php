@@ -64,8 +64,7 @@ class ListDisplay extends BaseDisplay
 
     public function getDisplayWidth()
     {
-        $width = 4;
-        return $width;
+        return 4;
     }
 
     public function setIds($ids)
@@ -118,8 +117,6 @@ class ListDisplay extends BaseDisplay
         $sections = $sectionList->load($query);
 
         $itemCount = 0;
-
-        $sectionRenderers = [];
 
         $sectionOutput = '';
         $sectionsDrawn = 0;
@@ -180,12 +177,13 @@ class ListDisplay extends BaseDisplay
 
     /**
      * Replaces {GRAND_TOTAL} and {NOT_SHOWN} with the appropriate values.
+     *
+     * @param string $string
+     * @param int    $grand_total
      */
-    public function replaceTotals($string, $grand_total)
+    public function replaceTotals(string $string, int $grand_total)
     {
         $string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
-
-        $total = 0;
 
         $query = "SELECT COUNT(*) FROM item WHERE user_id = '" . addslashes($this->userId) . "' AND status = 'Open'";
         $result = $this->db->query($query);

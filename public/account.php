@@ -1,7 +1,6 @@
 <?php
 
 use App\Legacy\Entity\User;
-use App\Legacy\SimpleList;
 
 $error_message = '';
 
