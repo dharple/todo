@@ -1,8 +1,8 @@
 ###> normal development ###
-*.lock
 *.orig
 *.patch
 *.rej
+.idea
 ###< normal development ###
 
 ###> app ###
