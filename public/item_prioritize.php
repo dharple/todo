@@ -46,7 +46,7 @@ if (count($_POST)) {
     }
 }
 
-$listDisplay = new ListDisplay($db, $user->getId());
+$listDisplay = new ListDisplay($user->getId());
 $listDisplay->setInternalPriorityLevels($GLOBALS['todo_priority']);
 $listDisplay->setShowPriorityEditor('y');
 

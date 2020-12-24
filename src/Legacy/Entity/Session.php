@@ -11,7 +11,9 @@
 
 namespace App\Legacy\Entity;
 
-class Session extends BaseObject
+use SessionHandlerInterface;
+
+class Session extends BaseObject implements SessionHandlerInterface
 {
 
     public $regenerate;
@@ -26,7 +28,7 @@ class Session extends BaseObject
         $this->regenerate = false;
 
         if ($maxLifetime === null || intval($maxLifetime) < 0) {
-            $this->maxLifetime = 2 * 3600; // 4 hours
+            $this->maxLifetime = 2 * 3600;
         } else {
             $this->maxLifetime = intval($maxLifetime);
         }

@@ -11,12 +11,12 @@
 
 namespace App\Legacy;
 
-use App\Legacy\Entity\Item;
-use App\Legacy\Entity\Section;
+use App\Entity\Item;
+use App\Entity\Section;
+use App\Helper;
 
 class SectionDisplay extends BaseDisplay
 {
-    public $db;
     public $displayIds;
     public $displayFilterClosed = 'none';
     public $displayFilterPriority = 'all';
@@ -27,22 +27,13 @@ class SectionDisplay extends BaseDisplay
     public $displayShowPriorityEditor = 'n';
     public $internalPriorityLevels = [];
 
-    public $id;
-    public $section;
+    public Section $section;
 
     public $itemCount = 0;
 
-    public function __construct($db, $section)
+    public function __construct(Section $section)
     {
-        $this->db = $db;
-
-        if (is_object($section)) {
-            $this->section = $section;
-            $this->id = $section->getId();
-        } else {
-            $this->id = $section;
-            unset($this->section);
-        }
+        $this->section = $section;
     }
 
     public function setFilterClosed($displayFilterClosed)
@@ -58,11 +49,6 @@ class SectionDisplay extends BaseDisplay
     public function setFilterAging($displayFilterAging)
     {
         $this->displayFilterAging = $displayFilterAging;
-    }
-
-    public function getDisplayWidth()
-    {
-        return 4;
     }
 
     public function setIds($ids)
@@ -97,47 +83,65 @@ class SectionDisplay extends BaseDisplay
 
     protected function buildOutput()
     {
-        if ($this->section) {
-            $section = $this->section;
-        } else {
-            $section = new Section($this->db, $this->id);
-        }
+        $entityManager = Helper::getEntityManager();
+        $itemRepository = $entityManager->getRepository(Item::class);
 
-        $itemList = new SimpleList($this->db, Item::class);
+        $qb = $itemRepository->createQueryBuilder('i')
+            ->orderBy('i.priority')
+            ->addOrderBy('i.task')
+            ->where('i.section = :section')
+            ->setParameter('section', $this->getId());
 
         $dateUtils = new DateUtils();
 
-        $query = 'WHERE section_id = ' . $section->getId();
-
         if (is_array($this->displayIds)) {
-            $query .= " AND id IN ('" . implode("','", $this->displayIds) . "')";
+            $qb->andWhere('i.id IN (:ids)')
+                ->setParameter('ids', $this->displayIds);
         }
 
         if ($this->displayFilterClosed == 'all') {
-            $query .= " AND status <> 'Deleted'";
-        } elseif ($this->displayFilterClosed == 'today') {
-            $query .= " AND (status = 'Open' OR (completed >= '" . $dateUtils->getDate('now', 'Y-m-d 00:00:00') . "' AND completed <= '" . $dateUtils->getDate('now', 'Y-m-d 23:59:59') . "' AND status = 'Closed'))";
-        } elseif ($this->displayFilterClosed == 'recently') {
-            $query .= " AND (status = 'Open' OR (completed >= '" . $dateUtils->getDate('-3 days', 'Y-m-d 00:00:00') . "' AND completed <= '" . $dateUtils->getDate('now', 'Y-m-d 23:59:59') . "' AND status = 'Closed'))";
+            $qb->andWhere('i.status != :status')
+                ->setParameter('status', 'Deleted');
+        } elseif ($this->displayFilterClosed == 'today' or $this->displayFilterClosed == 'recently') {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->eq('i.status', ':statusOpen'),
+                $qb->expr()->andX(
+                    $qb->expr()->gte('i.completed', ':dayStart'),
+                    $qb->expr()->lt('i.completed', ':dayEnd'),
+                    $qb->expr()->eq('i.status', ':statusClosed')
+                )
+            ))
+                ->setParameter('statusOpen', 'Open')
+                ->setParameter('dayEnd', $dateUtils->getDate('now', 'Y-m-d 23:59:59'))
+                ->setParameter('statusClosed', 'Closed');
+
+            if ($this->displayFilterClosed == 'today') {
+                $qb->setParameter('dayStart', $dateUtils->getDate('now', 'Y-m-d 00:00:00'));
+            } else {
+                $qb->setParameter('dayStart', $dateUtils->getDate('-3 days', 'Y-m-d 00:00:00'));
+            }
         } else {
-            $query .= " AND status = 'Open'";
+            $qb->andWhere('i.status = :status')
+                ->setParameter('status', 'Open');
         }
 
         if ($this->displayFilterPriority == 'high') {
-            $query .= " AND priority = '" . intval($this->internalPriorityLevels['high']) . "'";
+            $qb->andWhere('i.priority = :priority')
+                ->setParameter('priority', intval($this->internalPriorityLevels['high']));
         } elseif ($this->displayFilterPriority == 'normal') {
-            $query .= " AND priority BETWEEN '" . intval($this->internalPriorityLevels['high']) . "' AND '" . intval($this->internalPriorityLevels['normal']) . "'";
+            $qb->andWhere('i.priority >= :priority')
+                ->setParameter('priority', intval($this->internalPriorityLevels['normal']));
         } elseif ($this->displayFilterPriority == 'low') {
-            $query .= " AND priority BETWEEN '" . intval($this->internalPriorityLevels['high']) . "' AND '" . intval($this->internalPriorityLevels['low']) . "'";
+            $qb->andWhere('i.priority >= :priority')
+                ->setParameter('priority', intval($this->internalPriorityLevels['low']));
         }
 
         if ($this->displayFilterAging != 'all') {
-            $query .= " AND (TO_DAYS('" . $dateUtils->getNow() . "') - TO_DAYS(created)) >= '" . $this->displayFilterAging . "'";
+            $qb->andWhere('i.created <= :created')
+                ->setParameter('created', $dateUtils->getDate(sprintf('-%d days', $this->displayFilterAging), 'Y-m-d 00:00:00'));
         }
 
-        $query .= ' ORDER BY priority, task';
-
-        $items = $itemList->load($query);
+        $items = $qb->getQuery()->getResult();
 
         if (count($items) == 0) {
             $this->outputBuilt = true;
@@ -161,8 +165,8 @@ class SectionDisplay extends BaseDisplay
             'items'              => $items,
             'priorityHigh'       => 2,
             'priorityNormal'     => $this->internalPriorityLevels['normal'],
-            'section'            => $section,
-            'sectionUrl'         => str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $section->getId()), $this->displaySectionLink),
+            'section'            => $this->section,
+            'sectionUrl'         => str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $this->getId()), $this->displaySectionLink),
             'showPriority'       => $this->displayShowPriority,
             'showSectionLink'    => isset($this->displaySectionLink) ? 'y' : 'n',
         ]);
@@ -177,6 +181,6 @@ class SectionDisplay extends BaseDisplay
 
     public function getId()
     {
-        return $this->id;
+        return $this->section->getId();
     }
 }

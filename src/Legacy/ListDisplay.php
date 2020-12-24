@@ -11,11 +11,13 @@
 
 namespace App\Legacy;
 
-use App\Legacy\Entity\Section;
+use App\Entity\Item;
+use App\Entity\Section;
+use App\Helper;
+use Exception;
 
 class ListDisplay extends BaseDisplay
 {
-    public $db;
     public $displayIds;
     public $displayFilterClosed = 'none';
     public $displayFilterPriority = 'all';
@@ -31,9 +33,8 @@ class ListDisplay extends BaseDisplay
     public $userId;
     public $itemCount;
 
-    public function __construct($db, $userId)
+    public function __construct($userId)
     {
-        $this->db = $db;
         $this->userId = $userId;
     }
 
@@ -60,11 +61,6 @@ class ListDisplay extends BaseDisplay
     public function setFooter($footer)
     {
         $this->footer = $footer;
-    }
-
-    public function getDisplayWidth()
-    {
-        return 4;
     }
 
     public function setIds($ids)
@@ -99,22 +95,24 @@ class ListDisplay extends BaseDisplay
 
     protected function buildOutput()
     {
-
-        $sectionList = new SimpleList($this->db, Section::class);
-
-        $query = "WHERE user_id = '" . addslashes($this->userId) . "'";
+        $entityManager = Helper::getEntityManager();
+        $sectionRepository = $entityManager->getRepository(Section::class);
+        $qb = $sectionRepository->createQueryBuilder('s')
+            ->where('s.user = :user')
+            ->orderBy('s.name')
+            ->setParameter('user', $this->userId);
 
         if ($this->displayShowInactive != 'y') {
-            $query .= " AND status = 'Active'";
+            $qb->andWhere('s.status = :status')
+                ->setParameter('status', 'Active');
         }
 
         if ($this->displayShowSection != 0) {
-            $query .= " AND id = '" . $this->displayShowSection . "'";
+            $qb->andWhere('s.id = :id')
+                ->setParameter('id', $this->displayShowSection);
         }
 
-        $query .= ' ORDER BY name';
-
-        $sections = $sectionList->load($query);
+        $sections = $qb->getQuery()->getResult();
 
         $itemCount = 0;
 
@@ -122,7 +120,7 @@ class ListDisplay extends BaseDisplay
         $sectionsDrawn = 0;
 
         foreach ($sections as $section) {
-            $sectionDisplay = new SectionDisplay($this->db, $section);
+            $sectionDisplay = new SectionDisplay($section);
 
             $sectionDisplay->setIds($this->displayIds);
             $sectionDisplay->setFilterClosed($this->displayFilterClosed);
@@ -180,19 +178,23 @@ class ListDisplay extends BaseDisplay
      *
      * @param string $string
      * @param int    $grand_total
+     *
+     * @return string
      */
     public function replaceTotals(string $string, int $grand_total)
     {
         $string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
 
-        $query = "SELECT COUNT(*) FROM item WHERE user_id = '" . addslashes($this->userId) . "' AND status = 'Open'";
-        $result = $this->db->query($query);
-        if ($result) {
-            $row = $this->db->fetchRow($result);
-            $total = $row[0];
-        } else {
-            $total = $grand_total;
-        }
+        $entityManager = Helper::getEntityManager();
+        $qb = $entityManager->createQueryBuilder()
+            ->select('COUNT(i.id)')
+            ->from(Item::class, 'i')
+            ->where('i.user = :user')
+            ->andWhere('i.status = :status')
+            ->setParameter('user', $this->userId)
+            ->setParameter('status', 'Open');
+
+        $total = $qb->getQuery()->getSingleScalarResult();
 
         $string = str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grand_total), $string);
 

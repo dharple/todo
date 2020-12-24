@@ -110,7 +110,7 @@ $row = $db->fetchRow($result);
 $avg = $row[0];
 // End Ugly
 
-$listDisplay = new ListDisplay($db, $user->getId());
+$listDisplay = new ListDisplay($user->getId());
 $listDisplay->setInternalPriorityLevels($GLOBALS['todo_priority']);
 
 $listDisplay->setFilterClosed($GLOBALS['display_filter_closed']);

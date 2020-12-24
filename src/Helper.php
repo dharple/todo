@@ -31,32 +31,38 @@ class Helper
      */
     public static function getEntityManager(): EntityManager
     {
-        $isDevMode = true;
-        $proxyDir = null;
-        $cache = null;
-        $useSimpleAnnotationReader = false;
-        $config = Setup::createAnnotationMetadataConfiguration(
-            [
-                dirname(__DIR__ . '/src')
-            ],
-            $isDevMode,
-            $proxyDir,
-            $cache,
-            $useSimpleAnnotationReader
-        );
+        static $em = null;
 
-        $dotenv = new Dotenv();
-        $dotenv->loadEnv(dirname(__DIR__) . '/.env');
+        if (!isset($em)) {
+            $isDevMode = true;
+            $proxyDir = null;
+            $cache = null;
+            $useSimpleAnnotationReader = false;
+            $config = Setup::createAnnotationMetadataConfiguration(
+                [
+                    dirname(__DIR__ . '/src')
+                ],
+                $isDevMode,
+                $proxyDir,
+                $cache,
+                $useSimpleAnnotationReader
+            );
 
-        $conn = [
-            'driver' => 'pdo_mysql',
+            $dotenv = new Dotenv();
+            $dotenv->loadEnv(dirname(__DIR__) . '/.env');
 
-            'dbname' => $_ENV['DATABASE_INSTANCE'],
-            'host' => $_ENV['DATABASE_HOST'],
-            'password' => $_ENV['DATABASE_PASSWORD'],
-            'user' => $_ENV['DATABASE_USER'],
-        ];
+            $conn = [
+                'driver' => 'pdo_mysql',
 
-        return EntityManager::create($conn, $config);
+                'dbname' => $_ENV['DATABASE_INSTANCE'],
+                'host' => $_ENV['DATABASE_HOST'],
+                'password' => $_ENV['DATABASE_PASSWORD'],
+                'user' => $_ENV['DATABASE_USER'],
+            ];
+
+            $em = EntityManager::create($conn, $config);
+        }
+
+        return $em;
     }
 }

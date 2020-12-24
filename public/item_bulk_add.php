@@ -1,13 +1,15 @@
 <?php
 
+use App\Entity\Section;
+use App\Helper;
 use App\Legacy\DateUtils;
 use App\Legacy\Entity\Item;
-use App\Legacy\Entity\Section;
-use App\Legacy\SimpleList;
 
 $db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
 $user = $GLOBALS['user'];
+
+$entityManager = Helper::getEntityManager();
 
 if (count($_POST)) {
     $dateUtils = new DateUtils();
@@ -41,8 +43,12 @@ $result = $db->query($query);
 $row = $db->fetchRow($result);
 $selected = $row[0];
 
-$sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
+$sectionRepository = $entityManager->getRepository(Section::class);
+$qb = $sectionRepository->createQueryBuilder('s')
+    ->where('s.user = :user')
+    ->orderBy('s.name')
+    ->setParameter('user', $user->getId());
+$sections = $qb->getQuery()->getResult();
 
 $twig->display('item_bulk_add.html.twig', [
     'sections'         => $sections,
