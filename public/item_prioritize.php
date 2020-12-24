@@ -1,5 +1,6 @@
 <?php
 
+use App\Legacy\DisplayConfig;
 use App\Legacy\Entity\Item;
 use App\Legacy\ListDisplay;
 use App\Legacy\SimpleList;
@@ -46,19 +47,20 @@ if (count($_POST)) {
     }
 }
 
-$listDisplay = new ListDisplay($user->getId());
-$listDisplay->setInternalPriorityLevels($GLOBALS['todo_priority']);
-$listDisplay->setShowPriorityEditor('y');
+$config = new DisplayConfig();
+$config->setInternalPriorityLevels($GLOBALS['todo_priority']);
+$config->setShowPriorityEditor('y');
+$config->setFilterClosed($GLOBALS['display_filter_closed']);
+$config->setFilterPriority($GLOBALS['display_filter_priority']);
+$config->setFilterAging($GLOBALS['display_filter_aging']);
+$config->setShowInactive($GLOBALS['display_show_inactive']);
+$config->setShowSection($GLOBALS['display_show_section']);
 
-$listDisplay->setFilterClosed($GLOBALS['display_filter_closed']);
-$listDisplay->setFilterPriority($GLOBALS['display_filter_priority']);
-$listDisplay->setFilterAging($GLOBALS['display_filter_aging']);
-$listDisplay->setShowInactive($GLOBALS['display_show_inactive']);
-$listDisplay->setShowSection($GLOBALS['display_show_section']);
+$listDisplay = new ListDisplay($user->getId(), $config);
 
 $ids = unserialize($_REQUEST['ids']);
 if (is_array($ids) && count($ids)) {
-    $listDisplay->setIds($ids);
+    $config->setIds($ids);
 } else {
     $itemList = new SimpleList($db, Item::class);
     $items = $itemList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Open'");
@@ -67,7 +69,7 @@ if (is_array($ids) && count($ids)) {
         array_push($ids, $item->getId());
     }
     if (count($ids) > 0) {
-        $listDisplay->setIds($ids);
+        $config->setIds($ids);
     }
 }
 

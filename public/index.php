@@ -1,6 +1,7 @@
 <?php
 
 use App\Legacy\DateUtils;
+use App\Legacy\DisplayConfig;
 use App\Legacy\Entity\Item;
 use App\Legacy\Entity\Section;
 use App\Legacy\ItemStats;
@@ -110,16 +111,17 @@ $row = $db->fetchRow($result);
 $avg = $row[0];
 // End Ugly
 
-$listDisplay = new ListDisplay($user->getId());
-$listDisplay->setInternalPriorityLevels($GLOBALS['todo_priority']);
+$config = new DisplayConfig();
+$config->setInternalPriorityLevels($GLOBALS['todo_priority']);
+$config->setFilterClosed($GLOBALS['display_filter_closed']);
+$config->setFilterPriority($GLOBALS['display_filter_priority']);
+$config->setFilterAging($GLOBALS['display_filter_aging']);
+$config->setShowInactive($GLOBALS['display_show_inactive']);
+$config->setShowSection($GLOBALS['display_show_section']);
+$config->setSectionLink('index.php?show_section={SECTION_ID}');
+$config->setShowPriority($GLOBALS['display_show_priority']);
 
-$listDisplay->setFilterClosed($GLOBALS['display_filter_closed']);
-$listDisplay->setFilterPriority($GLOBALS['display_filter_priority']);
-$listDisplay->setFilterAging($GLOBALS['display_filter_aging']);
-$listDisplay->setShowInactive($GLOBALS['display_show_inactive']);
-$listDisplay->setShowSection($GLOBALS['display_show_section']);
-$listDisplay->setSectionLink('index.php?show_section={SECTION_ID}');
-$listDisplay->setShowPriority($GLOBALS['display_show_priority']);
+$listDisplay = new ListDisplay($user->getId(), $config);
 
 $itemStats = new ItemStats($db, $user->getId());
 

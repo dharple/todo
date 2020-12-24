@@ -17,74 +17,25 @@ use App\Helper;
 
 class SectionDisplay extends BaseDisplay
 {
-    public $displayIds;
-    public $displayFilterClosed = 'none';
-    public $displayFilterPriority = 'all';
-    public $displayFilterAging = 'all';
-    public $displayShowSection = 0;
-    public $displaySectionLink = '';
-    public $displayShowPriority = 'n';
-    public $displayShowPriorityEditor = 'n';
-    public $internalPriorityLevels = [];
 
-    public Section $section;
+    protected DisplayConfig $config;
 
-    public $itemCount = 0;
+    protected int $itemCount = 0;
 
-    public function __construct(Section $section)
+    protected Section $section;
+
+    public function __construct(Section $section, DisplayConfig $config)
     {
         $this->section = $section;
-    }
-
-    public function setFilterClosed($displayFilterClosed)
-    {
-        $this->displayFilterClosed = $displayFilterClosed;
-    }
-
-    public function setFilterPriority($displayFilterPriority)
-    {
-        $this->displayFilterPriority = $displayFilterPriority;
-    }
-
-    public function setFilterAging($displayFilterAging)
-    {
-        $this->displayFilterAging = $displayFilterAging;
-    }
-
-    public function setIds($ids)
-    {
-        $this->displayIds = $ids;
-    }
-
-    public function setShowSection($displayShowSection)
-    {
-        $this->displayShowSection = $displayShowSection;
-    }
-
-    public function setSectionLink($displaySectionLink)
-    {
-        $this->displaySectionLink = $displaySectionLink;
-    }
-
-    public function setShowPriority($displayShowPriority)
-    {
-        $this->displayShowPriority = $displayShowPriority;
-    }
-
-    public function setShowPriorityEditor($displayShowPriorityEditor)
-    {
-        $this->displayShowPriorityEditor = $displayShowPriorityEditor;
-    }
-
-    public function setInternalPriorityLevels($internalPriorityLevels)
-    {
-        $this->internalPriorityLevels = $internalPriorityLevels;
+        $this->config = $config;
     }
 
     protected function buildOutput()
     {
         $entityManager = Helper::getEntityManager();
         $itemRepository = $entityManager->getRepository(Item::class);
+
+        $internalPriorityLevels = $this->config->getInternalPriorityLevels();
 
         $qb = $itemRepository->createQueryBuilder('i')
             ->orderBy('i.priority')
@@ -94,15 +45,15 @@ class SectionDisplay extends BaseDisplay
 
         $dateUtils = new DateUtils();
 
-        if (is_array($this->displayIds)) {
+        if (!empty($this->config->getIds())) {
             $qb->andWhere('i.id IN (:ids)')
-                ->setParameter('ids', $this->displayIds);
+                ->setParameter('ids', $this->config->getIds());
         }
 
-        if ($this->displayFilterClosed == 'all') {
+        if ($this->config->getFilterClosed() == 'all') {
             $qb->andWhere('i.status != :status')
                 ->setParameter('status', 'Deleted');
-        } elseif ($this->displayFilterClosed == 'today' or $this->displayFilterClosed == 'recently') {
+        } elseif ($this->config->getFilterClosed() == 'today' or $this->config->getFilterClosed() == 'recently') {
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->eq('i.status', ':statusOpen'),
                 $qb->expr()->andX(
@@ -115,7 +66,7 @@ class SectionDisplay extends BaseDisplay
                 ->setParameter('dayEnd', $dateUtils->getDate('now', 'Y-m-d 23:59:59'))
                 ->setParameter('statusClosed', 'Closed');
 
-            if ($this->displayFilterClosed == 'today') {
+            if ($this->config->getFilterClosed() == 'today') {
                 $qb->setParameter('dayStart', $dateUtils->getDate('now', 'Y-m-d 00:00:00'));
             } else {
                 $qb->setParameter('dayStart', $dateUtils->getDate('-3 days', 'Y-m-d 00:00:00'));
@@ -125,20 +76,20 @@ class SectionDisplay extends BaseDisplay
                 ->setParameter('status', 'Open');
         }
 
-        if ($this->displayFilterPriority == 'high') {
+        if ($this->config->getFilterPriority() == 'high') {
             $qb->andWhere('i.priority = :priority')
-                ->setParameter('priority', intval($this->internalPriorityLevels['high']));
-        } elseif ($this->displayFilterPriority == 'normal') {
+                ->setParameter('priority', intval($internalPriorityLevels['high']));
+        } elseif ($this->config->getFilterPriority() == 'normal') {
             $qb->andWhere('i.priority >= :priority')
-                ->setParameter('priority', intval($this->internalPriorityLevels['normal']));
-        } elseif ($this->displayFilterPriority == 'low') {
+                ->setParameter('priority', intval($internalPriorityLevels['normal']));
+        } elseif ($this->config->getFilterPriority() == 'low') {
             $qb->andWhere('i.priority >= :priority')
-                ->setParameter('priority', intval($this->internalPriorityLevels['low']));
+                ->setParameter('priority', intval($internalPriorityLevels['low']));
         }
 
-        if ($this->displayFilterAging != 'all') {
+        if ($this->config->getFilterAging() != 'all') {
             $qb->andWhere('i.created <= :created')
-                ->setParameter('created', $dateUtils->getDate(sprintf('-%d days', $this->displayFilterAging), 'Y-m-d 00:00:00'));
+                ->setParameter('created', $dateUtils->getDate(sprintf('-%d days', $this->config->getFilterAging()), 'Y-m-d 00:00:00'));
         }
 
         $items = $qb->getQuery()->getResult();
@@ -155,7 +106,7 @@ class SectionDisplay extends BaseDisplay
             }
         }
 
-        if ($this->displayShowPriorityEditor == 'y') {
+        if ($this->config->getShowPriorityEditor() == 'y') {
             $template = 'priority_editor';
         } else {
             $template = 'main';
@@ -164,23 +115,23 @@ class SectionDisplay extends BaseDisplay
         $this->output = $this->render(sprintf('partials/section/%s.html.twig', $template), [
             'items'              => $items,
             'priorityHigh'       => 2,
-            'priorityNormal'     => $this->internalPriorityLevels['normal'],
+            'priorityNormal'     => $internalPriorityLevels['normal'],
             'section'            => $this->section,
-            'sectionUrl'         => str_replace('{SECTION_ID}', ($this->displayShowSection ? 0 : $this->getId()), $this->displaySectionLink),
-            'showPriority'       => $this->displayShowPriority,
-            'showSectionLink'    => isset($this->displaySectionLink) ? 'y' : 'n',
+            'sectionUrl'         => str_replace('{SECTION_ID}', ($this->config->getShowSection() ? 0 : $this->getId()), $this->config->getSectionLink()),
+            'showPriority'       => $this->config->getShowPriority(),
+            'showSectionLink'    => !empty($this->config->getSectionLink()) ? 'y' : 'n',
         ]);
 
         $this->outputBuilt = true;
     }
 
-    public function getOutputCount()
-    {
-        return $this->itemCount;
-    }
-
     public function getId()
     {
         return $this->section->getId();
+    }
+
+    public function getOutputCount()
+    {
+        return $this->itemCount;
     }
 }

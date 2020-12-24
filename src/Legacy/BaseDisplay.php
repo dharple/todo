@@ -16,15 +16,16 @@ use Twig\Loader\FilesystemLoader;
 
 abstract class BaseDisplay
 {
-    protected $output = '';
-    protected $outputBuilt = false;
+    protected string $output = '';
+
+    protected bool $outputBuilt = false;
 
     /**
      * Holds the twig renderer.
      *
      * @var Environment
      */
-    protected $twig;
+    protected Environment $twig;
 
     protected function buildOutput()
     {

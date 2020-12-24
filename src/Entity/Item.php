@@ -63,7 +63,7 @@ class Item
      * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="sections")
      * @var ?Section
      */
-    protected $section;
+    protected ?Section $section;
 
     /**
      * Status
@@ -87,7 +87,7 @@ class Item
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="items")
      * @var ?User
      */
-    protected $user;
+    protected ?User $user;
 
     /**
      * Returns the completion stamp.

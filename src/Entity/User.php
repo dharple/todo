@@ -12,6 +12,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,9 +45,9 @@ class User
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
      *
-     * @var ArrayCollection
+     * @var Collection
      */
-    protected $items;
+    protected Collection $items;
 
     /**
      * Password
@@ -59,9 +60,9 @@ class User
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Section", mappedBy="user")
      *
-     * @var ArrayCollection
+     * @var Collection
      */
-    protected $sections;
+    protected Collection $sections;
 
     /**
      * Timezone
@@ -102,17 +103,17 @@ class User
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getItems(): ArrayCollection
+    public function getItems(): Collection
     {
         return $this->items;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getSections(): ArrayCollection
+    public function getSections(): Collection
     {
         return $this->sections;
     }

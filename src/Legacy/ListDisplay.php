@@ -14,83 +14,21 @@ namespace App\Legacy;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
-use Exception;
 
 class ListDisplay extends BaseDisplay
 {
-    public $displayIds;
-    public $displayFilterClosed = 'none';
-    public $displayFilterPriority = 'all';
-    public $displayFilterAging = 'all';
-    public $displayShowInactive = 'n';
-    public $displayShowSection = 0;
-    public $displaySectionLink = '';
-    public $displayShowPriority = 'n';
-    public $displayShowPriorityEditor = 'n';
-    public $footer;
-    public $internalPriorityLevels = [];
+    protected DisplayConfig $config;
 
-    public $userId;
-    public $itemCount;
+    protected string $footer;
 
-    public function __construct($userId)
+    protected int $itemCount = 0;
+
+    protected int $userId;
+
+    public function __construct($userId, DisplayConfig $config)
     {
         $this->userId = $userId;
-    }
-
-    public function setFilterClosed($displayFilterClosed)
-    {
-        $this->displayFilterClosed = $displayFilterClosed;
-    }
-
-    public function setFilterPriority($displayFilterPriority)
-    {
-        $this->displayFilterPriority = $displayFilterPriority;
-    }
-
-    public function setFilterAging($displayFilterAging)
-    {
-        $this->displayFilterAging = $displayFilterAging;
-    }
-
-    public function setShowInactive($displayShowInactive)
-    {
-        $this->displayShowInactive = $displayShowInactive;
-    }
-
-    public function setFooter($footer)
-    {
-        $this->footer = $footer;
-    }
-
-    public function setIds($ids)
-    {
-        $this->displayIds = $ids;
-    }
-
-    public function setShowSection($displayShowSection)
-    {
-        $this->displayShowSection = $displayShowSection;
-    }
-
-    public function setSectionLink($displaySectionLink)
-    {
-        $this->displaySectionLink = $displaySectionLink;
-    }
-
-    public function setShowPriority($displayShowPriority)
-    {
-        $this->displayShowPriority = $displayShowPriority;
-    }
-
-    public function setShowPriorityEditor($displayShowPriorityEditor)
-    {
-        $this->displayShowPriorityEditor = $displayShowPriorityEditor;
-    }
-
-    public function setInternalPriorityLevels($internalPriorityLevels)
-    {
-        $this->internalPriorityLevels = $internalPriorityLevels;
+        $this->config = $config;
     }
 
     protected function buildOutput()
@@ -102,14 +40,14 @@ class ListDisplay extends BaseDisplay
             ->orderBy('s.name')
             ->setParameter('user', $this->userId);
 
-        if ($this->displayShowInactive != 'y') {
+        if ($this->config->getShowInactive() != 'y') {
             $qb->andWhere('s.status = :status')
                 ->setParameter('status', 'Active');
         }
 
-        if ($this->displayShowSection != 0) {
+        if ($this->config->getShowSection() != 0) {
             $qb->andWhere('s.id = :id')
-                ->setParameter('id', $this->displayShowSection);
+                ->setParameter('id', $this->config->getShowSection());
         }
 
         $sections = $qb->getQuery()->getResult();
@@ -120,17 +58,7 @@ class ListDisplay extends BaseDisplay
         $sectionsDrawn = 0;
 
         foreach ($sections as $section) {
-            $sectionDisplay = new SectionDisplay($section);
-
-            $sectionDisplay->setIds($this->displayIds);
-            $sectionDisplay->setFilterClosed($this->displayFilterClosed);
-            $sectionDisplay->setFilterPriority($this->displayFilterPriority);
-            $sectionDisplay->setFilterAging($this->displayFilterAging);
-            $sectionDisplay->setShowSection($this->displayShowSection);
-            $sectionDisplay->setSectionLink($this->displaySectionLink);
-            $sectionDisplay->setShowPriority($this->displayShowPriority);
-            $sectionDisplay->setShowPriorityEditor($this->displayShowPriorityEditor);
-            $sectionDisplay->setInternalPriorityLevels($this->internalPriorityLevels);
+            $sectionDisplay = new SectionDisplay($section, $this->config);
 
             $build = $sectionDisplay->getOutput();
 
@@ -199,5 +127,15 @@ class ListDisplay extends BaseDisplay
         $string = str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grand_total), $string);
 
         return $string;
+    }
+
+    /**
+     * @param mixed $footer
+     * @return ListDisplay
+     */
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+        return $this;
     }
 }

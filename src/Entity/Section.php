@@ -12,6 +12,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,9 +37,9 @@ class Section
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="section")
      *
-     * @var ArrayCollection
+     * @var Collection
      */
-    protected $items;
+    protected Collection $items;
 
     /**
      * Name
@@ -63,7 +64,7 @@ class Section
      *
      * @var ?User
      */
-    protected $user;
+    protected ?User $user;
 
     public function __construct()
     {
@@ -79,9 +80,9 @@ class Section
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getItems(): ArrayCollection
+    public function getItems(): Collection
     {
         return $this->items;
     }
