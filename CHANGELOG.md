@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved legacy view-like classes to App\Legacy\Renderer.
 - Refactored display controls.
 - Started rewriting queries in DQL.
+- Updated 3rd party PHP dependencies.
+- Updated Bootstrap from 4.5.2 to 4.5.3.
 
 ## [1.3.0] - 2020-12-22
 ### Added
