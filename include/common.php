@@ -66,7 +66,7 @@ $todo_priority = [
 $todo_priority['normal'] = intval((($todo_priority['low'] - $todo_priority['high']) / 2) + $todo_priority['high']);
 $GLOBALS['todo_priority'] = $todo_priority;
 
-$loader = new FilesystemLoader(dirname(dirname(__FILE__)) . '/templates');
+$loader = new FilesystemLoader(Helper::getProjectRoot() . '/templates');
 $twig = new Environment($loader);
 
 require __DIR__ . '/display_settings.php';

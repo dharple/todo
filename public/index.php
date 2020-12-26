@@ -1,11 +1,11 @@
 <?php
 
 use App\Legacy\DateUtils;
-use App\Legacy\DisplayConfig;
 use App\Legacy\Entity\Item;
 use App\Legacy\Entity\Section;
 use App\Legacy\ItemStats;
-use App\Legacy\ListDisplay;
+use App\Legacy\Renderer\DisplayConfig;
+use App\Legacy\Renderer\ListDisplay;
 use App\Legacy\SimpleList;
 
 $db = $GLOBALS['db'];

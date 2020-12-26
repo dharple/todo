@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy;
+namespace App\Legacy\Renderer;
 
 use App\Helper;
 use Exception;
@@ -66,7 +66,7 @@ abstract class BaseDisplay
     protected function getTwig()
     {
         if (!isset($this->twig)) {
-            $loader = new FilesystemLoader(dirname(dirname(dirname(__FILE__))) . '/templates');
+            $loader = new FilesystemLoader(Helper::getProjectRoot() . '/templates');
             $this->twig = new Environment($loader);
         }
 

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy;
+namespace App\Legacy\Renderer;
 
 class DisplayConfig
 {

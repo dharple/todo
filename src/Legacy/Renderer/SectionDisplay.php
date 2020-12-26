@@ -9,11 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy;
+namespace App\Legacy\Renderer;
 
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
+use App\Legacy\DateUtils;
 use Exception;
 
 class SectionDisplay extends BaseDisplay

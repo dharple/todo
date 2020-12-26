@@ -1,8 +1,8 @@
 <?php
 
-use App\Legacy\DisplayConfig;
 use App\Legacy\Entity\Item;
-use App\Legacy\ListDisplay;
+use App\Legacy\Renderer\DisplayConfig;
+use App\Legacy\Renderer\ListDisplay;
 use App\Legacy\SimpleList;
 
 $db = $GLOBALS['db'];

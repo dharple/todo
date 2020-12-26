@@ -45,7 +45,7 @@ class Helper
             $useSimpleAnnotationReader = false;
             $config = Setup::createAnnotationMetadataConfiguration(
                 [
-                    dirname(__DIR__ . '/src')
+                    self::getProjectRoot() . '/src'
                 ],
                 $isDevMode,
                 $proxyDir,
@@ -81,6 +81,16 @@ class Helper
     }
 
     /**
+     * Returns the root of the project.
+     *
+     * @return string
+     */
+    public static function getProjectRoot(): string
+    {
+        return dirname(__DIR__);
+    }
+
+    /**
      * Loads config settings from the .env and puts them in to $_ENV.
      *
      * @return void
@@ -91,7 +101,7 @@ class Helper
 
         if (!$loaded) {
             $dotenv = new Dotenv();
-            $dotenv->loadEnv(dirname(__DIR__) . '/.env');
+            $dotenv->loadEnv(self::getProjectRoot() . '/.env');
             $loaded = true;
         }
     }
