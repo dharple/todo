@@ -6,10 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Added Doctrine entities
-- Added logger
-- Refactored display controls
-- Started rewriting queries in DQL
+- Added Doctrine entities.
+- Added logger.
+- Moved legacy view-like classes to App\Legacy\Renderer.
+- Refactored display controls.
+- Started rewriting queries in DQL.
 
 ## [1.3.0] - 2020-12-22
 ### Added
