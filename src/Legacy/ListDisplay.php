@@ -14,6 +14,7 @@ namespace App\Legacy;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
+use Exception;
 
 class ListDisplay extends BaseDisplay
 {
@@ -31,6 +32,11 @@ class ListDisplay extends BaseDisplay
         $this->config = $config;
     }
 
+    /**
+     * Builds the output for this display.
+     *
+     * @throws Exception
+     */
     protected function buildOutput()
     {
         $entityManager = Helper::getEntityManager();
@@ -108,8 +114,10 @@ class ListDisplay extends BaseDisplay
      * @param int    $grand_total
      *
      * @return string
+     *
+     * @throws Exception
      */
-    public function replaceTotals(string $string, int $grand_total)
+    protected function replaceTotals(string $string, int $grand_total)
     {
         $string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
 

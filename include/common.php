@@ -2,15 +2,14 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Helper;
 use App\Legacy\Entity\Session;
 use App\Legacy\Entity\User;
 use App\Legacy\MySQLiDatabase;
-use Symfony\Component\Dotenv\Dotenv;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-$dotenv = new Dotenv();
-$dotenv->loadEnv(dirname(__DIR__) . '/.env');
+Helper::loadConfig();
 
 if (
     !isset($_ENV['DATABASE_HOST']) ||
@@ -19,11 +18,20 @@ if (
     !isset($_ENV['DATABASE_USER']) ||
     !isset($_ENV['SESSION_MAX_LIFETIME'])
 ) {
-    throw new Exception('Missing configuration values');
+    $errorMessage = 'Missing configuration values';
+    Helper::getLogger()->critical($errorMessage);
+    echo $errorMessage;
+    exit;
 }
 
-$GLOBALS['db'] = new MySQLiDatabase();
-$GLOBALS['db']->connect($_ENV['DATABASE_HOST'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD'], $_ENV['DATABASE_INSTANCE']);
+try {
+    $GLOBALS['db'] = new MySQLiDatabase();
+    $GLOBALS['db']->connect($_ENV['DATABASE_HOST'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD'], $_ENV['DATABASE_INSTANCE']);
+} catch (\Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
 
 session_cache_limiter('nocache');
 

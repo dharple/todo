@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Added Doctrine entities
+- Added logger
 - Refactored display controls
 - Started rewriting queries in DQL
 

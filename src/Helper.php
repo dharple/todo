@@ -11,9 +11,12 @@
 
 namespace App;
 
+use App\Logger\FileLogger;
+use App\Logger\FileSQLLogger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
@@ -34,6 +37,8 @@ class Helper
         static $em = null;
 
         if (!isset($em)) {
+            self::loadConfig();
+
             $isDevMode = true;
             $proxyDir = null;
             $cache = null;
@@ -48,9 +53,6 @@ class Helper
                 $useSimpleAnnotationReader
             );
 
-            $dotenv = new Dotenv();
-            $dotenv->loadEnv(dirname(__DIR__) . '/.env');
-
             $conn = [
                 'driver' => 'pdo_mysql',
 
@@ -60,9 +62,37 @@ class Helper
                 'user' => $_ENV['DATABASE_USER'],
             ];
 
+            $config->setSQLLogger(new FileSQLLogger());
+
             $em = EntityManager::create($conn, $config);
         }
 
         return $em;
+    }
+
+    /**
+     * Returns a logger
+     *
+     * @return LoggerInterface
+     */
+    public static function getLogger()
+    {
+        return new FileLogger();
+    }
+
+    /**
+     * Loads config settings from the .env and puts them in to $_ENV.
+     *
+     * @return void
+     */
+    public static function loadConfig(): void
+    {
+        static $loaded = false;
+
+        if (!$loaded) {
+            $dotenv = new Dotenv();
+            $dotenv->loadEnv(dirname(__DIR__) . '/.env');
+            $loaded = true;
+        }
     }
 }

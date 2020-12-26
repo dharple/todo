@@ -11,7 +11,12 @@
 
 namespace App\Legacy;
 
+use App\Helper;
+use Exception;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
 abstract class BaseDisplay
@@ -27,16 +32,30 @@ abstract class BaseDisplay
      */
     protected Environment $twig;
 
+    /**
+     * Builds the output for this display.
+     *
+     * @throws Exception
+     */
     protected function buildOutput()
     {
         $this->output = '';
         $this->outputBuilt = true;
     }
 
-    public function getOutput()
+    /**
+     * Returns the generated output for this display.
+     *
+     * @return string
+     */
+    public function getOutput(): string
     {
         if (!$this->outputBuilt) {
-            $this->buildOutput();
+            try {
+                $this->buildOutput();
+            } catch (Exception $e) {
+                Helper::getLogger()->error(sprintf('caught exception while building output: %s', $e->getMessage()));
+            }
         }
 
         return $this->output;
@@ -52,7 +71,19 @@ abstract class BaseDisplay
         return $this->twig;
     }
 
-    protected function render($template, $variables = [])
+    /**
+     * Renders a twig template and returns the result.
+     *
+     * @param string $template  The template to render.
+     * @param array  $variables The variables to pass to the template.
+     *
+     * @return string
+     *
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    protected function render(string $template, array $variables = []): string
     {
         return $this->getTwig()->render($template, $variables);
     }

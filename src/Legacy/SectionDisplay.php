@@ -14,6 +14,7 @@ namespace App\Legacy;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
+use Exception;
 
 class SectionDisplay extends BaseDisplay
 {
@@ -30,6 +31,11 @@ class SectionDisplay extends BaseDisplay
         $this->config = $config;
     }
 
+    /**
+     * Builds the output for this display.
+     *
+     * @throws Exception
+     */
     protected function buildOutput()
     {
         $entityManager = Helper::getEntityManager();

@@ -11,6 +11,7 @@
 
 namespace App\Legacy;
 
+use App\Helper;
 use Exception;
 
 class MySQLiDatabase implements Database
@@ -31,36 +32,21 @@ class MySQLiDatabase implements Database
 
     public function query($query)
     {
-        if (!preg_match('/^SELECT /i', $query)) {
-            file_put_contents(
-                '/tmp/todo.log',
-                sprintf(
-                    "%s %s %s running query %s\n",
-                    date('c'),
-                    get_class($this),
-                    'INFO',
-                    $query
-                ),
-                FILE_APPEND
-            );
-        }
+        $level = preg_match('/^SELECT /i', $query) ? 'debug' : 'info';
+        Helper::getLogger()->log($level, $query);
+
         $resultSet = mysqli_query($this->conn, $query);
         if (mysqli_error($this->conn)) {
             $this->error = mysqli_error($this->conn);
             $this->errno = mysqli_errno($this->conn);
 
-            file_put_contents(
-                '/tmp/todo.log',
+            Helper::getLogger()->error(
                 sprintf(
-                    "%s %s %s error running query %s: %s [%d]\n",
-                    date('c'),
-                    get_class($this),
-                    'ERROR',
+                    'error running query %s: %s [%d]',
                     $query,
                     $this->error,
                     $this->errno
-                ),
-                FILE_APPEND
+                )
             );
 
             return false;
