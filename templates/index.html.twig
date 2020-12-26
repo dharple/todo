@@ -48,7 +48,7 @@
         <div class="col-6 text-right">
             Filter Closed Items:&nbsp;&nbsp;
             {% for value, label in filterClosedValues %}
-                {% if filterClosedSelected == value %}
+                {% if config.filterClosed == value %}
                     {{ label }}
                 {% else %}
                     <a href="index.php?filter_closed={{ value }}">{{ label }}</a>
@@ -58,7 +58,7 @@
 
             Filter Priority:&nbsp;&nbsp;
             {% for value, label in filterPriorityValues %}
-                {% if filterPrioritySelected == value %}
+                {% if config.filterPriority == value %}
                     {{ label }}
                 {% else %}
                     <a href="index.php?filter_priority={{ value }}">{{ label }}</a>
@@ -68,7 +68,7 @@
 
             Show Priority:&nbsp;&nbsp;
             {% for value, label in showPriorityValues %}
-                {% if showPrioritySelected == value %}
+                {% if config.showPriority == value %}
                     {{ label }}
                 {% else %}
                     <a href="index.php?show_priority={{ value }}">{{ label }}</a>
@@ -78,7 +78,7 @@
 
             Filter Aging:&nbsp;&nbsp;
             {% for value, label in filterAgingValues %}
-                {% if filterAgingSelected == value %}
+                {% if config.filterAging == value %}
                     {{ label }}
                 {% else %}
                     <a href="index.php?filter_aging={{ value }}">{{ label }}</a>
@@ -88,7 +88,7 @@
             <br />
 
             Show Inactive Sections:&nbsp;&nbsp;
-            {% if showInactiveSelected == 'y' %}
+            {% if config.showInactive == 'y' %}
                 Yes <a href="index.php?show_inactive=n">No</a>
             {% else %}
                 <a href="index.php?show_inactive=y">Yes</a> No

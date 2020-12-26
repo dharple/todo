@@ -1,7 +1,7 @@
 <?php
 
-use App\Legacy\DateUtils;
-use App\Legacy\Entity\Item;
+use App\Entity\Item;
+use App\Helper;
 use App\Legacy\Entity\Section;
 use App\Legacy\ItemStats;
 use App\Legacy\Renderer\DisplayConfig;
@@ -12,33 +12,37 @@ $db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
 $user = $GLOBALS['user'];
 
+try {
+    $em = Helper::getEntityManager();
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
+
 // Handle POST
 
 $errors = [];
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Mark Done') {
-        foreach ($_POST['itemIds'] as $itemId) {
-            $item = new Item($db, $itemId);
-            if ($item->getId() != $itemId) {
-                $errors[] = sprintf('Unable to load item #%s', $itemId);
-                continue;
-            }
+        try {
+            foreach ($_POST['itemIds'] as $itemId) {
+                $item = $em->find(Item::class, $itemId);
 
-            $item->setStatus('Closed');
-            $dateUtils = new DateUtils();
-            $item->setCompleted($dateUtils->getNow());
-            $ret = $item->save();
+                if ($item === null) {
+                    $errors[] = sprintf('Unable to load item #%s', $itemId);
+                    continue;
+                }
 
-            if (!$ret) {
-                $errors[] = sprintf(
-                    'An error occured while updating item #%s - %s.  %s: %s',
-                    $itemId,
-                    $item->getTask(),
-                    $item->getErrorNumber(),
-                    $item->getErrorMessage()
-                );
+                $item
+                    ->setStatus('Closed')
+                    ->setCompleted(new DateTime());
+                $em->persist($item);
             }
+            $em->flush();
+        } catch (Exception $e) {
+            $errors[] = sprintf('Failed to mark items done: %s', $e->getMessage());
         }
     } elseif ($_POST['submitButton'] == 'Add New') {
         header('Location: item_edit.php?op=add');
@@ -69,34 +73,25 @@ if (count($_POST)) {
         header('Location: item_prioritize.php' . $queryString);
         die();
     } elseif ($_POST['submitButton'] == 'Duplicate') {
-        foreach ($_POST['itemIds'] as $itemId) {
-            $item = new Item($db, $itemId);
-            if ($item->getId() != $itemId) {
-                $errors[] = sprintf('Unable to load item #%s', $itemId);
-                continue;
+        try {
+            foreach ($_POST['itemIds'] as $itemId) {
+                $item = $em->find(Item::class, $itemId);
+
+                if ($item === null) {
+                    $errors[] = sprintf('Unable to load item #%s', $itemId);
+                    continue;
+                }
+
+                $newItem = clone $item;
+                $newItem
+                    ->setStatus('Open')
+                    ->setCompleted(null);
+
+                $em->persist($newItem);
             }
-
-            $dateUtils = new DateUtils();
-
-            $newItem = new Item($db);
-
-            $newItem->setCreated($dateUtils->getNow());
-            $newItem->setUserId($user->getId());
-            $newItem->setTask($item->getTask());
-            $newItem->setSectionId($item->getSectionId());
-            $newItem->setStatus('Open');
-            $newItem->setPriority($item->getPriority());
-            $ret = $newItem->save();
-
-            if (!$ret) {
-                $errors[] = sprintf(
-                    'An error occured while duplicating item #%s - %s.  %s: %s',
-                    $itemId,
-                    $item->getTask(),
-                    $newItem->getErrorNumber(),
-                    $newItem->getErrorMessage()
-                );
-            }
+            $em->flush();
+        } catch (Exception $e) {
+            $errors[] = sprintf('Failed to mark items done: %s', $e->getMessage());
         }
     }
 }
@@ -112,14 +107,15 @@ $avg = $row[0];
 // End Ugly
 
 $config = new DisplayConfig();
-$config->setInternalPriorityLevels($GLOBALS['todo_priority']);
-$config->setFilterClosed($GLOBALS['display_filter_closed']);
-$config->setFilterPriority($GLOBALS['display_filter_priority']);
-$config->setFilterAging($GLOBALS['display_filter_aging']);
-$config->setShowInactive($GLOBALS['display_show_inactive']);
-$config->setShowSection($GLOBALS['display_show_section']);
-$config->setSectionLink('index.php?show_section={SECTION_ID}');
-$config->setShowPriority($GLOBALS['display_show_priority']);
+$config
+    ->setFilterAging($GLOBALS['display_filter_aging'])
+    ->setFilterClosed($GLOBALS['display_filter_closed'])
+    ->setFilterPriority($GLOBALS['display_filter_priority'])
+    ->setInternalPriorityLevels($GLOBALS['todo_priority'])
+    ->setSectionLink('index.php?show_section={SECTION_ID}')
+    ->setShowInactive($GLOBALS['display_show_inactive'])
+    ->setShowPriority($GLOBALS['display_show_priority'])
+    ->setShowSection($GLOBALS['display_show_section']);
 
 $listDisplay = new ListDisplay($user->getId(), $config);
 
@@ -138,20 +134,16 @@ $sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user->getI
 
 $twig->display('index.html.twig', [
     'avg'                    => $avg,
+    'config'                 => $config,
     'errors'                 => $errors,
-    'filterAgingSelected'    => $GLOBALS['display_filter_aging'],
     'filterAgingValues'      => $GLOBALS['aging_display'],
-    'filterClosedSelected'   => $GLOBALS['display_filter_closed'],
     'filterClosedValues'     => $GLOBALS['closed_display'],
-    'filterPrioritySelected' => $GLOBALS['display_filter_priority'],
     'filterPriorityValues'   => $GLOBALS['priority_display'],
     'hasItems'               => ($itemCount > 0),
     'hasSections'            => ($sectionCount > 0),
     'itemStats'              => $itemStats,
     'list'                   => $listOutput,
     'showDuplicate'          => ($GLOBALS['display_filter_closed'] != 'none'),
-    'showInactiveSelected'   => $GLOBALS['display_show_inactive'],
-    'showPrioritySelected'   => $GLOBALS['display_show_priority'],
     'showPriorityValues'     => $GLOBALS['show_priority_display'],
     'user'                   => $user,
 ]);
