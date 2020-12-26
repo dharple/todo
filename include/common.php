@@ -27,7 +27,7 @@ if (
 try {
     $GLOBALS['db'] = new MySQLiDatabase();
     $GLOBALS['db']->connect($_ENV['DATABASE_HOST'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD'], $_ENV['DATABASE_INSTANCE']);
-} catch (\Exception $e) {
+} catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());
     echo $e->getMessage();
     exit;

@@ -15,6 +15,9 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 
+/**
+ * File logger.
+ */
 class FileLogger extends AbstractLogger implements LoggerInterface
 {
     /**
@@ -38,7 +41,7 @@ class FileLogger extends AbstractLogger implements LoggerInterface
     /**
      * Checks the passed log level.
      *
-     * @param string $level
+     * @param string $level The log level being used.
      *
      * @return bool
      *
@@ -66,9 +69,17 @@ class FileLogger extends AbstractLogger implements LoggerInterface
     }
 
     /**
-     * @inheritDoc
+     * Logs with an arbitrary level.
+     *
+     * @param string  $level   The log level to use.
+     * @param string  $message The message to log.
+     * @param mixed[] $context Any additional context to include.
+     *
+     * @return void
+     *
+     * @throws InvalidArgumentException
      */
-    public function log($level, $message, array $context = [])
+    public function log(string $level, string $message, array $context = []): void
     {
         $filename = $this->getFilename();
         if ($filename === null) {

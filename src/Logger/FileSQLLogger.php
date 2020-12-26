@@ -14,13 +14,22 @@ namespace App\Logger;
 use App\Helper;
 use Doctrine\DBAL\Logging\SQLLogger;
 
+/**
+ * Logs SQL queries to files.
+ */
 class FileSQLLogger implements SQLLogger
 {
 
     /**
-     * @inheritDoc
+     * Logs a SQL statement to a file.
+     *
+     * @param string     $sql    SQL statement.
+     * @param array|null $params Statement parameters.
+     * @param array|null $types  Parameter types.
+     *
+     * @return void
      */
-    public function startQuery($sql, ?array $params = null, ?array $types = null)
+    public function startQuery(string $sql, ?array $params = null, ?array $types = null): void
     {
         $level = preg_match('/^SELECT /i', $sql) ? 'debug' : 'info';
 
@@ -31,7 +40,9 @@ class FileSQLLogger implements SQLLogger
     }
 
     /**
-     * @inheritDoc
+     * Doesn't do anything; needed for interface.
+     *
+     * @return void
      */
     public function stopQuery()
     {

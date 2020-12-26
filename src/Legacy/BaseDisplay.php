@@ -35,9 +35,11 @@ abstract class BaseDisplay
     /**
      * Builds the output for this display.
      *
+     * @return void
+     *
      * @throws Exception
      */
-    protected function buildOutput()
+    protected function buildOutput(): void
     {
         $this->output = '';
         $this->outputBuilt = true;

@@ -34,9 +34,11 @@ class SectionDisplay extends BaseDisplay
     /**
      * Builds the output for this display.
      *
+     * @return void
+     *
      * @throws Exception
      */
-    protected function buildOutput()
+    protected function buildOutput(): void
     {
         $entityManager = Helper::getEntityManager();
         $itemRepository = $entityManager->getRepository(Item::class);

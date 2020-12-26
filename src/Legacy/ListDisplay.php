@@ -35,9 +35,11 @@ class ListDisplay extends BaseDisplay
     /**
      * Builds the output for this display.
      *
+     * @return void
+     *
      * @throws Exception
      */
-    protected function buildOutput()
+    protected function buildOutput(): void
     {
         $entityManager = Helper::getEntityManager();
         $sectionRepository = $entityManager->getRepository(Section::class);
@@ -138,7 +140,10 @@ class ListDisplay extends BaseDisplay
     }
 
     /**
-     * @param mixed $footer
+     * Sets the footer for the list.
+     *
+     * @param mixed $footer The footer string to use.
+     *
      * @return ListDisplay
      */
     public function setFooter($footer)
