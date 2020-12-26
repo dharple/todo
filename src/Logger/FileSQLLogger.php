@@ -29,7 +29,7 @@ class FileSQLLogger implements SQLLogger
      *
      * @return void
      */
-    public function startQuery(string $sql, ?array $params = null, ?array $types = null): void
+    public function startQuery($sql, ?array $params = null, ?array $types = null): void
     {
         $level = preg_match('/^SELECT /i', $sql) ? 'debug' : 'info';
 

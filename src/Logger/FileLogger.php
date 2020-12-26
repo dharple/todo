@@ -71,7 +71,7 @@ class FileLogger extends AbstractLogger implements LoggerInterface
     /**
      * Logs with an arbitrary level.
      *
-     * @param string  $level   The log level to use.
+     * @param mixed   $level   The log level to use.
      * @param string  $message The message to log.
      * @param mixed[] $context Any additional context to include.
      *
@@ -79,7 +79,7 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      *
      * @throws InvalidArgumentException
      */
-    public function log(string $level, string $message, array $context = []): void
+    public function log($level, $message, array $context = []): void
     {
         $filename = $this->getFilename();
         if ($filename === null) {
