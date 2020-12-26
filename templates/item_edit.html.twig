@@ -37,7 +37,7 @@
             Status:
             <select name="status[{{ itemId }}]">
             {% for status in statuses %}
-                <option value="{{ status }}" {% if status == item.status %}selected {% endif %}/>
+                <option value="{{ status }}" {% if status == item.status %}selected {% endif %}>
                     {{ status }}
                 </option>
             {% endfor %}

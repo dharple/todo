@@ -1,6 +1,6 @@
 <select name="{{ selectName ?? 'priority' }}">
     {% for priority in todo_priority.high..todo_priority.low %}
-        <option value="{{ priority }}" {% if priority == selectedPriority %}selected {% endif %}/>
+        <option value="{{ priority }}" {% if priority == selectedPriority %}selected {% endif %}>
             {{- priority -}}
         </option>
     {% endfor %}
