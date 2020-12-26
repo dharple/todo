@@ -1,83 +1,51 @@
 DROP TABLE IF EXISTS section;
 CREATE TABLE section (
-  id int(11) NOT NULL auto_increment,
+  id int NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
-  user_id tinyint(3) unsigned NOT NULL default '0',
+  user_id tinyint unsigned NOT NULL default '0',
   status enum('Active','Inactive') NOT NULL default 'Active',
-  PRIMARY KEY  (id),
-  KEY user_id (user_id)
+  PRIMARY KEY (id),
+  KEY user_id (user_id),
+  KEY primary_display_idx (user_id,status,name)
 );
-
-ALTER TABLE section ADD INDEX primary_display_idx (user_id, status, name);
-
 
 DROP TABLE IF EXISTS item;
 CREATE TABLE item (
-  id int(11) NOT NULL auto_increment,
-  section_id int(11) NOT NULL default '0',
+  id int NOT NULL auto_increment,
+  section_id int NOT NULL default '0',
   task varchar(255) NOT NULL default '',
   status enum('Open','Closed','Deleted') NOT NULL default 'Open',
-  created datetime NULL,
-  completed datetime NULL,
-  priority TINYINT(3) UNSIGNED NOT NULL DEFAULT '1',
-  estimate decimal(5,1) NOT NULL default '0.0',
-  user_id tinyint(3) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id),
+  created datetime default NULL,
+  completed datetime default NULL,
+  priority tinyint unsigned NOT NULL default '1',
+  user_id tinyint unsigned NOT NULL default '0',
+  PRIMARY KEY (id),
   KEY user_id (user_id),
   KEY section_id (section_id),
   KEY status (status),
-  KEY primary_display_idx (section_id,status,priority,task)
+  KEY primary_display_idx (section_id,status,priority,task),
+  KEY primary_count_idx (user_id,status,completed)
 );
-
-ALTER TABLE item ADD index primary_count_idx (user_id, status, completed);
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
-  id tinyint(3) unsigned NOT NULL auto_increment,
+  id tinyint unsigned NOT NULL auto_increment,
   username varchar(32) NOT NULL default '',
   fullname tinytext NOT NULL,
   password tinytext NOT NULL,
-  timezone VARCHAR(32) NOT NULL DEFAULT 'US/Eastern',
-  display_stylesheet_id SMALLINT(5) UNSIGNED NOT NULL default '0',
-  print_stylesheet_id SMALLINT(5) UNSIGNED NOT NULL default '0',
-  export_stylesheet_id SMALLINT(5) UNSIGNED NOT NULL default '0',
-  PRIMARY KEY  (id),
+  timezone varchar(128) NOT NULL default 'America/New_York',
+  PRIMARY KEY (id),
   UNIQUE KEY username (username)
 );
 
 DROP TABLE IF EXISTS session;
 CREATE TABLE session (
-  id int(10) unsigned NOT NULL auto_increment,
-  session_id VARCHAR(255) NOT NULL,
-  stamp DATETIME NOT NULL,
-  ip VARCHAR(255) NULL,
-  contents TEXT,
-  PRIMARY KEY  (id),
-  UNIQUE (session_id),
-  INDEX (stamp)
-);
-
-
-DROP TABLE IF EXISTS user_stylesheet;
-CREATE TABLE user_stylesheet (
-  id SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id TINYINT(3) UNSIGNED NOT NULL,
-  sheet_name VARCHAR(32) NOT NULL,
-  sheet_type ENUM('display', 'print', 'export') DEFAULT 'display' NOT NULL,
-  public ENUM('y', 'n') DEFAULT 'n' NOT NULL,
-  contents TEXT NOT NULL,
+  id int unsigned NOT NULL auto_increment,
+  session_id varchar(255) NOT NULL,
+  stamp datetime NOT NULL,
+  ip varchar(255) default NULL,
+  contents text,
   PRIMARY KEY (id),
-  KEY (user_id)
+  UNIQUE KEY session_id (session_id),
+  KEY stamp (stamp)
 );
-
-
-DROP TABLE IF EXISTS recurring_item;
-CREATE TABLE recurring_item (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  user_id TINYINT(3) UNSIGNED NOT NULL default '0',
-  task VARCHAR(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (id),
-  KEY user_id (user_id),
-  UNIQUE user_task (user_id, task)
-);
-
