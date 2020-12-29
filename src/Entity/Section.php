@@ -35,6 +35,8 @@ class Section
     protected int $id;
 
     /**
+     * The items associated with this section.
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="section")
      *
      * @var Collection
@@ -66,12 +68,17 @@ class Section
      */
     protected ?User $user;
 
+    /**
+     * Constructs a new section.
+     */
     public function __construct()
     {
         $this->items = new ArrayCollection();
     }
 
     /**
+     * Returns the ID of this section.
+     *
      * @return int
      */
     public function getId(): int
@@ -80,6 +87,8 @@ class Section
     }
 
     /**
+     * Returns the items that belong to this section.
+     *
      * @return Collection
      */
     public function getItems(): Collection
@@ -88,6 +97,8 @@ class Section
     }
 
     /**
+     * Returns the name of this section.
+     *
      * @return string
      */
     public function getName(): string
@@ -96,6 +107,8 @@ class Section
     }
 
     /**
+     * Returns the status of this section.
+     *
      * @return string
      */
     public function getStatus(): string
@@ -104,6 +117,8 @@ class Section
     }
 
     /**
+     * Returns the user for this section.
+     *
      * @return User|null
      */
     public function getUser(): ?User
@@ -112,7 +127,10 @@ class Section
     }
 
     /**
-     * @param string $name
+     * Sets the name of this section.
+     *
+     * @param string $name The name of this section.
+     *
      * @return Section
      */
     public function setName(string $name): Section
@@ -122,7 +140,10 @@ class Section
     }
 
     /**
-     * @param string $status
+     * Sets the status for this section.
+     *
+     * @param string $status The status for this section.
+     *
      * @return Section
      */
     public function setStatus(string $status): Section
@@ -132,7 +153,10 @@ class Section
     }
 
     /**
-     * @param User|null $user
+     * Sets the user for this section.
+     *
+     * @param User|null $user The user to set.
+     *
      * @return Section
      */
     public function setUser(?User $user): Section

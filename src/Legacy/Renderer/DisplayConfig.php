@@ -116,6 +116,7 @@ class DisplayConfig
 
     /**
      * @param string $filterAging
+     *
      * @return DisplayConfig
      */
     public function setFilterAging(string $filterAging): DisplayConfig
@@ -126,6 +127,7 @@ class DisplayConfig
 
     /**
      * @param string $filterClosed
+     *
      * @return DisplayConfig
      */
     public function setFilterClosed(string $filterClosed): DisplayConfig
@@ -136,6 +138,7 @@ class DisplayConfig
 
     /**
      * @param string $filterPriority
+     *
      * @return DisplayConfig
      */
     public function setFilterPriority(string $filterPriority): DisplayConfig
@@ -146,6 +149,7 @@ class DisplayConfig
 
     /**
      * @param array $ids
+     *
      * @return DisplayConfig
      */
     public function setIds(array $ids): DisplayConfig
@@ -156,6 +160,7 @@ class DisplayConfig
 
     /**
      * @param array $internalPriorityLevels
+     *
      * @return DisplayConfig
      */
     public function setInternalPriorityLevels(array $internalPriorityLevels): DisplayConfig
@@ -166,6 +171,7 @@ class DisplayConfig
 
     /**
      * @param string $sectionLink
+     *
      * @return DisplayConfig
      */
     public function setSectionLink(string $sectionLink): DisplayConfig
@@ -176,6 +182,7 @@ class DisplayConfig
 
     /**
      * @param string $showInactive
+     *
      * @return DisplayConfig
      */
     public function setShowInactive(string $showInactive): DisplayConfig
@@ -186,6 +193,7 @@ class DisplayConfig
 
     /**
      * @param string $showPriority
+     *
      * @return DisplayConfig
      */
     public function setShowPriority(string $showPriority): DisplayConfig
@@ -196,6 +204,7 @@ class DisplayConfig
 
     /**
      * @param string $showPriorityEditor
+     *
      * @return DisplayConfig
      */
     public function setShowPriorityEditor(string $showPriorityEditor): DisplayConfig
@@ -206,6 +215,7 @@ class DisplayConfig
 
     /**
      * @param int $showSection
+     *
      * @return DisplayConfig
      */
     public function setShowSection(int $showSection): DisplayConfig

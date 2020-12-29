@@ -43,6 +43,8 @@ class User
     protected int $id;
 
     /**
+     * The items associated with this user.
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
      *
      * @var Collection
@@ -58,6 +60,8 @@ class User
     protected string $password;
 
     /**
+     * The sections associated with this user.
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Section", mappedBy="user")
      *
      * @var Collection
@@ -80,6 +84,9 @@ class User
      */
     protected string $username;
 
+    /**
+     * Constructs a new user.
+     */
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -87,6 +94,8 @@ class User
     }
 
     /**
+     * Returns the full name of this user.
+     *
      * @return string
      */
     public function getFullname(): string
@@ -95,6 +104,8 @@ class User
     }
 
     /**
+     * Returns the ID of this user.
+     *
      * @return int
      */
     public function getId(): int
@@ -103,6 +114,8 @@ class User
     }
 
     /**
+     * Returns the items associated with this user.
+     *
      * @return Collection
      */
     public function getItems(): Collection
@@ -111,6 +124,8 @@ class User
     }
 
     /**
+     * Returns the sections associated with this user.
+     *
      * @return Collection
      */
     public function getSections(): Collection
@@ -119,6 +134,8 @@ class User
     }
 
     /**
+     * Returns the timezone for this user.
+     *
      * @return string
      */
     public function getTimezone(): string
@@ -127,6 +144,8 @@ class User
     }
 
     /**
+     * Returns the username for this user.
+     *
      * @return string
      */
     public function getUsername(): string
@@ -135,7 +154,10 @@ class User
     }
 
     /**
-     * @param string $fullname
+     * Sets the full name of this user.
+     *
+     * @param string $fullname The full name.
+     *
      * @return User
      */
     public function setFullname(string $fullname): User
@@ -145,7 +167,10 @@ class User
     }
 
     /**
-     * @param string $password
+     * Sets the password for this user.
+     *
+     * @param string $password The password.
+     *
      * @return User
      */
     public function setPassword(string $password): User
@@ -155,7 +180,10 @@ class User
     }
 
     /**
-     * @param string $timezone
+     * Sets the timezone for this user.
+     *
+     * @param string $timezone The timezone for this user.
+     *
      * @return User
      */
     public function setTimezone(string $timezone): User
@@ -165,7 +193,10 @@ class User
     }
 
     /**
-     * @param string $username
+     * Sets the username of this user.
+     *
+     * @param string $username The username.
+     *
      * @return User
      */
     public function setUsername(string $username): User

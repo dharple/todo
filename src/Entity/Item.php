@@ -130,6 +130,8 @@ class Item
     }
 
     /**
+     * Gets the section for this item.
+     *
      * @return Section|null
      */
     public function getSection(): ?Section
@@ -158,6 +160,8 @@ class Item
     }
 
     /**
+     * Returns the user for this item.
+     *
      * @return User|null
      */
     public function getUser(): ?User
@@ -205,7 +209,10 @@ class Item
     }
 
     /**
-     * @param Section|null $section
+     * Sets the section for this item.
+     *
+     * @param Section|null $section The section to set.
+     *
      * @return Item
      */
     public function setSection(?Section $section): Item
@@ -241,7 +248,10 @@ class Item
     }
 
     /**
-     * @param User|null $user
+     * Sets the user for this item.
+     *
+     * @param User|null $user The user for this item.
+     *
      * @return Item
      */
     public function setUser(?User $user): Item
