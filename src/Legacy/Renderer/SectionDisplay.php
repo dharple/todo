@@ -89,10 +89,10 @@ class SectionDisplay extends BaseDisplay
             $qb->andWhere('i.priority = :priority')
                 ->setParameter('priority', intval($internalPriorityLevels['high']));
         } elseif ($this->config->getFilterPriority() == 'normal') {
-            $qb->andWhere('i.priority >= :priority')
+            $qb->andWhere('i.priority <= :priority')
                 ->setParameter('priority', intval($internalPriorityLevels['normal']));
         } elseif ($this->config->getFilterPriority() == 'low') {
-            $qb->andWhere('i.priority >= :priority')
+            $qb->andWhere('i.priority <= :priority')
                 ->setParameter('priority', intval($internalPriorityLevels['low']));
         }
 
