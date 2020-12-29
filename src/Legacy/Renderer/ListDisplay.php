@@ -121,7 +121,7 @@ class ListDisplay extends BaseDisplay
      */
     protected function replaceTotals(string $string, int $grand_total)
     {
-        $string = str_replace('{GRAND_TOTAL}', $grand_total, $string);
+        $string = str_replace('{GRAND_TOTAL}', (string) $grand_total, $string);
 
         $entityManager = Helper::getEntityManager();
         $qb = $entityManager->createQueryBuilder()
