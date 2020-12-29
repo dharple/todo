@@ -5,12 +5,11 @@ use App\Helper;
 use App\Legacy\Renderer\DisplayConfig;
 use App\Legacy\Renderer\ListDisplay;
 
-$db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
-$user = $GLOBALS['user'];
 
 try {
     $em = Helper::getEntityManager();
+    $user = Helper::getUser();
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());
     echo $e->getMessage();
@@ -64,24 +63,6 @@ $config
 $ids = unserialize($_REQUEST['ids']);
 if (is_array($ids) && count($ids)) {
     $config->setIds($ids);
-} else {
-    try {
-        $qb = $em->createQueryBuilder()
-            ->select('i.id')
-            ->from(Item::class, 'i')
-            ->where('i.status = :status')
-            ->andWhere('i.user = :user')
-            ->setParameter('status', 'Open')
-            ->setParameter('user', $user->getId());
-        $ids = $qb->getQuery()->getScalarResult();
-        if (count($ids) > 0) {
-            $config->setIds($ids);
-        }
-    } catch (Exception $e) {
-        Helper::getLogger()->critical($e->getMessage());
-        echo $e->getMessage();
-        exit;
-    }
 }
 
 $listDisplay = new ListDisplay($user->getId(), $config);

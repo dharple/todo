@@ -15,16 +15,17 @@ use App\Legacy\Entity\Item;
 
 class ItemHistory
 {
+    protected $db;
+    protected $user_id;
+    protected $itemList;
+    protected $dateUtils;
+    protected $ordering;
 
-    public $user_id;
-    public $itemList;
-    public $dateUtils;
-    public $ordering;
-
-    public function __construct($db, $user_id)
+    public function __construct($user_id)
     {
+        $this->db = $GLOBALS['db'];
         $this->user_id = $user_id;
-        $this->itemList = new SimpleList($db, Item::class);
+        $this->itemList = new SimpleList($this->db, Item::class);
         $this->dateUtils = new DateUtils();
 
         $this->ordering = 'task';

@@ -12,7 +12,7 @@ $user = $GLOBALS['user'];
 $view = $_REQUEST['view'] ?? '';
 $sort = $_REQUEST['sort'] ?? 'task';
 
-$itemHistory = new ItemHistory($db, $user->getId());
+$itemHistory = new ItemHistory($user->getId());
 if ($sort == 'section') {
     $itemHistory->setOrdering('section');
 }

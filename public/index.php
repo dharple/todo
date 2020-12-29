@@ -2,18 +2,17 @@
 
 use App\Entity\Item;
 use App\Helper;
-use App\Legacy\Entity\Section;
 use App\Legacy\ItemStats;
 use App\Legacy\Renderer\DisplayConfig;
 use App\Legacy\Renderer\ListDisplay;
-use App\Legacy\SimpleList;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
 
-$db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
-$user = $GLOBALS['user'];
 
 try {
     $em = Helper::getEntityManager();
+    $user = Helper::getUser();
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());
     echo $e->getMessage();
@@ -44,27 +43,12 @@ if (count($_POST)) {
         } catch (Exception $e) {
             $errors[] = sprintf('Failed to mark items done: %s', $e->getMessage());
         }
-    } elseif ($_POST['submitButton'] == 'Add New') {
-        header('Location: item_edit.php?op=add');
-        die();
-    } elseif ($_POST['submitButton'] == 'Bulk') {
-        header('Location: item_bulk_add.php');
-        die();
     } elseif ($_POST['submitButton'] == 'Edit') {
         if (!empty($_POST['itemIds'])) {
             header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
             die();
         }
         $errors[] = 'Please select one or more items to edit';
-    } elseif ($_POST['submitButton'] == 'Edit Sections') {
-        header('Location: section_edit.php');
-        die();
-    } elseif ($_POST['submitButton'] == 'Logout') {
-        header('Location: logout.php');
-        die();
-    } elseif ($_POST['submitButton'] == 'My Account') {
-        header('Location: account.php');
-        die();
     } elseif ($_POST['submitButton'] == 'Prioritize') {
         $queryString = '';
         if (!empty($_POST['itemIds'])) {
@@ -96,16 +80,6 @@ if (count($_POST)) {
     }
 }
 
-// Ugly
-$query = "UPDATE item SET created = completed WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
-$result = $db->query($query);
-
-$query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '" . addslashes($user->getId()) . "' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
-$result = $db->query($query);
-$row = $db->fetchRow($result);
-$avg = $row[0];
-// End Ugly
-
 $config = new DisplayConfig();
 $config
     ->setFilterAging($GLOBALS['display_filter_aging'])
@@ -119,21 +93,23 @@ $config
 
 $listDisplay = new ListDisplay($user->getId(), $config);
 
-$itemStats = new ItemStats($db, $user->getId());
+$itemStats = new ItemStats($user->getId());
 
 $listDisplay->setFooter($twig->render('partials/index/summary.php.twig', [
-    'avg'       => $avg,
     'itemStats' => $itemStats,
 ]));
 
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 
-$sectionList = new SimpleList($db, Section::class);
-$sectionCount = $sectionList->count("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Active'");
+$sections = $user->getSections()->matching(
+    new Criteria(
+        new Comparison('status', '=', 'Active')
+    )
+);
+$sectionCount = count($sections);
 
 $twig->display('index.html.twig', [
-    'avg'                    => $avg,
     'config'                 => $config,
     'errors'                 => $errors,
     'filterAgingValues'      => $GLOBALS['aging_display'],

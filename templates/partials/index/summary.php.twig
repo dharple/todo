@@ -8,7 +8,7 @@
         This Month: {{ itemStats.doneThisMonth }},
         Last Month: {{ itemStats.doneLastMonth }},
         Since Start: {{ itemStats.doneTotal }},
-        Avg: {{ avg | number_format(1) }} days
+        Avg: {{ itemStats.average | number_format(1) }} days
     <br />
     <br />
     Items Shown: {GRAND_TOTAL}

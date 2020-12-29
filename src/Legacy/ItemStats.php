@@ -24,4 +24,21 @@ class ItemStats extends ItemHistory
 
         return $this->itemList->count("WHERE user_id = '" . addslashes($this->user_id) . "' AND status = 'Closed'" . $whereClause);
     }
+
+    /**
+     * Gets the current average
+     *
+     * @return mixed
+     */
+    public function getAverage()
+    {
+        // Ugly
+        $query = "UPDATE item SET created = completed WHERE user_id = '" . addslashes($this->user_id) . "' AND status = 'Closed' AND (TO_DAYS(completed) - TO_DAYS(created)) < 0";
+        $this->db->query($query);
+
+        $query = "SELECT AVG(IFNULL(TO_DAYS(item.completed) - TO_DAYS(item.created) + 1, TO_DAYS(NOW()) - TO_DAYS(item.created) + 1)) FROM item LEFT JOIN section ON item.section_id = section.id WHERE item.user_id = '" . addslashes($this->user_id) . "' AND (item.status = 'closed' OR (item.status = 'open' AND section.status = 'active'))";
+        $result = $this->db->query($query);
+        $row = $this->db->fetchRow($result);
+        return $row[0];
+    }
 }

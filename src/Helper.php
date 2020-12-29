@@ -11,11 +11,13 @@
 
 namespace App;
 
+use App\Entity\User;
 use App\Logger\FileLogger;
 use App\Logger\FileSQLLogger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -24,6 +26,12 @@ use Symfony\Component\Dotenv\Dotenv;
  */
 class Helper
 {
+    /**
+     * Don't allow instantiation.
+     */
+    private function __construct()
+    {
+    }
 
     /**
      * Generates an entity manager for use in the application.
@@ -88,6 +96,29 @@ class Helper
     public static function getProjectRoot(): string
     {
         return dirname(__DIR__);
+    }
+
+    /**
+     * Returns the current user
+     *
+     * @return User
+     *
+     * @throws Exception
+     */
+    public static function getUser(): User
+    {
+        static $user = null;
+
+        if ($user === null)
+        {
+            $userRepository = static::getEntityManager()->getRepository(User::class);
+            $user = $userRepository->find($GLOBALS['user_id']);
+            if ($user === null) {
+                throw new Exception('Unable to find user.');
+            }
+        }
+
+        return $user;
     }
 
     /**
