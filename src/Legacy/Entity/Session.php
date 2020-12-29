@@ -16,11 +16,11 @@ use SessionHandlerInterface;
 class Session extends BaseObject implements SessionHandlerInterface
 {
 
-    protected $maxLifetime;
+    protected int $maxLifetime;
 
-    protected $regenerate;
+    public bool $regenerate;
 
-    public $tableName = 'session';
+    public string $tableName = 'session';
 
     public function __construct($db, $maxLifetime = null)
     {

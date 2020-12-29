@@ -42,14 +42,14 @@ abstract class AbstractItemAnalyzer
      *
      * @var DateUtils
      */
-    protected $dateUtils;
+    protected DateUtils $dateUtils;
 
     /**
      * The ordering for this analyzer.
      *
      * @var string
      */
-    protected $ordering;
+    protected string $ordering;
 
     /**
      * AbstractItemAnalyzer constructor.

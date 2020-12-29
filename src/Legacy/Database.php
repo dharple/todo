@@ -17,8 +17,6 @@ interface Database
 
     public function fetchAssoc($resultSet);
 
-    public function fetchRow($resultSet);
-
     public function getErrorMessage();
 
     public function getErrorNumber();

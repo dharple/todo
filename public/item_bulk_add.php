@@ -40,8 +40,8 @@ if (count($_POST)) {
 
 $query = "SELECT section_id FROM item WHERE user_id = '" . addslashes($user->getId()) . "' AND status != 'Deleted' ORDER BY created DESC LIMIT 1";
 $result = $db->query($query);
-$row = $db->fetchRow($result);
-$selected = $row[0];
+$row = $db->fetchAssoc($result);
+$selected = $row['section_id'];
 
 $sectionRepository = $entityManager->getRepository(Section::class);
 $qb = $sectionRepository->createQueryBuilder('s')

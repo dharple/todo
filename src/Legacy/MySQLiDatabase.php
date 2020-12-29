@@ -37,11 +37,6 @@ class MySQLiDatabase implements Database
         return mysqli_fetch_assoc($resultSet);
     }
 
-    public function fetchRow($resultSet)
-    {
-        return mysqli_fetch_row($resultSet);
-    }
-
     public function getErrorMessage()
     {
         return $this->error;

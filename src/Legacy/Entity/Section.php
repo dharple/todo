@@ -14,7 +14,7 @@ namespace App\Legacy\Entity;
 class Section extends BaseObject
 {
 
-    public $tableName = 'section';
+    public string $tableName = 'section';
 
     public function getName()
     {

@@ -14,7 +14,7 @@ namespace App\Legacy\Entity;
 class User extends BaseObject
 {
 
-    public $tableName = 'user';
+    public string $tableName = 'user';
 
     public function confirmPassword($password)
     {

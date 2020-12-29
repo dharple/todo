@@ -11,6 +11,7 @@
 
 namespace App\Legacy\Entity;
 
+use App\Legacy\Database;
 use Exception;
 
 class BaseObject
@@ -18,13 +19,21 @@ class BaseObject
 
     protected $data;
 
-    protected $db;
+    protected Database $db;
 
-    protected $idField = 'id';
+    protected string $idField = 'id';
 
-    public $tableName;
+    public string $tableName;
 
-    public function __construct($db, $id = 0)
+    /**
+     * BaseObject constructor.
+     *
+     * @param Database $db The database to load from.
+     * @param int      $id The ID to load.
+     *
+     * @throws Exception
+     */
+    public function __construct(Database $db, int $id = 0)
     {
         $this->db = $db;
 

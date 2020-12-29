@@ -14,7 +14,7 @@ namespace App\Legacy\Entity;
 class Item extends BaseObject
 {
 
-    public $tableName = 'item';
+    public string $tableName = 'item';
 
     public function getCompleted()
     {
