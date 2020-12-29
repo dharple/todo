@@ -14,27 +14,29 @@ namespace App\Legacy;
 class DateUtils
 {
 
-    public function getNow()
-    {
-        return $this->getDate();
-    }
-
     public function getDate($date = 'now', $format = 'Y-m-d H:i:s')
     {
         $then = strtotime($date);
         return date($format, $then);
     }
 
-    public function getWeekStart($date = 'now', $format = 'Y-m-d 00:00:00')
+    public function getMonthEnd($date = 'now', $format = 'Y-m-d 23:59:59')
     {
         $then = strtotime($date);
-        $dow = date('w', $then);
-        if ($dow > 0) {
-            $weekstart = strtotime('last sunday', $then);
-        } else {
-            $weekstart = $then;
-        }
-        return date($format, $weekstart);
+        $monthend = strtotime(date('Y-m-t 00:00:00', $then));
+        return date($format, $monthend);
+    }
+
+    public function getMonthStart($date = 'now', $format = 'Y-m-d 00:00:00')
+    {
+        $then = strtotime($date);
+        $monthstart = strtotime(date('Y-m-1 00:00:00', $then));
+        return date($format, $monthstart);
+    }
+
+    public function getNow()
+    {
+        return $this->getDate();
     }
 
     public function getWeekEnd($date = 'now', $format = 'Y-m-d 23:59:59')
@@ -49,17 +51,15 @@ class DateUtils
         return date($format, $weekend);
     }
 
-    public function getMonthStart($date = 'now', $format = 'Y-m-d 00:00:00')
+    public function getWeekStart($date = 'now', $format = 'Y-m-d 00:00:00')
     {
         $then = strtotime($date);
-        $monthstart = strtotime(date('Y-m-1 00:00:00', $then));
-        return date($format, $monthstart);
-    }
-
-    public function getMonthEnd($date = 'now', $format = 'Y-m-d 23:59:59')
-    {
-        $then = strtotime($date);
-        $monthend = strtotime(date('Y-m-t 00:00:00', $then));
-        return date($format, $monthend);
+        $dow = date('w', $then);
+        if ($dow > 0) {
+            $weekstart = strtotime('last sunday', $then);
+        } else {
+            $weekstart = $then;
+        }
+        return date($format, $weekstart);
     }
 }

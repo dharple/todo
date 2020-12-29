@@ -16,8 +16,9 @@ use SessionHandlerInterface;
 class Session extends BaseObject implements SessionHandlerInterface
 {
 
-    public $regenerate;
-    public $maxLifetime;
+    protected $maxLifetime;
+
+    protected $regenerate;
 
     public $tableName = 'session';
 
@@ -34,6 +35,37 @@ class Session extends BaseObject implements SessionHandlerInterface
         }
     }
 
+    public function close()
+    {
+        if (rand(0, 10) == 5) {
+            $this->gc(0);
+        }
+
+        return true;
+    }
+
+    public function destroy($session_id)
+    {
+        $this->loadBySessionId($session_id);
+
+        $this->delete();
+
+        return true;
+    }
+
+    public function gc($ignore)
+    {
+        $query = "DELETE FROM session WHERE (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(stamp)) > '" . $this->maxLifetime . "'";
+        $this->db->query($query);
+
+        return true;
+    }
+
+    public function initialize()
+    {
+        session_set_save_handler($this);
+    }
+
     public function loadBySessionId($session_id)
     {
         $query = 'SELECT * FROM ' . $this->tableName . " WHERE session_id = '" . addslashes($session_id) . "'";
@@ -45,15 +77,6 @@ class Session extends BaseObject implements SessionHandlerInterface
 
     public function open($save_path, $session_name)
     {
-        return true;
-    }
-
-    public function close()
-    {
-        if (rand(0, 10) == 5) {
-            $this->gc(0);
-        }
-
         return true;
     }
 
@@ -95,27 +118,5 @@ class Session extends BaseObject implements SessionHandlerInterface
         $this->save();
 
         return true;
-    }
-
-    public function destroy($session_id)
-    {
-        $this->loadBySessionId($session_id);
-
-        $this->delete();
-
-        return true;
-    }
-
-    public function gc($ignore)
-    {
-        $query = "DELETE FROM session WHERE (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(stamp)) > '" . $this->maxLifetime . "'";
-        $this->db->query($query);
-
-        return true;
-    }
-
-    public function initialize()
-    {
-        session_set_save_handler($this);
     }
 }

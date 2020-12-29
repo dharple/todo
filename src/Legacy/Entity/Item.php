@@ -16,34 +16,9 @@ class Item extends BaseObject
 
     public $tableName = 'item';
 
-    public function getSectionId()
+    public function getCompleted()
     {
-        return $this->data['section_id'];
-    }
-
-    public function setSectionId($section_id)
-    {
-        $this->data['section_id'] = $section_id;
-    }
-
-    public function getTask()
-    {
-        return $this->data['task'];
-    }
-
-    public function setTask($task)
-    {
-        $this->data['task'] = $task;
-    }
-
-    public function getStatus()
-    {
-        return $this->data['status'];
-    }
-
-    public function setStatus($status)
-    {
-        $this->data['status'] = $status;
+        return $this->data['completed'];
     }
 
     public function getCreated()
@@ -51,14 +26,29 @@ class Item extends BaseObject
         return $this->data['created'];
     }
 
-    public function setCreated($created)
+    public function getPriority()
     {
-        $this->data['created'] = $created;
+        return $this->data['priority'];
     }
 
-    public function getCompleted()
+    public function getSectionId()
     {
-        return $this->data['completed'];
+        return $this->data['section_id'];
+    }
+
+    public function getStatus()
+    {
+        return $this->data['status'];
+    }
+
+    public function getTask()
+    {
+        return $this->data['task'];
+    }
+
+    public function getUserId()
+    {
+        return $this->data['user_id'];
     }
 
     public function setCompleted($completed)
@@ -66,9 +56,9 @@ class Item extends BaseObject
         $this->data['completed'] = $completed;
     }
 
-    public function getPriority()
+    public function setCreated($created)
     {
-        return $this->data['priority'];
+        $this->data['created'] = $created;
     }
 
     public function setPriority($priority)
@@ -76,9 +66,19 @@ class Item extends BaseObject
         $this->data['priority'] = $priority;
     }
 
-    public function getUserId()
+    public function setSectionId($section_id)
     {
-        return $this->data['user_id'];
+        $this->data['section_id'] = $section_id;
+    }
+
+    public function setStatus($status)
+    {
+        $this->data['status'] = $status;
+    }
+
+    public function setTask($task)
+    {
+        $this->data['task'] = $task;
     }
 
     public function setUserId($user_id)

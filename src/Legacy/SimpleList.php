@@ -14,15 +14,30 @@ namespace App\Legacy;
 class SimpleList
 {
 
-    public $db;
-    public $obj;
-    public $objName;
+    protected $db;
+
+    protected $obj;
+
+    protected $objName;
 
     public function __construct($db, $objName)
     {
         $this->db = $db;
         $this->objName = $objName;
         $this->obj = new $objName($db);
+    }
+
+    public function count($criteria)
+    {
+        $query = 'SELECT COUNT(*) FROM ' . $this->obj->tableName . ' ' . $criteria;
+        $result = $this->db->query($query);
+        if (!$result) {
+            return 0;
+        }
+
+        $row = $this->db->fetchRow($result);
+
+        return intval($row[0]);
     }
 
     public function load($criteria)
@@ -42,18 +57,5 @@ class SimpleList
         }
 
         return $ret;
-    }
-
-    public function count($criteria)
-    {
-        $query = 'SELECT COUNT(*) FROM ' . $this->obj->tableName . ' ' . $criteria;
-        $result = $this->db->query($query);
-        if (!$result) {
-            return 0;
-        }
-
-        $row = $this->db->fetchRow($result);
-
-        return intval($row[0]);
     }
 }

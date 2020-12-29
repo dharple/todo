@@ -17,9 +17,11 @@ use Exception;
 class MySQLiDatabase implements Database
 {
 
-    public $conn;
-    public $error;
-    public $errno;
+    protected $conn;
+
+    protected $errno;
+
+    protected $error;
 
     public function connect($host, $user, $pass, $db)
     {
@@ -28,6 +30,31 @@ class MySQLiDatabase implements Database
             throw new Exception('Cannot connect to database');
         }
         mysqli_select_db($this->conn, $db);
+    }
+
+    public function fetchAssoc($resultSet)
+    {
+        return mysqli_fetch_assoc($resultSet);
+    }
+
+    public function fetchRow($resultSet)
+    {
+        return mysqli_fetch_row($resultSet);
+    }
+
+    public function getErrorMessage()
+    {
+        return $this->error;
+    }
+
+    public function getErrorNumber()
+    {
+        return $this->errno;
+    }
+
+    public function lastInsertId()
+    {
+        return mysqli_insert_id($this->conn);
     }
 
     public function query($query)
@@ -53,30 +80,5 @@ class MySQLiDatabase implements Database
         } else {
             return $resultSet;
         }
-    }
-
-    public function fetchRow($resultSet)
-    {
-        return mysqli_fetch_row($resultSet);
-    }
-
-    public function fetchAssoc($resultSet)
-    {
-        return mysqli_fetch_assoc($resultSet);
-    }
-
-    public function lastInsertId()
-    {
-        return mysqli_insert_id($this->conn);
-    }
-
-    public function getErrorMessage()
-    {
-        return $this->error;
-    }
-
-    public function getErrorNumber()
-    {
-        return $this->errno;
     }
 }

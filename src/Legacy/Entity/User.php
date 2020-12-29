@@ -16,6 +16,26 @@ class User extends BaseObject
 
     public $tableName = 'user';
 
+    public function confirmPassword($password)
+    {
+        return password_verify($password, $this->data['password']);
+    }
+
+    public function getFullname()
+    {
+        return $this->data['fullname'];
+    }
+
+    public function getTimezone()
+    {
+        return $this->data['timezone'];
+    }
+
+    public function getUsername()
+    {
+        return $this->data['username'];
+    }
+
     public function login($username, $password)
     {
         $query = "SELECT id, password FROM user WHERE username = '" . addslashes($username) . "'";
@@ -34,29 +54,9 @@ class User extends BaseObject
         return true;
     }
 
-    public function getUsername()
-    {
-        return $this->data['username'];
-    }
-
-    public function setUsername($username)
-    {
-        $this->data['username'] = $username;
-    }
-
-    public function getFullname()
-    {
-        return $this->data['fullname'];
-    }
-
     public function setFullname($fullname)
     {
         $this->data['fullname'] = $fullname;
-    }
-
-    public function confirmPassword($password)
-    {
-        return password_verify($password, $this->data['password']);
     }
 
     public function setPassword($password)
@@ -64,13 +64,13 @@ class User extends BaseObject
         $this->data['password'] = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function getTimezone()
-    {
-        return $this->data['timezone'];
-    }
-
     public function setTimezone($timezone)
     {
         $this->data['timezone'] = $timezone;
+    }
+
+    public function setUsername($username)
+    {
+        $this->data['username'] = $username;
     }
 }

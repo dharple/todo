@@ -16,10 +16,13 @@ use Exception;
 class BaseObject
 {
 
-    public $db;
-    public $data;
-    public $tableName;
+    protected $data;
+
+    protected $db;
+
     protected $idField = 'id';
+
+    public $tableName;
 
     public function __construct($db, $id = 0)
     {
@@ -28,6 +31,39 @@ class BaseObject
         if ($id) {
             $this->load($id);
         }
+    }
+
+    public function clearId()
+    {
+        $this->data[$this->idField] = 0;
+    }
+
+    public function delete()
+    {
+        if ($this->data[$this->idField] > 0) {
+            $query = 'DELETE FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . addslashes($this->data[$this->idField]) . "'";
+            $result = $this->db->query($query);
+            if ($result) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getErrorMessage()
+    {
+        return $this->db->getErrorMessage();
+    }
+
+    public function getErrorNumber()
+    {
+        return $this->db->getErrorNumber();
+    }
+
+    public function getId()
+    {
+        return $this->data[$this->idField];
     }
 
     public function load($id)
@@ -85,41 +121,8 @@ class BaseObject
         return true;
     }
 
-    public function delete()
-    {
-        if ($this->data[$this->idField] > 0) {
-            $query = 'DELETE FROM ' . $this->tableName . ' WHERE ' . $this->idField . " = '" . addslashes($this->data[$this->idField]) . "'";
-            $result = $this->db->query($query);
-            if ($result) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function setData($data)
     {
         $this->data = $data;
-    }
-
-    public function getId()
-    {
-        return $this->data[$this->idField];
-    }
-
-    public function clearId()
-    {
-        $this->data[$this->idField] = 0;
-    }
-
-    public function getErrorMessage()
-    {
-        return $this->db->getErrorMessage();
-    }
-
-    public function getErrorNumber()
-    {
-        return $this->db->getErrorNumber();
     }
 }
