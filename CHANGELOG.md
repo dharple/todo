@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added logger.
 - Moved legacy view-like classes to App\Legacy\Renderer.
 - Refactored display controls.
+- Rewrote analytics using Doctrine tools.
 - Started rewriting queries in DQL.
 - Updated 3rd party PHP dependencies.
 - Updated Bootstrap from 4.5.2 to 4.5.3.

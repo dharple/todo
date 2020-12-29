@@ -5,45 +5,8 @@
 
     <file>src</file>
 
-    <rule ref="Generic.Files.LineLength">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="vendor/ork/phpcs/Ork/Sniffs/Formatting">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Generic.Metrics.CyclomaticComplexity">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Generic.Commenting.DocComment.MissingShort">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.Missing">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.VariableComment.Missing">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.ClassComment.Missing">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.ClassComment.TagNotAllowed">
-        <exclude-pattern>src/*</exclude-pattern>
-    </rule>
-
     <rule ref="Squiz.Commenting.FunctionComment.EmptyThrows">
         <exclude-pattern>src/*</exclude-pattern>
     </rule>
-
 
 </ruleset>

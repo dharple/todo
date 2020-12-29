@@ -58,7 +58,7 @@ $items = [];
 
 if ($_REQUEST['op'] == 'edit') {
     $itemList = new SimpleList($db, Item::class);
-    $items = $itemList->load("WHERE user_id = '" . addslashes((string)$user->getId()) . "' AND id IN ('" . implode("','", unserialize($_REQUEST['ids'])) . "')");
+    $items = $itemList->load("WHERE user_id = '" . addslashes((string) $user->getId()) . "' AND id IN ('" . implode("','", unserialize($_REQUEST['ids'])) . "')");
 } elseif ($_REQUEST['op'] == 'add') {
     $item = new Item($db);
     $item->setStatus('Open');

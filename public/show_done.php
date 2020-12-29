@@ -75,4 +75,3 @@ $twig->display('show_done.html.twig', [
     'sort'     => $sort,
     'view'     => $view,
 ]);
-

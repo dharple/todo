@@ -37,7 +37,8 @@ session_cache_limiter('nocache');
 
 $GLOBALS['session_handler'] = new Session($GLOBALS['db'], $_ENV['SESSION_MAX_LIFETIME']);
 $GLOBALS['session_handler']->initialize();
-session_name('cwci'); // cookie in Welsh
+// cookie in Welsh
+session_name('cwci');
 session_start();
 
 if ($GLOBALS['session_handler']->regenerate) {

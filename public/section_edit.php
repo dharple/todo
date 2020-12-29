@@ -45,7 +45,8 @@ if (count($_POST)) {
                 if ($id > 0) {
                     $sections = [new Section($db, $id)];
                 } else {
-                    $sections = []; // skip the next loop
+                    // skip the next loop
+                    $sections = [];
                 }
             }
             foreach ($sections as $section) {
@@ -70,7 +71,8 @@ if (count($_POST)) {
                 if ($id > 0) {
                     $sections = [new Section($db, $id)];
                 } else {
-                    $sections = []; // skip the next loop
+                    // skip the next loop
+                    $sections = [];
                 }
             }
             foreach ($sections as $section) {

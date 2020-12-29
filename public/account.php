@@ -46,4 +46,3 @@ $twig->display('account.html.twig', [
     'timezones' => $timezones,
     'user'      => $user,
 ]);
-
