@@ -1,8 +1,8 @@
 <?php
 
+use App\Analytics\ItemStats;
 use App\Entity\Item;
 use App\Helper;
-use App\Legacy\ItemStats;
 use App\Legacy\Renderer\DisplayConfig;
 use App\Legacy\Renderer\ListDisplay;
 use Doctrine\Common\Collections\Criteria;
@@ -93,7 +93,7 @@ $config
 
 $listDisplay = new ListDisplay($user->getId(), $config);
 
-$itemStats = new ItemStats($user->getId());
+$itemStats = new ItemStats();
 
 $listDisplay->setFooter($twig->render('partials/index/summary.php.twig', [
     'itemStats' => $itemStats,

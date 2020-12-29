@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
 use Exception;
+use Oro\ORM\Query\AST\Functions\SimpleFunction;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -60,6 +61,8 @@ class Helper
                 $cache,
                 $useSimpleAnnotationReader
             );
+
+            $config->addCustomDatetimeFunction('date', SimpleFunction::class);
 
             $conn = [
                 'driver' => 'pdo_mysql',
@@ -109,8 +112,7 @@ class Helper
     {
         static $user = null;
 
-        if ($user === null)
-        {
+        if ($user === null) {
             $userRepository = static::getEntityManager()->getRepository(User::class);
             $user = $userRepository->find($GLOBALS['user_id']);
             if ($user === null) {

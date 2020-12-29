@@ -28,7 +28,7 @@
             {{ item.task }}
         </td>
         <td valign=top align=right>
-            <nobr>({{ attribute(sections, item.sectionId) }})</nobr>
+            <nobr>({{ item.section.name }})</nobr>
         </td>
     </tr>
     {% set lastDate = thisDate %}

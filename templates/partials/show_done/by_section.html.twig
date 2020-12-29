@@ -5,7 +5,7 @@
 
 {% for item in items %}
     {% set thisDate = item.completed | date('F jS, Y') %}
-    {% set thisSection = item.sectionId %}
+    {% set thisSection = item.section.id %}
 
     {% if thisDate != lastDate or thisSection != lastSection %}
         {% if lastDate != '' %}
@@ -41,7 +41,7 @@
 
             <td valign=top>
                 {% if thisSection != lastSection or thisDate != lastDate %}
-                    <nobr>{{ attribute(sections, item.sectionId) }}</nobr>
+                    <nobr>{{ item.section.name }}</nobr>
                 {% else %}
                     &nbsp;
                 {% endif %}
