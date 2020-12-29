@@ -1,13 +1,22 @@
 <?php
 
+use App\Helper;
+use App\Entity\Section;
 use App\Legacy\DateUtils;
 use App\Legacy\Entity\Item;
-use App\Legacy\Entity\Section;
 use App\Legacy\SimpleList;
 
 $db = $GLOBALS['db'];
 $twig = $GLOBALS['twig'];
-$user = $GLOBALS['user'];
+
+try {
+    $em = Helper::getEntityManager();
+    $user = Helper::getUser();
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
 
 if (count($_POST)) {
     $dateUtils = new DateUtils();
@@ -38,14 +47,18 @@ if (count($_POST)) {
     }
 }
 
-$sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
+$qb = $em->getRepository(Section::class)
+    ->createQueryBuilder('s')
+    ->where('s.user = :user')
+    ->orderBy('s.name')
+    ->setParameter('user', $user);
+$sections = $qb->getQuery()->getResult();
 
 $items = [];
 
 if ($_REQUEST['op'] == 'edit') {
     $itemList = new SimpleList($db, Item::class);
-    $items = $itemList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND id IN ('" . implode("','", unserialize($_REQUEST['ids'])) . "')");
+    $items = $itemList->load("WHERE user_id = '" . addslashes((string)$user->getId()) . "' AND id IN ('" . implode("','", unserialize($_REQUEST['ids'])) . "')");
 } elseif ($_REQUEST['op'] == 'add') {
     $item = new Item($db);
     $item->setStatus('Open');
