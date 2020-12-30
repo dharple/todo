@@ -17,7 +17,7 @@ try {
         Helper::setTimezone();
     }
 } catch (Exception $e) {
-    // do nothing
+    Helper::getLogger()->warning(sprintf('Failed to set timezone: %s', $e->getMessage()));
 }
 
 require __DIR__ . '/display_settings.php';
