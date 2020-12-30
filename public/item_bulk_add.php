@@ -6,7 +6,7 @@ use App\Helper;
 use App\Legacy\Renderer\DisplayHelper;
 
 $twig = Helper::getTwig();
-$todoPriority = DisplayHelper::getTodoPriority();
+$priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
     $em = Helper::getEntityManager();
@@ -66,10 +66,10 @@ $sections = $em->getRepository(Section::class)
 try {
     $twig->display('item_bulk_add.html.twig', [
         'errors' => $errors,
+        'priorityLevels' => $priorityLevels,
         'sections' => $sections,
-        'selectedPriority' => $todoPriority['normal'],
+        'selectedPriority' => $priorityLevels['normal'],
         'selectedSection' => $selected,
-        'todo_priority' => $todoPriority,
     ]);
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());

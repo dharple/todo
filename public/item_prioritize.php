@@ -7,7 +7,7 @@ use App\Legacy\Renderer\DisplayHelper;
 use App\Legacy\Renderer\ListDisplay;
 
 $twig = Helper::getTwig();
-$todoPriority = DisplayHelper::getTodoPriority();
+$priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
     $em = Helper::getEntityManager();
@@ -31,10 +31,10 @@ if (count($_POST)) {
                     continue;
                 }
 
-                if ($priority < $todoPriority['high']) {
-                    $priority = $todoPriority['high'];
-                } elseif ($priority > $todoPriority['low']) {
-                    $priority = $todoPriority['low'];
+                if ($priority < $priorityLevels['high']) {
+                    $priority = $priorityLevels['high'];
+                } elseif ($priority > $priorityLevels['low']) {
+                    $priority = $priorityLevels['low'];
                 }
 
                 $item->setPriority($priority);
@@ -56,7 +56,6 @@ $config = new DisplayConfig();
 $config
     ->setFilterAging($GLOBALS['display_filter_aging'])
     ->setFilterPriority($GLOBALS['display_filter_priority'])
-    ->setInternalPriorityLevels($todoPriority)
     ->setShowInactive($GLOBALS['display_show_inactive'])
     ->setShowPriorityEditor('y')
     ->setShowSection($GLOBALS['display_show_section']);

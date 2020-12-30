@@ -44,7 +44,7 @@ class SectionDisplay extends BaseDisplay
         $entityManager = Helper::getEntityManager();
         $itemRepository = $entityManager->getRepository(Item::class);
 
-        $internalPriorityLevels = $this->config->getInternalPriorityLevels();
+        $priorityLevels = DisplayHelper::getPriorityLevels();
 
         $qb = $itemRepository->createQueryBuilder('i')
             ->orderBy('i.priority')
@@ -87,13 +87,13 @@ class SectionDisplay extends BaseDisplay
 
         if ($this->config->getFilterPriority() == 'high') {
             $qb->andWhere('i.priority = :priority')
-                ->setParameter('priority', intval($internalPriorityLevels['high']));
+                ->setParameter('priority', intval($priorityLevels['high']));
         } elseif ($this->config->getFilterPriority() == 'normal') {
             $qb->andWhere('i.priority <= :priority')
-                ->setParameter('priority', intval($internalPriorityLevels['normal']));
+                ->setParameter('priority', intval($priorityLevels['normal']));
         } elseif ($this->config->getFilterPriority() == 'low') {
             $qb->andWhere('i.priority <= :priority')
-                ->setParameter('priority', intval($internalPriorityLevels['low']));
+                ->setParameter('priority', intval($priorityLevels['low']));
         }
 
         if ($this->config->getFilterAging() != 'all') {
@@ -124,7 +124,7 @@ class SectionDisplay extends BaseDisplay
         $this->output = $this->render(sprintf('partials/section/%s.html.twig', $template), [
             'items'              => $items,
             'priorityHigh'       => 2,
-            'priorityNormal'     => $internalPriorityLevels['normal'],
+            'priorityNormal'     => $priorityLevels['normal'],
             'section'            => $this->section,
             'sectionUrl'         => str_replace(
                 '{SECTION_ID}',

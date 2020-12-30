@@ -6,7 +6,7 @@ use App\Helper;
 use App\Legacy\Renderer\DisplayHelper;
 
 $twig = Helper::getTwig();
-$todoPriority = DisplayHelper::getTodoPriority();
+$priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
     $em = Helper::getEntityManager();
@@ -94,7 +94,7 @@ if ($_REQUEST['op'] == 'edit') {
 } elseif ($_REQUEST['op'] == 'add') {
     $items = [
         (new Item())
-            ->setPriority($todoPriority['normal'])
+            ->setPriority($priorityLevels['normal'])
             ->setStatus('Open'),
     ];
 }
@@ -105,9 +105,9 @@ try {
         'ids' => $_REQUEST['ids'] ?? '',
         'items' => $items,
         'op' => $_REQUEST['op'],
+        'priorityLevels' => $priorityLevels,
         'sections' => $sections,
         'statuses' => ['Open', 'Closed', 'Deleted'],
-        'todo_priority' => $todoPriority,
     ]);
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());

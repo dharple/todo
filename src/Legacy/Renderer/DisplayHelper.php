@@ -55,13 +55,30 @@ class DisplayHelper
      */
     public static function getPriorityFilterValues(): array
     {
-        $todoPriority = static::getTodoPriority();
+        $priorityLevels = static::getPriorityLevels();
         return [
             'all' => 'All',
-            'high' => '' . $todoPriority['high'],
-            'normal' => $todoPriority['high'] . '-' . $todoPriority['normal'],
-            'low' => $todoPriority['high'] . '-' . $todoPriority['low']
+            'high' => '' . $priorityLevels['high'],
+            'normal' => $priorityLevels['high'] . '-' . $priorityLevels['normal'],
+            'low' => $priorityLevels['high'] . '-' . $priorityLevels['low']
         ];
+    }
+
+    /**
+     * Returns the set of available priorities.
+     *
+     * @return int[]
+     */
+    public static function getPriorityLevels(): array
+    {
+        $priorityLevels = [
+            'high' => 1,
+            'low' => 10,
+        ];
+
+        $priorityLevels['normal'] = intval((($priorityLevels['low'] - $priorityLevels['high']) / 2) + $priorityLevels['high']);
+
+        return $priorityLevels;
     }
 
     /**
@@ -76,22 +93,5 @@ class DisplayHelper
             'above_normal' => 'Above Normal',
             'n' => 'None'
         ];
-    }
-
-    /**
-     * Returns the set of available priorities.
-     *
-     * @return int[]
-     */
-    public static function getTodoPriority(): array
-    {
-        $todoPriority = [
-            'high' => 1,
-            'low' => 10,
-        ];
-
-        $todoPriority['normal'] = intval((($todoPriority['low'] - $todoPriority['high']) / 2) + $todoPriority['high']);
-
-        return $todoPriority;
     }
 }

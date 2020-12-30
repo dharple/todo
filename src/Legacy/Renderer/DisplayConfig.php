@@ -22,8 +22,6 @@ class DisplayConfig
 
     protected array $ids = [];
 
-    protected array $internalPriorityLevels = [];
-
     protected string $sectionLink = '';
 
     protected string $showInactive = 'n';
@@ -64,14 +62,6 @@ class DisplayConfig
     public function getIds(): array
     {
         return $this->ids;
-    }
-
-    /**
-     * @return array
-     */
-    public function getInternalPriorityLevels(): array
-    {
-        return $this->internalPriorityLevels;
     }
 
     /**
@@ -155,17 +145,6 @@ class DisplayConfig
     public function setIds(array $ids): DisplayConfig
     {
         $this->ids = $ids;
-        return $this;
-    }
-
-    /**
-     * @param array $internalPriorityLevels
-     *
-     * @return DisplayConfig
-     */
-    public function setInternalPriorityLevels(array $internalPriorityLevels): DisplayConfig
-    {
-        $this->internalPriorityLevels = $internalPriorityLevels;
         return $this;
     }
 

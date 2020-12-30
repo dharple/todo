@@ -87,7 +87,6 @@ $config
     ->setFilterAging($GLOBALS['display_filter_aging'])
     ->setFilterClosed($GLOBALS['display_filter_closed'])
     ->setFilterPriority($GLOBALS['display_filter_priority'])
-    ->setInternalPriorityLevels(DisplayHelper::getTodoPriority())
     ->setSectionLink('index.php?show_section={SECTION_ID}')
     ->setShowInactive($GLOBALS['display_show_inactive'])
     ->setShowPriority($GLOBALS['display_show_priority'])
