@@ -33,7 +33,7 @@ class FileSQLLogger implements SQLLogger
      */
     public function startQuery($sql, ?array $params = null, ?array $types = null): void
     {
-        $level = preg_match('/^SELECT /i', $sql) ? 'debug' : 'info';
+        $level = preg_match('/^(SELECT|SET) /i', $sql) ? 'debug' : 'info';
 
         Helper::getLogger()->log($level, $sql);
         if (isset($params)) {

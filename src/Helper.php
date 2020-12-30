@@ -30,6 +30,13 @@ use Twig\Loader\FilesystemLoader;
 class Helper
 {
     /**
+     * Directory to use for Doctrine proxy classes.
+     *
+     * @var string
+     */
+    const PROXY_DIR = '/tmp/todo-doctrine-proxy';
+
+    /**
      * Don't allow instantiation.
      */
     private function __construct()
@@ -109,7 +116,7 @@ class Helper
      */
     public static function getProxyDir(): string
     {
-        $dir = sprintf('%s/var/proxy/doctrine', static::getProjectRoot());
+        $dir = self::PROXY_DIR;
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
