@@ -13,6 +13,8 @@ namespace App\Analytics;
 
 use App\Helper;
 use Carbon\Carbon;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\ORM\ORMException;
@@ -23,6 +25,12 @@ use Exception;
  */
 class ItemStats extends AbstractItemAnalyzer
 {
+    /**
+     * Cache to use.
+     *
+     * @var ?Cache
+     */
+    protected ?Cache $cache = null;
 
     /**
      * Returns analytics for the previous month.
@@ -117,9 +125,25 @@ class ItemStats extends AbstractItemAnalyzer
      */
     protected function execute(?string $start = null, ?string $end = null)
     {
+        $cache = $this->getCache();
+        $cacheKey = md5(serialize([
+            __METHOD__,
+            $_SESSION['user_id'],
+            $start,
+            $end,
+        ]));
+
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
+        }
+
         $qb = $this->createQueryBuilder($start, $end)
             ->select('COUNT(i.id)');
-        return $qb->getQuery()->getSingleScalarResult();
+        $result = $qb->getQuery()->getSingleScalarResult();
+
+        $cache->save($cacheKey, $result);
+
+        return $result;
     }
 
     /**
@@ -132,6 +156,16 @@ class ItemStats extends AbstractItemAnalyzer
     public function getAverage(): float
     {
         $user = Helper::getUser();
+
+        $cache = $this->getCache();
+        $cacheKey = md5(serialize([
+            __METHOD__,
+            $user->getId(),
+        ]));
+
+        if ($cache->contains($cacheKey)) {
+            return $cache->fetch($cacheKey);
+        }
 
         $sections = $user->getSections()->matching(
             new Criteria(
@@ -162,6 +196,24 @@ class ItemStats extends AbstractItemAnalyzer
             return $carry + $value;
         });
 
-        return $total / count($values);
+        $result = $total / count($values);
+
+        $cache->save($cacheKey, $result);
+
+        return $result;
+    }
+
+    /**
+     * Retrieves a cache instance for caching.
+     *
+     * @return Cache
+     */
+    protected function getCache(): Cache
+    {
+        if (!isset($this->cache)) {
+            $this->cache = new ArrayCache();
+        }
+
+        return $this->cache;
     }
 }
