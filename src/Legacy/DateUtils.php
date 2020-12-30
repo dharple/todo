@@ -23,20 +23,15 @@ class DateUtils
     public function getMonthEnd($date = 'now', $format = 'Y-m-d 23:59:59')
     {
         $then = strtotime($date);
-        $monthend = strtotime(date('Y-m-t 00:00:00', $then));
-        return date($format, $monthend);
+        $monthEnd = strtotime(date('Y-m-t 00:00:00', $then));
+        return date($format, $monthEnd);
     }
 
     public function getMonthStart($date = 'now', $format = 'Y-m-d 00:00:00')
     {
         $then = strtotime($date);
-        $monthstart = strtotime(date('Y-m-1 00:00:00', $then));
-        return date($format, $monthstart);
-    }
-
-    public function getNow()
-    {
-        return $this->getDate();
+        $monthStart = strtotime(date('Y-m-1 00:00:00', $then));
+        return date($format, $monthStart);
     }
 
     public function getWeekEnd($date = 'now', $format = 'Y-m-d 23:59:59')
@@ -44,11 +39,11 @@ class DateUtils
         $then = strtotime($date);
         $dow = date('w', $then);
         if ($dow < 6) {
-            $weekend = strtotime('saturday', $then);
+            $weekEnd = strtotime('saturday', $then);
         } else {
-            $weekend = $then;
+            $weekEnd = $then;
         }
-        return date($format, $weekend);
+        return date($format, $weekEnd);
     }
 
     public function getWeekStart($date = 'now', $format = 'Y-m-d 00:00:00')
@@ -56,10 +51,10 @@ class DateUtils
         $then = strtotime($date);
         $dow = date('w', $then);
         if ($dow > 0) {
-            $weekstart = strtotime('last sunday', $then);
+            $weekStart = strtotime('last sunday', $then);
         } else {
-            $weekstart = $then;
+            $weekStart = $then;
         }
-        return date($format, $weekstart);
+        return date($format, $weekStart);
     }
 }

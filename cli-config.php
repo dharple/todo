@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @noinspection PhpUnhandledExceptionInspection
+ */
+
 use App\Helper;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 

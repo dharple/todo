@@ -78,6 +78,8 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      * @return void
      *
      * @throws InvalidArgumentException
+     *
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function log($level, $message, array $context = []): void
     {

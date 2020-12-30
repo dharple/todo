@@ -41,7 +41,7 @@ a.section-link {
     color: black;
 }
 
-.high_priority {
+.high-priority {
     color: blue;
 }
 
@@ -53,8 +53,12 @@ a.section-link {
     display: none;
 }
 
-.noprint {
+.no-print {
     display: initial;
+}
+
+.note {
+    font-size: x-small;
 }
 
 @media print {
@@ -77,7 +81,7 @@ a.section-link {
         font-size: 1.2rem;
     }
 
-    .high_priority {
+    .high-priority {
         font-weight: bold;
         color: black;
     }
@@ -86,7 +90,7 @@ a.section-link {
         display: initial;
     }
 
-    .noprint {
+    .no-print {
         display: none;
     }
 

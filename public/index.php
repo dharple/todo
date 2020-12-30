@@ -4,11 +4,12 @@ use App\Analytics\ItemStats;
 use App\Entity\Item;
 use App\Helper;
 use App\Legacy\Renderer\DisplayConfig;
+use App\Legacy\Renderer\DisplayHelper;
 use App\Legacy\Renderer\ListDisplay;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 
-$twig = $GLOBALS['twig'];
+$twig = Helper::getTwig();
 
 try {
     $em = Helper::getEntityManager();
@@ -46,7 +47,7 @@ if (count($_POST)) {
     } elseif ($_POST['submitButton'] == 'Edit') {
         if (!empty($_POST['itemIds'])) {
             header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
-            die();
+            exit;
         }
         $errors[] = 'Please select one or more items to edit';
     } elseif ($_POST['submitButton'] == 'Prioritize') {
@@ -55,7 +56,7 @@ if (count($_POST)) {
             $queryString = '?ids=' . urlencode(serialize($_POST['itemIds']));
         }
         header('Location: item_prioritize.php' . $queryString);
-        die();
+        exit;
     } elseif ($_POST['submitButton'] == 'Duplicate') {
         try {
             foreach ($_POST['itemIds'] as $itemId) {
@@ -68,8 +69,9 @@ if (count($_POST)) {
 
                 $newItem = clone $item;
                 $newItem
-                    ->setStatus('Open')
-                    ->setCompleted(null);
+                    ->setCompleted(null)
+                    ->setCreated(new DateTime())
+                    ->setStatus('Open');
 
                 $em->persist($newItem);
             }
@@ -85,7 +87,7 @@ $config
     ->setFilterAging($GLOBALS['display_filter_aging'])
     ->setFilterClosed($GLOBALS['display_filter_closed'])
     ->setFilterPriority($GLOBALS['display_filter_priority'])
-    ->setInternalPriorityLevels($GLOBALS['todo_priority'])
+    ->setInternalPriorityLevels(DisplayHelper::getTodoPriority())
     ->setSectionLink('index.php?show_section={SECTION_ID}')
     ->setShowInactive($GLOBALS['display_show_inactive'])
     ->setShowPriority($GLOBALS['display_show_priority'])
@@ -95,9 +97,15 @@ $listDisplay = new ListDisplay($user->getId(), $config);
 
 $itemStats = new ItemStats();
 
-$listDisplay->setFooter($twig->render('partials/index/summary.php.twig', [
-    'itemStats' => $itemStats,
-]));
+try {
+    $listDisplay->setFooter($twig->render('partials/index/summary.php.twig', [
+        'itemStats' => $itemStats,
+    ]));
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
 
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
@@ -109,17 +117,23 @@ $sections = $user->getSections()->matching(
 );
 $sectionCount = count($sections);
 
-$twig->display('index.html.twig', [
-    'config'                 => $config,
-    'errors'                 => $errors,
-    'filterAgingValues'      => $GLOBALS['aging_display'],
-    'filterClosedValues'     => $GLOBALS['closed_display'],
-    'filterPriorityValues'   => $GLOBALS['priority_display'],
-    'hasItems'               => ($itemCount > 0),
-    'hasSections'            => ($sectionCount > 0),
-    'itemStats'              => $itemStats,
-    'list'                   => $listOutput,
-    'showDuplicate'          => ($GLOBALS['display_filter_closed'] != 'none'),
-    'showPriorityValues'     => $GLOBALS['show_priority_display'],
-    'user'                   => $user,
-]);
+try {
+    $twig->display('index.html.twig', [
+        'config' => $config,
+        'errors' => $errors,
+        'filterAgingValues' => DisplayHelper::getAgingFilterValues(),
+        'filterClosedValues' => DisplayHelper::getClosedFilterValues(),
+        'filterPriorityValues' => DisplayHelper::getPriorityFilterValues(),
+        'hasItems' => ($itemCount > 0),
+        'hasSections' => ($sectionCount > 0),
+        'itemStats' => $itemStats,
+        'list' => $listOutput,
+        'showDuplicate' => ($GLOBALS['display_filter_closed'] != 'none'),
+        'showPriorityValues' => DisplayHelper::getShowPriorityDisplay(),
+        'user' => $user,
+    ]);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}

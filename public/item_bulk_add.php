@@ -1,58 +1,78 @@
 <?php
 
+use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
-use App\Legacy\DateUtils;
-use App\Legacy\Entity\Item;
+use App\Legacy\Renderer\DisplayHelper;
 
-$db = $GLOBALS['db'];
-$twig = $GLOBALS['twig'];
-$user = $GLOBALS['user'];
+$twig = Helper::getTwig();
+$todoPriority = DisplayHelper::getTodoPriority();
 
-$entityManager = Helper::getEntityManager();
+try {
+    $em = Helper::getEntityManager();
+    $user = Helper::getUser();
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
+
+$errors = [];
 
 if (count($_POST)) {
-    $dateUtils = new DateUtils();
+    try {
+        $tasks = preg_split("/[\r\n]/", $_POST['tasks']);
+        foreach ($tasks as $task) {
+            $task = trim($task);
+            if ($task == '') {
+                continue;
+            }
 
-    $tasks = preg_split("/[\r\n]/", $_POST['tasks']);
-    foreach ($tasks as $task) {
-        $task = trim($task);
-        if ($task == '') {
-            continue;
+            $item = (new Item())
+                ->setCreated(new DateTime())
+                ->setPriority($_POST['priority'])
+                ->setSection($em->getReference(Section::class, $_POST['section']))
+                ->setStatus('Open')
+                ->setTask($task)
+                ->setUser($user);
+
+            $em->persist($item);
         }
 
-        $item = new Item($db);
-
-        $item->setCreated($dateUtils->getNow());
-        $item->setUserId($user->getId());
-        $item->setTask($task);
-        $item->setSectionId($_POST['section']);
-        $item->setStatus('Open');
-        $item->setPriority($_POST['priority']);
-        $item->save();
+        $em->flush();
+    } catch (Exception $e) {
+        $errors[] = sprintf('Failed to add items: %s', $e->getMessage());
     }
 
-    if ($_REQUEST['submitButton'] == 'Do It') {
+    if (empty($errors) && $_REQUEST['submitButton'] == 'Do It') {
         header('Location: index.php');
-        die();
+        exit;
     }
 }
 
-$query = "SELECT section_id FROM item WHERE user_id = '" . addslashes($user->getId()) . "' AND status != 'Deleted' ORDER BY created DESC LIMIT 1";
-$result = $db->query($query);
-$row = $db->fetchAssoc($result);
-$selected = $row['section_id'];
+$selected = $em->getRepository(Item::class)
+    ->findOneBy([
+        'status' => ['Open', 'Closed'],
+        'user' => $user,
+    ], [
+        'id' => 'DESC'
+    ])
+    ->getSection()
+    ->getId();
 
-$sectionRepository = $entityManager->getRepository(Section::class);
-$qb = $sectionRepository->createQueryBuilder('s')
-    ->where('s.user = :user')
-    ->orderBy('s.name')
-    ->setParameter('user', $user->getId());
-$sections = $qb->getQuery()->getResult();
+$sections = $em->getRepository(Section::class)
+    ->findBy(['user' => $user], ['name' => 'ASC']);
 
-$twig->display('item_bulk_add.html.twig', [
-    'sections'         => $sections,
-    'selectedPriority' => $GLOBALS['todo_priority']['normal'],
-    'selectedSection'  => $selected,
-    'todo_priority'    => $GLOBALS['todo_priority'],
-]);
+try {
+    $twig->display('item_bulk_add.html.twig', [
+        'errors' => $errors,
+        'sections' => $sections,
+        'selectedPriority' => $todoPriority['normal'],
+        'selectedSection' => $selected,
+        'todo_priority' => $todoPriority,
+    ]);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}

@@ -3,9 +3,11 @@
 use App\Entity\Item;
 use App\Helper;
 use App\Legacy\Renderer\DisplayConfig;
+use App\Legacy\Renderer\DisplayHelper;
 use App\Legacy\Renderer\ListDisplay;
 
-$twig = $GLOBALS['twig'];
+$twig = Helper::getTwig();
+$todoPriority = DisplayHelper::getTodoPriority();
 
 try {
     $em = Helper::getEntityManager();
@@ -29,10 +31,10 @@ if (count($_POST)) {
                     continue;
                 }
 
-                if ($priority < $GLOBALS['todo_priority']['high']) {
-                    $priority = $GLOBALS['todo_priority']['high'];
-                } elseif ($priority > $GLOBALS['todo_priority']['low']) {
-                    $priority = $GLOBALS['todo_priority']['low'];
+                if ($priority < $todoPriority['high']) {
+                    $priority = $todoPriority['high'];
+                } elseif ($priority > $todoPriority['low']) {
+                    $priority = $todoPriority['low'];
                 }
 
                 $item->setPriority($priority);
@@ -53,9 +55,8 @@ if (count($_POST)) {
 $config = new DisplayConfig();
 $config
     ->setFilterAging($GLOBALS['display_filter_aging'])
-    ->setFilterClosed($GLOBALS['display_filter_closed'])
     ->setFilterPriority($GLOBALS['display_filter_priority'])
-    ->setInternalPriorityLevels($GLOBALS['todo_priority'])
+    ->setInternalPriorityLevels($todoPriority)
     ->setShowInactive($GLOBALS['display_show_inactive'])
     ->setShowPriorityEditor('y')
     ->setShowSection($GLOBALS['display_show_section']);
@@ -69,9 +70,15 @@ $listDisplay = new ListDisplay($user->getId(), $config);
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 
-$twig->display('item_prioritize.html.twig', [
-    'hasItems' => ($itemCount > 0),
-    'errors'   => $errors,
-    'ids'      => $_REQUEST['ids'],
-    'list'     => $listOutput,
-]);
+try {
+    $twig->display('item_prioritize.html.twig', [
+        'hasItems' => ($itemCount > 0),
+        'errors' => $errors,
+        'ids' => $_REQUEST['ids'],
+        'list' => $listOutput,
+    ]);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}

@@ -119,8 +119,8 @@ abstract class AbstractItemAnalyzer
     protected function executeDoneLastMonth()
     {
         $work = date('Y-m-15') . ' -1 month';
-        $start = $this->dateUtils->getMonthStart($work, 'Y-m-d 00:00:00');
-        $end = $this->dateUtils->getMonthEnd($work, 'Y-m-d 23:59:59');
+        $start = $this->dateUtils->getMonthStart($work);
+        $end = $this->dateUtils->getMonthEnd($work);
         return $this->execute($start, $end);
     }
 
@@ -131,8 +131,8 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneLastWeek()
     {
-        $start = $this->dateUtils->getWeekStart('-1 week', 'Y-m-d 00:00:00');
-        $end = $this->dateUtils->getWeekEnd('-1 week', 'Y-m-d 23:59:59');
+        $start = $this->dateUtils->getWeekStart('-1 week');
+        $end = $this->dateUtils->getWeekEnd('-1 week');
         return $this->execute($start, $end);
     }
 
@@ -159,8 +159,8 @@ abstract class AbstractItemAnalyzer
     protected function executeDoneThisMonth()
     {
         $work = date('Y-m-15');
-        $start = $this->dateUtils->getMonthStart($work, 'Y-m-d 00:00:00');
-        $end = $this->dateUtils->getMonthEnd($work, 'Y-m-d 23:59:59');
+        $start = $this->dateUtils->getMonthStart($work);
+        $end = $this->dateUtils->getMonthEnd($work);
         return $this->execute($start, $end);
     }
 
@@ -171,8 +171,8 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneThisWeek()
     {
-        $start = $this->dateUtils->getWeekStart('now', 'Y-m-d 00:00:00');
-        $end = $this->dateUtils->getWeekEnd('now', 'Y-m-d 23:59:59');
+        $start = $this->dateUtils->getWeekStart();
+        $end = $this->dateUtils->getWeekEnd();
         return $this->execute($start, $end);
     }
 

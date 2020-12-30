@@ -112,11 +112,11 @@ class Item
     /**
      * Returns the primary key.
      *
-     * @return int
+     * @return ?int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
-        return $this->id;
+        return $this->id ?? null;
     }
 
     /**
@@ -156,7 +156,7 @@ class Item
      */
     public function getTask(): string
     {
-        return $this->task;
+        return $this->task ?? '';
     }
 
     /**
@@ -237,7 +237,7 @@ class Item
     /**
      * Sets the task itself.
      *
-     * @param string $task Thet task itself.
+     * @param string $task The task itself.
      *
      * @return Item
      */

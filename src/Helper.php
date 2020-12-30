@@ -21,6 +21,8 @@ use Exception;
 use Oro\ORM\Query\AST\Functions\SimpleFunction;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Dotenv\Dotenv;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Helper methods until we've got DI up and running.
@@ -49,7 +51,6 @@ class Helper
             self::loadConfig();
 
             $isDevMode = true;
-            $proxyDir = null;
             $cache = null;
             $useSimpleAnnotationReader = false;
             $config = Setup::createAnnotationMetadataConfiguration(
@@ -57,7 +58,7 @@ class Helper
                     self::getProjectRoot() . '/src'
                 ],
                 $isDevMode,
-                $proxyDir,
+                static::getProxyDir(),
                 $cache,
                 $useSimpleAnnotationReader
             );
@@ -102,6 +103,31 @@ class Helper
     }
 
     /**
+     * Configures and returns the proxy directory for Doctrine.
+     *
+     * @return string
+     */
+    public static function getProxyDir(): string
+    {
+        $dir = sprintf('%s/var/proxy/doctrine', static::getProjectRoot());
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        return $dir;
+    }
+
+    /**
+     * Gets a twig renderer.
+     *
+     * @return Environment
+     */
+    public static function getTwig(): Environment
+    {
+        $loader = new FilesystemLoader(static::getProjectRoot() . '/templates');
+        return new Environment($loader);
+    }
+
+    /**
      * Returns the current user
      *
      * @return User
@@ -113,8 +139,11 @@ class Helper
         static $user = null;
 
         if ($user === null) {
-            $userRepository = static::getEntityManager()->getRepository(User::class);
-            $user = $userRepository->find($GLOBALS['user_id']);
+            if (empty($_SESSION['user_id'])) {
+                throw new Exception('Unable to find user.');
+            }
+
+            $user = static::getEntityManager()->find(User::class, $_SESSION['user_id']);
             if ($user === null) {
                 throw new Exception('Unable to find user.');
             }
@@ -136,6 +165,28 @@ class Helper
             $dotenv = new Dotenv();
             $dotenv->loadEnv(self::getProjectRoot() . '/.env');
             $loaded = true;
+        }
+    }
+
+    /**
+     * Sets the timezone in both PHP and the database.
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public static function setTimezone(): void
+    {
+        $user = static::getUser();
+        if (!empty($user->getTimezone())) {
+            date_default_timezone_set($user->getTimezone());
+
+            static::getEntityManager()
+                ->getConnection()
+                ->executeStatement(
+                    'SET time_zone = ?',
+                    [$user->getTimezone()]
+                );
         }
     }
 }

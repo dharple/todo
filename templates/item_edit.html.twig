@@ -24,7 +24,7 @@
         <br />
 
         Section:
-        {% set selectedSection = item.sectionId %}
+        {% set selectedSection = item.section.id %}
         {% set selectName = 'section[' ~ itemId ~ ']' %}
         {% include('partials/form/section.html.twig') %}
         <br />
@@ -55,7 +55,7 @@
 
         {% if op == 'edit' %}
             Completed:
-            <input type=text name=completed[{{ itemId }}] value="{{ item.completed }}">
+            <input type=text name=completed[{{ itemId }}] value="{% if item.completed %}{{ item.completed | date('Y-m-d H:i:s') }}{% endif %}">
             <br />
         {% endif %}
 

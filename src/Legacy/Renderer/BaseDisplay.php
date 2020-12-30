@@ -17,7 +17,6 @@ use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use Twig\Loader\FilesystemLoader;
 
 abstract class BaseDisplay
 {
@@ -63,11 +62,10 @@ abstract class BaseDisplay
         return $this->output;
     }
 
-    protected function getTwig()
+    protected function getTwig(): Environment
     {
         if (!isset($this->twig)) {
-            $loader = new FilesystemLoader(Helper::getProjectRoot() . '/templates');
-            $this->twig = new Environment($loader);
+            $this->twig = Helper::getTwig();
         }
 
         return $this->twig;

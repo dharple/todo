@@ -1,29 +1,39 @@
 <?php
 
-use App\Legacy\Entity\User;
+use App\Auth\Guard;
+use App\Helper;
 
 $errors = [];
 
-$db = $GLOBALS['db'];
-$twig = $GLOBALS['twig'];
-$user = $GLOBALS['user'];
+$twig = Helper::getTwig();
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Login') {
-        $user = new User($db);
-        $ret = $user->login($_POST['username'], $_POST['password']);
+        try {
+            $user = Guard::login($_POST['username'], $_POST['password']);
 
-        if ($ret) {
             $_SESSION['user_id'] = $user->getId();
             header('Location: index.php');
             exit();
-        } else {
+        } catch (Exception $e) {
             $errors[] = 'Invalid login';
         }
     }
 }
 
-$twig->display('login.html.twig', [
-    'errors' => $errors,
-    'user'   => $user,
-]);
+try {
+    $user = Helper::getUser();
+} catch (Exception $e) {
+    $user = null;
+}
+
+try {
+    $twig->display('login.html.twig', [
+        'errors' => $errors,
+        'user' => $user,
+    ]);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}

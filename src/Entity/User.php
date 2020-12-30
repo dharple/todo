@@ -11,8 +11,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,11 +45,13 @@ class User
     /**
      * The items associated with this user.
      *
+     * This is an instance of a Collection that also implements Selectable.
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
      *
-     * @var Collection
+     * @var AbstractLazyCollection|ArrayCollection
      */
-    protected Collection $items;
+    protected $items;
 
     /**
      * Password
@@ -62,11 +64,13 @@ class User
     /**
      * The sections associated with this user.
      *
+     * This is an instance of a Collection that also implements Selectable.
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Section", mappedBy="user")
      *
-     * @var Collection
+     * @var AbstractLazyCollection|ArrayCollection
      */
-    protected Collection $sections;
+    protected $sections;
 
     /**
      * Timezone
@@ -116,19 +120,29 @@ class User
     /**
      * Returns the items associated with this user.
      *
-     * @return Collection
+     * @return AbstractLazyCollection|ArrayCollection
      */
-    public function getItems(): Collection
+    public function getItems()
     {
         return $this->items;
     }
 
     /**
+     * Returns the hashed password for this user.
+     *
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
      * Returns the sections associated with this user.
      *
-     * @return Collection
+     * @return AbstractLazyCollection|ArrayCollection
      */
-    public function getSections(): Collection
+    public function getSections()
     {
         return $this->sections;
     }
@@ -167,9 +181,9 @@ class User
     }
 
     /**
-     * Sets the password for this user.
+     * Sets the hashed password for this user.
      *
-     * @param string $password The password.
+     * @param string $password The password, already hashed.
      *
      * @return User
      */

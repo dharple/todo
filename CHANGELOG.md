@@ -6,14 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Added Doctrine entities.
 - Added logger.
-- Moved legacy view-like classes to App\Legacy\Renderer.
-- Refactored display controls.
-- Rewrote analytics using Doctrine tools.
-- Started rewriting queries in DQL.
+- Moved the legacy view-like classes to App\Legacy\Renderer.
+- Refactored display controls into their own class.
+- Replaced direct SQL queries with Doctrine wrappers.
+- Replaced legacy database and entity objects with Doctrine versions.
+- Switched from a custom session handler to the default PHP handler.
 - Updated 3rd party PHP dependencies.
 - Updated Bootstrap from 4.5.2 to 4.5.3.
+
+### Fixed
+- When editing items, setting the status will affect the completed timestamp.
+
+### Security
+- Users can no longer edit tasks from other users.
 
 ## [1.3.0] - 2020-12-22
 ### Added
@@ -22,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Minimum PHP version is now 7.4.3.
 - Moved logout to its own page.
-- Replaced config.php with symfony/dotenv.
+- Replaced `config.php` with symfony/dotenv.
 - Replaced inline HTML generation with twig templates.
 - Replaced separate "printable" page with CSS-based controls on the index page.
 - Replaced table tags, and the complicated splitting logic, with divs and CSS
@@ -43,17 +49,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - A bug that stopped users from being able to set their timezone.
 - Clicking Edit without selecting an item no longer shows a blank page.
-- Items shown / not shown on printable sheet no longer includes completed
+- Items shown / not shown on the printable sheet no longer includes completed
   items.
 - Explicitly bring in global variables on pages.
 - Sections with no open items were not getting rendered even if closed items
-  were present and the view requested them.
+  were present, and the view requested them.
 
 ## [1.2.0] - 2020-09-03
 ### Changed
 - Moved `public-old/` to `public/`.
 - Updated the software to work under a modern version of PHP.
-  - Removed calls to stripslashes().
+  - Removed calls to `stripslashes()`.
   - Removed PHP 4 logic.
 
 ### Removed
@@ -73,7 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 - This was my todo list software for years.  It was quickly thrown together and
   then hacked as needed.  It has some interesting features, and I brought it
-  back to life so I could port it to a modern framework.
+  back to life, so I could port it to a modern framework.
 - It ran on a local machine, and I cannot recommend running it on a production
   machine in this state.  It was also meant to work with `gpc_magic_quotes`;
   without that option, it is vulnerable to injection attacks.

@@ -3,7 +3,7 @@
 {% set title = "To Do List For " ~ 'now' | date('F jS, Y') %}
 
 {% block body %}
-<div class="noprint">
+<div class="no-print">
     <div class="row mb-3">
         <div class="col-6 text-left">
             <b>To Do List For {{ user.fullname }}</b>
@@ -24,12 +24,12 @@
 
             &nbsp;&nbsp;
             This Week: <a href="show_done.php?view=week">{{ itemStats.doneThisWeek }}</a>,
-            Last Week: <a href="show_done.php?view=lastweek">{{ itemStats.doneLastWeek }}</a>
+            Last Week: <a href="show_done.php?view=last-week">{{ itemStats.doneLastWeek }}</a>
             <br />
 
             &nbsp;&nbsp;
             This Month: <a href="show_done.php?view=month">{{ itemStats.doneThisMonth }}</a>,
-            Last Month: <a href="show_done.php?view=lastmonth">{{ itemStats.doneLastMonth }}</a>
+            Last Month: <a href="show_done.php?view=last-month">{{ itemStats.doneLastMonth }}</a>
             <br />
 
             &nbsp;&nbsp;
@@ -108,17 +108,23 @@
 <form method=POST>
     {{ list | raw }}
 
-    <div class="noprint">
+    <div class="no-print">
         <hr />
         <br />
 
         <div class="row">
             <div class="col-4 text-left">
-                <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit" {% if not hasItems %}disabled{% endif %} />
-                <input type="submit" class="btn btn-primary" name="submitButton" value="Mark Done" {% if not hasItems %}disabled{% endif %} />
-                <input type="submit" class="btn btn-secondary" name="submitButton" value="Prioritize" {% if not hasItems %}disabled{% endif %} />
-                {% if showDuplicate %}
-                    <input type="submit" class="btn btn-secondary" name="submitButton" value="Duplicate" {% if not hasItems %}disabled{% endif %} />
+                {% if hasItems %}
+                    <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit" />
+                    <input type="submit" class="btn btn-primary" name="submitButton" value="Mark Done" />
+                    <input type="submit" class="btn btn-secondary" name="submitButton" value="Prioritize" />
+                    {% if showDuplicate %}
+                        <input type="submit" class="btn btn-secondary" name="submitButton" value="Duplicate" />
+                    {% endif %}
+                {% else %}
+                    <button type="button" class="btn btn-secondary" disabled="disabled">Edit</button>
+                    <button type="button" class="btn btn-primary" disabled="disabled">Mark Done</button>
+                    <button type="button" class="btn btn-secondary" disabled="disabled">Prioritize</button>
                 {% endif %}
             </div>
             <div class="col-4 text-center">
@@ -126,8 +132,13 @@
                 <a href="/logout.php" class="btn btn-danger">Logout</a>
             </div>
             <div class="col-4 text-right">
-                <a href="/item_bulk_add.php" class="btn btn-primary" {% if not hasSections %}disabled{% endif %}>Bulk</a>
-                <a href="/item_edit.php?op=add" class="btn btn-secondary" {% if not hasSections %}disabled{% endif %}>Add New</a>
+                {% if hasSections %}
+                    <a href="/item_bulk_add.php" class="btn btn-primary">Bulk</a>
+                    <a href="/item_edit.php?op=add" class="btn btn-secondary">Add New</a>
+                {% else %}
+                    <button type="button" class="btn btn-primary" disabled="disabled">Bulk</button>
+                    <button type="button" class="btn btn-secondary" disabled="disabled">Add New</button>
+                {% endif %}
                 <a href="/section_edit.php" class="btn btn-secondary">Edit Sections</a>
             </div>
         </div>

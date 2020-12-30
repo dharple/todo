@@ -104,7 +104,7 @@ class ListDisplay extends BaseDisplay
         $this->outputBuilt = true;
     }
 
-    public function getOutputCount()
+    public function getOutputCount(): int
     {
         return $this->itemCount;
     }
@@ -119,7 +119,7 @@ class ListDisplay extends BaseDisplay
      *
      * @throws Exception
      */
-    protected function replaceTotals(string $string, int $grand_total)
+    protected function replaceTotals(string $string, int $grand_total): string
     {
         $string = str_replace('{GRAND_TOTAL}', (string) $grand_total, $string);
 
@@ -146,7 +146,7 @@ class ListDisplay extends BaseDisplay
      *
      * @return ListDisplay
      */
-    public function setFooter($footer)
+    public function setFooter($footer): ListDisplay
     {
         $this->footer = $footer;
         return $this;

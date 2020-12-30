@@ -1,13 +1,12 @@
 <?php
 
-use App\Helper;
+use App\Entity\Item;
 use App\Entity\Section;
-use App\Legacy\DateUtils;
-use App\Legacy\Entity\Item;
-use App\Legacy\SimpleList;
+use App\Helper;
+use App\Legacy\Renderer\DisplayHelper;
 
-$db = $GLOBALS['db'];
-$twig = $GLOBALS['twig'];
+$twig = Helper::getTwig();
+$todoPriority = DisplayHelper::getTodoPriority();
 
 try {
     $em = Helper::getEntityManager();
@@ -18,60 +17,100 @@ try {
     exit;
 }
 
-if (count($_POST)) {
-    $dateUtils = new DateUtils();
+$errors = [];
 
+if (count($_POST)) {
     if (!is_array($_POST['task'])) {
         $_POST['task'] = [];
     }
 
-    foreach ($_POST['task'] as $itemId => $task) {
-        if ($itemId == 'new') {
-            $item = new Item($db);
-            $item->setCreated($dateUtils->getNow());
-            $item->setUserId($user->getId());
+    try {
+        $itemIds = array_keys($_POST['task']);
+        $items = [];
+        if (count($itemIds) === 1 && $itemIds[0] === 'new') {
+            $items[] = (new Item())
+                ->setCreated(new DateTime())
+                ->setUser($user)
+                ->setStatus('Open');
         } else {
-            $item = new Item($db, $itemId);
-            $item->setCompleted($_POST['completed'][$itemId]);
+            $items = $em->getRepository(Item::class)
+                ->findBy([
+                    'id' => $itemIds,
+                    'user' => $user,
+                ]);
         }
-        $item->setTask($task);
-        $item->setSectionId($_POST['section'][$itemId]);
-        $item->setStatus($_POST['status'][$itemId]);
-        $item->setPriority($_POST['priority'][$itemId]);
-        $item->save();
+
+        foreach ($items as $item) {
+            $itemId = $item->getId() ?? 'new';
+
+            if (!array_key_exists($itemId, $_POST['task'])) {
+                throw new Exception(sprintf('Could not find item #%s', $itemId));
+            }
+
+            if ($itemId !== 'new') {
+                $item->setStatus($_POST['status'][$itemId]);
+                switch($_POST['status'][$itemId]) {
+                    case 'Open':
+                        $item->setCompleted(null);
+                        break;
+
+                    case 'Closed':
+                    case 'Deleted':
+                        $item->setCompleted(new DateTime($_POST['completed'][$itemId]));
+                        break;
+                }
+            }
+
+            $item
+                ->setPriority($_POST['priority'][$itemId])
+                ->setSection($em->getReference(Section::class, $_POST['section'][$itemId]))
+                ->setTask($_POST['task'][$itemId]);
+
+            $em->persist($item);
+        }
+
+        $em->flush();
+    } catch (Exception $e) {
+        $errors[] = sprintf('Failed to edit items: %s', $e->getMessage());
     }
 
-    if ($_REQUEST['submitButton'] == 'Do It') {
+    if (empty($errors) && $_REQUEST['submitButton'] == 'Do It') {
         header('Location: index.php');
-        die();
+        exit;
     }
 }
 
-$qb = $em->getRepository(Section::class)
-    ->createQueryBuilder('s')
-    ->where('s.user = :user')
-    ->orderBy('s.name')
-    ->setParameter('user', $user);
-$sections = $qb->getQuery()->getResult();
+$sections = $em->getRepository(Section::class)
+    ->findBy(['user' => $user], ['name' => 'ASC']);
 
 $items = [];
 
 if ($_REQUEST['op'] == 'edit') {
-    $itemList = new SimpleList($db, Item::class);
-    $items = $itemList->load("WHERE user_id = '" . addslashes((string) $user->getId()) . "' AND id IN ('" . implode("','", unserialize($_REQUEST['ids'])) . "')");
+    $items = $em->getRepository(Item::class)
+        ->findBy([
+            'id' => unserialize($_REQUEST['ids']),
+            'user' => $user,
+        ]);
 } elseif ($_REQUEST['op'] == 'add') {
-    $item = new Item($db);
-    $item->setStatus('Open');
-    $item->setPriority($GLOBALS['todo_priority']['normal']);
-
-    $items = [ $item ];
+    $items = [
+        (new Item())
+            ->setPriority($todoPriority['normal'])
+            ->setStatus('Open'),
+    ];
 }
 
-$twig->display('item_edit.html.twig', [
-    'ids'           => $_REQUEST['ids'] ?? '',
-    'items'         => $items,
-    'op'            => $_REQUEST['op'],
-    'sections'      => $sections,
-    'statuses'      => ['Open', 'Closed', 'Deleted'],
-    'todo_priority' => $GLOBALS['todo_priority'],
-]);
+try {
+    $twig->display('item_edit.html.twig', [
+        'errors' => $errors,
+        'ids' => $_REQUEST['ids'] ?? '',
+        'items' => $items,
+        'op' => $_REQUEST['op'],
+        'sections' => $sections,
+        'statuses' => ['Open', 'Closed', 'Deleted'],
+        'todo_priority' => $todoPriority,
+    ]);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}

@@ -126,7 +126,11 @@ class SectionDisplay extends BaseDisplay
             'priorityHigh'       => 2,
             'priorityNormal'     => $internalPriorityLevels['normal'],
             'section'            => $this->section,
-            'sectionUrl'         => str_replace('{SECTION_ID}', ($this->config->getShowSection() ? 0 : $this->getId()), $this->config->getSectionLink()),
+            'sectionUrl'         => str_replace(
+                '{SECTION_ID}',
+                ($this->config->getShowSection() ? 0 : (string) $this->getId()),
+                $this->config->getSectionLink()
+            ),
             'showPriority'       => $this->config->getShowPriority(),
             'showSectionLink'    => !empty($this->config->getSectionLink()) ? 'y' : 'n',
         ]);
@@ -134,12 +138,12 @@ class SectionDisplay extends BaseDisplay
         $this->outputBuilt = true;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->section->getId();
     }
 
-    public function getOutputCount()
+    public function getOutputCount(): int
     {
         return $this->itemCount;
     }

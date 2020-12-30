@@ -28,6 +28,8 @@ class FileSQLLogger implements SQLLogger
      * @param array|null $types  Parameter types.
      *
      * @return void
+     *
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function startQuery($sql, ?array $params = null, ?array $types = null): void
     {

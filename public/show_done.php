@@ -1,8 +1,9 @@
 <?php
 
+use App\Helper;
 use App\Analytics\ItemHistory;
 
-$twig = $GLOBALS['twig'];
+$twig = Helper::getTwig();
 
 $view = $_REQUEST['view'] ?? '';
 $sort = $_REQUEST['sort'] ?? 'task';
@@ -18,7 +19,7 @@ switch ($view) {
         $period = 'This Month';
         break;
 
-    case 'lastmonth':
+    case 'last-month':
         $items = $itemHistory->doneLastMonth();
         $period = 'Last Month';
         break;
@@ -28,7 +29,7 @@ switch ($view) {
         $period = 'This Week';
         break;
 
-    case 'lastweek':
+    case 'last-week':
         $items = $itemHistory->doneLastWeek();
         $period = 'Last Week';
         break;
@@ -69,9 +70,15 @@ switch ($view) {
         break;
 }
 
-$twig->display('show_done.html.twig', [
-    'items'    => $items,
-    'period'   => $period,
-    'sort'     => $sort,
-    'view'     => $view,
-]);
+try {
+    $twig->display('show_done.html.twig', [
+        'items'    => $items,
+        'period'   => $period,
+        'sort'     => $sort,
+        'view'     => $view,
+    ]);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}

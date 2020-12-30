@@ -11,8 +11,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,11 +37,13 @@ class Section
     /**
      * The items associated with this section.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="section")
+     * This is an instance of a Collection that also implements Selectable.
      *
-     * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
+     *
+     * @var AbstractLazyCollection|ArrayCollection
      */
-    protected Collection $items;
+    protected $items;
 
     /**
      * Name
@@ -89,9 +91,9 @@ class Section
     /**
      * Returns the items that belong to this section.
      *
-     * @return Collection
+     * @return AbstractLazyCollection|ArrayCollection
      */
-    public function getItems(): Collection
+    public function getItems()
     {
         return $this->items;
     }

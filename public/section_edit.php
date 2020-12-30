@@ -1,14 +1,22 @@
 <?php
 
-use App\Legacy\DateUtils;
-use App\Legacy\Entity\Section;
-use App\Legacy\SimpleList;
+use App\Entity\Item;
+use App\Entity\Section;
+use App\Helper;
 
-$db = $GLOBALS['db'];
-$twig = $GLOBALS['twig'];
-$user = $GLOBALS['user'];
+$twig = Helper::getTwig();
+
+try {
+    $em = Helper::getEntityManager();
+    $user = Helper::getUser();
+    $sectionRepository = $em->getRepository(Section::class);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
+
 $errors = [];
-$section = null;
 
 if (count($_POST)) {
     $relational_cleanup = [];
@@ -16,88 +24,98 @@ if (count($_POST)) {
     if ($_POST['submitButton'] != '') {
         $ret = true;
 
-        if ($_POST['submitButton'] == 'Add') {
-            $name = $_POST['add_name'];
-            $name = trim($name);
+        try {
+            if ($_POST['submitButton'] == 'Add') {
+                $name = trim($_POST['add_name'] ?? '');
 
-            if ($name != '') {
-                $section = new Section($db);
-                $section->setName($name);
-                $section->setUserId($user->getId());
-                $ret = $section->save();
-            }
-        } elseif ($_POST['submitButton'] == 'Rename') {
-            $name = $_POST['edit_name'];
-            $name = trim($name);
+                if ($name != '') {
+                    $section = (new Section())
+                        ->setName($name)
+                        ->setStatus('Active')
+                        ->setUser($user);
 
-            $id = $_POST['edit_section_id'];
-            if ($id > 0) {
-                $section = new Section($db, $id);
-                $section->setName($name);
-                $ret = $section->save();
-            }
-        } elseif ($_POST['submitButton'] == 'Activate') {
-            $id = $_POST['toggle_section_id'];
-            if ($id == 'all') {
-                $sectionList = new SimpleList($db, Section::class);
-                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Inactive'");
-            } else {
-                if ($id > 0) {
-                    $sections = [new Section($db, $id)];
+                    $em->persist($section);
                 } else {
-                    // skip the next loop
-                    $sections = [];
+                    $errors[] = 'Please specify the name of the section to add.';
                 }
-            }
-            foreach ($sections as $section) {
-                if ($section->getStatus() == 'Inactive' && $_POST['resetStartTimes'] == 'yes') {
-                    $dateUtils = new DateUtils();
-                    $now = $dateUtils->getNow();
-                    $query = "UPDATE item SET created='" . $now . "' WHERE section_id = '" . $section->getId() . "' AND status = 'Open'";
-                    $result = $db->query($query);
-                }
-                $section->setStatus('Active');
-                $ret = $section->save();
-                if (!$ret) {
-                    break;
-                }
-            }
-        } elseif ($_POST['submitButton'] == 'Deactivate') {
-            $id = $_POST['toggle_section_id'];
-            if ($id == 'all') {
-                $sectionList = new SimpleList($db, Section::class);
-                $sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' AND status = 'Active'");
-            } else {
-                if ($id > 0) {
-                    $sections = [new Section($db, $id)];
-                } else {
-                    // skip the next loop
-                    $sections = [];
-                }
-            }
-            foreach ($sections as $section) {
-                $section->setStatus('Inactive');
-                $ret = $section->save();
-                if (!$ret) {
-                    break;
-                }
-            }
-        }
+            } elseif ($_POST['submitButton'] == 'Rename') {
+                $name = trim($_POST['edit_name'] ?? '');
 
-        if (!$ret) {
-            $errors[] = sprintf(
-                'An error occured while updating your section.  %s: %s',
-                isset($section) ? $section->getErrorNumber() : 'unknown',
-                isset($section) ? $section->getErrorMessage() : 'unknown'
-            );
+                $id = $_POST['edit_section_id'];
+                if ($id > 0) {
+                    $section = $sectionRepository
+                        ->findOneBy([
+                            'id' => $id,
+                            'user' => $user,
+                        ])
+                        ->setName($name);
+                    $em->persist($section);
+                } else {
+                    $errors[] = 'Please specify a section to rename.';
+                }
+            } elseif ($_POST['submitButton'] == 'Activate') {
+                $findBy = [
+                    'status' => 'Inactive',
+                    'user' => $user,
+                ];
+
+                if ($_POST['toggle_section_id'] !== 'all') {
+                    $findBy['id'] = $_POST['toggle_section_id'];
+                }
+
+                $sections = $sectionRepository->findBy($findBy);
+
+                foreach ($sections as $section) {
+                    if ($_POST['resetStartTimes'] == 'yes') {
+                        $items = $em->getRepository(Item::class)
+                            ->findBy([
+                                'section' => $section,
+                                'status' => 'Open',
+                                'user' => $user,
+                            ]);
+                        foreach ($items as $item) {
+                            $item->setCreated(new DateTime());
+                            $em->persist($item);
+                        }
+                    }
+                    $section->setStatus('Active');
+                    $em->persist($section);
+                }
+            } elseif ($_POST['submitButton'] == 'Deactivate') {
+                $findBy = [
+                    'status' => 'Active',
+                    'user' => $user,
+                ];
+
+                if ($_POST['toggle_section_id'] !== 'all') {
+                    $findBy['id'] = $_POST['toggle_section_id'];
+                }
+
+                $sections = $sectionRepository->findBy($findBy);
+
+                foreach ($sections as $section) {
+                    $section->setStatus('Inactive');
+                    $em->persist($section);
+                }
+            }
+
+            $em->flush();
+        } catch (Exception $e) {
+            $errors[] = sprintf('Failed to edit items: %s', $e->getMessage());
         }
     }
 }
 
-$sectionList = new SimpleList($db, Section::class);
-$sections = $sectionList->load("WHERE user_id = '" . addslashes($user->getId()) . "' ORDER BY name");
+$sections = $sectionRepository
+    ->findBy(['user' => $user], ['name' => 'ASC']);
 
-$twig->display('section_edit.html.twig', [
-    'sections' => $sections,
-    'errors'   => $errors,
-]);
+try {
+    $twig->display('section_edit.html.twig', [
+        'errors' => $errors,
+        'sections' => $sections,
+    ]);
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}

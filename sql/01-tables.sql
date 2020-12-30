@@ -37,15 +37,3 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 );
-
-DROP TABLE IF EXISTS `session`;
-CREATE TABLE `session` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `session_id` varchar(255) NOT NULL,
-  `stamp` datetime NOT NULL,
-  `ip` varchar(255) DEFAULT NULL,
-  `contents` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `session_id` (`session_id`),
-  KEY `stamp` (`stamp`)
-);
