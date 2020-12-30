@@ -34,7 +34,7 @@ class Helper
      *
      * @var string
      */
-    const PROXY_DIR = '/tmp/todo-doctrine-proxy';
+    protected const PROXY_DIR = '/tmp/todo-doctrine-proxy';
 
     /**
      * Don't allow instantiation.
