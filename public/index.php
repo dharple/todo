@@ -90,7 +90,7 @@ try {
     $errors[] = $e->getMessage();
 }
 
-$listDisplay = new ListDisplay($user->getId(), $config);
+$listDisplay = new ListDisplay($config);
 
 $itemStats = new ItemStats();
 

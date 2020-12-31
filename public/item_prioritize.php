@@ -11,7 +11,6 @@ $priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
     $em = Helper::getEntityManager();
-    $user = Guard::getUser();
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());
     echo $e->getMessage();
@@ -68,7 +67,7 @@ if (is_array($ids) && count($ids)) {
     $config->setFilterIds($ids);
 }
 
-$listDisplay = new ListDisplay($user->getId(), $config);
+$listDisplay = new ListDisplay($config);
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 

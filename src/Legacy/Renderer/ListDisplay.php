@@ -11,10 +11,12 @@
 
 namespace App\Legacy\Renderer;
 
+use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
 use App\Renderer\DisplayConfig;
+use Doctrine\ORM\QueryBuilder;
 use Exception;
 
 class ListDisplay extends BaseDisplay
@@ -25,12 +27,39 @@ class ListDisplay extends BaseDisplay
 
     protected int $itemCount = 0;
 
-    protected int $userId;
-
-    public function __construct($userId, DisplayConfig $config)
+    public function __construct(DisplayConfig $config)
     {
-        $this->userId = $userId;
         $this->config = $config;
+    }
+
+    /**
+     * Applies any section filter to the query.
+     *
+     * @param QueryBuilder $qb
+     *
+     * @return void
+     */
+    protected function applySectionFilter(QueryBuilder $qb): void
+    {
+        if ($this->config->getFilterSection() != 0) {
+            $qb->andWhere('s.id = :id')
+                ->setParameter('id', $this->config->getFilterSection());
+        }
+    }
+
+    /**
+     * Applies any active or inactive filter to the query.
+     *
+     * @param QueryBuilder $qb
+     *
+     * @return void
+     */
+    protected function applyStatusFilter(QueryBuilder $qb): void
+    {
+        if ($this->config->getShowInactive() === false) {
+            $qb->andWhere('s.status = :status')
+                ->setParameter('status', 'Active');
+        }
     }
 
     /**
@@ -42,22 +71,17 @@ class ListDisplay extends BaseDisplay
      */
     protected function buildOutput(): void
     {
-        $entityManager = Helper::getEntityManager();
-        $sectionRepository = $entityManager->getRepository(Section::class);
-        $qb = $sectionRepository->createQueryBuilder('s')
+        $user = Guard::getUser();
+
+        $qb = Helper::getEntityManager()
+            ->getRepository(Section::class)
+            ->createQueryBuilder('s')
             ->where('s.user = :user')
             ->orderBy('s.name')
-            ->setParameter('user', $this->userId);
+            ->setParameter('user', $user);
 
-        if ($this->config->getShowInactive() === false) {
-            $qb->andWhere('s.status = :status')
-                ->setParameter('status', 'Active');
-        }
-
-        if ($this->config->getFilterSection() != 0) {
-            $qb->andWhere('s.id = :id')
-                ->setParameter('id', $this->config->getFilterSection());
-        }
+        $this->applySectionFilter($qb);
+        $this->applyStatusFilter($qb);
 
         $sections = $qb->getQuery()->getResult();
 
@@ -122,6 +146,8 @@ class ListDisplay extends BaseDisplay
      */
     protected function replaceTotals(string $string, int $grand_total): string
     {
+        $user = Guard::getUser();
+
         $string = str_replace('{GRAND_TOTAL}', (string) $grand_total, $string);
 
         $entityManager = Helper::getEntityManager();
@@ -130,7 +156,7 @@ class ListDisplay extends BaseDisplay
             ->from(Item::class, 'i')
             ->where('i.user = :user')
             ->andWhere('i.status = :status')
-            ->setParameter('user', $this->userId)
+            ->setParameter('user', $user)
             ->setParameter('status', 'Open');
 
         $total = $qb->getQuery()->getSingleScalarResult();

@@ -17,6 +17,7 @@ use App\Helper;
 use App\Legacy\DateUtils;
 use App\Renderer\DisplayConfig;
 use App\Renderer\DisplayHelper;
+use Doctrine\ORM\QueryBuilder;
 use Exception;
 
 class SectionDisplay extends BaseDisplay
@@ -35,31 +36,32 @@ class SectionDisplay extends BaseDisplay
     }
 
     /**
-     * Builds the output for this display.
+     * Applies any aging filter to the main QueryBuilder.
+     *
+     * @param QueryBuilder $qb
      *
      * @return void
-     *
-     * @throws Exception
      */
-    protected function buildOutput(): void
+    protected function applyAgingFilter(QueryBuilder $qb): void
     {
-        $entityManager = Helper::getEntityManager();
-        $itemRepository = $entityManager->getRepository(Item::class);
-
-        $priorityLevels = DisplayHelper::getPriorityLevels();
-
-        $qb = $itemRepository->createQueryBuilder('i')
-            ->orderBy('i.priority')
-            ->addOrderBy('i.task')
-            ->where('i.section = :section')
-            ->setParameter('section', $this->getId());
-
         $dateUtils = new DateUtils();
 
-        if (!empty($this->config->getFilterIds())) {
-            $qb->andWhere('i.id IN (:ids)')
-                ->setParameter('ids', $this->config->getFilterIds());
+        if ($this->config->getFilterAging() != 'all') {
+            $qb->andWhere('i.created <= :created')
+                ->setParameter('created', $dateUtils->getDate(sprintf('-%d days', $this->config->getFilterAging()), 'Y-m-d 00:00:00'));
         }
+    }
+
+    /**
+     * Applies any closed filter to the main QueryBuilder.
+     *
+     * @param QueryBuilder $qb
+     *
+     * @return void
+     */
+    protected function applyClosedFilter(QueryBuilder $qb): void
+    {
+        $dateUtils = new DateUtils();
 
         if ($this->config->getFilterClosed() == 'all') {
             $qb->andWhere('i.status != :status')
@@ -86,6 +88,33 @@ class SectionDisplay extends BaseDisplay
             $qb->andWhere('i.status = :status')
                 ->setParameter('status', 'Open');
         }
+    }
+
+    /**
+     * Applies any ID filter to the main QueryBuilder.
+     *
+     * @param QueryBuilder $qb
+     *
+     * @return void
+     */
+    protected function applyIdFilter(QueryBuilder $qb): void
+    {
+        if (!empty($this->config->getFilterIds())) {
+            $qb->andWhere('i.id IN (:ids)')
+                ->setParameter('ids', $this->config->getFilterIds());
+        }
+    }
+
+    /**
+     * Apply the priority filter to the main query.
+     *
+     * @param QueryBuilder $qb
+     *
+     * @return void
+     */
+    protected function applyPriorityFilter(QueryBuilder $qb): void
+    {
+        $priorityLevels = DisplayHelper::getPriorityLevels();
 
         if ($this->config->getFilterPriority() == 'high') {
             $qb->andWhere('i.priority = :priority')
@@ -97,11 +126,31 @@ class SectionDisplay extends BaseDisplay
             $qb->andWhere('i.priority <= :priority')
                 ->setParameter('priority', intval($priorityLevels['low']));
         }
+    }
 
-        if ($this->config->getFilterAging() != 'all') {
-            $qb->andWhere('i.created <= :created')
-                ->setParameter('created', $dateUtils->getDate(sprintf('-%d days', $this->config->getFilterAging()), 'Y-m-d 00:00:00'));
-        }
+    /**
+     * Builds the output for this display.
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    protected function buildOutput(): void
+    {
+        $priorityLevels = DisplayHelper::getPriorityLevels();
+
+        $qb = Helper::getEntityManager()
+            ->getRepository(Item::class)
+            ->createQueryBuilder('i')
+            ->orderBy('i.priority')
+            ->addOrderBy('i.task')
+            ->where('i.section = :section')
+            ->setParameter('section', $this->section->getId());
+
+        $this->applyAgingFilter($qb);
+        $this->applyClosedFilter($qb);
+        $this->applyIdFilter($qb);
+        $this->applyPriorityFilter($qb);
 
         $items = $qb->getQuery()->getResult();
 
@@ -117,13 +166,12 @@ class SectionDisplay extends BaseDisplay
             }
         }
 
-        if ($this->config->getShowPriorityEditor()) {
-            $template = 'priority_editor';
-        } else {
-            $template = 'main';
-        }
+        $template = sprintf(
+            'partials/section/%s.html.twig',
+            $this->config->getShowPriorityEditor() ? 'priority_editor' : 'main'
+        );
 
-        $this->output = $this->render(sprintf('partials/section/%s.html.twig', $template), [
+        $this->output = $this->render($template, [
             'filterSection'      => $this->config->getFilterSection(),
             'items'              => $items,
             'priorityHigh'       => 2,
@@ -133,11 +181,6 @@ class SectionDisplay extends BaseDisplay
         ]);
 
         $this->outputBuilt = true;
-    }
-
-    public function getId(): int
-    {
-        return $this->section->getId();
     }
 
     public function getOutputCount(): int
