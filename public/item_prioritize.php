@@ -3,8 +3,7 @@
 use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
-use App\Legacy\Renderer\DisplayConfig;
-use App\Legacy\Renderer\DisplayHelper;
+use App\Renderer\DisplayHelper;
 use App\Legacy\Renderer\ListDisplay;
 
 $twig = Helper::getTwig();
@@ -53,17 +52,20 @@ if (count($_POST)) {
     }
 }
 
-$config = new DisplayConfig();
-$config
-    ->setFilterAging($GLOBALS['display_filter_aging'])
-    ->setFilterPriority($GLOBALS['display_filter_priority'])
-    ->setShowInactive($GLOBALS['display_show_inactive'])
-    ->setShowPriorityEditor('y')
-    ->setShowSection($GLOBALS['display_show_section']);
+// don't affect the user's config
+$config = clone Helper::getDisplayConfig();
+
+try {
+    $config->setFilterClosed('none');
+} catch (Exception $e) {
+    $errors[] = 'Could not disable closed filter for this view.';
+}
+
+$config->setShowPriorityEditor(true);
 
 $ids = unserialize($_REQUEST['ids']);
 if (is_array($ids) && count($ids)) {
-    $config->setIds($ids);
+    $config->setFilterIds($ids);
 }
 
 $listDisplay = new ListDisplay($user->getId(), $config);

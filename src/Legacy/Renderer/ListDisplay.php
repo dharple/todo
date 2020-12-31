@@ -14,6 +14,7 @@ namespace App\Legacy\Renderer;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
+use App\Renderer\DisplayConfig;
 use Exception;
 
 class ListDisplay extends BaseDisplay
@@ -48,14 +49,14 @@ class ListDisplay extends BaseDisplay
             ->orderBy('s.name')
             ->setParameter('user', $this->userId);
 
-        if ($this->config->getShowInactive() != 'y') {
+        if ($this->config->getShowInactive() === false) {
             $qb->andWhere('s.status = :status')
                 ->setParameter('status', 'Active');
         }
 
-        if ($this->config->getShowSection() != 0) {
+        if ($this->config->getFilterSection() != 0) {
             $qb->andWhere('s.id = :id')
-                ->setParameter('id', $this->config->getShowSection());
+                ->setParameter('id', $this->config->getFilterSection());
         }
 
         $sections = $qb->getQuery()->getResult();

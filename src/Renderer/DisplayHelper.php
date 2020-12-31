@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy\Renderer;
+namespace App\Renderer;
 
 /**
  * Helper methods for renderer classes.
@@ -22,7 +22,7 @@ class DisplayHelper
      *
      * @return string[]
      */
-    public static function getAgingFilterValues(): array
+    public static function getFilterAgingValues(): array
     {
         return [
             'all' => 'All',
@@ -38,7 +38,7 @@ class DisplayHelper
      *
      * @return string[]
      */
-    public static function getClosedFilterValues(): array
+    public static function getFilterClosedValues(): array
     {
         return [
             'all' => 'All',
@@ -53,7 +53,7 @@ class DisplayHelper
      *
      * @return string[]
      */
-    public static function getPriorityFilterValues(): array
+    public static function getFilterPriorityValues(): array
     {
         $priorityLevels = static::getPriorityLevels();
         return [
@@ -86,7 +86,7 @@ class DisplayHelper
      *
      * @return string[]
      */
-    public static function getShowPriorityDisplay(): array
+    public static function getShowPriorityValues(): array
     {
         return [
             'y' => 'All',

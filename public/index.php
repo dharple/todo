@@ -4,8 +4,7 @@ use App\Analytics\ItemStats;
 use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
-use App\Legacy\Renderer\DisplayConfig;
-use App\Legacy\Renderer\DisplayHelper;
+use App\Renderer\DisplayHelper;
 use App\Legacy\Renderer\ListDisplay;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
@@ -83,15 +82,13 @@ if (count($_POST)) {
     }
 }
 
-$config = new DisplayConfig();
-$config
-    ->setFilterAging($GLOBALS['display_filter_aging'])
-    ->setFilterClosed($GLOBALS['display_filter_closed'])
-    ->setFilterPriority($GLOBALS['display_filter_priority'])
-    ->setSectionLink('index.php?show_section={SECTION_ID}')
-    ->setShowInactive($GLOBALS['display_show_inactive'])
-    ->setShowPriority($GLOBALS['display_show_priority'])
-    ->setShowSection($GLOBALS['display_show_section']);
+$config = Helper::getDisplayConfig();
+
+try {
+    $config->processRequest();
+} catch (Exception $e) {
+    $errors[] = $e->getMessage();
+}
 
 $listDisplay = new ListDisplay($user->getId(), $config);
 
@@ -121,15 +118,15 @@ try {
     $twig->display('index.html.twig', [
         'config' => $config,
         'errors' => $errors,
-        'filterAgingValues' => DisplayHelper::getAgingFilterValues(),
-        'filterClosedValues' => DisplayHelper::getClosedFilterValues(),
-        'filterPriorityValues' => DisplayHelper::getPriorityFilterValues(),
+        'filterAgingValues' => DisplayHelper::getFilterAgingValues(),
+        'filterClosedValues' => DisplayHelper::getFilterClosedValues(),
+        'filterPriorityValues' => DisplayHelper::getFilterPriorityValues(),
         'hasItems' => ($itemCount > 0),
         'hasSections' => ($sectionCount > 0),
         'itemStats' => $itemStats,
         'list' => $listOutput,
-        'showDuplicate' => ($GLOBALS['display_filter_closed'] != 'none'),
-        'showPriorityValues' => DisplayHelper::getShowPriorityDisplay(),
+        'showDuplicate' => ($config->getFilterClosed() != 'none'),
+        'showPriorityValues' => DisplayHelper::getShowPriorityValues(),
         'user' => $user,
     ]);
 } catch (Exception $e) {

@@ -4,7 +4,7 @@ use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
-use App\Legacy\Renderer\DisplayHelper;
+use App\Renderer\DisplayHelper;
 
 $twig = Helper::getTwig();
 $priorityLevels = DisplayHelper::getPriorityLevels();

@@ -14,6 +14,7 @@ namespace App;
 use App\Auth\Guard;
 use App\Logger\FileLogger;
 use App\Logger\FileSQLLogger;
+use App\Renderer\DisplayConfig;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Setup;
@@ -41,6 +42,20 @@ class Helper
      */
     private function __construct()
     {
+    }
+
+    /**
+     * Returns the user's display config.
+     *
+     * @return DisplayConfig
+     */
+    public static function getDisplayConfig(): DisplayConfig
+    {
+        if (isset($_SESSION['displayConfig']) && $_SESSION['displayConfig'] instanceof DisplayConfig && !isset($_REQUEST['reset_display_settings'])) {
+            return $_SESSION['displayConfig'];
+        }
+
+        return $_SESSION['displayConfig'] = new DisplayConfig();
     }
 
     /**

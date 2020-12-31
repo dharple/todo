@@ -15,6 +15,8 @@ use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
 use App\Legacy\DateUtils;
+use App\Renderer\DisplayConfig;
+use App\Renderer\DisplayHelper;
 use Exception;
 
 class SectionDisplay extends BaseDisplay
@@ -54,9 +56,9 @@ class SectionDisplay extends BaseDisplay
 
         $dateUtils = new DateUtils();
 
-        if (!empty($this->config->getIds())) {
+        if (!empty($this->config->getFilterIds())) {
             $qb->andWhere('i.id IN (:ids)')
-                ->setParameter('ids', $this->config->getIds());
+                ->setParameter('ids', $this->config->getFilterIds());
         }
 
         if ($this->config->getFilterClosed() == 'all') {
@@ -115,24 +117,19 @@ class SectionDisplay extends BaseDisplay
             }
         }
 
-        if ($this->config->getShowPriorityEditor() == 'y') {
+        if ($this->config->getShowPriorityEditor()) {
             $template = 'priority_editor';
         } else {
             $template = 'main';
         }
 
         $this->output = $this->render(sprintf('partials/section/%s.html.twig', $template), [
+            'filterSection'      => $this->config->getFilterSection(),
             'items'              => $items,
             'priorityHigh'       => 2,
             'priorityNormal'     => $priorityLevels['normal'],
             'section'            => $this->section,
-            'sectionUrl'         => str_replace(
-                '{SECTION_ID}',
-                ($this->config->getShowSection() ? 0 : (string) $this->getId()),
-                $this->config->getSectionLink()
-            ),
             'showPriority'       => $this->config->getShowPriority(),
-            'showSectionLink'    => !empty($this->config->getSectionLink()) ? 'y' : 'n',
         ]);
 
         $this->outputBuilt = true;
