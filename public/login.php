@@ -10,9 +10,7 @@ $twig = Helper::getTwig();
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Login') {
         try {
-            $user = Guard::login($_POST['username'], $_POST['password']);
-
-            $_SESSION['user_id'] = $user->getId();
+            Guard::login($_POST['username'], $_POST['password']);
             header('Location: index.php');
             exit();
         } catch (Exception $e) {
@@ -22,7 +20,7 @@ if (count($_POST)) {
 }
 
 try {
-    $user = Helper::getUser();
+    $user = Guard::getUser();
 } catch (Exception $e) {
     $user = null;
 }

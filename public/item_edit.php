@@ -1,5 +1,6 @@
 <?php
 
+use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
@@ -10,7 +11,7 @@ $priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
     $em = Helper::getEntityManager();
-    $user = Helper::getUser();
+    $user = Guard::getUser();
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());
     echo $e->getMessage();

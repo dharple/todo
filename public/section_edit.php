@@ -1,5 +1,6 @@
 <?php
 
+use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
@@ -8,7 +9,7 @@ $twig = Helper::getTwig();
 
 try {
     $em = Helper::getEntityManager();
-    $user = Helper::getUser();
+    $user = Guard::getUser();
     $sectionRepository = $em->getRepository(Section::class);
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());

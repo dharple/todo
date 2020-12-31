@@ -1,6 +1,7 @@
 <?php
 
 use App\Analytics\ItemStats;
+use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
 use App\Legacy\Renderer\DisplayConfig;
@@ -13,7 +14,7 @@ $twig = Helper::getTwig();
 
 try {
     $em = Helper::getEntityManager();
-    $user = Helper::getUser();
+    $user = Guard::getUser();
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());
     echo $e->getMessage();

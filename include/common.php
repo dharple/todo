@@ -2,18 +2,24 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use App\Auth\Guard;
 use App\Helper;
 
 session_cache_limiter('nocache');
 session_start();
 
-if (empty($_SESSION['user_id']) && !preg_match('/login.php/', $_SERVER['SCRIPT_NAME'])) {
-    header('Location: /login.php');
-    exit();
+$user = null;
+try {
+    $user = Guard::getUser();
+} catch (Exception $e) {
+    if (!preg_match('/login.php/', $_SERVER['SCRIPT_NAME'])) {
+        header('Location: /login.php');
+        exit();
+    }
 }
 
 try {
-    if (!empty($_SESSION['user_id'])) {
+    if ($user !== null) {
         Helper::setTimezone();
     }
 } catch (Exception $e) {

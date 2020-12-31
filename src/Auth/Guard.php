@@ -35,6 +35,31 @@ class Guard
     }
 
     /**
+     * Gets the current logged in user.
+     *
+     * @return User
+     *
+     * @throws Exception
+     */
+    public static function getUser(): User
+    {
+        static $user = null;
+
+        if ($user === null) {
+            if (empty($_SESSION['userId'])) {
+                throw new Exception('Unable to find user.');
+            }
+
+            $user = Helper::getEntityManager()->find(User::class, $_SESSION['userId']);
+            if ($user === null) {
+                throw new Exception('Unable to find user.');
+            }
+        }
+
+        return $user;
+    }
+
+    /**
      * Attempts to log in.
      *
      * @param string $username The user who is logging in.
@@ -57,6 +82,8 @@ class Guard
         if (!static::checkPassword($user, $password)) {
             throw new Exception('Invalid username or password');
         }
+
+        $_SESSION['userId'] = $user->getId();
 
         return $user;
     }

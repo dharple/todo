@@ -11,7 +11,7 @@
 
 namespace App;
 
-use App\Entity\User;
+use App\Auth\Guard;
 use App\Logger\FileLogger;
 use App\Logger\FileSQLLogger;
 use Doctrine\ORM\EntityManager;
@@ -135,31 +135,6 @@ class Helper
     }
 
     /**
-     * Returns the current user
-     *
-     * @return User
-     *
-     * @throws Exception
-     */
-    public static function getUser(): User
-    {
-        static $user = null;
-
-        if ($user === null) {
-            if (empty($_SESSION['user_id'])) {
-                throw new Exception('Unable to find user.');
-            }
-
-            $user = static::getEntityManager()->find(User::class, $_SESSION['user_id']);
-            if ($user === null) {
-                throw new Exception('Unable to find user.');
-            }
-        }
-
-        return $user;
-    }
-
-    /**
      * Loads config settings from the .env and puts them in to $_ENV.
      *
      * @return void
@@ -184,7 +159,7 @@ class Helper
      */
     public static function setTimezone(): void
     {
-        $user = static::getUser();
+        $user = Guard::getUser();
         if (!empty($user->getTimezone())) {
             date_default_timezone_set($user->getTimezone());
 

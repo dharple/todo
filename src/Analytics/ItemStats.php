@@ -11,13 +11,12 @@
 
 namespace App\Analytics;
 
-use App\Helper;
+use App\Auth\Guard;
 use Carbon\Carbon;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
-use Doctrine\ORM\ORMException;
 use Exception;
 
 /**
@@ -121,14 +120,15 @@ class ItemStats extends AbstractItemAnalyzer
      * @param string|null $end   Ending datetime string.
      *
      * @return mixed
-     * @throws ORMException
+     *
+     * @throws Exception
      */
     protected function execute(?string $start = null, ?string $end = null)
     {
         $cache = $this->getCache();
         $cacheKey = md5(serialize([
             __METHOD__,
-            $_SESSION['user_id'],
+            Guard::getUser()->getId(),
             $start,
             $end,
         ]));
@@ -155,7 +155,7 @@ class ItemStats extends AbstractItemAnalyzer
      */
     public function getAverage(): float
     {
-        $user = Helper::getUser();
+        $user = Guard::getUser();
 
         $cache = $this->getCache();
         $cacheKey = md5(serialize([

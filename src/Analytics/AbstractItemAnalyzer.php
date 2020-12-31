@@ -11,6 +11,7 @@
 
 namespace App\Analytics;
 
+use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
 use App\Legacy\DateUtils;
@@ -79,7 +80,7 @@ abstract class AbstractItemAnalyzer
 
         $qb->where('i.user = :user')
             ->andWhere('i.status = :status')
-            ->setParameter('user', Helper::getUser())
+            ->setParameter('user', Guard::getUser())
             ->setParameter('status', 'Closed');
 
         if (!empty($start)) {

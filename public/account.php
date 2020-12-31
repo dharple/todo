@@ -7,7 +7,7 @@ $twig = Helper::getTwig();
 
 try {
     $em = Helper::getEntityManager();
-    $user = Helper::getUser();
+    $user = Guard::getUser();
 } catch (Exception $e) {
     Helper::getLogger()->critical($e->getMessage());
     echo $e->getMessage();
