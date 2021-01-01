@@ -14,9 +14,9 @@ namespace App\Legacy\Renderer;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
-use App\Legacy\DateUtils;
 use App\Renderer\DisplayConfig;
 use App\Renderer\DisplayHelper;
+use Carbon\Carbon;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 
@@ -44,11 +44,13 @@ class SectionDisplay extends BaseDisplay
      */
     protected function applyAgingFilter(QueryBuilder $qb): void
     {
-        $dateUtils = new DateUtils();
-
         if ($this->config->getFilterAging() != 'all') {
+            $start = Carbon::now()
+                ->subDays((int) $this->config->getFilterAging())
+                ->startOfDay();
+
             $qb->andWhere('i.created <= :created')
-                ->setParameter('created', $dateUtils->getDate(sprintf('-%d days', $this->config->getFilterAging()), 'Y-m-d 00:00:00'));
+                ->setParameter('created', $start->format('Y-m-d h:i:s'));
         }
     }
 
@@ -61,8 +63,6 @@ class SectionDisplay extends BaseDisplay
      */
     protected function applyClosedFilter(QueryBuilder $qb): void
     {
-        $dateUtils = new DateUtils();
-
         if ($this->config->getFilterClosed() == 'all') {
             $qb->andWhere('i.status != :status')
                 ->setParameter('status', 'Deleted');
@@ -74,16 +74,19 @@ class SectionDisplay extends BaseDisplay
                     $qb->expr()->lt('i.completed', ':dayEnd'),
                     $qb->expr()->eq('i.status', ':statusClosed')
                 )
-            ))
-                ->setParameter('statusOpen', 'Open')
-                ->setParameter('dayEnd', $dateUtils->getDate('now', 'Y-m-d 23:59:59'))
-                ->setParameter('statusClosed', 'Closed');
+            ));
 
             if ($this->config->getFilterClosed() == 'today') {
-                $qb->setParameter('dayStart', $dateUtils->getDate('now', 'Y-m-d 00:00:00'));
+                $start = Carbon::now();
             } else {
-                $qb->setParameter('dayStart', $dateUtils->getDate('-3 days', 'Y-m-d 00:00:00'));
+                $start = Carbon::now()->subDays(3);
             }
+
+            $qb
+                ->setParameter('statusOpen', 'Open')
+                ->setParameter('dayStart', $start->startOfDay()->format('Y-m-d H:i:s'))
+                ->setParameter('dayEnd', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'))
+                ->setParameter('statusClosed', 'Closed');
         } else {
             $qb->andWhere('i.status = :status')
                 ->setParameter('status', 'Open');

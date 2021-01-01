@@ -13,6 +13,7 @@ namespace App\Analytics;
 
 use App\Auth\Guard;
 use Carbon\Carbon;
+use DateTime;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Collections\Criteria;
@@ -116,14 +117,14 @@ class ItemStats extends AbstractItemAnalyzer
     /**
      * Executes the query.
      *
-     * @param string|null $start Starting datetime string.
-     * @param string|null $end   Ending datetime string.
+     * @param DateTime|null $start Starting DateTime.
+     * @param DateTime|null $end   Ending DateTime.
      *
      * @return mixed
      *
      * @throws Exception
      */
-    protected function execute(?string $start = null, ?string $end = null)
+    protected function execute(?DateTime $start = null, ?DateTime $end = null)
     {
         $cache = $this->getCache();
         $cacheKey = md5(serialize([

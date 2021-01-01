@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added logger.
 - Moved the legacy view-like classes to App\Legacy\Renderer.
 - Refactored display controls into their own class.
+- Replaced custom date calculation class with Carbon.
 - Replaced direct SQL queries with Doctrine wrappers.
 - Replaced legacy database and entity objects with Doctrine versions.
 - Switched from a custom session handler to the default PHP handler.
@@ -16,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Bootstrap from 4.5.2 to 4.5.3.
 
 ### Fixed
+- A random string is no longer accepted as the range for the history page.
 - When editing items, setting the status will affect the completed timestamp.
 
 ### Security

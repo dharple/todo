@@ -12,6 +12,7 @@
 namespace App\Analytics;
 
 use App\Entity\Item;
+use DateTime;
 use Doctrine\ORM\ORMException;
 
 /**
@@ -105,13 +106,13 @@ class ItemHistory extends AbstractItemAnalyzer
     /**
      * Executes the query.
      *
-     * @param string|null $start Starting datetime string.
-     * @param string|null $end   Ending datetime string.
+     * @param DateTime|null $start Starting DateTime.
+     * @param DateTime|null $end   Ending DateTime.
      *
      * @return mixed
      * @throws ORMException
      */
-    protected function execute(?string $start = null, ?string $end = null)
+    protected function execute(?DateTime $start = null, ?DateTime $end = null)
     {
         return $this->createQueryBuilder($start, $end)
             ->getQuery()

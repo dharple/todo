@@ -14,7 +14,8 @@ namespace App\Analytics;
 use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
-use App\Legacy\DateUtils;
+use Carbon\Carbon;
+use DateTime;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -39,13 +40,6 @@ abstract class AbstractItemAnalyzer
     public const ORDER_BY_TASK = 'task';
 
     /**
-     * Helper utility.
-     *
-     * @var DateUtils
-     */
-    protected DateUtils $dateUtils;
-
-    /**
      * The ordering for this analyzer.
      *
      * @var string
@@ -57,22 +51,21 @@ abstract class AbstractItemAnalyzer
      */
     public function __construct()
     {
-        $this->dateUtils = new DateUtils();
         $this->ordering = static::ORDER_BY_TASK;
     }
 
     /**
      * Creates a QueryBuilder based on start, end, and ordering.
      *
-     * @param string|null $start Starting datetime string.
-     * @param string|null $end   Ending datetime string.
+     * @param DateTime|null $start Starting DateTime.
+     * @param DateTime|null $end   Ending DateTime.
      *
      * @return QueryBuilder
      *
      * @throws ORMException
      * @throws Exception
      */
-    protected function createQueryBuilder(?string $start = null, ?string $end = null): QueryBuilder
+    protected function createQueryBuilder(?DateTime $start = null, ?DateTime $end = null): QueryBuilder
     {
         $qb = Helper::getEntityManager()
             ->getRepository(Item::class)
@@ -85,8 +78,8 @@ abstract class AbstractItemAnalyzer
 
         if (!empty($start)) {
             $qb->andWhere('i.completed BETWEEN :start and :end')
-                ->setParameter('start', $start)
-                ->setParameter('end', $end);
+                ->setParameter('start', $start->format('Y-m-d H:i:s'))
+                ->setParameter('end', $end->format('Y-m-d H:i:s'));
         }
 
         if ($this->ordering == static::ORDER_BY_SECTION) {
@@ -105,12 +98,12 @@ abstract class AbstractItemAnalyzer
     /**
      * Executes the query.
      *
-     * @param string|null $start Starting datetime string.
-     * @param string|null $end   Ending datetime string.
+     * @param DateTime|null $start Starting DateTime.
+     * @param DateTime|null $end   Ending DateTime.
      *
      * @return mixed
      */
-    abstract protected function execute(?string $start = null, ?string $end = null);
+    abstract protected function execute(?DateTime $start = null, ?DateTime $end = null);
 
     /**
      * Returns analytics for the previous month.
@@ -119,10 +112,15 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneLastMonth()
     {
-        $work = date('Y-m-15') . ' -1 month';
-        $start = $this->dateUtils->getMonthStart($work);
-        $end = $this->dateUtils->getMonthEnd($work);
-        return $this->execute($start, $end);
+        $start = Carbon::now()
+            ->settings(['monthOverflow' => false])
+            ->subMonth();
+        $end = clone $start;
+
+        return $this->execute(
+            $start->startOfMonth(),
+            $end->endOfMonth()
+        );
     }
 
     /**
@@ -132,9 +130,10 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneLastWeek()
     {
-        $start = $this->dateUtils->getWeekStart('-1 week');
-        $end = $this->dateUtils->getWeekEnd('-1 week');
-        return $this->execute($start, $end);
+        return $this->execute(
+            Carbon::now()->subWeek()->startOfWeek(),
+            Carbon::now()->subWeek()->endOfWeek()
+        );
     }
 
     /**
@@ -146,10 +145,13 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDonePreviousMonths(int $distance)
     {
-        $work = ' -' . intval($distance) . ' month';
-        $start = $this->dateUtils->getDate($work, 'Y-m-d 00:00:00');
-        $end = $this->dateUtils->getDate('now', 'Y-m-d 23:59:59');
-        return $this->execute($start, $end);
+        return $this->execute(
+            Carbon::now()
+                ->settings(['monthOverflow' => false])
+                ->subMonths($distance)
+                ->startOfDay(),
+            Carbon::now()->endOfDay()
+        );
     }
 
     /**
@@ -159,10 +161,10 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneThisMonth()
     {
-        $work = date('Y-m-15');
-        $start = $this->dateUtils->getMonthStart($work);
-        $end = $this->dateUtils->getMonthEnd($work);
-        return $this->execute($start, $end);
+        return $this->execute(
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()
+        );
     }
 
     /**
@@ -172,9 +174,10 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneThisWeek()
     {
-        $start = $this->dateUtils->getWeekStart();
-        $end = $this->dateUtils->getWeekEnd();
-        return $this->execute($start, $end);
+        return $this->execute(
+            Carbon::now()->startOfWeek(),
+            Carbon::now()->endOfWeek()
+        );
     }
 
     /**
@@ -184,9 +187,10 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneToday()
     {
-        $start = $this->dateUtils->getDate('now', 'Y-m-d 00:00:00');
-        $end = $this->dateUtils->getDate('now', 'Y-m-d 23:59:59');
-        return $this->execute($start, $end);
+        return $this->execute(
+            Carbon::now()->startOfDay(),
+            Carbon::now()->endOfDay()
+        );
     }
 
     /**
@@ -206,9 +210,10 @@ abstract class AbstractItemAnalyzer
      */
     protected function executeDoneYesterday()
     {
-        $start = $this->dateUtils->getDate('yesterday', 'Y-m-d 00:00:00');
-        $end = $this->dateUtils->getDate('yesterday', 'Y-m-d 23:59:59');
-        return $this->execute($start, $end);
+        return $this->execute(
+            Carbon::now()->subDay()->startOfDay(),
+            Carbon::now()->subDay()->endOfDay()
+        );
     }
 
     /**

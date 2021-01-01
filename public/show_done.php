@@ -4,8 +4,9 @@ use App\Helper;
 use App\Analytics\ItemHistory;
 
 $twig = Helper::getTwig();
+$errors = [];
 
-$view = $_REQUEST['view'] ?? '';
+$view = $_REQUEST['view'] ?? 'all';
 $sort = $_REQUEST['sort'] ?? 'task';
 
 $itemHistory = new ItemHistory();
@@ -64,14 +65,21 @@ switch ($view) {
         $period = 'Past 12 Months';
         break;
 
-    default:
+    case 'all':
         $items = $itemHistory->doneTotal();
         $period = 'All';
+        break;
+
+    default:
+        $items = [];
+        $period = "UNKNOWN";
+        $errors[] = "Invalid selector";
         break;
 }
 
 try {
     $twig->display('show_done.html.twig', [
+        'errors'   => $errors,
         'items'    => $items,
         'period'   => $period,
         'sort'     => $sort,
