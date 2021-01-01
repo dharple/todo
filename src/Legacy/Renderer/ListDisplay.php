@@ -105,27 +105,13 @@ class ListDisplay extends BaseDisplay
             $itemCount += $sectionDisplay->getOutputCount();
         }
 
-        if (empty($sectionOutput)) {
-            $this->output = '<b>No Items</b><br>';
-            $this->outputBuilt = true;
-            $this->itemCount = 0;
-            return;
-        }
-
-        $class = ($sectionsDrawn > 1) ? 'wrapper-large' : 'wrapper-small';
-
-        $ret = '<div class="wrapper ' . htmlspecialchars($class) . '">';
-
-        $ret .= $sectionOutput;
-
-        $ret .= '<div class="section">';
-        $ret .= $this->replaceTotals($this->footer ?? '', $itemCount);
-        $ret .= '</div>';
-
-        $ret .= '</div>';
+        $this->output = $this->render('partials/list/wrapper.html.twig', [
+            'footer'         => $this->replaceTotals($this->footer ?? '', $itemCount),
+            'sectionsDrawn'  => $sectionsDrawn,
+            'sectionOutput'  => $sectionOutput,
+        ]);
 
         $this->itemCount = $itemCount;
-        $this->output = $ret;
         $this->outputBuilt = true;
     }
 

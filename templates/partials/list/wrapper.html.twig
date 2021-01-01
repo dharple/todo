@@ -1,0 +1,14 @@
+<div class="wrapper {% if sectionsDrawn > 1 %} wrapper-large {% else %} wrapper-small {% endif %}">
+    {% if sectionsDrawn > 0 %}
+        {{ sectionOutput | raw }}
+    {% else %}
+        <div class="section mb-3">
+            <span class="empty-list">
+                No Items
+            </span>
+        </div>
+    {% endif %}
+    <div class="section">
+        {{ footer | raw }}
+    </div>
+</div>
