@@ -9,13 +9,19 @@ use App\Legacy\Renderer\ListDisplay;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 
-$twig = Helper::getTwig();
+try {
+    $log = Helper::getLogger();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    exit;
+}
 
 try {
     $em = Helper::getEntityManager();
+    $twig = Helper::getTwig();
     $user = Guard::getUser();
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
@@ -90,7 +96,7 @@ try {
     $errors[] = $e->getMessage();
 }
 
-$listDisplay = new ListDisplay($config, $em);
+$listDisplay = new ListDisplay($config, $em, $log, $twig);
 
 $itemStats = new ItemStats($em);
 
@@ -99,7 +105,7 @@ try {
         'itemStats' => $itemStats,
     ]));
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
@@ -130,7 +136,7 @@ try {
         'user' => $user,
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }

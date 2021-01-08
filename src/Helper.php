@@ -26,13 +26,6 @@ use Twig\Environment;
 class Helper
 {
     /**
-     * Directory to use for Doctrine proxy classes.
-     *
-     * @var string
-     */
-    protected const PROXY_DIR = '/tmp/todo-doctrine-proxy';
-
-    /**
      * Don't allow instantiation.
      */
     private function __construct()

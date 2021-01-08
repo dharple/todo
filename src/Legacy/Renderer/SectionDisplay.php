@@ -19,21 +19,43 @@ use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use Psr\Log\LoggerInterface;
+use Twig\Environment;
 
+/**
+ * Displays a section.
+ */
 class SectionDisplay extends BaseDisplay
 {
 
-    protected DisplayConfig $config;
-
-    protected int $itemCount = 0;
-
+    /**
+     * The section to render.
+     *
+     * @var Section
+     */
     protected Section $section;
 
-    public function __construct(Section $section, DisplayConfig $config, EntityManagerInterface $em)
-    {
+    /**
+     * SectionDisplay constructor.
+     *
+     * @param Section                $section
+     * @param DisplayConfig          $config
+     * @param EntityManagerInterface $em
+     * @param LoggerInterface        $log
+     * @param Environment            $twig
+     */
+    public function __construct(
+        Section $section,
+        DisplayConfig $config,
+        EntityManagerInterface $em,
+        LoggerInterface $log,
+        Environment $twig
+    ) {
         $this->config  = $config;
         $this->em      = $em;
+        $this->log     = $log;
         $this->section = $section;
+        $this->twig    = $twig;
     }
 
     /**
@@ -144,8 +166,8 @@ class SectionDisplay extends BaseDisplay
         $priorityLevels = DisplayHelper::getPriorityLevels();
 
         $qb = $this->em
-            ->getRepository(Item::class)
-            ->createQueryBuilder('i')
+            ->createQueryBuilder()
+            ->from(Item::class, 'i')
             ->orderBy('i.priority')
             ->addOrderBy('i.task')
             ->where('i.section = :section')
@@ -185,10 +207,5 @@ class SectionDisplay extends BaseDisplay
         ]);
 
         $this->outputBuilt = true;
-    }
-
-    public function getOutputCount(): int
-    {
-        return $this->itemCount;
     }
 }

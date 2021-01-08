@@ -9,10 +9,17 @@ $view = $_REQUEST['view'] ?? 'all';
 $sort = $_REQUEST['sort'] ?? 'task';
 
 try {
+    $log = Helper::getLogger();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    exit;
+}
+
+try {
     $em = Helper::getEntityManager();
     $twig = Helper::getTwig();
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
@@ -94,7 +101,7 @@ try {
         'view'     => $view,
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }

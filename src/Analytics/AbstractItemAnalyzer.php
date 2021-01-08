@@ -39,18 +39,18 @@ abstract class AbstractItemAnalyzer
     public const ORDER_BY_TASK = 'task';
 
     /**
-     * The ordering for this analyzer.
-     *
-     * @var string
-     */
-    protected string $ordering;
-
-    /**
      * The Entity Manager to use.
      *
      * @var EntityManagerInterface
      */
     protected EntityManagerInterface $em;
+
+    /**
+     * The ordering for this analyzer.
+     *
+     * @var string
+     */
+    protected string $ordering;
 
     /**
      * AbstractItemAnalyzer constructor.
@@ -76,10 +76,9 @@ abstract class AbstractItemAnalyzer
     protected function createQueryBuilder(?DateTime $start = null, ?DateTime $end = null): QueryBuilder
     {
         $qb = $this->em
-            ->getRepository(Item::class)
-            ->createQueryBuilder('i');
-
-        $qb->where('i.user = :user')
+            ->createQueryBuilder()
+            ->from(Item::class, 'i')
+            ->where('i.user = :user')
             ->andWhere('i.status = :status')
             ->setParameter('user', Guard::getUser())
             ->setParameter('status', 'Closed');

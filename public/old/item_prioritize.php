@@ -5,13 +5,20 @@ use App\Helper;
 use App\Renderer\DisplayHelper;
 use App\Legacy\Renderer\ListDisplay;
 
-$twig = Helper::getTwig();
 $priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
-    $em = Helper::getEntityManager();
+    $log = Helper::getLogger();
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
+
+try {
+    $em = Helper::getEntityManager();
+    $twig = Helper::getTwig();
+} catch (Exception $e) {
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
@@ -68,7 +75,7 @@ if (isset($_REQUEST['ids'])) {
     }
 }
 
-$listDisplay = new ListDisplay($config, $em);
+$listDisplay = new ListDisplay($config, $em, $log, $twig);
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 
@@ -80,7 +87,7 @@ try {
         'list' => $listOutput,
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }

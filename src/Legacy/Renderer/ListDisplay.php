@@ -18,19 +18,39 @@ use App\Renderer\DisplayConfig;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use Psr\Log\LoggerInterface;
+use Twig\Environment;
 
+/**
+ * Displays a list of sections.
+ */
 class ListDisplay extends BaseDisplay
 {
-    protected DisplayConfig $config;
-
+    /**
+     * The footer template to display.
+     *
+     * @var string
+     */
     protected string $footer;
 
-    protected int $itemCount = 0;
-
-    public function __construct(DisplayConfig $config, EntityManagerInterface $em)
-    {
+    /**
+     * ListDisplay constructor.
+     *
+     * @param DisplayConfig          $config
+     * @param EntityManagerInterface $em
+     * @param LoggerInterface        $log
+     * @param Environment            $twig
+     */
+    public function __construct(
+        DisplayConfig $config,
+        EntityManagerInterface $em,
+        LoggerInterface $log,
+        Environment $twig
+    ) {
         $this->config = $config;
         $this->em     = $em;
+        $this->log    = $log;
+        $this->twig   = $twig;
     }
 
     /**
@@ -75,8 +95,8 @@ class ListDisplay extends BaseDisplay
         $user = Guard::getUser();
 
         $qb = $this->em
-            ->getRepository(Section::class)
-            ->createQueryBuilder('s')
+            ->createQueryBuilder()
+            ->from(Section::class, 's')
             ->where('s.user = :user')
             ->orderBy('s.name')
             ->setParameter('user', $user);
@@ -92,7 +112,7 @@ class ListDisplay extends BaseDisplay
         $sectionsDrawn = 0;
 
         foreach ($sections as $section) {
-            $sectionDisplay = new SectionDisplay($section, $this->config, $this->em);
+            $sectionDisplay = new SectionDisplay($section, $this->config, $this->em, $this->log, $this->twig);
 
             $build = $sectionDisplay->getOutput();
 
@@ -114,11 +134,6 @@ class ListDisplay extends BaseDisplay
 
         $this->itemCount = $itemCount;
         $this->outputBuilt = true;
-    }
-
-    public function getOutputCount(): int
-    {
-        return $this->itemCount;
     }
 
     /**

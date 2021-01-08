@@ -13,7 +13,7 @@ namespace App\Analytics;
 
 use App\Entity\Item;
 use DateTime;
-use Doctrine\ORM\ORMException;
+use Exception;
 
 /**
  * Historical analytics.  This returns sets of closed items.
@@ -110,7 +110,8 @@ class ItemHistory extends AbstractItemAnalyzer
      * @param DateTime|null $end   Ending DateTime.
      *
      * @return mixed
-     * @throws ORMException
+     *
+     * @throws Exception
      */
     protected function execute(?DateTime $start = null, ?DateTime $end = null)
     {
