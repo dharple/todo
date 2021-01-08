@@ -37,7 +37,7 @@
         }
     },
     "scripts": {
-        "go":      "php -S localhost:8666 -t public -d auto_prepend_file=../include/common.php",
+        "go":      "php -S localhost:8666 -t public/old -d auto_prepend_file=../../old/include/common.php",
         "phpcbf":  "phpcbf",
         "phpcs":   "phpcs",
         "phpstan": "phpstan analyze"

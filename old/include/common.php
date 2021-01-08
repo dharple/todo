@@ -1,6 +1,6 @@
 <?php
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
 use App\Auth\Guard;
 use App\Helper;
