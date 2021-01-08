@@ -61,9 +61,11 @@ try {
 
 $config->setShowPriorityEditor(true);
 
-$ids = unserialize($_REQUEST['ids']);
-if (is_array($ids) && count($ids)) {
-    $config->setFilterIds($ids);
+if (isset($_REQUEST['ids'])) {
+    $ids = unserialize($_REQUEST['ids']);
+    if (is_array($ids) && count($ids)) {
+        $config->setFilterIds($ids);
+    }
 }
 
 $listDisplay = new ListDisplay($config, $em);
@@ -74,7 +76,7 @@ try {
     $twig->display('item_prioritize.html.twig', [
         'hasItems' => ($itemCount > 0),
         'errors' => $errors,
-        'ids' => $_REQUEST['ids'],
+        'ids' => $_REQUEST['ids'] ?? '',
         'list' => $listOutput,
     ]);
 } catch (Exception $e) {
