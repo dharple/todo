@@ -5,7 +5,7 @@ use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
 use App\Renderer\DisplayHelper;
-use App\Legacy\Renderer\ListDisplay;
+use App\Renderer\ListDisplay;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 

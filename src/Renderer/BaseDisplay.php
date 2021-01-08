@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy\Renderer;
+namespace App\Renderer;
 
 use App\Renderer\DisplayConfig;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +18,9 @@ use Psr\Log\LoggerInterface;
 use Twig\Environment;
 use Twig\Error\Error as TwigError;
 
+/**
+ * Common display methods.
+ */
 abstract class BaseDisplay
 {
     /**

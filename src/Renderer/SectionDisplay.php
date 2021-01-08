@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy\Renderer;
+namespace App\Renderer;
 
 use App\Entity\Item;
 use App\Entity\Section;
@@ -38,11 +38,11 @@ class SectionDisplay extends BaseDisplay
     /**
      * SectionDisplay constructor.
      *
-     * @param Section                $section
-     * @param DisplayConfig          $config
-     * @param EntityManagerInterface $em
-     * @param LoggerInterface        $log
-     * @param Environment            $twig
+     * @param Section                $section The section to render.
+     * @param DisplayConfig          $config  The display config to use.
+     * @param EntityManagerInterface $em      The entity manager to use.
+     * @param LoggerInterface        $log     The logger to use.
+     * @param Environment            $twig    The renderer to use.
      */
     public function __construct(
         Section $section,
@@ -61,7 +61,7 @@ class SectionDisplay extends BaseDisplay
     /**
      * Applies any aging filter to the main QueryBuilder.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -80,7 +80,7 @@ class SectionDisplay extends BaseDisplay
     /**
      * Applies any closed filter to the main QueryBuilder.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -119,7 +119,7 @@ class SectionDisplay extends BaseDisplay
     /**
      * Applies any ID filter to the main QueryBuilder.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -134,7 +134,7 @@ class SectionDisplay extends BaseDisplay
     /**
      * Apply the priority filter to the main query.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */

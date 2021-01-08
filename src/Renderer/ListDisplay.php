@@ -9,12 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy\Renderer;
+namespace App\Renderer;
 
 use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
-use App\Renderer\DisplayConfig;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -36,10 +35,10 @@ class ListDisplay extends BaseDisplay
     /**
      * ListDisplay constructor.
      *
-     * @param DisplayConfig          $config
-     * @param EntityManagerInterface $em
-     * @param LoggerInterface        $log
-     * @param Environment            $twig
+     * @param DisplayConfig          $config The display config to use.
+     * @param EntityManagerInterface $em     The entity manager to use.
+     * @param LoggerInterface        $log    The logger to use.
+     * @param Environment            $twig   The renderer to use.
      */
     public function __construct(
         DisplayConfig $config,
@@ -56,7 +55,7 @@ class ListDisplay extends BaseDisplay
     /**
      * Applies any section filter to the query.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The querybuilder to use.
      *
      * @return void
      */
@@ -71,7 +70,7 @@ class ListDisplay extends BaseDisplay
     /**
      * Applies any active or inactive filter to the query.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The querybuilder to use.
      *
      * @return void
      */
@@ -140,18 +139,18 @@ class ListDisplay extends BaseDisplay
     /**
      * Replaces {GRAND_TOTAL} and {NOT_SHOWN} with the appropriate values.
      *
-     * @param string $string
-     * @param int    $grand_total
+     * @param string $str        The string to adjust.
+     * @param int    $grandTotal The grand total to use.
      *
      * @return string
      *
      * @throws Exception
      */
-    protected function replaceTotals(string $string, int $grand_total): string
+    protected function replaceTotals(string $str, int $grandTotal): string
     {
         $user = Guard::getUser();
 
-        $string = str_replace('{GRAND_TOTAL}', (string) $grand_total, $string);
+        $str = str_replace('{GRAND_TOTAL}', (string) $grandTotal, $str);
 
         $qb = $this->em
             ->createQueryBuilder()
@@ -164,9 +163,7 @@ class ListDisplay extends BaseDisplay
 
         $total = $qb->getQuery()->getSingleScalarResult();
 
-        $string = str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grand_total), $string);
-
-        return $string;
+        return str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grandTotal), $str);
     }
 
     /**

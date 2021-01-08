@@ -3,7 +3,7 @@
 use App\Entity\Item;
 use App\Helper;
 use App\Renderer\DisplayHelper;
-use App\Legacy\Renderer\ListDisplay;
+use App\Renderer\ListDisplay;
 
 $priorityLevels = DisplayHelper::getPriorityLevels();
 
