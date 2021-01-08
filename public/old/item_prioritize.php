@@ -66,7 +66,7 @@ if (is_array($ids) && count($ids)) {
     $config->setFilterIds($ids);
 }
 
-$listDisplay = new ListDisplay($config);
+$listDisplay = new ListDisplay($config, $em);
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 

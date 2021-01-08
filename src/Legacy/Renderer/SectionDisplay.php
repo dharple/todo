@@ -13,10 +13,10 @@ namespace App\Legacy\Renderer;
 
 use App\Entity\Item;
 use App\Entity\Section;
-use App\Helper;
 use App\Renderer\DisplayConfig;
 use App\Renderer\DisplayHelper;
 use Carbon\Carbon;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 
@@ -29,10 +29,11 @@ class SectionDisplay extends BaseDisplay
 
     protected Section $section;
 
-    public function __construct(Section $section, DisplayConfig $config)
+    public function __construct(Section $section, DisplayConfig $config, EntityManagerInterface $em)
     {
+        $this->config  = $config;
+        $this->em      = $em;
         $this->section = $section;
-        $this->config = $config;
     }
 
     /**
@@ -142,7 +143,7 @@ class SectionDisplay extends BaseDisplay
     {
         $priorityLevels = DisplayHelper::getPriorityLevels();
 
-        $qb = Helper::getEntityManager()
+        $qb = $this->em
             ->getRepository(Item::class)
             ->createQueryBuilder('i')
             ->orderBy('i.priority')

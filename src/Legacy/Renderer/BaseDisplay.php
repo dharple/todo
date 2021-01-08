@@ -12,6 +12,7 @@
 namespace App\Legacy\Renderer;
 
 use App\Helper;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -20,8 +21,25 @@ use Twig\Error\SyntaxError;
 
 abstract class BaseDisplay
 {
+    /**
+     * The Entity Manager to use.
+     *
+     * @var EntityManagerInterface
+     */
+    protected EntityManagerInterface $em;
+
+    /**
+     * The actual output.
+     *
+     * @var string
+     */
     protected string $output = '';
 
+    /**
+     * Whether or not the output has been built.
+     *
+     * @var bool
+     */
     protected bool $outputBuilt = false;
 
     /**

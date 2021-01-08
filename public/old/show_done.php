@@ -3,13 +3,21 @@
 use App\Helper;
 use App\Analytics\ItemHistory;
 
-$twig = Helper::getTwig();
 $errors = [];
 
 $view = $_REQUEST['view'] ?? 'all';
 $sort = $_REQUEST['sort'] ?? 'task';
 
-$itemHistory = new ItemHistory();
+try {
+    $em = Helper::getEntityManager();
+    $twig = Helper::getTwig();
+} catch (Exception $e) {
+    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
+
+$itemHistory = new ItemHistory($em);
 if ($sort == 'section') {
     $itemHistory->setOrdering('section');
 }

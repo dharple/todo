@@ -14,8 +14,8 @@ namespace App\Legacy\Renderer;
 use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
-use App\Helper;
 use App\Renderer\DisplayConfig;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 
@@ -27,9 +27,10 @@ class ListDisplay extends BaseDisplay
 
     protected int $itemCount = 0;
 
-    public function __construct(DisplayConfig $config)
+    public function __construct(DisplayConfig $config, EntityManagerInterface $em)
     {
         $this->config = $config;
+        $this->em     = $em;
     }
 
     /**
@@ -73,7 +74,7 @@ class ListDisplay extends BaseDisplay
     {
         $user = Guard::getUser();
 
-        $qb = Helper::getEntityManager()
+        $qb = $this->em
             ->getRepository(Section::class)
             ->createQueryBuilder('s')
             ->where('s.user = :user')
@@ -91,7 +92,7 @@ class ListDisplay extends BaseDisplay
         $sectionsDrawn = 0;
 
         foreach ($sections as $section) {
-            $sectionDisplay = new SectionDisplay($section, $this->config);
+            $sectionDisplay = new SectionDisplay($section, $this->config, $this->em);
 
             $build = $sectionDisplay->getOutput();
 
@@ -136,8 +137,8 @@ class ListDisplay extends BaseDisplay
 
         $string = str_replace('{GRAND_TOTAL}', (string) $grand_total, $string);
 
-        $entityManager = Helper::getEntityManager();
-        $qb = $entityManager->createQueryBuilder()
+        $qb = $this->em
+            ->createQueryBuilder()
             ->select('COUNT(i.id)')
             ->from(Item::class, 'i')
             ->where('i.user = :user')

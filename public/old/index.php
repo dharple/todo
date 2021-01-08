@@ -90,9 +90,9 @@ try {
     $errors[] = $e->getMessage();
 }
 
-$listDisplay = new ListDisplay($config);
+$listDisplay = new ListDisplay($config, $em);
 
-$itemStats = new ItemStats();
+$itemStats = new ItemStats($em);
 
 try {
     $listDisplay->setFooter($twig->render('partials/index/summary.php.twig', [

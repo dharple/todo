@@ -13,10 +13,9 @@ namespace App\Analytics;
 
 use App\Auth\Guard;
 use App\Entity\Item;
-use App\Helper;
 use Carbon\Carbon;
 use DateTime;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 
@@ -47,10 +46,20 @@ abstract class AbstractItemAnalyzer
     protected string $ordering;
 
     /**
-     * AbstractItemAnalyzer constructor.
+     * The Entity Manager to use.
+     *
+     * @var EntityManagerInterface
      */
-    public function __construct()
+    protected EntityManagerInterface $em;
+
+    /**
+     * AbstractItemAnalyzer constructor.
+     *
+     * @param EntityManagerInterface $em The EntityManager to use.
+     */
+    public function __construct(EntityManagerInterface $em)
     {
+        $this->em = $em;
         $this->ordering = static::ORDER_BY_TASK;
     }
 
@@ -62,12 +71,11 @@ abstract class AbstractItemAnalyzer
      *
      * @return QueryBuilder
      *
-     * @throws ORMException
      * @throws Exception
      */
     protected function createQueryBuilder(?DateTime $start = null, ?DateTime $end = null): QueryBuilder
     {
-        $qb = Helper::getEntityManager()
+        $qb = $this->em
             ->getRepository(Item::class)
             ->createQueryBuilder('i');
 
