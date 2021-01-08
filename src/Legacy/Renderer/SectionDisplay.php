@@ -167,6 +167,7 @@ class SectionDisplay extends BaseDisplay
 
         $qb = $this->em
             ->createQueryBuilder()
+            ->select('i')
             ->from(Item::class, 'i')
             ->orderBy('i.priority')
             ->addOrderBy('i.task')

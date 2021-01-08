@@ -96,6 +96,7 @@ class ListDisplay extends BaseDisplay
 
         $qb = $this->em
             ->createQueryBuilder()
+            ->select('s')
             ->from(Section::class, 's')
             ->where('s.user = :user')
             ->orderBy('s.name')

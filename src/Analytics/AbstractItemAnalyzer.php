@@ -77,6 +77,7 @@ abstract class AbstractItemAnalyzer
     {
         $qb = $this->em
             ->createQueryBuilder()
+            ->select('i')
             ->from(Item::class, 'i')
             ->where('i.user = :user')
             ->andWhere('i.status = :status')
