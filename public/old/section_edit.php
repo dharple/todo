@@ -74,7 +74,7 @@ if (count($_POST)) {
                 $sections = $sectionRepository->findBy($findBy);
 
                 foreach ($sections as $section) {
-                    if ($_POST['resetStartTimes'] == 'yes') {
+                    if (isset($_POST['resetStartTimes'])) {
                         $items = $em->getRepository(Item::class)
                             ->findBy([
                                 'section' => $section,
