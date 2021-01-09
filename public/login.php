@@ -5,7 +5,20 @@ use App\Helper;
 
 $errors = [];
 
-$twig = Helper::getTwig();
+try {
+    $log = Helper::getLogger();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    exit;
+}
+
+try {
+    $twig = Helper::getTwig();
+} catch (Exception $e) {
+    $log->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
 
 if (count($_POST)) {
     if ($_POST['submitButton'] == 'Login') {
@@ -31,7 +44,7 @@ try {
         'user' => $user,
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }

@@ -1,17 +1,26 @@
 <?php
 
+use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
 use App\Renderer\DisplayHelper;
-use App\Legacy\Renderer\ListDisplay;
+use App\Renderer\ListDisplay;
 
-$twig = Helper::getTwig();
 $priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
-    $em = Helper::getEntityManager();
+    $log = Helper::getLogger();
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
+
+try {
+    $em = Helper::getEntityManager();
+    $twig = Helper::getTwig();
+    $user = Guard::getUser();
+} catch (Exception $e) {
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
@@ -61,12 +70,14 @@ try {
 
 $config->setShowPriorityEditor(true);
 
-$ids = unserialize($_REQUEST['ids']);
-if (is_array($ids) && count($ids)) {
-    $config->setFilterIds($ids);
+if (isset($_REQUEST['ids'])) {
+    $ids = unserialize($_REQUEST['ids']);
+    if (is_array($ids) && count($ids)) {
+        $config->setFilterIds($ids);
+    }
 }
 
-$listDisplay = new ListDisplay($config);
+$listDisplay = new ListDisplay($config, $em, $log, $twig, $user);
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 
@@ -74,11 +85,11 @@ try {
     $twig->display('item_prioritize.html.twig', [
         'hasItems' => ($itemCount > 0),
         'errors' => $errors,
-        'ids' => $_REQUEST['ids'],
+        'ids' => $_REQUEST['ids'] ?? '',
         'list' => $listOutput,
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }

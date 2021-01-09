@@ -11,12 +11,11 @@
 
 namespace App\Analytics;
 
-use App\Auth\Guard;
 use App\Entity\Item;
-use App\Helper;
+use App\Entity\User;
 use Carbon\Carbon;
 use DateTime;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 
@@ -40,6 +39,13 @@ abstract class AbstractItemAnalyzer
     public const ORDER_BY_TASK = 'task';
 
     /**
+     * The Entity Manager to use.
+     *
+     * @var EntityManagerInterface
+     */
+    protected EntityManagerInterface $em;
+
+    /**
      * The ordering for this analyzer.
      *
      * @var string
@@ -47,11 +53,23 @@ abstract class AbstractItemAnalyzer
     protected string $ordering;
 
     /**
-     * AbstractItemAnalyzer constructor.
+     * The user to collect stats on.
+     *
+     * @var User
      */
-    public function __construct()
+    protected User $user;
+
+    /**
+     * AbstractItemAnalyzer constructor.
+     *
+     * @param EntityManagerInterface $em   The EntityManager to use.
+     * @param User                   $user The user to user.
+     */
+    public function __construct(EntityManagerInterface $em, User $user)
     {
+        $this->em       = $em;
         $this->ordering = static::ORDER_BY_TASK;
+        $this->user     = $user;
     }
 
     /**
@@ -62,18 +80,17 @@ abstract class AbstractItemAnalyzer
      *
      * @return QueryBuilder
      *
-     * @throws ORMException
      * @throws Exception
      */
     protected function createQueryBuilder(?DateTime $start = null, ?DateTime $end = null): QueryBuilder
     {
-        $qb = Helper::getEntityManager()
-            ->getRepository(Item::class)
-            ->createQueryBuilder('i');
-
-        $qb->where('i.user = :user')
+        $qb = $this->em
+            ->createQueryBuilder()
+            ->select('i')
+            ->from(Item::class, 'i')
+            ->where('i.user = :user')
             ->andWhere('i.status = :status')
-            ->setParameter('user', Guard::getUser())
+            ->setParameter('user', $this->user)
             ->setParameter('status', 'Closed');
 
         if (!empty($start)) {

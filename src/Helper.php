@@ -11,19 +11,14 @@
 
 namespace App;
 
-use App\Auth\Guard;
+use App\Entity\User;
 use App\Logger\FileLogger;
-use App\Logger\FileSQLLogger;
 use App\Renderer\DisplayConfig;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Tools\Setup;
 use Exception;
-use Oro\ORM\Query\AST\Functions\SimpleFunction;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 /**
  * Helper methods until we've got DI up and running.
@@ -31,17 +26,22 @@ use Twig\Loader\FilesystemLoader;
 class Helper
 {
     /**
-     * Directory to use for Doctrine proxy classes.
-     *
-     * @var string
-     */
-    protected const PROXY_DIR = '/tmp/todo-doctrine-proxy';
-
-    /**
      * Don't allow instantiation.
      */
     private function __construct()
     {
+    }
+
+    /**
+     * Gets the container
+     *
+     * @return ContainerInterface
+     *
+     * @throws Exception
+     */
+    public static function getContainer(): ContainerInterface
+    {
+        return self::getKernel()->getContainer();
     }
 
     /**
@@ -63,118 +63,64 @@ class Helper
      *
      * @return EntityManager
      *
-     * @throws ORMException
+     * @throws Exception
      */
     public static function getEntityManager(): EntityManager
     {
-        static $em = null;
+        return self::getContainer()->get('doctrine.orm.entity_manager');
+    }
 
-        if (!isset($em)) {
-            self::loadConfig();
-
-            $isDevMode = true;
-            $cache = null;
-            $useSimpleAnnotationReader = false;
-            $config = Setup::createAnnotationMetadataConfiguration(
-                [
-                    self::getProjectRoot() . '/src'
-                ],
-                $isDevMode,
-                static::getProxyDir(),
-                $cache,
-                $useSimpleAnnotationReader
-            );
-
-            $config->addCustomDatetimeFunction('date', SimpleFunction::class);
-
-            $conn = [
-                'driver' => 'pdo_mysql',
-
-                'dbname' => $_ENV['DATABASE_INSTANCE'],
-                'host' => $_ENV['DATABASE_HOST'],
-                'password' => $_ENV['DATABASE_PASSWORD'],
-                'user' => $_ENV['DATABASE_USER'],
-            ];
-
-            $config->setSQLLogger(new FileSQLLogger());
-
-            $em = EntityManager::create($conn, $config);
+    /**
+     * Gets the Kernel
+     *
+     * @return Kernel
+     *
+     * @throws Exception
+     */
+    public static function getKernel(): Kernel
+    {
+        if (isset($GLOBALS['kernel']) || $GLOBALS['kernel'] instanceof Kernel) {
+            return $GLOBALS['kernel'];
         }
 
-        return $em;
+        throw new Exception('Unable to find kernel.');
     }
 
     /**
      * Returns a logger
      *
      * @return LoggerInterface
+     *
+     * @throws Exception
      */
-    public static function getLogger()
+    public static function getLogger(): LoggerInterface
     {
         return new FileLogger();
-    }
-
-    /**
-     * Returns the root of the project.
-     *
-     * @return string
-     */
-    public static function getProjectRoot(): string
-    {
-        return dirname(__DIR__);
-    }
-
-    /**
-     * Configures and returns the proxy directory for Doctrine.
-     *
-     * @return string
-     */
-    public static function getProxyDir(): string
-    {
-        $dir = self::PROXY_DIR;
-        if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-        return $dir;
     }
 
     /**
      * Gets a twig renderer.
      *
      * @return Environment
+     *
+     * @throws Exception
      */
     public static function getTwig(): Environment
     {
-        $loader = new FilesystemLoader(static::getProjectRoot() . '/templates');
-        return new Environment($loader);
-    }
-
-    /**
-     * Loads config settings from the .env and puts them in to $_ENV.
-     *
-     * @return void
-     */
-    public static function loadConfig(): void
-    {
-        static $loaded = false;
-
-        if (!$loaded) {
-            $dotenv = new Dotenv();
-            $dotenv->loadEnv(self::getProjectRoot() . '/.env');
-            $loaded = true;
-        }
+        return self::getContainer()->get('twig');
     }
 
     /**
      * Sets the timezone in both PHP and the database.
      *
+     * @param User $user The user to use.
+     *
      * @return void
      *
      * @throws Exception
      */
-    public static function setTimezone(): void
+    public static function setTimezone(User $user): void
     {
-        $user = Guard::getUser();
         if (!empty($user->getTimezone())) {
             date_default_timezone_set($user->getTimezone());
 

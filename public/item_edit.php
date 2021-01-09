@@ -6,14 +6,21 @@ use App\Entity\Section;
 use App\Helper;
 use App\Renderer\DisplayHelper;
 
-$twig = Helper::getTwig();
 $priorityLevels = DisplayHelper::getPriorityLevels();
 
 try {
+    $log = Helper::getLogger();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    exit;
+}
+
+try {
     $em = Helper::getEntityManager();
+    $twig = Helper::getTwig();
     $user = Guard::getUser();
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
@@ -111,7 +118,7 @@ try {
         'statuses' => ['Open', 'Closed', 'Deleted'],
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }

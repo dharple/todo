@@ -11,7 +11,6 @@
 
 namespace App\Analytics;
 
-use App\Auth\Guard;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\Common\Cache\ArrayCache;
@@ -129,7 +128,7 @@ class ItemStats extends AbstractItemAnalyzer
         $cache = $this->getCache();
         $cacheKey = md5(serialize([
             __METHOD__,
-            Guard::getUser()->getId(),
+            $this->user->getId(),
             $start,
             $end,
         ]));
@@ -156,19 +155,17 @@ class ItemStats extends AbstractItemAnalyzer
      */
     public function getAverage(): float
     {
-        $user = Guard::getUser();
-
         $cache = $this->getCache();
         $cacheKey = md5(serialize([
             __METHOD__,
-            $user->getId(),
+            $this->user->getId(),
         ]));
 
         if ($cache->contains($cacheKey)) {
             return $cache->fetch($cacheKey);
         }
 
-        $sections = $user->getSections()->matching(
+        $sections = $this->user->getSections()->matching(
             new Criteria(
                 new Comparison('status', '=', 'Active')
             )
@@ -186,7 +183,7 @@ class ItemStats extends AbstractItemAnalyzer
             )
         );
 
-        $items = $user->getItems()->matching($criteria);
+        $items = $this->user->getItems()->matching($criteria);
         $values = $items->map(function ($item) {
             $completed = new Carbon($item->getCompleted());
             $created = new Carbon($item->getCreated());

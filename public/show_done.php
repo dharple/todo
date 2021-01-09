@@ -1,15 +1,32 @@
 <?php
 
-use App\Helper;
 use App\Analytics\ItemHistory;
+use App\Auth\Guard;
+use App\Helper;
 
-$twig = Helper::getTwig();
 $errors = [];
 
 $view = $_REQUEST['view'] ?? 'all';
 $sort = $_REQUEST['sort'] ?? 'task';
 
-$itemHistory = new ItemHistory();
+try {
+    $log = Helper::getLogger();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    exit;
+}
+
+try {
+    $em = Helper::getEntityManager();
+    $twig = Helper::getTwig();
+    $user = Guard::getUser();
+} catch (Exception $e) {
+    $log->critical($e->getMessage());
+    echo $e->getMessage();
+    exit;
+}
+
+$itemHistory = new ItemHistory($em, $user);
 if ($sort == 'section') {
     $itemHistory->setOrdering('section');
 }
@@ -86,7 +103,7 @@ try {
         'view'     => $view,
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }

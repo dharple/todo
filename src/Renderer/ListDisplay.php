@@ -9,33 +9,63 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy\Renderer;
+namespace App\Renderer;
 
-use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
-use App\Helper;
-use App\Renderer\DisplayConfig;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use Psr\Log\LoggerInterface;
+use Twig\Environment;
 
+/**
+ * Displays a list of sections.
+ */
 class ListDisplay extends BaseDisplay
 {
-    protected DisplayConfig $config;
-
+    /**
+     * The footer template to display.
+     *
+     * @var string
+     */
     protected string $footer;
 
-    protected int $itemCount = 0;
+    /**
+     * The user to use.
+     *
+     * @var User
+     */
+    protected User $user;
 
-    public function __construct(DisplayConfig $config)
-    {
+    /**
+     * ListDisplay constructor.
+     *
+     * @param DisplayConfig          $config The display config to use.
+     * @param EntityManagerInterface $em     The entity manager to use.
+     * @param LoggerInterface        $log    The logger to use.
+     * @param Environment            $twig   The renderer to use.
+     * @param User                   $user   The user to use.
+     */
+    public function __construct(
+        DisplayConfig $config,
+        EntityManagerInterface $em,
+        LoggerInterface $log,
+        Environment $twig,
+        User $user
+    ) {
         $this->config = $config;
+        $this->em     = $em;
+        $this->log    = $log;
+        $this->twig   = $twig;
+        $this->user   = $user;
     }
 
     /**
      * Applies any section filter to the query.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -50,7 +80,7 @@ class ListDisplay extends BaseDisplay
     /**
      * Applies any active or inactive filter to the query.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -71,14 +101,13 @@ class ListDisplay extends BaseDisplay
      */
     protected function buildOutput(): void
     {
-        $user = Guard::getUser();
-
-        $qb = Helper::getEntityManager()
-            ->getRepository(Section::class)
-            ->createQueryBuilder('s')
+        $qb = $this->em
+            ->createQueryBuilder()
+            ->select('s')
+            ->from(Section::class, 's')
             ->where('s.user = :user')
             ->orderBy('s.name')
-            ->setParameter('user', $user);
+            ->setParameter('user', $this->user);
 
         $this->applySectionFilter($qb);
         $this->applyStatusFilter($qb);
@@ -91,7 +120,7 @@ class ListDisplay extends BaseDisplay
         $sectionsDrawn = 0;
 
         foreach ($sections as $section) {
-            $sectionDisplay = new SectionDisplay($section, $this->config);
+            $sectionDisplay = new SectionDisplay($section, $this->config, $this->em, $this->log, $this->twig);
 
             $build = $sectionDisplay->getOutput();
 
@@ -115,41 +144,32 @@ class ListDisplay extends BaseDisplay
         $this->outputBuilt = true;
     }
 
-    public function getOutputCount(): int
-    {
-        return $this->itemCount;
-    }
-
     /**
      * Replaces {GRAND_TOTAL} and {NOT_SHOWN} with the appropriate values.
      *
-     * @param string $string
-     * @param int    $grand_total
+     * @param string $str        The string to adjust.
+     * @param int    $grandTotal The grand total to use.
      *
      * @return string
      *
      * @throws Exception
      */
-    protected function replaceTotals(string $string, int $grand_total): string
+    protected function replaceTotals(string $str, int $grandTotal): string
     {
-        $user = Guard::getUser();
+        $str = str_replace('{GRAND_TOTAL}', (string) $grandTotal, $str);
 
-        $string = str_replace('{GRAND_TOTAL}', (string) $grand_total, $string);
-
-        $entityManager = Helper::getEntityManager();
-        $qb = $entityManager->createQueryBuilder()
+        $qb = $this->em
+            ->createQueryBuilder()
             ->select('COUNT(i.id)')
             ->from(Item::class, 'i')
             ->where('i.user = :user')
             ->andWhere('i.status = :status')
-            ->setParameter('user', $user)
+            ->setParameter('user', $this->user)
             ->setParameter('status', 'Open');
 
         $total = $qb->getQuery()->getSingleScalarResult();
 
-        $string = str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grand_total), $string);
-
-        return $string;
+        return str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grandTotal), $str);
     }
 
     /**

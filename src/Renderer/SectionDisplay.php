@@ -9,36 +9,57 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy\Renderer;
+namespace App\Renderer;
 
 use App\Entity\Item;
 use App\Entity\Section;
-use App\Helper;
-use App\Renderer\DisplayConfig;
-use App\Renderer\DisplayHelper;
 use Carbon\Carbon;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use Psr\Log\LoggerInterface;
+use Twig\Environment;
 
+/**
+ * Displays a section.
+ */
 class SectionDisplay extends BaseDisplay
 {
 
-    protected DisplayConfig $config;
-
-    protected int $itemCount = 0;
-
+    /**
+     * The section to render.
+     *
+     * @var Section
+     */
     protected Section $section;
 
-    public function __construct(Section $section, DisplayConfig $config)
-    {
+    /**
+     * SectionDisplay constructor.
+     *
+     * @param Section                $section The section to render.
+     * @param DisplayConfig          $config  The display config to use.
+     * @param EntityManagerInterface $em      The entity manager to use.
+     * @param LoggerInterface        $log     The logger to use.
+     * @param Environment            $twig    The renderer to use.
+     */
+    public function __construct(
+        Section $section,
+        DisplayConfig $config,
+        EntityManagerInterface $em,
+        LoggerInterface $log,
+        Environment $twig
+    ) {
+        $this->config  = $config;
+        $this->em      = $em;
+        $this->log     = $log;
         $this->section = $section;
-        $this->config = $config;
+        $this->twig    = $twig;
     }
 
     /**
      * Applies any aging filter to the main QueryBuilder.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -57,7 +78,7 @@ class SectionDisplay extends BaseDisplay
     /**
      * Applies any closed filter to the main QueryBuilder.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -96,7 +117,7 @@ class SectionDisplay extends BaseDisplay
     /**
      * Applies any ID filter to the main QueryBuilder.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -111,7 +132,7 @@ class SectionDisplay extends BaseDisplay
     /**
      * Apply the priority filter to the main query.
      *
-     * @param QueryBuilder $qb
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -142,9 +163,10 @@ class SectionDisplay extends BaseDisplay
     {
         $priorityLevels = DisplayHelper::getPriorityLevels();
 
-        $qb = Helper::getEntityManager()
-            ->getRepository(Item::class)
-            ->createQueryBuilder('i')
+        $qb = $this->em
+            ->createQueryBuilder()
+            ->select('i')
+            ->from(Item::class, 'i')
             ->orderBy('i.priority')
             ->addOrderBy('i.task')
             ->where('i.section = :section')
@@ -184,10 +206,5 @@ class SectionDisplay extends BaseDisplay
         ]);
 
         $this->outputBuilt = true;
-    }
-
-    public function getOutputCount(): int
-    {
-        return $this->itemCount;
     }
 }

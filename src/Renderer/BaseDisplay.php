@@ -9,19 +9,59 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Legacy\Renderer;
+namespace App\Renderer;
 
-use App\Helper;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
+use Twig\Error\Error as TwigError;
 
+/**
+ * Common display methods.
+ */
 abstract class BaseDisplay
 {
+    /**
+     * The DisplayConfig to use.
+     *
+     * @var DisplayConfig
+     */
+    protected DisplayConfig $config;
+
+    /**
+     * The Entity Manager to use.
+     *
+     * @var EntityManagerInterface
+     */
+    protected EntityManagerInterface $em;
+
+    /**
+     * The rendered item count.
+     *
+     * @var int
+     */
+    protected int $itemCount = 0;
+
+    /**
+     * The logger to use.
+     *
+     * @var LoggerInterface
+     */
+    protected LoggerInterface $log;
+
+    /**
+     * The actual output.
+     *
+     * @var string
+     */
     protected string $output = '';
 
+    /**
+     * Whether or not the output has been built.
+     *
+     * @var bool
+     */
     protected bool $outputBuilt = false;
 
     /**
@@ -55,20 +95,21 @@ abstract class BaseDisplay
             try {
                 $this->buildOutput();
             } catch (Exception $e) {
-                Helper::getLogger()->error(sprintf('caught exception while building output: %s', $e->getMessage()));
+                $this->log->error(sprintf('caught exception while building output: %s', $e->getMessage()));
             }
         }
 
         return $this->output;
     }
 
-    protected function getTwig(): Environment
+    /**
+     * The output count.
+     *
+     * @return int
+     */
+    public function getOutputCount(): int
     {
-        if (!isset($this->twig)) {
-            $this->twig = Helper::getTwig();
-        }
-
-        return $this->twig;
+        return $this->itemCount;
     }
 
     /**
@@ -79,12 +120,10 @@ abstract class BaseDisplay
      *
      * @return string
      *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+     * @throws TwigError
      */
     protected function render(string $template, array $variables = []): string
     {
-        return $this->getTwig()->render($template, $variables);
+        return $this->twig->render($template, $variables);
     }
 }

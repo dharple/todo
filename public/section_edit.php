@@ -5,14 +5,21 @@ use App\Entity\Item;
 use App\Entity\Section;
 use App\Helper;
 
-$twig = Helper::getTwig();
+try {
+    $log = Helper::getLogger();
+} catch (Exception $e) {
+    echo $e->getMessage();
+    exit;
+}
 
 try {
     $em = Helper::getEntityManager();
+    $twig = Helper::getTwig();
     $user = Guard::getUser();
+
     $sectionRepository = $em->getRepository(Section::class);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
@@ -67,7 +74,7 @@ if (count($_POST)) {
                 $sections = $sectionRepository->findBy($findBy);
 
                 foreach ($sections as $section) {
-                    if ($_POST['resetStartTimes'] == 'yes') {
+                    if (isset($_POST['resetStartTimes'])) {
                         $items = $em->getRepository(Item::class)
                             ->findBy([
                                 'section' => $section,
@@ -116,7 +123,7 @@ try {
         'sections' => $sections,
     ]);
 } catch (Exception $e) {
-    Helper::getLogger()->critical($e->getMessage());
+    $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
