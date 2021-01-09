@@ -13,8 +13,6 @@ namespace App\Renderer;
 
 use App\Entity\Item;
 use App\Entity\Section;
-use App\Renderer\DisplayConfig;
-use App\Renderer\DisplayHelper;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;

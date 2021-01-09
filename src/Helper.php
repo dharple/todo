@@ -11,7 +11,7 @@
 
 namespace App;
 
-use App\Auth\Guard;
+use App\Entity\User;
 use App\Logger\FileLogger;
 use App\Renderer\DisplayConfig;
 use Doctrine\ORM\EntityManager;
@@ -113,13 +113,14 @@ class Helper
     /**
      * Sets the timezone in both PHP and the database.
      *
+     * @param User $user The user to use.
+     *
      * @return void
      *
      * @throws Exception
      */
-    public static function setTimezone(): void
+    public static function setTimezone(User $user): void
     {
-        $user = Guard::getUser();
         if (!empty($user->getTimezone())) {
             date_default_timezone_set($user->getTimezone());
 

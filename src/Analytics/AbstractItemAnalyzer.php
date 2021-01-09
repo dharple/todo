@@ -11,8 +11,8 @@
 
 namespace App\Analytics;
 
-use App\Auth\Guard;
 use App\Entity\Item;
+use App\Entity\User;
 use Carbon\Carbon;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,14 +53,23 @@ abstract class AbstractItemAnalyzer
     protected string $ordering;
 
     /**
+     * The user to collect stats on.
+     *
+     * @var User
+     */
+    protected User $user;
+
+    /**
      * AbstractItemAnalyzer constructor.
      *
-     * @param EntityManagerInterface $em The EntityManager to use.
+     * @param EntityManagerInterface $em   The EntityManager to use.
+     * @param User                   $user The user to user.
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, User $user)
     {
-        $this->em = $em;
+        $this->em       = $em;
         $this->ordering = static::ORDER_BY_TASK;
+        $this->user     = $user;
     }
 
     /**
@@ -81,7 +90,7 @@ abstract class AbstractItemAnalyzer
             ->from(Item::class, 'i')
             ->where('i.user = :user')
             ->andWhere('i.status = :status')
-            ->setParameter('user', Guard::getUser())
+            ->setParameter('user', $this->user)
             ->setParameter('status', 'Closed');
 
         if (!empty($start)) {

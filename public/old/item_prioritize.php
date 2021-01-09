@@ -1,5 +1,6 @@
 <?php
 
+use App\Auth\Guard;
 use App\Entity\Item;
 use App\Helper;
 use App\Renderer\DisplayHelper;
@@ -17,6 +18,7 @@ try {
 try {
     $em = Helper::getEntityManager();
     $twig = Helper::getTwig();
+    $user = Guard::getUser();
 } catch (Exception $e) {
     $log->critical($e->getMessage());
     echo $e->getMessage();
@@ -75,7 +77,7 @@ if (isset($_REQUEST['ids'])) {
     }
 }
 
-$listDisplay = new ListDisplay($config, $em, $log, $twig);
+$listDisplay = new ListDisplay($config, $em, $log, $twig, $user);
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount();
 

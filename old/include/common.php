@@ -37,7 +37,7 @@ try {
 
 try {
     if ($user !== null) {
-        Helper::setTimezone();
+        Helper::setTimezone($user);
     }
 } catch (Exception $e) {
     Helper::getLogger()->warning(sprintf('Failed to set timezone: %s', $e->getMessage()));

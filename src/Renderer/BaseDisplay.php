@@ -11,7 +11,6 @@
 
 namespace App\Renderer;
 
-use App\Renderer\DisplayConfig;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;

@@ -1,7 +1,8 @@
 <?php
 
-use App\Helper;
 use App\Analytics\ItemHistory;
+use App\Auth\Guard;
+use App\Helper;
 
 $errors = [];
 
@@ -18,13 +19,14 @@ try {
 try {
     $em = Helper::getEntityManager();
     $twig = Helper::getTwig();
+    $user = Guard::getUser();
 } catch (Exception $e) {
     $log->critical($e->getMessage());
     echo $e->getMessage();
     exit;
 }
 
-$itemHistory = new ItemHistory($em);
+$itemHistory = new ItemHistory($em, $user);
 if ($sort == 'section') {
     $itemHistory->setOrdering('section');
 }

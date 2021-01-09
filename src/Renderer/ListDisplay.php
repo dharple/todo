@@ -11,9 +11,9 @@
 
 namespace App\Renderer;
 
-use App\Auth\Guard;
 use App\Entity\Item;
 use App\Entity\Section;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -33,29 +33,39 @@ class ListDisplay extends BaseDisplay
     protected string $footer;
 
     /**
+     * The user to use.
+     *
+     * @var User
+     */
+    protected User $user;
+
+    /**
      * ListDisplay constructor.
      *
      * @param DisplayConfig          $config The display config to use.
      * @param EntityManagerInterface $em     The entity manager to use.
      * @param LoggerInterface        $log    The logger to use.
      * @param Environment            $twig   The renderer to use.
+     * @param User                   $user   The user to use.
      */
     public function __construct(
         DisplayConfig $config,
         EntityManagerInterface $em,
         LoggerInterface $log,
-        Environment $twig
+        Environment $twig,
+        User $user
     ) {
         $this->config = $config;
         $this->em     = $em;
         $this->log    = $log;
         $this->twig   = $twig;
+        $this->user   = $user;
     }
 
     /**
      * Applies any section filter to the query.
      *
-     * @param QueryBuilder $qb The querybuilder to use.
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -70,7 +80,7 @@ class ListDisplay extends BaseDisplay
     /**
      * Applies any active or inactive filter to the query.
      *
-     * @param QueryBuilder $qb The querybuilder to use.
+     * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
      */
@@ -91,15 +101,13 @@ class ListDisplay extends BaseDisplay
      */
     protected function buildOutput(): void
     {
-        $user = Guard::getUser();
-
         $qb = $this->em
             ->createQueryBuilder()
             ->select('s')
             ->from(Section::class, 's')
             ->where('s.user = :user')
             ->orderBy('s.name')
-            ->setParameter('user', $user);
+            ->setParameter('user', $this->user);
 
         $this->applySectionFilter($qb);
         $this->applyStatusFilter($qb);
@@ -148,8 +156,6 @@ class ListDisplay extends BaseDisplay
      */
     protected function replaceTotals(string $str, int $grandTotal): string
     {
-        $user = Guard::getUser();
-
         $str = str_replace('{GRAND_TOTAL}', (string) $grandTotal, $str);
 
         $qb = $this->em
@@ -158,7 +164,7 @@ class ListDisplay extends BaseDisplay
             ->from(Item::class, 'i')
             ->where('i.user = :user')
             ->andWhere('i.status = :status')
-            ->setParameter('user', $user)
+            ->setParameter('user', $this->user)
             ->setParameter('status', 'Open');
 
         $total = $qb->getQuery()->getSingleScalarResult();
