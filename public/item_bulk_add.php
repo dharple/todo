@@ -58,15 +58,7 @@ if (count($_POST)) {
     }
 }
 
-$selected = $em->getRepository(Item::class)
-    ->findOneBy([
-        'status' => ['Open', 'Closed'],
-        'user' => $user,
-    ], [
-        'id' => 'DESC'
-    ])
-    ->getSection()
-    ->getId();
+$selected = DisplayHelper::getDefaultSectionId($em, $user);
 
 $sections = $em->getRepository(Section::class)
     ->findBy(['user' => $user], ['name' => 'ASC']);

@@ -93,6 +93,7 @@ $sections = $em->getRepository(Section::class)
 
 $items = [];
 
+$sectionOverride = null;
 if ($_REQUEST['op'] == 'edit') {
     $items = $em->getRepository(Item::class)
         ->findBy([
@@ -105,6 +106,7 @@ if ($_REQUEST['op'] == 'edit') {
             ->setPriority($priorityLevels['normal'])
             ->setStatus('Open'),
     ];
+    $sectionOverride = DisplayHelper::getDefaultSectionId($em, $user);
 }
 
 try {
@@ -115,6 +117,7 @@ try {
         'op' => $_REQUEST['op'],
         'priorityLevels' => $priorityLevels,
         'sections' => $sections,
+        'sectionOverride' => $sectionOverride,
         'statuses' => ['Open', 'Closed', 'Deleted'],
     ]);
 } catch (Exception $e) {

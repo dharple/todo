@@ -24,7 +24,7 @@
         <br />
 
         Section:
-        {% set selectedSection = item.id ? item.section.id : 0 %}
+        {% set selectedSection = item.id ? item.section.id : sectionOverride %}
         {% set selectName = 'section[' ~ itemId ~ ']' %}
         {% include('partials/form/section.html.twig') %}
         <br />

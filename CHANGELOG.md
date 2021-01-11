@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched from a custom session handler to the default PHP handler.
 - Updated 3rd party PHP dependencies.
 - Updated Bootstrap from 4.5.2 to 4.5.3.
+- When adding an item, if a section filter has been set, it prepopulates the
+  Section dropdown.
 
 ### Fixed
 - A random string is no longer accepted as the range for the history page.

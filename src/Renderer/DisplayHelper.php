@@ -11,11 +11,41 @@
 
 namespace App\Renderer;
 
+use App\Entity\Item;
+use App\Entity\User;
+use App\Helper;
+use Doctrine\ORM\EntityManager;
+
 /**
  * Helper methods for renderer classes.
  */
 class DisplayHelper
 {
+    /**
+     * Returns the default section to use for editors.
+     *
+     * @param EntityManager $em   The entity manager to use.
+     * @param User          $user The user to use.
+     *
+     * @return int
+     */
+    public static function getDefaultSectionId(EntityManager $em, User $user): int
+    {
+        $config = Helper::getDisplayConfig();
+        if ($config->getFilterSection()) {
+            return $config->getFilterSection();
+        }
+
+        return $em->getRepository(Item::class)
+            ->findOneBy([
+                'status' => ['Open', 'Closed'],
+                'user' => $user,
+            ], [
+                'id' => 'DESC'
+            ])
+            ->getSection()
+            ->getId();
+    }
 
     /**
      * Returns fields for the aging filter.
