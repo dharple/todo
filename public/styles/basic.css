@@ -1,0 +1,104 @@
+body {
+    font-size: 1.2rem;
+}
+
+div.container {
+    max-width: 100%;
+}
+
+div.wrapper {
+    column-count: 2;
+}
+
+div.wrapper-large {
+    column-fill: balance;
+}
+
+div.wrapper-small {
+    column-fill: auto;
+}
+
+div.section {
+    break-inside: avoid;
+}
+
+div.item-row {
+    padding-bottom: 5px;
+    line-height: 1;
+}
+
+.section-label {
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+.empty-list {
+    font-weight: bold;
+}
+
+.btn-link:hover, .btn-link:visited, .btn-link:focus {
+    text-decoration: none;
+}
+
+a.section-link {
+    text-decoration: none;
+    color: black;
+}
+
+.high-priority {
+    color: blue;
+}
+
+.closed {
+    text-decoration: line-through;
+}
+
+.print {
+    display: none;
+}
+
+.no-print {
+    display: initial;
+}
+
+.note {
+    font-size: x-small;
+}
+
+@media print {
+    body {
+        font-size: 1.2rem;
+    }
+
+    div.wrapper {
+        column-count: 2;
+        column-fill: auto;
+        font-size: 1.4rem;
+    }
+
+    div.item-row {
+        padding-bottom: 0;
+        line-height: 1.15;
+    }
+
+    div.summary {
+        font-size: 1.2rem;
+    }
+
+    .high-priority {
+        font-weight: bold;
+        color: black;
+    }
+
+    .print {
+        display: initial;
+    }
+
+    .no-print {
+        display: none;
+    }
+
+    span.checkboxes {
+        font-family: "Times New Roman", serif
+    }
+}
