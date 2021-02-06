@@ -3,6 +3,9 @@
 {% set title = "To Do List For " ~ 'now' | date('F jS, Y') %}
 
 {% block body %}
+<script>
+    var chartData = {{ chartData | json_encode() | raw }}
+</script>
 <div class="no-print">
     <div class="row mb-3">
         <div class="col-6 text-left">
@@ -15,7 +18,7 @@
         </div>
     </div>
     <div class="row collapse show" id="collapseMenu">
-        <div class="col-xs-12 col-lg-6 text-left">
+        <div class="col-xs-12 col-lg-4 text-left">
             Items Done:<br />
             &nbsp;&nbsp;
             Today: <a href="show_done.php?view=today">{{ itemStats.doneToday }}</a>,
@@ -45,7 +48,10 @@
 
             Average Turnaround: {{ itemStats.average | number_format(1) }} days
         </div>
-        <div class="col-xs-12 col-lg-6 text-right">
+        <div class="col-xs-12 col-lg-4" style="display: flex; align-items: center; justify-content: center;">
+            <canvas id="tasksByWeek" style="width: max-content; height: max-content;"></canvas>
+        </div>
+        <div class="col-xs-12 col-lg-4 text-right">
             Filter Closed Items:&nbsp;&nbsp;
             {% for value, label in filterClosedValues %}
                 {% if config.filterClosed == value %}

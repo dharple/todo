@@ -122,6 +122,7 @@ $sectionCount = count($sections);
 
 try {
     $twig->display('index.html.twig', [
+        'chartData' => $itemStats->getWeeklySummary(4),
         'config' => $config,
         'errors' => $errors,
         'filterAgingValues' => DisplayHelper::getFilterAgingValues(),
