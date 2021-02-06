@@ -190,11 +190,15 @@ class ItemStats extends AbstractItemAnalyzer
             return max($completed->diffInDays($created), 0) + 1;
         });
 
-        $total = array_reduce($values->toArray(), function ($carry, $value) {
-            return $carry + $value;
-        });
+        if (count($values) == 0) {
+            $result = 0;
+        } else {
+            $total = array_reduce($values->toArray(), function ($carry, $value) {
+                return $carry + $value;
+            });
 
-        $result = $total / count($values);
+            $result = $total / count($values);
+        }
 
         $cache->save($cacheKey, $result);
 

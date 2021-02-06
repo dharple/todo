@@ -12,6 +12,7 @@
 namespace App\Renderer;
 
 use App\Entity\Item;
+use App\Entity\Section;
 use App\Entity\User;
 use App\Helper;
 use Doctrine\ORM\EntityManager;
@@ -36,15 +37,25 @@ class DisplayHelper
             return $config->getFilterSection();
         }
 
-        return $em->getRepository(Item::class)
+        $item = $em->getRepository(Item::class)
             ->findOneBy([
                 'status' => ['Open', 'Closed'],
                 'user' => $user,
             ], [
                 'id' => 'DESC'
-            ])
-            ->getSection()
-            ->getId();
+            ]);
+
+        if ($item !== null) {
+            return $item
+                ->getSection()
+                ->getId();
+        }
+
+        $sections = $em->getRepository(Section::class)
+            ->findAll();
+        $section = array_shift($sections);
+
+        return $section->getId();
     }
 
     /**
