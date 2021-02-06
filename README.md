@@ -6,11 +6,13 @@ This was originally written in ~2007.  (First commit was made on a baz repo, in 
 
 So far, I've introduced:
 - PSR-12 style code
-- Bootstrap
-- Doctrine
+- Bootstrap (Index Page)
+- Doctrine ORM
+- Merged Index and Print Templates
 - Twig
 
 The remaining pieces:
+- Bootstrap (Other Pages)
 - Symfony Controllers and Kernel
 - Database Migrations
 - Unit Tests
