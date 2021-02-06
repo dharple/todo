@@ -1,6 +1,7 @@
 parameters:
     level: 5
     paths:
-        - old/include
+        - config
+        - include
         - public
         - src
