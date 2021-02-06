@@ -8,12 +8,14 @@ So far, I've introduced:
 - PSR-12 style code
 - Bootstrap (Index Page)
 - Doctrine ORM
+- Dotenv
 - Merged Index and Print Templates
+- Symfony Kernel
 - Twig
 
 The remaining pieces:
 - Bootstrap (Other Pages)
-- Symfony Controllers and Kernel
+- Symfony Controllers
 - Database Migrations
 - Unit Tests
 
