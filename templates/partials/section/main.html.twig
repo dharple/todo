@@ -15,9 +15,8 @@
                 {% if showPriority == 'y' or (showPriority == 'above_normal' and item.priority < priorityNormal) %}
                     {{ item.priority }}
                 {% else %}
-                    &nbsp;
                 {% endif %}
-                <span class="align-top">
+                <span>
                     <input class="list-item" id="item-{{ item.id }}" type="checkbox" name="itemIds[]" value="{{ item.id }}"/>
                 </span>
             </div>

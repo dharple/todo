@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="row collapse show" id="collapseMenu">
-        <div class="col-6 text-left">
+        <div class="col-xs-12 col-lg-6 text-left">
             Items Done:<br />
             &nbsp;&nbsp;
             Today: <a href="show_done.php?view=today">{{ itemStats.doneToday }}</a>,
@@ -45,7 +45,7 @@
 
             Average Turnaround: {{ itemStats.average | number_format(1) }} days
         </div>
-        <div class="col-6 text-right">
+        <div class="col-xs-12 col-lg-6 text-right">
             Filter Closed Items:&nbsp;&nbsp;
             {% for value, label in filterClosedValues %}
                 {% if config.filterClosed == value %}
@@ -113,7 +113,7 @@
         <br />
 
         <div class="row">
-            <div class="col-4 text-left">
+            <div class="col-xs-12 col-lg-4 mb-2 text-left">
                 {% if hasItems %}
                     <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit" />
                     <input type="submit" class="btn btn-primary" name="submitButton" value="Mark Done" />
@@ -127,11 +127,11 @@
                     <button type="button" class="btn btn-secondary" disabled="disabled">Prioritize</button>
                 {% endif %}
             </div>
-            <div class="col-4 text-center">
+            <div class="col-xs-12 col-lg-4 mb-2 text-center">
                 <a href="/account.php" class="btn btn-secondary">My Account</a>
                 <a href="/logout.php" class="btn btn-danger">Logout</a>
             </div>
-            <div class="col-4 text-right">
+            <div class="col-xs-12 col-lg-4 mb-2 text-right">
                 {% if hasSections %}
                     <a href="/item_bulk_add.php" class="btn btn-primary">Bulk</a>
                     <a href="/item_edit.php?op=add" class="btn btn-secondary">Add New</a>
