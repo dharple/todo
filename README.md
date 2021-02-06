@@ -12,6 +12,7 @@ So far, I've introduced:
 - Merged Index and Print Templates
 - Symfony Kernel
 - Twig
+- Webpack
 
 The remaining pieces:
 - Bootstrap (Other Pages)
@@ -23,10 +24,16 @@ The remaining pieces:
 
 * PHP
 * MySQL
+* Node
 
 # Getting Started
 
-Run `composer install`.
+Install 3rd party dependencies:
+```
+composer install
+npm install
+npm run prod
+```
 
 Copy `.env` to `.env.local`.  Edit it and set the database parameters.
 

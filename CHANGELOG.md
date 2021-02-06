@@ -5,21 +5,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Half a donut chart showing items done per week. [#3]
+
 ### Changed
 - Added logger.
+- JavaScript and CSS are now served up via files compiled through Webpack. [#4]
 - Moved the legacy view-like classes to App\Legacy\Renderer.
 - Refactored display controls into their own class.
 - Replaced custom date calculation class with Carbon.
 - Replaced direct SQL queries with Doctrine wrappers.
 - Replaced legacy database and entity objects with Doctrine versions.
 - Switched from a custom session handler to the default PHP handler.
+- Updated 3rd party Javascript dependencies. #4
 - Updated 3rd party PHP dependencies.
-- Updated Bootstrap from 4.5.2 to 4.5.3.
 - When adding an item, if a section filter has been set, it prepopulates the
   Section dropdown.
 
 ### Fixed
 - A random string is no longer accepted as the range for the history page.
+- Rendering of index page in mobile view. [#2]
 - When editing items, setting the status will affect the completed timestamp.
 
 ### Security
@@ -93,3 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.2.0]: https://github.com/dharple/todo-old/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/dharple/todo-old/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/dharple/todo-old/releases/tag/v1.0.0
+
+[#4]: https://github.com/dharple/todo/issues/4
+[#3]: https://github.com/dharple/todo/issues/3
+[#2]: https://github.com/dharple/todo/issues/2
