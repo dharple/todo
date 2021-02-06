@@ -28,4 +28,5 @@
 
 ###> laravel/mix ###
 node_modules/
+mix-manifest.json
 ###< laravel/mix ###
