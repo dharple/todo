@@ -18,4 +18,4 @@ doctrine:
                 alias: App
         dql:
             datetime_functions:
-                date:   Oro\ORM\Query\AST\Functions\SimpleFunction
+                date:   App\ORM\Date

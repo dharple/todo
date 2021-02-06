@@ -22,26 +22,46 @@ The remaining pieces:
 
 # Requirements
 
-* PHP
-* MySQL
+* Composer
+* MySQL, PostgreSQL or SQLite
 * Node
+* PHP
 
 # Getting Started
 
-Install 3rd party dependencies:
-```
+## Install 3rd Party Dependencies:
+
+```bash
 composer install
 npm install
 npm run prod
 ```
 
+## Set up .env
+
 Copy `.env` to `.env.local`.  Edit it and set the database parameters.
 
-Load the contents of the `sql/` directory in to the database.
+## Generate DB Schema
+
+Initially, create the schema using:
 
 ```bash
-cat sql/*.sql | mysql -u DB_USER -p DB_NAME
+bin/console doctrine:schema:create
 ```
+
+Update the schema after entity changes using:
+
+```bash
+bin/console doctrine:schema:update
+```
+
+## Create a User
+
+```bash
+bin/console user:add myuser
+```
+
+## Test
 
 Start the server:
 ```bash
@@ -49,8 +69,6 @@ composer go
 ```
 
 Connect to http://localhost:8666 and log in.
-
-The password set in `sql/02-data.sql` is `changeme`.
 
 # Scripts
 

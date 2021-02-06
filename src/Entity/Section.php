@@ -39,7 +39,7 @@ class Section
      *
      * This is an instance of a Collection that also implements Selectable.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="section")
      *
      * @var AbstractLazyCollection|ArrayCollection
      */

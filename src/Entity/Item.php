@@ -60,7 +60,7 @@ class Item
     /**
      * The section that this item belongs to.
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="sections")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="items")
      * @var ?Section
      */
     protected ?Section $section;

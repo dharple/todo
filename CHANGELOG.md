@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved the legacy view-like classes to App\Legacy\Renderer.
 - Refactored display controls into their own class.
 - Replaced custom date calculation class with Carbon.
-- Replaced direct SQL queries with Doctrine wrappers.
+- Replaced direct SQL queries with Doctrine wrappers and migrations. [#5]
 - Replaced legacy database and entity objects with Doctrine versions.
 - Switched from a custom session handler to the default PHP handler.
 - Updated 3rd party Javascript dependencies. #4
@@ -99,6 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.0]: https://github.com/dharple/todo-old/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/dharple/todo-old/releases/tag/v1.0.0
 
+[#5]: https://github.com/dharple/todo/issues/5
 [#4]: https://github.com/dharple/todo/issues/4
 [#3]: https://github.com/dharple/todo/issues/3
 [#2]: https://github.com/dharple/todo/issues/2
