@@ -2,6 +2,19 @@
 
 A legacy web application for keeping track of todo lists.
 
+This was originally written in ~2007.  (First commit was made on a baz repo, in 2007-09-10.)  I used it for a few years, but eventually moved on to other software for tracking todo lists.  In 2020, I picked it back up again, and began the process of converting it to using modern frameworks.
+
+So far, I've introduced:
+- PSR-12 style code
+- Bootstrap
+- Doctrine
+- Twig
+
+The remaining pieces:
+- Symfony Controllers and Kernel
+- Database Migrations
+- Unit Tests
+
 # Requirements
 
 * PHP
