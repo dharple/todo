@@ -10,6 +10,9 @@ script:
   - composer update --prefer-lowest
   - composer phpcs
   - composer phpstan
+  - composer update
+  - composer phpcs
+  - composer phpstan
 
 cache:
   directories:
