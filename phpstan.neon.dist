@@ -3,5 +3,6 @@ parameters:
     paths:
         - config
         - include
+        - migrations
         - public
         - src

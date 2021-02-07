@@ -43,16 +43,16 @@ Copy `.env` to `.env.local`.  Edit it and set the database parameters.
 
 ## Generate DB Schema
 
-Initially, create the schema using:
+Create the database using:
 
 ```bash
-bin/console doctrine:schema:create
+bin/console doctrine:database:create
 ```
 
-Update the schema after entity changes using:
+Update the schema after updates using:
 
 ```bash
-bin/console doctrine:schema:update
+bin/console doctrine:migrations:migrate
 ```
 
 ## Create a User
