@@ -56,7 +56,7 @@ class Section
     /**
      * Status
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",length=20)
      * @var string
      */
     protected string $status;

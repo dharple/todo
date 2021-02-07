@@ -75,7 +75,7 @@ class User
     /**
      * Timezone
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",length=128)
      * @var string
      */
     protected string $timezone;
@@ -83,7 +83,7 @@ class User
     /**
      * Username
      *
-     * @ORM\Column(type="string",unique=true)
+     * @ORM\Column(type="string",length=32,unique=true)
      * @var string
      */
     protected string $username;
