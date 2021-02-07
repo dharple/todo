@@ -99,16 +99,6 @@ abstract class AbstractItemAnalyzer
                 ->setParameter('end', $end->format('Y-m-d H:i:s'));
         }
 
-        if ($this->ordering == static::ORDER_BY_SECTION) {
-            $qb->leftJoin('i.section', 's')
-                ->orderBy('DATE(i.completed)', 'DESC')
-                ->addOrderBy('s.name', 'ASC')
-                ->addOrderBy('i.task', 'ASC');
-        } else {
-            $qb->orderBy('DATE(i.completed)', 'DESC')
-                ->addOrderBy('i.task', 'ASC');
-        }
-
         return $qb;
     }
 

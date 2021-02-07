@@ -115,7 +115,19 @@ class ItemHistory extends AbstractItemAnalyzer
      */
     protected function execute(?DateTime $start = null, ?DateTime $end = null)
     {
-        return $this->createQueryBuilder($start, $end)
+        $qb = $this->createQueryBuilder($start, $end);
+
+        if ($this->ordering == static::ORDER_BY_SECTION) {
+            $qb->leftJoin('i.section', 's')
+                ->orderBy('DATE(i.completed)', 'DESC')
+                ->addOrderBy('s.name', 'ASC')
+                ->addOrderBy('i.task', 'ASC');
+        } else {
+            $qb->orderBy('DATE(i.completed)', 'DESC')
+                ->addOrderBy('i.task', 'ASC');
+        }
+
+        return $qb
             ->getQuery()
             ->getResult();
     }
