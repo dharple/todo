@@ -7,7 +7,7 @@ php:
   - nightly
 
 script:
-  - composer install
+  - composer update --prefer-lowest
   - composer phpcs
   - composer phpstan
 
