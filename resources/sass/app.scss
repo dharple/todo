@@ -22,14 +22,6 @@ div.wrapper-small {
     column-fill: auto;
 }
 
-@media screen {
-    @include media-breakpoint-down(sm) {
-        div.wrapper {
-        column-count: 1;
-        }
-    }
-}
-
 div.section {
     break-inside: avoid;
 }
@@ -75,6 +67,35 @@ a.section-link {
 
 .note {
     font-size: x-small;
+}
+
+canvas.mainChart {
+    width: 400px;
+    height: max-content;
+}
+
+canvas.printChart {
+    width: max-content;
+    height: max-content;
+}
+
+div.chartContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen {
+    @include media-breakpoint-down(md) {
+        div.wrapper {
+            column-count: 1;
+        }
+
+        canvas.mainChart {
+            width: fit-content;
+            height: fit-content;
+        }
+    }
 }
 
 @media print {
