@@ -1,3 +1,7 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins/_breakpoints";
+
 body {
     font-size: 1.2rem;
 }
@@ -18,9 +22,11 @@ div.wrapper-small {
     column-fill: auto;
 }
 
-@media screen and (max-width: 600px) {
-    div.wrapper {
+@media screen {
+    @include media-breakpoint-down(sm) {
+        div.wrapper {
         column-count: 1;
+        }
     }
 }
 
