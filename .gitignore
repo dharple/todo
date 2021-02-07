@@ -27,6 +27,8 @@
 ###< squizlabs/php_codesniffer ###
 
 ###> laravel/mix ###
-node_modules/
+/public/css/
+/public/js/
 mix-manifest.json
+node_modules/
 ###< laravel/mix ###
