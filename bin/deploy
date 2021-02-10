@@ -1,0 +1,25 @@
+#!/bin/bash -ex
+#
+# Simple deployment script
+#
+
+DEPLOYUSER=www-data
+
+if [ "$USER" != "$DEPLOYUSER" ] ; then
+	sudo -H -u $DEPLOYUSER $0 "$@"
+	exit
+fi
+
+BASE=$(dirname $(dirname $(realpath $0)))
+
+echo Deploying to $BASE
+
+cd $BASE
+
+git stash save
+git pull
+composer install --no-dev -o
+npm install
+npm run prod
+bin/console cache:clear
+bin/console cache:warmup
