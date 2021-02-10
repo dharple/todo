@@ -54,8 +54,13 @@
         <br />
 
         {% if op == 'edit' %}
-            Completed:
-            <input type=text name=completed[{{ itemId }}] value="{% if item.completed %}{{ item.completed | date('Y-m-d H:i:s') }}{% endif %}">
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                <span class="mr-1">Completed:</span>
+                <input type="text" class="datetimepicker-input" data-target="#datetimepicker1" name="completed[{{ itemId }}]" value="{% if item.completed %}{{ item.completed | date('Y-m-d H:i:s') }}{% endif %}" length="60" />
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                </div>
+            </div>
             <br />
         {% endif %}
 
