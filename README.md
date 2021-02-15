@@ -73,14 +73,6 @@ composer go
 
 Connect to http://localhost:8666 and log in.
 
-# Scripts
-
-The `bin` directory has several scripts that require a `.mylogin.cnf` file.
-
-```bash
-mysql_config_editor set --login-path=todo-old --user=todo --password
-```
-
 # Thanks
 
 Favicon courtesy of [favicon.ico].
