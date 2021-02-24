@@ -68,25 +68,4 @@ $(document).ready(function() {
         ctx = document.getElementById('tasksByWeek2').getContext('2d');
         window.myDoughnut2 = new Chart(ctx, printConfig);
     }
-
-    //
-    // Date Time Picker
-    //
-
-    $('#datetimepicker1').datetimepicker({
-        format: 'YYYY-MM-DD HH:mm',
-        debug: true,
-        icons: {
-            time: 'far fa-clock',
-            date: 'far fa-calendar',
-            up: 'fas fa-arrow-up',
-            down: 'fas fa-arrow-down',
-            previous: 'far fa-caret-square-left',
-            next: 'far fa-caret-square-right',
-            today: 'far fa-calendar-check',
-            clear: 'far fa-trash',
-            close: 'far fa-times'
-        }
-    });
-
 });

@@ -20,12 +20,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.2",
         "bootstrap": "^4.6.0",
         "chart.js": "^2.9.4",
         "jquery": "^3.5.1",
-        "moment": "^2.29.1",
-        "tempusdominus-bootstrap-4": "^5.39.0",
-        "tempusdominus-core": "^5.19.0"
+        "moment": "^2.29.1"
     }
 }
