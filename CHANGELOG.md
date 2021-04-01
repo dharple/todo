@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - A random string is no longer accepted as the range for the history page.
 - Rendering of index page in mobile view. [#2]
+- The edit, prioritize, and mark done buttons would be grayed out if all of the
+  items on the page were closed.
 - When editing items, setting the status will affect the completed timestamp.
 
 ### Security
