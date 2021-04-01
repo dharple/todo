@@ -1,4 +1,5 @@
 ###> normal development ###
+*.bak
 *.orig
 *.patch
 *.rej
@@ -14,13 +15,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
-###> symfony/phpunit-bridge ###
-.phpunit
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
 /phpcs.xml
@@ -33,3 +27,8 @@
 mix-manifest.json
 node_modules/
 ###< laravel/mix ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

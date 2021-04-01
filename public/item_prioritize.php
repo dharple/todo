@@ -79,7 +79,7 @@ if (isset($_REQUEST['ids'])) {
 
 $listDisplay = new ListDisplay($config, $em, $log, $twig, $user);
 $listOutput = $listDisplay->getOutput();
-$itemCount = $listDisplay->getOutputCount();
+$itemCount = $listDisplay->getOutputCount()->getOpenCount();
 
 try {
     $twig->display('item_prioritize.html.twig', [

@@ -184,10 +184,16 @@ class SectionDisplay extends BaseDisplay
             return;
         }
 
-        $this->itemCount = 0;
+        $itemCount = $this->getOutputCount();
         foreach ($items as $item) {
-            if ($item->getStatus() == 'Open') {
-                $this->itemCount++;
+            switch ($item->getStatus()) {
+                case 'Open':
+                    $itemCount->addOpen();
+                    break;
+
+                case 'Closed':
+                    $itemCount->addClosed();
+                    break;
             }
         }
 

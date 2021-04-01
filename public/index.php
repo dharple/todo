@@ -111,7 +111,7 @@ try {
 }
 
 $listOutput = $listDisplay->getOutput();
-$itemCount = $listDisplay->getOutputCount();
+$itemCount = $listDisplay->getOutputCount()->getTotalCount();
 
 $sections = $user->getSections()->matching(
     new Criteria(

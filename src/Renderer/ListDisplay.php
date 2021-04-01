@@ -114,8 +114,6 @@ class ListDisplay extends BaseDisplay
 
         $sections = $qb->getQuery()->getResult();
 
-        $itemCount = 0;
-
         $sectionOutput = '';
         $sectionsDrawn = 0;
 
@@ -131,31 +129,31 @@ class ListDisplay extends BaseDisplay
             $sectionOutput .= $build;
             $sectionsDrawn++;
 
-            $itemCount += $sectionDisplay->getOutputCount();
+            $this->getOutputCount()->add($sectionDisplay->getOutputCount());
         }
 
         $this->output = $this->render('partials/list/wrapper.html.twig', [
-            'footer'         => $this->replaceTotals($this->footer ?? '', $itemCount),
+            'footer'         => $this->replaceTotals($this->footer ?? ''),
             'sectionsDrawn'  => $sectionsDrawn,
             'sectionOutput'  => $sectionOutput,
         ]);
 
-        $this->itemCount = $itemCount;
         $this->outputBuilt = true;
     }
 
     /**
      * Replaces {GRAND_TOTAL} and {NOT_SHOWN} with the appropriate values.
      *
-     * @param string $str        The string to adjust.
-     * @param int    $grandTotal The grand total to use.
+     * @param string $str The string to adjust.
      *
      * @return string
      *
      * @throws Exception
      */
-    protected function replaceTotals(string $str, int $grandTotal): string
+    protected function replaceTotals(string $str): string
     {
+        $grandTotal = $this->getOutputCount()->getOpenCount();
+
         $str = str_replace('{GRAND_TOTAL}', (string) $grandTotal, $str);
 
         $qb = $this->em

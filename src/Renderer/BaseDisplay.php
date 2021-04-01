@@ -39,9 +39,9 @@ abstract class BaseDisplay
     /**
      * The rendered item count.
      *
-     * @var int
+     * @var ItemCount
      */
-    protected int $itemCount = 0;
+    protected ItemCount $itemCount;
 
     /**
      * The logger to use.
@@ -105,10 +105,14 @@ abstract class BaseDisplay
     /**
      * The output count.
      *
-     * @return int
+     * @return ItemCount
      */
-    public function getOutputCount(): int
+    public function getOutputCount(): ItemCount
     {
+        if (!isset($this->itemCount)) {
+            $this->itemCount = new ItemCount();
+        }
+
         return $this->itemCount;
     }
 
