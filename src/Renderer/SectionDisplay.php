@@ -71,7 +71,7 @@ class SectionDisplay extends BaseDisplay
                 ->startOfDay();
 
             $qb->andWhere('i.created <= :created')
-                ->setParameter('created', $start->format('Y-m-d h:i:s'));
+                ->setParameter('created', $start->format('Y-m-d H:i:s'));
         }
     }
 
@@ -111,6 +111,39 @@ class SectionDisplay extends BaseDisplay
         } else {
             $qb->andWhere('i.status = :status')
                 ->setParameter('status', 'Open');
+        }
+    }
+
+    /**
+     * Applies a freshness filter to the main QueryBuilder.
+     *
+     * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
+     */
+    protected function applyFreshnessFilter(QueryBuilder $qb): void
+    {
+        if ($this->config->getFilterFreshness() != 'all') {
+            switch ($this->config->getFilterFreshness()) {
+                case 'today':
+                    $start = Carbon::now();
+                    break;
+
+                case 'recently':
+                    $start = Carbon::now()->subDays(3);
+                    break;
+
+                case 'week':
+                    $start = Carbon::now()->startOfWeek();
+                    break;
+
+                case 'month':
+                    $start = Carbon::now()->startOfMonth();
+                    break;
+            }
+
+            $qb->andWhere('i.created >= :created')
+                ->setParameter('created', $start->startOfDay()->format('Y-m-d H:i:s'));
         }
     }
 
@@ -174,6 +207,7 @@ class SectionDisplay extends BaseDisplay
 
         $this->applyAgingFilter($qb);
         $this->applyClosedFilter($qb);
+        $this->applyFreshnessFilter($qb);
         $this->applyIdFilter($qb);
         $this->applyPriorityFilter($qb);
 

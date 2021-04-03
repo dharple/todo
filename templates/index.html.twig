@@ -82,6 +82,16 @@
             {% endfor %}
             <br />
 
+            Filter Freshness:&nbsp;&nbsp;
+            {% for value, label in filterFreshnessValues %}
+                {% if config.filterFreshness == value %}
+                    {{ label }}
+                {% else %}
+                    <a href="index.php?filter_freshness={{ value }}">{{ label }}</a>
+                {% endif %}
+            {% endfor %}
+            <br />
+
             Filter Aging:&nbsp;&nbsp;
             {% for value, label in filterAgingValues %}
                 {% if config.filterAging == value %}

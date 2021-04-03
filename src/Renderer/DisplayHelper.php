@@ -90,6 +90,22 @@ class DisplayHelper
     }
 
     /**
+     * Returns fields for the freshness filter.
+     *
+     * @return string[]
+     */
+    public static function getFilterFreshnessValues(): array
+    {
+        return [
+            'all'      => 'All',
+            'today'    => 'Today',
+            'recently' => 'Recently',
+            'week'     => 'This Week',
+            'month'    => 'This Month',
+        ];
+    }
+
+    /**
      * Returns fields for the priority filter.
      *
      * @return string[]

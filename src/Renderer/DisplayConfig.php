@@ -28,6 +28,7 @@ class DisplayConfig
     [
         'filterAging',
         'filterClosed',
+        'filterFreshness',
         'filterPriority',
         'filterSection',
         'showInactive',
@@ -57,6 +58,20 @@ class DisplayConfig
      * @var string
      */
     protected string $filterClosed = 'none';
+
+    /**
+     * Filters based on freshness.
+     *
+     * Valid values:
+     *  - 'all'
+     *  - 'today'
+     *  - 'recently'
+     *  - 'week'
+     *  - 'month'
+     *
+     * @var string
+     */
+    protected string $filterFreshness = 'all';
 
     /**
      * Filters based on ID.
@@ -145,6 +160,15 @@ class DisplayConfig
         return $this->filterClosed;
     }
 
+    /**
+     * Returns the current freshness filter.
+     *
+     * @return string
+     */
+    public function getFilterFreshness(): string
+    {
+        return $this->filterFreshness;
+    }
     /**
      * Returns the current filter for IDs.
      *
@@ -273,6 +297,25 @@ class DisplayConfig
             throw new Exception('Invalid value for closed filter');
         }
         $this->filterClosed = $filterClosed;
+        return $this;
+    }
+
+    /**
+     * Sets the freshness filter.
+     *
+     * @param string $filterFreshness Freshness filter.
+     *
+     * @return DisplayConfig
+     *
+     * @throws Exception
+     */
+    public function setFilterFreshness(string $filterFreshness): DisplayConfig
+    {
+        $valid = DisplayHelper::getFilterFreshnessValues();
+        if (!array_key_exists($filterFreshness, $valid)) {
+            throw new Exception('Invalid value for freshness filter');
+        }
+        $this->filterFreshness = $filterFreshness;
         return $this;
     }
 

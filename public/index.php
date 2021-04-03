@@ -127,6 +127,7 @@ try {
         'errors' => $errors,
         'filterAgingValues' => DisplayHelper::getFilterAgingValues(),
         'filterClosedValues' => DisplayHelper::getFilterClosedValues(),
+        'filterFreshnessValues' => DisplayHelper::getFilterFreshnessValues(),
         'filterPriorityValues' => DisplayHelper::getFilterPriorityValues(),
         'hasItems' => ($itemCount > 0),
         'hasSections' => ($sectionCount > 0),
