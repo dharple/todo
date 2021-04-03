@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Added a freshness filter (opposing the aging filter).
 - Half a donut chart showing items done per week. [#3]
 
 ### Changed
