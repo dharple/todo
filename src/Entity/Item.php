@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Describes an item or task that needs to be done.
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
  * @ORM\Table(name="item")
  */
 class Item

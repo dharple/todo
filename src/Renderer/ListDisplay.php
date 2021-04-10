@@ -156,16 +156,7 @@ class ListDisplay extends BaseDisplay
 
         $str = str_replace('{GRAND_TOTAL}', (string) $grandTotal, $str);
 
-        $qb = $this->em
-            ->createQueryBuilder()
-            ->select('COUNT(i.id)')
-            ->from(Item::class, 'i')
-            ->where('i.user = :user')
-            ->andWhere('i.status = :status')
-            ->setParameter('user', $this->user)
-            ->setParameter('status', 'Open');
-
-        $total = $qb->getQuery()->getSingleScalarResult();
+        $total = $this->em->getRepository(Item::class)->getOpenItemCount($this->user);
 
         return str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grandTotal), $str);
     }

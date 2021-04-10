@@ -47,6 +47,9 @@
             <br />
 
             Average Turnaround: {{ itemStats.average | number_format(1) }} days
+            <br />
+
+            Items Shown / Open: {{ countShown }} / {{ countOpen }}
         </div>
         <div class="col-sm-12 col-lg-4 chartContainer">
             <canvas id="tasksByWeek" class="mainChart"></canvas>

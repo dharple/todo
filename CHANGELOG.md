@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Added a freshness filter (opposing the aging filter).
+- Count of items shown / open on the screen version of the list. [#9]
 - Half a donut chart showing items done per week. [#3]
 
 ### Changed

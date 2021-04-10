@@ -112,6 +112,8 @@ try {
 
 $listOutput = $listDisplay->getOutput();
 $itemCount = $listDisplay->getOutputCount()->getTotalCount();
+$shownOpenCount = $listDisplay->getOutputCount()->getOpenCount();
+$totalOpenCount = $em->getRepository(Item::class)->getOpenItemCount($user);
 
 $sections = $user->getSections()->matching(
     new Criteria(
@@ -124,6 +126,8 @@ try {
     $twig->display('index.html.twig', [
         'chartData' => $itemStats->getWeeklySummary(4),
         'config' => $config,
+        'countOpen' => $totalOpenCount,
+        'countShown' => $shownOpenCount,
         'errors' => $errors,
         'filterAgingValues' => DisplayHelper::getFilterAgingValues(),
         'filterClosedValues' => DisplayHelper::getFilterClosedValues(),
