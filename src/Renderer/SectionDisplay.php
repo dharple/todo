@@ -120,6 +120,8 @@ class SectionDisplay extends BaseDisplay
      * @param QueryBuilder $qb The query builder to use.
      *
      * @return void
+     *
+     * @throws Exception
      */
     protected function applyFreshnessFilter(QueryBuilder $qb): void
     {
@@ -140,6 +142,9 @@ class SectionDisplay extends BaseDisplay
                 case 'month':
                     $start = Carbon::now()->startOfMonth();
                     break;
+
+                default:
+                    throw new Exception('Unsupported level of freshness.  Too fresh.');
             }
 
             $qb->andWhere('i.created >= :created')
