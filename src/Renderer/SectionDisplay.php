@@ -246,6 +246,7 @@ class SectionDisplay extends BaseDisplay
             'items'              => $items,
             'priorityHigh'       => 2,
             'priorityNormal'     => $priorityLevels['normal'],
+            'priorityLow'        => $priorityLevels['low'],
             'section'            => $this->section,
             'showPriority'       => $this->config->getShowPriority(),
         ]);

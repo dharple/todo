@@ -36,7 +36,7 @@
             </div>
             <div class="col text-left">
                 <label class="list-item-label" for="item-{{ item.id }}">
-                    <span class="{% if item.status != 'Open' %} closed {% elseif item.priority <= priorityHigh %} high-priority {% endif %}">
+                    <span class="{% if item.status != 'Open' %} closed {% elseif item.priority <= priorityHigh %} high-priority {% elseif item.priority >= priorityLow %} low-priority {% endif %}">
                         {{ item.task }}
                     </span>
                 </label>

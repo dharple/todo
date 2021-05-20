@@ -53,6 +53,10 @@ a.section-link {
     color: blue;
 }
 
+.low-priority {
+    color: grey;
+}
+
 .closed {
     text-decoration: line-through;
 }
@@ -120,6 +124,11 @@ div.chartContainer {
 
     .high-priority {
         font-weight: bold;
+        color: black;
+    }
+
+    .low-priority {
+        font-style: italic;
         color: black;
     }
 
