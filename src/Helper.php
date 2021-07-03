@@ -132,7 +132,7 @@ class Helper
                         [$user->getTimezone()]
                     );
             } catch (\Exception $e) {
-                static::getLogger()->warn(sprintf('Could not set DB timezone to %s: %s', $user->getTimezone(), $e->getMessage()));
+                static::getLogger()->warning(sprintf('Could not set DB timezone to %s: %s', $user->getTimezone(), $e->getMessage()));
             }
         }
     }
