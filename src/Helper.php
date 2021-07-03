@@ -124,16 +124,12 @@ class Helper
         if (!empty($user->getTimezone())) {
             date_default_timezone_set($user->getTimezone());
 
-            try {
-                static::getEntityManager()
-                    ->getConnection()
-                    ->executeStatement(
-                        'SET time_zone = ?',
-                        [$user->getTimezone()]
-                    );
-            } catch (\Exception $e) {
-                static::getLogger()->warning(sprintf('Could not set DB timezone to %s: %s', $user->getTimezone(), $e->getMessage()));
-            }
+            static::getEntityManager()
+                ->getConnection()
+                ->executeStatement(
+                    'SET time_zone = ?',
+                    [$user->getTimezone()]
+                );
         }
     }
 }
