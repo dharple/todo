@@ -54,7 +54,8 @@ a.section-link {
 }
 
 .low-priority {
-    color: brown;
+    font-weight: lighter;
+    color: black;
 }
 
 .closed {
@@ -124,11 +125,6 @@ div.chartContainer {
 
     .high-priority {
         font-weight: bold;
-        color: black;
-    }
-
-    .low-priority {
-        font-weight: lighter;
         color: black;
     }
 
