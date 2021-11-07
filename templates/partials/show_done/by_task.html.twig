@@ -1,4 +1,4 @@
-<table>
+<div class="container done">
 
 {% set lastDate = '' %}
 
@@ -6,32 +6,27 @@
     {% set thisDate = item.completed | date('F jS, Y') %}
 
     {% if lastDate != '' and thisDate != lastDate %}
-        <tr>
-            <td colspan=4>
+        <div class="row">
+            <div class="col-12">
                 &nbsp;
-            </td>
-        </tr>
+            </div>
+        </div>
     {% endif %}
 
-    <tr>
-        <td valign=top align=right width=10%>
+    <div class="row">
+        <div class="col-12 col-md-2 text-right">
             {% if thisDate != lastDate %}
-                <nobr>{{ thisDate }}</nobr>
-            {% else %}
-                &nbsp;
+                {{ thisDate }}
             {% endif %}
-        </td>
-        <td valign=top>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-        <td valign=top align=left width=75%>
+        </div>
+        <div class="col-6 col-md-6">
             {{ item.task }}
-        </td>
-        <td valign=top align=right>
-            <nobr>({{ item.section.name }})</nobr>
-        </td>
-    </tr>
+        </div>
+        <div class="col-6 col-md-2 text-right">
+            ({{ item.section.name }})
+        </div>
+    </div>
     {% set lastDate = thisDate %}
 {% endfor %}
 
-</table>
+</div>

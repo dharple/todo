@@ -1,69 +1,43 @@
-<table>
+<div class="container done">
 
 {% set lastDate = '' %}
 {% set lastSection = '' %}
 
 {% for item in items %}
     {% set thisDate = item.completed | date('F jS, Y') %}
-    {% set thisSection = item.section.id %}
+    {% set thisSection = item.section.name %}
 
-    {% if thisDate != lastDate or thisSection != lastSection %}
-        {% if lastDate != '' %}
-            </td></tr>
-        {% endif %}
-
-        {% if lastDate != '' and thisDate != lastDate %}
-            <tr>
-                <td colspan=5>
-                    <hr width="90%">
-                </td>
-            </tr>
-        {% elseif lastSection != '' and thisSection != lastSection %}
-            <tr>
-                <td colspan=5>
-                    &nbsp;
-                </td>
-            </tr>
-        {% endif %}
-
-        <tr>
-            <td valign=top align=right width=10%>
-                {% if thisDate != lastDate %}
-                    <nobr>{{ thisDate }}</nobr>
-                {% else %}
-                    &nbsp;
-                {% endif %}
-            </td>
-
-            <td valign=top>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-
-            <td valign=top>
-                {% if thisSection != lastSection or thisDate != lastDate %}
-                    <nobr>{{ item.section.name }}</nobr>
-                {% else %}
-                    &nbsp;
-                {% endif %}
-            </td>
-
-            <td valign=top>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-            </td>
-
-            <td valign=top align=left width=75%>
-    {% else %}
-        <br>
+    {% if lastDate != '' and thisDate != lastDate %}
+        <div class="row">
+            <div class="col-12">
+                <hr width="90%">
+            </div>
+        </div>
+    {% elseif lastSection != '' and thisSection != lastSection %}
+        <div class="row">
+            <div class="col-12">
+                &nbsp;
+            </div>
+        </div>
     {% endif %}
 
-    {{ item.task }}
-
+    <div class="row">
+        <div class="col-12 col-md-2 text-left text-md-right">
+            {% if thisDate != lastDate %}
+                <div class="mb-2 mb-md-0">{{ thisDate }}</div>
+            {% endif %}
+        </div>
+        <div class="col-6 col-md-2">
+            {% if thisSection != lastSection %}
+                {{ item.section.name }}
+            {% endif %}
+        </div>
+        <div class="col-6 col-md-8">
+            {{ item.task }}
+        </div>
+    </div>
     {% set lastDate = thisDate %}
     {% set lastSection = thisSection %}
 {% endfor %}
 
-{% if lastDate != '' %}
-    </td></tr>
-{% endif %}
-
-</table>
+</div>

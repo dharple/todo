@@ -5,12 +5,12 @@
 {% block body %}
 
 <div class="no-print">
-    <table width=100%>
-        <tr>
-            <td align=left>
+    <div class="container done">
+        <div class="row">
+            <div class="col-12 col-md-6 text-center text-md-left">
                 <b>{{ title }}</b>
-            </td>
-            <td align=right>
+            </div>
+            <div class="col-12 col-md-6 text-center text-md-right">
                 {% if sort == 'section' %}
                     <a href="show_done.php?sort=task&view={{ view }}">Main View</a>
                 {% else %}
@@ -18,9 +18,9 @@
                 {% endif %}
                 |
                 <a href="index.php">Home</a>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
 
     <hr />
 </div>
