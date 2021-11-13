@@ -28,7 +28,7 @@
             {% endif %}
         </div>
         <div class="col-6 col-md-2">
-            {% if thisSection != lastSection %}
+            {% if thisSection != lastSection or thisDate != lastDate %}
                 {{ item.section.name }}
             {% endif %}
         </div>
