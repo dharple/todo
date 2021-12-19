@@ -31,7 +31,7 @@ try {
 $errors = [];
 
 if (count($_POST)) {
-    if ($_POST['submitButton'] == 'Mark Done') {
+    if (!empty($_POST['markDoneButton'])) {
         try {
             foreach ($_POST['itemIds'] as $itemId) {
                 $item = $em->find(Item::class, $itemId);
@@ -42,28 +42,28 @@ if (count($_POST)) {
                 }
 
                 $item
-                    ->setStatus('Closed')
-                    ->setCompleted(new DateTime());
+                    ->setStatus(($_POST['markDoneButton'] != 'Delete') ? 'Closed' : 'Deleted')
+                    ->setCompleted(new DateTime(($_POST['markDoneButton'] == 'Mark Done Yesterday') ? 'yesterday 23:45' : null));
                 $em->persist($item);
             }
             $em->flush();
         } catch (Exception $e) {
             $errors[] = sprintf('Failed to mark items done: %s', $e->getMessage());
         }
-    } elseif ($_POST['submitButton'] == 'Edit') {
+    } elseif (!empty($_POST['editButton'])) {
         if (!empty($_POST['itemIds'])) {
             header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
             exit;
         }
         $errors[] = 'Please select one or more items to edit';
-    } elseif ($_POST['submitButton'] == 'Prioritize') {
+    } elseif (!empty($_POST['prioritizeButton'])) {
         $queryString = '';
         if (!empty($_POST['itemIds'])) {
             $queryString = '?ids=' . urlencode(serialize($_POST['itemIds']));
         }
         header('Location: item_prioritize.php' . $queryString);
         exit;
-    } elseif ($_POST['submitButton'] == 'Duplicate') {
+    } elseif (!empty($_POST['duplicateButton'])) {
         try {
             foreach ($_POST['itemIds'] as $itemId) {
                 $item = $em->find(Item::class, $itemId);
@@ -137,7 +137,7 @@ try {
         'hasSections' => ($sectionCount > 0),
         'itemStats' => $itemStats,
         'list' => $listOutput,
-        'showDuplicate' => ($config->getFilterClosed() != 'none'),
+        'showAdvanced' => ($config->getFilterClosed() != 'none'),
         'showPriorityValues' => DisplayHelper::getShowPriorityValues(),
         'user' => $user,
     ]);

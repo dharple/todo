@@ -134,11 +134,14 @@
         <div class="row">
             <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-left">
                 {% if hasItems %}
-                    <input type="submit" class="btn btn-secondary" name="submitButton" value="Edit" />
-                    <input type="submit" class="btn btn-primary" name="submitButton" value="Mark Done" />
-                    <input type="submit" class="btn btn-secondary" name="submitButton" value="Prioritize" />
-                    {% if showDuplicate %}
-                        <input type="submit" class="btn btn-secondary" name="submitButton" value="Duplicate" />
+                    <input type="submit" class="btn btn-secondary" name="editButton" value="Edit" />
+                    <input type="submit" class="btn btn-primary" name="markDoneButton" value="Mark Done" />
+                    <input type="submit" class="btn btn-secondary" name="prioritizeButton" value="Prioritize" />
+                    {% if showAdvanced %}
+                        <br class="mb-4" />
+                        <input type="submit" class="btn btn-secondary" name="duplicateButton" value="Duplicate" />
+                        <input type="submit" class="btn btn-danger" name="markDoneButton" value="Delete" />
+                        <input type="submit" class="btn btn-primary" name="markDoneButton" value="Mark Done Yesterday" />
                     {% endif %}
                 {% else %}
                     <button type="button" class="btn btn-secondary" disabled="disabled">Edit</button>
