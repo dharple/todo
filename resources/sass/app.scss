@@ -53,7 +53,7 @@ a.section-link {
     color: black;
 }
 
-.high-priority {
+span.high-priority {
     color: blue;
 }
 
@@ -127,9 +127,17 @@ div.chartContainer {
         font-size: 1.2rem;
     }
 
-    .high-priority {
-        font-weight: bold;
+    span.high-priority {
         color: black;
+        font-style: italic;
+        font-weight: 600;
+    }
+
+    label.high-priority {
+        border-bottom: dashed;
+        border-left: dashed;
+        padding-bottom: 0.25em;
+        padding-left: 0.25em;
     }
 
     .print {
