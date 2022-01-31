@@ -16,7 +16,7 @@ class ItemsDeletedListCommand extends Command
      *
      * @var string
      */
-    protected static string $defaultDescription = 'List deleted items';
+    protected static $defaultDescription = 'List deleted items';
 
     /**
      * Command name.

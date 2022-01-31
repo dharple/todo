@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched from a custom session handler to the default PHP handler.
 - Updated 3rd party Javascript dependencies. #4
 - Updated 3rd party PHP dependencies.
+  - Upgraded Symfony to 5.4.
 - When adding an item, if a section filter has been set, it prepopulates the
   Section dropdown.
 
