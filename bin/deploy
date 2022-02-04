@@ -18,8 +18,19 @@ cd $BASE
 
 git stash save
 git pull
-composer install --no-dev -o
-npm install
+
+if [ -f composer.lock ] ; then
+	composer update --no-dev -o
+else
+	composer install --no-dev -o
+fi
+
+if [ -f package-lock.json ] ; then
+	npm update
+else
+	npm install
+fi
+
 npm run prod
 bin/console cache:clear
 bin/console cache:warmup
