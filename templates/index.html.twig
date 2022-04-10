@@ -65,6 +65,16 @@
             {% endfor %}
             <br />
 
+            Filter Deleted Items:&nbsp;&nbsp;
+            {% for value, label in filterDeletedValues %}
+                {% if config.filterDeleted == value %}
+                    {{ label }}
+                {% else %}
+                    <a href="index.php?filter_deleted={{ value }}">{{ label }}</a>
+                {% endif %}
+            {% endfor %}
+            <br />
+
             Filter Priority:&nbsp;&nbsp;
             {% for value, label in filterPriorityValues %}
                 {% if config.filterPriority == value %}

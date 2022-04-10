@@ -28,6 +28,7 @@ class DisplayConfig
     [
         'filterAging',
         'filterClosed',
+        'filterDeleted',
         'filterFreshness',
         'filterPriority',
         'filterSection',
@@ -58,6 +59,19 @@ class DisplayConfig
      * @var string
      */
     protected string $filterClosed = 'none';
+
+    /**
+     * Filters based on whether or not the item is deleted.
+     *
+     * Valid values:
+     *  - 'none'
+     *  - 'recently'
+     *  - 'today'
+     *  - 'all'
+     *
+     * @var string
+     */
+    protected string $filterDeleted = 'none';
 
     /**
      * Filters based on freshness.
@@ -158,6 +172,16 @@ class DisplayConfig
     public function getFilterClosed(): string
     {
         return $this->filterClosed;
+    }
+
+    /**
+     * Returns the current deleted filter.
+     *
+     * @return string
+     */
+    public function getFilterDeleted(): string
+    {
+        return $this->filterDeleted;
     }
 
     /**
@@ -297,6 +321,25 @@ class DisplayConfig
             throw new Exception('Invalid value for closed filter');
         }
         $this->filterClosed = $filterClosed;
+        return $this;
+    }
+
+    /**
+     * Sets the deleted filter.
+     *
+     * @param string $filterDeleted Deleted filter.
+     *
+     * @return DisplayConfig
+     *
+     * @throws Exception
+     */
+    public function setFilterDeleted(string $filterDeleted): DisplayConfig
+    {
+        $valid = DisplayHelper::getFilterDeletedValues();
+        if (!array_key_exists($filterDeleted, $valid)) {
+            throw new Exception('Invalid value for deleted filter');
+        }
+        $this->filterDeleted = $filterDeleted;
         return $this;
     }
 

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added extra functions to the main page: 'Mark Done Yesterday' and 'Delete'.
 - Count of items shown / open on the screen version of the list. [#9]
 - Half a donut chart showing items done per week. [#3]
+- Support for showing deleted items.
 
 ### Changed
 - Added logger.

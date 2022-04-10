@@ -68,6 +68,12 @@ try {
     $errors[] = 'Could not disable closed filter for this view.';
 }
 
+try {
+    $config->setFilterDeleted('none');
+} catch (Exception $e) {
+    $errors[] = 'Could not disable deleted filter for this view.';
+}
+
 $config->setShowPriorityEditor(true);
 
 if (isset($_REQUEST['ids'])) {

@@ -90,6 +90,21 @@ class DisplayHelper
     }
 
     /**
+     * Returns fields for the deleted filter.
+     *
+     * @return string[]
+     */
+    public static function getFilterDeletedValues(): array
+    {
+        return [
+            'all' => 'All',
+            'recently' => 'Recently',
+            'today' => 'Today',
+            'none' => 'None'
+        ];
+    }
+
+    /**
      * Returns fields for the freshness filter.
      *
      * @return string[]

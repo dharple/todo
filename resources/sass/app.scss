@@ -66,6 +66,12 @@ span.high-priority {
     text-decoration: line-through;
 }
 
+.deleted {
+    text-decoration: line-through;
+    background-color: red;
+    color: white;
+}
+
 .print {
     display: none;
 }

@@ -76,45 +76,6 @@ class SectionDisplay extends BaseDisplay
     }
 
     /**
-     * Applies any closed filter to the main QueryBuilder.
-     *
-     * @param QueryBuilder $qb The query builder to use.
-     *
-     * @return void
-     */
-    protected function applyClosedFilter(QueryBuilder $qb): void
-    {
-        if ($this->config->getFilterClosed() == 'all') {
-            $qb->andWhere('i.status != :status')
-                ->setParameter('status', 'Deleted');
-        } elseif ($this->config->getFilterClosed() == 'today' or $this->config->getFilterClosed() == 'recently') {
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->eq('i.status', ':statusOpen'),
-                $qb->expr()->andX(
-                    $qb->expr()->gte('i.completed', ':dayStart'),
-                    $qb->expr()->lt('i.completed', ':dayEnd'),
-                    $qb->expr()->eq('i.status', ':statusClosed')
-                )
-            ));
-
-            if ($this->config->getFilterClosed() == 'today') {
-                $start = Carbon::now();
-            } else {
-                $start = Carbon::now()->subDays(3);
-            }
-
-            $qb
-                ->setParameter('statusOpen', 'Open')
-                ->setParameter('dayStart', $start->startOfDay()->format('Y-m-d H:i:s'))
-                ->setParameter('dayEnd', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'))
-                ->setParameter('statusClosed', 'Closed');
-        } else {
-            $qb->andWhere('i.status = :status')
-                ->setParameter('status', 'Open');
-        }
-    }
-
-    /**
      * Applies a freshness filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
@@ -191,6 +152,57 @@ class SectionDisplay extends BaseDisplay
     }
 
     /**
+     * Applies a status filter to the main QueryBuilder.
+     *
+     * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
+     */
+    protected function applyStatusFilter(QueryBuilder $qb): void
+    {
+        $closedExpr = null;
+        $deletedExpr = null;
+
+        if ($this->config->getFilterClosed() == 'all') {
+            $closedExpr = $qb->expr()->eq('i.status', ':statusClosed');
+            $qb->setParameter('statusClosed', 'Closed');
+        } elseif ($this->config->getFilterClosed() == 'today' || $this->config->getFilterClosed() == 'recently') {
+            $closedExpr = $qb->expr()->andX(
+                $qb->expr()->gte('i.completed', ':closedStart'),
+                $qb->expr()->lt('i.completed', ':closedEnd'),
+                $qb->expr()->eq('i.status', ':statusClosed')
+            );
+            $start = ($this->config->getFilterClosed() == 'today') ? Carbon::now() : Carbon::now()->subDays(3);
+            $qb->setParameter('closedStart', $start->startOfDay()->format('Y-m-d H:i:s'));
+            $qb->setParameter('closedEnd', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'));
+            $qb->setParameter('statusClosed', 'Closed');
+        }
+
+        if ($this->config->getFilterDeleted() == 'all') {
+            $deletedExpr = $qb->expr()->eq('i.status', ':statusDeleted');
+            $qb->setParameter('statusDeleted', 'Deleted');
+        } elseif ($this->config->getFilterDeleted() == 'today' || $this->config->getFilterDeleted() == 'recently') {
+            $deletedExpr = $qb->expr()->andX(
+                $qb->expr()->gte('i.completed', ':deletedStart'),
+                $qb->expr()->lt('i.completed', ':deletedEnd'),
+                $qb->expr()->eq('i.status', ':statusDeleted')
+            );
+            $start = ($this->config->getFilterDeleted() == 'today') ? Carbon::now() : Carbon::now()->subDays(3);
+            $qb->setParameter('deletedStart', $start->startOfDay()->format('Y-m-d H:i:s'));
+            $qb->setParameter('deletedEnd', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'));
+            $qb->setParameter('statusDeleted', 'Deleted');
+        }
+
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->eq('i.status', ':statusOpen'),
+            $closedExpr,
+            $deletedExpr
+        ));
+
+        $qb->setParameter('statusOpen', 'Open');
+    }
+
+    /**
      * Builds the output for this display.
      *
      * @return void
@@ -211,10 +223,10 @@ class SectionDisplay extends BaseDisplay
             ->setParameter('section', $this->section->getId());
 
         $this->applyAgingFilter($qb);
-        $this->applyClosedFilter($qb);
         $this->applyFreshnessFilter($qb);
         $this->applyIdFilter($qb);
         $this->applyPriorityFilter($qb);
+        $this->applyStatusFilter($qb);
 
         $items = $qb->getQuery()->getResult();
 
