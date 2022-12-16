@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Added logger.
+- Hide filters when no items are open.
+- Hide stats when no items have been closed.
 - JavaScript and CSS are now served up via files compiled through Webpack. [#4]
 - Moved the legacy view-like classes to App\Legacy\Renderer.
 - Refactored display controls into their own class.

@@ -12,42 +12,44 @@
             <b>To Do List For {{ user.fullname }}</b>
         </div>
         <div class="col-6 text-right">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMenu" aria-expanded="true" aria-controls="collapseMenu">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMenu" aria-expanded="{% if countOpen > 0 %}true{% else %}false{% endif %}" aria-controls="collapseMenu">
                 &#x2630;
             </button>
         </div>
     </div>
-    <div class="row collapse show" id="collapseMenu">
+    <div class="row collapse {% if countOpen > 0 %}show{% endif %}" id="collapseMenu">
         <div class="col-sm-12 col-lg-4 text-lg-left">
-            Items Done:<br />
-            &nbsp;&nbsp;
-            Today: <a href="show_done.php?view=today">{{ itemStats.doneToday }}</a>,
-            Yesterday: <a href="show_done.php?view=yesterday">{{ itemStats.doneYesterday }}</a>
-            <br />
+            {% if itemStats.doneTotal > 0 %}
+                Items Done:<br />
+                &nbsp;&nbsp;
+                Today: <a href="show_done.php?view=today">{{ itemStats.doneToday }}</a>,
+                Yesterday: <a href="show_done.php?view=yesterday">{{ itemStats.doneYesterday }}</a>
+                <br />
 
-            &nbsp;&nbsp;
-            This Week: <a href="show_done.php?view=week">{{ itemStats.doneThisWeek }}</a>,
-            Last Week: <a href="show_done.php?view=last-week">{{ itemStats.doneLastWeek }}</a>
-            <br />
+                &nbsp;&nbsp;
+                This Week: <a href="show_done.php?view=week">{{ itemStats.doneThisWeek }}</a>,
+                Last Week: <a href="show_done.php?view=last-week">{{ itemStats.doneLastWeek }}</a>
+                <br />
 
-            &nbsp;&nbsp;
-            This Month: <a href="show_done.php?view=month">{{ itemStats.doneThisMonth }}</a>,
-            Last Month: <a href="show_done.php?view=last-month">{{ itemStats.doneLastMonth }}</a>
-            <br />
+                &nbsp;&nbsp;
+                This Month: <a href="show_done.php?view=month">{{ itemStats.doneThisMonth }}</a>,
+                Last Month: <a href="show_done.php?view=last-month">{{ itemStats.doneLastMonth }}</a>
+                <br />
 
-            &nbsp;&nbsp;
-            3 / 6 / 9 / 12 Months:
-            <a href="show_done.php?view=month3">{{ itemStats.donePreviousMonths(3) }}</a> /
-            <a href="show_done.php?view=month6">{{ itemStats.donePreviousMonths(6) }}</a> /
-            <a href="show_done.php?view=month9">{{ itemStats.donePreviousMonths(9) }}</a> /
-            <a href="show_done.php?view=month12">{{ itemStats.donePreviousMonths(12) }}</a>
-            <br />
+                &nbsp;&nbsp;
+                3 / 6 / 9 / 12 Months:
+                <a href="show_done.php?view=month3">{{ itemStats.donePreviousMonths(3) }}</a> /
+                <a href="show_done.php?view=month6">{{ itemStats.donePreviousMonths(6) }}</a> /
+                <a href="show_done.php?view=month9">{{ itemStats.donePreviousMonths(9) }}</a> /
+                <a href="show_done.php?view=month12">{{ itemStats.donePreviousMonths(12) }}</a>
+                <br />
 
-            Items Done Since Start: <a href="show_done.php">{{ itemStats.doneTotal }}</a>
-            <br />
+                Items Done Since Start: <a href="show_done.php">{{ itemStats.doneTotal }}</a>
+                <br />
 
-            Average Turnaround: {{ itemStats.average | number_format(1) }} days
-            <br />
+                Average Turnaround: {{ itemStats.average | number_format(1) }} days
+                <br />
+            {% endif %}
 
             Items Shown / Open: {{ countShown }} / {{ countOpen }}
         </div>
