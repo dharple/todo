@@ -29,8 +29,10 @@
                 <span class="align-top checkboxes">
                     {% if item.status == 'Open' %}
                         &#x2610;
-                    {% else %}
+                    {% elseif item.status == 'Closed' %}
                         &#x2611;
+                    {% else %}
+                        &#x2612;
                     {% endif %}
                 </span>
             </div>
