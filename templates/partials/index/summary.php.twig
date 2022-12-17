@@ -18,7 +18,9 @@
     Items Hidden: {NOT_SHOWN}
     </i>
     <br />
-    <div class="mt-4 chartContainer">
-        <canvas id="tasksByWeek2" class="printChart"></canvas>
-    </div>
+    {% if itemStats.doneTotal > 0 %}
+        <div class="mt-4 chartContainer">
+            <canvas id="tasksByWeek2" class="printChart"></canvas>
+        </div>
+    {% endif %}
 </div>
