@@ -130,4 +130,16 @@ abstract class BaseDisplay
     {
         return $this->twig->render($template, $variables);
     }
+
+    /**
+     * Resets the output for this display.
+     *
+     * @return void
+     */
+    protected function resetOutput(): void
+    {
+        $this->output = '';
+        $this->outputBuilt = false;
+        $this->outputCount = null;
+    }
 }

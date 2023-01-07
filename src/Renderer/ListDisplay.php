@@ -170,6 +170,7 @@ class ListDisplay extends BaseDisplay
      */
     public function setFooter($footer): ListDisplay
     {
+        $this->resetOutput();
         $this->footer = $footer;
         return $this;
     }

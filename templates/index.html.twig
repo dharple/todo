@@ -133,7 +133,11 @@
 </div>
 
 <div class="print">
-    <p align=center><b>{{ 'now' | date('F jS, Y') }}</b> - <b>{{ user.fullname }}</b></p>
+    {% if itemStats.doneTotal > 0 %}
+        <p align="center"><b>{{ 'now' | date('F jS, Y') }}</b> - <b>{{ user.fullname }}</b></p>
+    {% else %}
+        <p align="center"><b>{{ user.fullname }}</b></p>
+    {% endif %}
 </div>
 
 <form method=POST>

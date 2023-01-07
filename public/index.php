@@ -115,6 +115,14 @@ $itemCount = $listDisplay->getOutputCount()->getTotalCount();
 $shownOpenCount = $listDisplay->getOutputCount()->getOpenCount();
 $totalOpenCount = $em->getRepository(Item::class)->getOpenItemCount($user);
 
+// if nothing has been closed, and nothing has been hidden, don't show the
+// footer on the printed view
+$hideFooter = (($shownOpenCount == $totalOpenCount) && ($itemStats->doneTotal() == 0));
+if ($hideFooter) {
+    $listDisplay->setFooter('');
+    $listOutput = $listDisplay->getOutput();
+}
+
 $sections = $user->getSections()->matching(
     new Criteria(
         new Comparison('status', '=', 'Active')
