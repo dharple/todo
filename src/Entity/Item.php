@@ -28,7 +28,7 @@ class Item
      * @ORM\Column(type="datetime",nullable=true)
      * @var ?DateTime
      */
-    protected ?DateTime $completed;
+    protected ?DateTime $completed = null;
 
     /**
      * Date created
@@ -63,7 +63,7 @@ class Item
      * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="items")
      * @var ?Section
      */
-    protected ?Section $section;
+    protected ?Section $section = null;
 
     /**
      * Status
@@ -87,7 +87,7 @@ class Item
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="items")
      * @var ?User
      */
-    protected ?User $user;
+    protected ?User $user = null;
 
     /**
      * Returns the completion stamp.

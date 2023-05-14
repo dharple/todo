@@ -68,7 +68,7 @@ class Section
      *
      * @var ?User
      */
-    protected ?User $user;
+    protected ?User $user = null;
 
     /**
      * Constructs a new section.

@@ -19,14 +19,14 @@ class ItemsDeletedPurgeCommand extends Command
      *
      * @var integer
      */
-    const RETAIN_DAYS = 30;
+    protected const RETAIN_DAYS = 30;
 
     /**
      * How long deleted items are retained if their completed stamp is NULL, in days.
      *
      * @var integer
      */
-    const RETAIN_DAYS_CORRECTION = 120;
+    protected const RETAIN_DAYS_CORRECTION = 120;
 
     /**
      * @var string
