@@ -114,6 +114,7 @@
         ],
         "phpcbf":  "phpcbf",
         "phpcs":   "phpcs",
+        "phpstan": "phpstan analyse",
         "test":    "phpunit"
     },
     "conflict": {
