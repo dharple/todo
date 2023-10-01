@@ -115,6 +115,19 @@ div.chartContainer {
 }
 
 @media print {
+    /**
+     * Force default printed page size to US Letter.
+     *
+     * Needed to force correct page size on "Save to PDF".
+     *
+     * Are you using this app, and want the ability to choose a different page
+     * size?  I realize I'm hard-coding this instead of offering a choice.
+     * Please open a ticket (issue) on GitHub to let me know.
+     *
+     * Thanks!
+     *
+     * https://github.com/dharple/todo/issues
+     */
     @page {
         size: 8.5in 11in;
         margin: 1in;
