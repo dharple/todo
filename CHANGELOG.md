@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Added logger.
+- Force page size to US Letter.
 - Hide filters when no items are open.
 - Hide stats when no items have been closed.
 - JavaScript and CSS are now served up via files compiled through Webpack. [#4]
