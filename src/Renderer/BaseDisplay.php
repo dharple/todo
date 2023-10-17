@@ -39,9 +39,9 @@ abstract class BaseDisplay
     /**
      * The rendered item count.
      *
-     * @var ItemCount
+     * @var ?ItemCount
      */
-    protected ItemCount $itemCount;
+    protected ?ItemCount $itemCount;
 
     /**
      * The logger to use.
@@ -140,6 +140,6 @@ abstract class BaseDisplay
     {
         $this->output = '';
         $this->outputBuilt = false;
-        $this->outputCount = null;
+        $this->itemCount = null;
     }
 }

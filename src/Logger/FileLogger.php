@@ -25,7 +25,7 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      *
      * This drives the LOG_LEVEL-based filtering.
      *
-     * @var string[]
+     * @var array
      */
     protected const VALID_LOG_LEVELS = [
         'debug'     => 0,
