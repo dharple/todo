@@ -80,8 +80,6 @@ class Section
 
     /**
      * Returns the ID of this section.
-     *
-     * @return int
      */
     public function getId(): int
     {
@@ -90,18 +88,14 @@ class Section
 
     /**
      * Returns the items that belong to this section.
-     *
-     * @return AbstractLazyCollection|ArrayCollection
      */
-    public function getItems()
+    public function getItems(): AbstractLazyCollection|ArrayCollection
     {
         return $this->items;
     }
 
     /**
      * Returns the name of this section.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -110,8 +104,6 @@ class Section
 
     /**
      * Returns the status of this section.
-     *
-     * @return string
      */
     public function getStatus(): string
     {
@@ -120,8 +112,6 @@ class Section
 
     /**
      * Returns the user for this section.
-     *
-     * @return User|null
      */
     public function getUser(): ?User
     {
@@ -132,8 +122,6 @@ class Section
      * Sets the name of this section.
      *
      * @param string $name The name of this section.
-     *
-     * @return Section
      */
     public function setName(string $name): Section
     {
@@ -145,8 +133,6 @@ class Section
      * Sets the status for this section.
      *
      * @param string $status The status for this section.
-     *
-     * @return Section
      */
     public function setStatus(string $status): Section
     {
@@ -158,8 +144,6 @@ class Section
      * Sets the user for this section.
      *
      * @param User|null $user The user to set.
-     *
-     * @return Section
      */
     public function setUser(?User $user): Section
     {

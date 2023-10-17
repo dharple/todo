@@ -20,7 +20,6 @@ use Exception;
  */
 class ItemHistory extends AbstractItemAnalyzer
 {
-
     /**
      * Returns analytics for the previous month.
      *

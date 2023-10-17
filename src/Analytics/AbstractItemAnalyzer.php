@@ -39,13 +39,6 @@ abstract class AbstractItemAnalyzer
     public const ORDER_BY_TASK = 'task';
 
     /**
-     * The Entity Manager to use.
-     *
-     * @var EntityManagerInterface
-     */
-    protected EntityManagerInterface $em;
-
-    /**
      * The ordering for this analyzer.
      *
      * @var string
@@ -53,23 +46,14 @@ abstract class AbstractItemAnalyzer
     protected string $ordering;
 
     /**
-     * The user to collect stats on.
-     *
-     * @var User
-     */
-    protected User $user;
-
-    /**
      * AbstractItemAnalyzer constructor.
      *
      * @param EntityManagerInterface $em   The EntityManager to use.
      * @param User                   $user The user to user.
      */
-    public function __construct(EntityManagerInterface $em, User $user)
+    public function __construct(protected EntityManagerInterface $em, protected User $user)
     {
-        $this->em       = $em;
         $this->ordering = static::ORDER_BY_TASK;
-        $this->user     = $user;
     }
 
     /**

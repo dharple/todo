@@ -43,8 +43,6 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      *
      * @param string $level The log level being used.
      *
-     * @return bool
-     *
      * @throws InvalidArgumentException
      */
     protected function checkLogLevel(string $level): bool
@@ -60,8 +58,6 @@ class FileLogger extends AbstractLogger implements LoggerInterface
 
     /**
      * Returns the filename to log to.
-     *
-     * @return string|null
      */
     protected function getFilename(): ?string
     {
@@ -103,8 +99,6 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      *
      * @param string $level The current log level.
      * @param string $line  The message to log.
-     *
-     * @return void
      */
     protected function write(string $level, string $line): void
     {

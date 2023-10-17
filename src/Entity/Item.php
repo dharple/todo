@@ -91,8 +91,6 @@ class Item
 
     /**
      * Returns the completion stamp.
-     *
-     * @return ?DateTime
      */
     public function getCompleted(): ?DateTime
     {
@@ -101,8 +99,6 @@ class Item
 
     /**
      * Returns the creation stamp.
-     *
-     * @return DateTime
      */
     public function getCreated(): DateTime
     {
@@ -111,8 +107,6 @@ class Item
 
     /**
      * Returns the primary key.
-     *
-     * @return ?int
      */
     public function getId(): ?int
     {
@@ -121,8 +115,6 @@ class Item
 
     /**
      * Returns the priority of the task.
-     *
-     * @return int
      */
     public function getPriority(): int
     {
@@ -131,8 +123,6 @@ class Item
 
     /**
      * Gets the section for this item.
-     *
-     * @return Section|null
      */
     public function getSection(): ?Section
     {
@@ -141,8 +131,6 @@ class Item
 
     /**
      * Returns the status of the task.
-     *
-     * @return string
      */
     public function getStatus(): string
     {
@@ -151,8 +139,6 @@ class Item
 
     /**
      * Returns the task itself.
-     *
-     * @return string
      */
     public function getTask(): string
     {
@@ -161,8 +147,6 @@ class Item
 
     /**
      * Returns the user for this item.
-     *
-     * @return User|null
      */
     public function getUser(): ?User
     {
@@ -173,8 +157,6 @@ class Item
      * Sets the completion stamp of the task.
      *
      * @param ?DateTime $completed The completion stamp.
-     *
-     * @return Item
      */
     public function setCompleted(?DateTime $completed): Item
     {
@@ -186,8 +168,6 @@ class Item
      * Sets the creation stamp of the task.
      *
      * @param DateTime $created The creation stamp.
-     *
-     * @return Item
      */
     public function setCreated(DateTime $created): Item
     {
@@ -199,8 +179,6 @@ class Item
      * Sets the priority of the task.
      *
      * @param int $priority The priority of the task.
-     *
-     * @return Item
      */
     public function setPriority(int $priority): Item
     {
@@ -212,8 +190,6 @@ class Item
      * Sets the section for this item.
      *
      * @param Section|null $section The section to set.
-     *
-     * @return Item
      */
     public function setSection(?Section $section): Item
     {
@@ -225,8 +201,6 @@ class Item
      * Sets the status of the task.
      *
      * @param string $status The status of the task.
-     *
-     * @return Item
      */
     public function setStatus(string $status): Item
     {
@@ -238,8 +212,6 @@ class Item
      * Sets the task itself.
      *
      * @param string $task The task itself.
-     *
-     * @return Item
      */
     public function setTask(string $task): Item
     {
@@ -251,8 +223,6 @@ class Item
      * Sets the user for this item.
      *
      * @param User|null $user The user for this item.
-     *
-     * @return Item
      */
     public function setUser(?User $user): Item
     {

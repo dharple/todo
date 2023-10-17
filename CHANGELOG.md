@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The minimum PHP version is now 8.1.  Applied Rector-suggested changes.
+
 ## [v2.0.0] - 2023-10-16
 
 ### Added

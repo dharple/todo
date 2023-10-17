@@ -33,8 +33,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for the previous month.
-     *
-     * @return int
      */
     public function doneLastMonth(): int
     {
@@ -43,8 +41,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for the previous week.
-     *
-     * @return int
      */
     public function doneLastWeek(): int
     {
@@ -55,8 +51,6 @@ class ItemStats extends AbstractItemAnalyzer
      * Returns analytics for a number of previous months.
      *
      * @param int $distance How many months to go back.
-     *
-     * @return int
      */
     public function donePreviousMonths(int $distance): int
     {
@@ -65,8 +59,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for this month.
-     *
-     * @return int
      */
     public function doneThisMonth(): int
     {
@@ -75,8 +67,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for this week.
-     *
-     * @return int
      */
     public function doneThisWeek(): int
     {
@@ -85,8 +75,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for today.
-     *
-     * @return int
      */
     public function doneToday(): int
     {
@@ -95,8 +83,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for all time.
-     *
-     * @return int
      */
     public function doneTotal(): int
     {
@@ -105,8 +91,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for yesterday.
-     *
-     * @return int
      */
     public function doneYesterday(): int
     {
@@ -148,8 +132,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Gets the current average
-     *
-     * @return float
      *
      * @throws Exception
      */
@@ -193,9 +175,7 @@ class ItemStats extends AbstractItemAnalyzer
         if (count($values) == 0) {
             $result = 0;
         } else {
-            $total = array_reduce($values->toArray(), function ($carry, $value) {
-                return $carry + $value;
-            });
+            $total = array_reduce($values->toArray(), fn($carry, $value) => $carry + $value);
 
             $result = $total / count($values);
         }
@@ -207,8 +187,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Retrieves a cache instance for caching.
-     *
-     * @return Cache
      */
     protected function getCache(): Cache
     {
@@ -228,8 +206,6 @@ class ItemStats extends AbstractItemAnalyzer
      * - int    done  Number of items done.
      *
      * @param int $weeks How many weeks to load back, starting with this week.
-     *
-     * @return array
      *
      * @throws Exception
      */

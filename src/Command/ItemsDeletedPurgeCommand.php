@@ -39,21 +39,13 @@ class ItemsDeletedPurgeCommand extends Command
     protected static $defaultDescription = 'Purges deleted items older than 30 days';
 
     /**
-     * Holds the EntityManager to use.
-     *
-     * @var EntityManagerInterface
-     */
-    protected EntityManagerInterface $em;
-
-    /**
      * ItemsDeletedPurgeCommand constructor.
      *
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(protected EntityManagerInterface $em)
     {
         parent::__construct();
-        $this->em = $em;
     }
     /**
      * Configures the command

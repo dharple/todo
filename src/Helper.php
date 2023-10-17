@@ -35,8 +35,6 @@ class Helper
     /**
      * Gets the container
      *
-     * @return ContainerInterface
-     *
      * @throws Exception
      */
     public static function getContainer(): ContainerInterface
@@ -46,8 +44,6 @@ class Helper
 
     /**
      * Returns the user's display config.
-     *
-     * @return DisplayConfig
      */
     public static function getDisplayConfig(): DisplayConfig
     {
@@ -61,8 +57,6 @@ class Helper
     /**
      * Generates an entity manager for use in the application.
      *
-     * @return EntityManager
-     *
      * @throws Exception
      */
     public static function getEntityManager(): EntityManager
@@ -72,8 +66,6 @@ class Helper
 
     /**
      * Gets the Kernel
-     *
-     * @return Kernel
      *
      * @throws Exception
      */
@@ -89,8 +81,6 @@ class Helper
     /**
      * Returns a logger
      *
-     * @return LoggerInterface
-     *
      * @throws Exception
      */
     public static function getLogger(): LoggerInterface
@@ -100,8 +90,6 @@ class Helper
 
     /**
      * Gets a twig renderer.
-     *
-     * @return Environment
      *
      * @throws Exception
      */
@@ -114,8 +102,6 @@ class Helper
      * Sets the timezone in both PHP and the database.
      *
      * @param User $user The user to use.
-     *
-     * @return void
      *
      * @throws Exception
      */

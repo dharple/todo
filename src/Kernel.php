@@ -27,8 +27,6 @@ class Kernel extends BaseKernel
      * Configures the container.
      *
      * @param ContainerConfigurator $container The container to configure.
-     *
-     * @return void
      */
     protected function configureContainer(ContainerConfigurator $container): void
     {
@@ -47,8 +45,6 @@ class Kernel extends BaseKernel
      * Configures the routes.
      *
      * @param RoutingConfigurator $routes The routes to configure.
-     *
-     * @return void
      */
     protected function configureRoutes(RoutingConfigurator $routes): void
     {

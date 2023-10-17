@@ -18,7 +18,6 @@ use Exception;
  */
 class DisplayConfig
 {
-
     /**
      * These members persist between page loads.
      *
@@ -156,8 +155,6 @@ class DisplayConfig
 
     /**
      * Returns the current aging filter.
-     *
-     * @return string
      */
     public function getFilterAging(): string
     {
@@ -166,8 +163,6 @@ class DisplayConfig
 
     /**
      * Returns the current closed filter.
-     *
-     * @return string
      */
     public function getFilterClosed(): string
     {
@@ -176,8 +171,6 @@ class DisplayConfig
 
     /**
      * Returns the current deleted filter.
-     *
-     * @return string
      */
     public function getFilterDeleted(): string
     {
@@ -186,8 +179,6 @@ class DisplayConfig
 
     /**
      * Returns the current freshness filter.
-     *
-     * @return string
      */
     public function getFilterFreshness(): string
     {
@@ -195,8 +186,6 @@ class DisplayConfig
     }
     /**
      * Returns the current filter for IDs.
-     *
-     * @return array
      */
     public function getFilterIds(): array
     {
@@ -205,8 +194,6 @@ class DisplayConfig
 
     /**
      * Returns the current priority filter.
-     *
-     * @return string
      */
     public function getFilterPriority(): string
     {
@@ -215,8 +202,6 @@ class DisplayConfig
 
     /**
      * Returns the current filter for section.
-     *
-     * @return int
      */
     public function getFilterSection(): int
     {
@@ -225,8 +210,6 @@ class DisplayConfig
 
     /**
      * Returns whether or not to show inactive sections.
-     *
-     * @return bool
      */
     public function getShowInactive(): bool
     {
@@ -235,8 +218,6 @@ class DisplayConfig
 
     /**
      * Returns whether to show priority values.
-     *
-     * @return string
      */
     public function getShowPriority(): string
     {
@@ -245,8 +226,6 @@ class DisplayConfig
 
     /**
      * Returns whether or not to show the priority editor.
-     *
-     * @return bool
      */
     public function getShowPriorityEditor(): bool
     {
@@ -257,10 +236,8 @@ class DisplayConfig
      * Turns a string into a bool; leaves booleans alone.
      *
      * @param bool|string $in The value to review.
-     *
-     * @return bool
      */
-    protected function processBoolean($in): bool
+    protected function processBoolean(bool|string $in): bool
     {
         return is_bool($in) ? $in : ($in === 'y');
     }
@@ -269,8 +246,6 @@ class DisplayConfig
      * Processes any request variables.
      *
      * @throws Exception
-     *
-     * @return DisplayConfig
      */
     public function processRequest(): DisplayConfig
     {
@@ -291,8 +266,6 @@ class DisplayConfig
      *
      * @param string $filterAging Aging filter.
      *
-     * @return DisplayConfig
-     *
      * @throws Exception
      */
     public function setFilterAging(string $filterAging): DisplayConfig
@@ -309,8 +282,6 @@ class DisplayConfig
      * Sets the closed filter.
      *
      * @param string $filterClosed Closed filter.
-     *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -329,8 +300,6 @@ class DisplayConfig
      *
      * @param string $filterDeleted Deleted filter.
      *
-     * @return DisplayConfig
-     *
      * @throws Exception
      */
     public function setFilterDeleted(string $filterDeleted): DisplayConfig
@@ -348,8 +317,6 @@ class DisplayConfig
      *
      * @param string $filterFreshness Freshness filter.
      *
-     * @return DisplayConfig
-     *
      * @throws Exception
      */
     public function setFilterFreshness(string $filterFreshness): DisplayConfig
@@ -366,8 +333,6 @@ class DisplayConfig
      * Sets the ID filter.
      *
      * @param int[] $filterIds IDs to filter on.
-     *
-     * @return DisplayConfig
      */
     public function setFilterIds(array $filterIds): DisplayConfig
     {
@@ -379,8 +344,6 @@ class DisplayConfig
      * Sets the priority filter.
      *
      * @param string $filterPriority Priority filter.
-     *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -398,8 +361,6 @@ class DisplayConfig
      * If set, only this section is shown.
      *
      * @param int $filterSection A section ID, or 0.
-     *
-     * @return DisplayConfig
      */
     public function setFilterSection(int $filterSection): DisplayConfig
     {
@@ -411,10 +372,8 @@ class DisplayConfig
      * Whether or not to show inactive sections.
      *
      * @param bool|string $showInactive True or False.
-     *
-     * @return DisplayConfig
      */
-    public function setShowInactive($showInactive): DisplayConfig
+    public function setShowInactive(bool|string $showInactive): DisplayConfig
     {
         $this->showInactive = $this->processBoolean($showInactive);
         return $this;
@@ -424,8 +383,6 @@ class DisplayConfig
      * Whether or not to show the priority in the list display.
      *
      * @param string $showPriority Multiple values.
-     *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -443,10 +400,8 @@ class DisplayConfig
      * Whether or not to show the priority editor.
      *
      * @param bool|string $showPriorityEditor True or False.
-     *
-     * @return DisplayConfig
      */
-    public function setShowPriorityEditor($showPriorityEditor): DisplayConfig
+    public function setShowPriorityEditor(bool|string $showPriorityEditor): DisplayConfig
     {
         $this->showPriorityEditor = $this->processBoolean($showPriorityEditor);
         return $this;

@@ -29,9 +29,9 @@ $errors = [];
 
 if (count($_POST)) {
     try {
-        $tasks = preg_split("/[\r\n]/", $_POST['tasks']);
+        $tasks = preg_split("/[\r\n]/", (string) $_POST['tasks']);
         foreach ($tasks as $task) {
-            $task = trim($task);
+            $task = trim((string) $task);
             if ($task == '') {
                 continue;
             }

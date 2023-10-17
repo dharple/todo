@@ -25,7 +25,6 @@ use Twig\Environment;
  */
 class SectionDisplay extends BaseDisplay
 {
-
     /**
      * The section to render.
      *
@@ -60,8 +59,6 @@ class SectionDisplay extends BaseDisplay
      * Applies any aging filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
-     *
-     * @return void
      */
     protected function applyAgingFilter(QueryBuilder $qb): void
     {
@@ -80,33 +77,18 @@ class SectionDisplay extends BaseDisplay
      *
      * @param QueryBuilder $qb The query builder to use.
      *
-     * @return void
-     *
      * @throws Exception
      */
     protected function applyFreshnessFilter(QueryBuilder $qb): void
     {
         if ($this->config->getFilterFreshness() != 'all') {
-            switch ($this->config->getFilterFreshness()) {
-                case 'today':
-                    $start = Carbon::now();
-                    break;
-
-                case 'recently':
-                    $start = Carbon::now()->subDays(3);
-                    break;
-
-                case 'week':
-                    $start = Carbon::now()->startOfWeek();
-                    break;
-
-                case 'month':
-                    $start = Carbon::now()->startOfMonth();
-                    break;
-
-                default:
-                    throw new Exception('Unsupported level of freshness.  Too fresh.');
-            }
+            $start = match ($this->config->getFilterFreshness()) {
+                'today' => Carbon::now(),
+                'recently' => Carbon::now()->subDays(3),
+                'week' => Carbon::now()->startOfWeek(),
+                'month' => Carbon::now()->startOfMonth(),
+                default => throw new Exception('Unsupported level of freshness.  Too fresh.'),
+            };
 
             $qb->andWhere('i.created >= :created')
                 ->setParameter('created', $start->startOfDay()->format('Y-m-d H:i:s'));
@@ -117,8 +99,6 @@ class SectionDisplay extends BaseDisplay
      * Applies any ID filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
-     *
-     * @return void
      */
     protected function applyIdFilter(QueryBuilder $qb): void
     {
@@ -132,8 +112,6 @@ class SectionDisplay extends BaseDisplay
      * Apply the priority filter to the main query.
      *
      * @param QueryBuilder $qb The query builder to use.
-     *
-     * @return void
      */
     protected function applyPriorityFilter(QueryBuilder $qb): void
     {
@@ -155,8 +133,6 @@ class SectionDisplay extends BaseDisplay
      * Applies a status filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
-     *
-     * @return void
      */
     protected function applyStatusFilter(QueryBuilder $qb): void
     {
@@ -230,7 +206,7 @@ class SectionDisplay extends BaseDisplay
 
         $items = $qb->getQuery()->getResult();
 
-        if (count($items) == 0) {
+        if ((is_countable($items) ? count($items) : 0) == 0) {
             $this->outputBuilt = true;
             return;
         }

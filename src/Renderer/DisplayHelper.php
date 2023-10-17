@@ -27,8 +27,6 @@ class DisplayHelper
      *
      * @param EntityManager $em   The entity manager to use.
      * @param User          $user The user to use.
-     *
-     * @return int
      */
     public static function getDefaultSectionId(EntityManager $em, User $user): int
     {

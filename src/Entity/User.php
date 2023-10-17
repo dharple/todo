@@ -99,8 +99,6 @@ class User
 
     /**
      * Returns the full name of this user.
-     *
-     * @return string
      */
     public function getFullname(): string
     {
@@ -109,8 +107,6 @@ class User
 
     /**
      * Returns the ID of this user.
-     *
-     * @return int
      */
     public function getId(): int
     {
@@ -119,18 +115,14 @@ class User
 
     /**
      * Returns the items associated with this user.
-     *
-     * @return AbstractLazyCollection|ArrayCollection
      */
-    public function getItems()
+    public function getItems(): AbstractLazyCollection|ArrayCollection
     {
         return $this->items;
     }
 
     /**
      * Returns the hashed password for this user.
-     *
-     * @return string
      */
     public function getPassword(): string
     {
@@ -139,18 +131,14 @@ class User
 
     /**
      * Returns the sections associated with this user.
-     *
-     * @return AbstractLazyCollection|ArrayCollection
      */
-    public function getSections()
+    public function getSections(): AbstractLazyCollection|ArrayCollection
     {
         return $this->sections;
     }
 
     /**
      * Returns the timezone for this user.
-     *
-     * @return string
      */
     public function getTimezone(): string
     {
@@ -159,8 +147,6 @@ class User
 
     /**
      * Returns the username for this user.
-     *
-     * @return string
      */
     public function getUsername(): string
     {
@@ -171,8 +157,6 @@ class User
      * Sets the full name of this user.
      *
      * @param string $fullname The full name.
-     *
-     * @return User
      */
     public function setFullname(string $fullname): User
     {
@@ -184,8 +168,6 @@ class User
      * Sets the hashed password for this user.
      *
      * @param string $password The password, already hashed.
-     *
-     * @return User
      */
     public function setPassword(string $password): User
     {
@@ -197,8 +179,6 @@ class User
      * Sets the timezone for this user.
      *
      * @param string $timezone The timezone for this user.
-     *
-     * @return User
      */
     public function setTimezone(string $timezone): User
     {
@@ -210,8 +190,6 @@ class User
      * Sets the username of this user.
      *
      * @param string $username The username.
-     *
-     * @return User
      */
     public function setUsername(string $username): User
     {

@@ -26,21 +26,13 @@ class ItemsDeletedListCommand extends Command
     protected static $defaultName = 'items:deleted:list';
 
     /**
-     * Holds the EntityManager to use.
-     *
-     * @var EntityManagerInterface
-     */
-    protected EntityManagerInterface $em;
-
-    /**
      * ItemsDeletedListCommand constructor.
      *
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(protected EntityManagerInterface $em)
     {
         parent::__construct();
-        $this->em = $em;
     }
 
     /**

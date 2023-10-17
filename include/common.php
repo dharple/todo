@@ -29,7 +29,7 @@ try {
     $user = Guard::getUser();
 } catch (Exception $e) {
     Helper::getLogger()->debug($e->getMessage());
-    if (!preg_match('/login.php/', $_SERVER['SCRIPT_NAME'])) {
+    if (!preg_match('/login.php/', (string) $_SERVER['SCRIPT_NAME'])) {
         header('Location: /login.php');
         exit();
     }
