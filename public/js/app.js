@@ -57,7 +57,7 @@ $(document).ready(function() {
             return row.done;
         });
         config.data.labels = $.map(chartData, function(row, i) {
-            return moment(row.start).format('MMM D');
+            return row.weekOf;
         });
 
         let noPrintConfig = $.extend({}, config);

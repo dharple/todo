@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Moment.js is no longer used; the formatting is being handle by Carbon. [#26]
 - Node packages are no longer installed; instead we're now using CDNs to
   deliver JavaScript resources. [#25]
 
@@ -144,6 +145,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.0]: https://github.com/dharple/todo/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/dharple/todo/releases/tag/v1.0.0
 
+[#26]: https://github.com/dharple/todo/issues/26
 [#25]: https://github.com/dharple/todo/issues/25
 [#7]: https://github.com/dharple/todo/issues/7
 [#5]: https://github.com/dharple/todo/issues/5

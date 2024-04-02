@@ -201,9 +201,8 @@ class ItemStats extends AbstractItemAnalyzer
      * Loads a summary of number of items done by week.
      *
      * Returns an array, sorted into descending order by start date.  The elements of the array are:
-     * - Carbon start Start of week
-     * - Carbon end   End of week
-     * - int    done  Number of items done.
+     * - string weekOf Start of week
+     * - int    done   Number of items done.
      *
      * @param int $weeks How many weeks to load back, starting with this week.
      *
@@ -219,9 +218,8 @@ class ItemStats extends AbstractItemAnalyzer
             $end = (clone $current)->endOfWeek();
 
             $ret[] = [
-                'start' => $start,
-                'end'   => $end,
-                'done'  => $this->execute($start, $end),
+                'weekOf' => $start->format('M j'),
+                'done'   => $this->execute($start, $end),
             ];
 
             $current = $current->subWeek();
