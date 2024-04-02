@@ -19,7 +19,5 @@ cd $BASE
 git stash save
 git pull
 composer install --no-dev -o
-npm install
-npm run prod
 bin/console cache:clear
 bin/console cache:warmup

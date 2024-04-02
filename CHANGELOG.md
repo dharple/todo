@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fonts have been tweaked to work better with current browsers, both on screen
   and in print.
 
+### Removed
+
+- Node packages are no longer installed; instead we're now using CDNs to
+  deliver JavaScript resources. [#25]
+
 ## [v2.0.0] - 2023-10-16
 
 ### Added
@@ -139,6 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.0]: https://github.com/dharple/todo/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/dharple/todo/releases/tag/v1.0.0
 
+[#25]: https://github.com/dharple/todo/issues/25
 [#7]: https://github.com/dharple/todo/issues/7
 [#5]: https://github.com/dharple/todo/issues/5
 [#4]: https://github.com/dharple/todo/issues/4

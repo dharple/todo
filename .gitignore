@@ -20,14 +20,6 @@
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
 
-###> laravel/mix ###
-/public/css/
-/public/js/
-/public/webfonts/
-mix-manifest.json
-node_modules/
-###< laravel/mix ###
-
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache

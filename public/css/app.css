@@ -1,7 +1,3 @@
-@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/bootstrap/scss/mixins/_breakpoints";
-
 body {
     font-size: 1.2rem;
 }
@@ -100,16 +96,15 @@ div.chartContainer {
     justify-content: center;
 }
 
-@media screen {
-    @include media-breakpoint-down(md) {
-        div.wrapper {
-            column-count: 1;
-        }
 
-        canvas.mainChart {
-            width: fit-content;
-            height: fit-content;
-        }
+@media screen and (max-width: 991.98px) {
+    div.wrapper {
+        column-count: 1;
+    }
+
+    canvas.mainChart {
+        width: fit-content;
+        height: fit-content;
     }
 }
 
@@ -171,6 +166,6 @@ div.chartContainer {
     }
 
     span.checkboxes {
-        font-family: "Times New Roman", serif
+        font-family: "Times New Roman", serif;
     }
 }
