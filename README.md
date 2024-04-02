@@ -15,19 +15,17 @@ So far, I've introduced:
 - Merged Index and Print Templates
 - Symfony Kernel
 - Twig
-- Webpack
+- Database Migrations
 
 The remaining pieces:
 - Bootstrap (Other Pages)
 - Symfony Controllers
-- Database Migrations
 - Unit Tests
 
 # Requirements
 
 * Composer
 * MySQL, PostgreSQL or SQLite
-* Node
 * PHP
 
 # Getting Started
