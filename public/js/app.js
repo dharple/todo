@@ -5,6 +5,8 @@ $('select[name="edit_section_id"]').change(function () {
 //
 // Experimental Chart.js support
 //
+// Colors by Manish @ SchemeColor: https://www.schemecolor.com/author/manish
+//
 
 var config = {
     type: 'doughnut',

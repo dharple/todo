@@ -77,4 +77,8 @@ Connect to http://localhost:8666 and log in.
 
 Favicon courtesy of [favicon.ico].
 
+Doughnut colors courtesy of [Manish] @ [ColorScheme].
+
 [favicon.ico]: https://favicon.io/emoji-favicons/cherry-blossom
+[Manish]: https://www.schemecolor.com/author/manish
+[SchemeColor]: https://www.schemecolor.com/retro-orange-and-blue.php
