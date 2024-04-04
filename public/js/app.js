@@ -25,20 +25,23 @@ var config = {
     },
     options: {
         responsive: false,
-        legend: {
-            display: false,
-            position: 'top',
-        },
-        title: {
-            display: false,
-            text: 'Tasks Done By Week'
+        plugins: {
+            legend: {
+                display: false,
+                position: 'top',
+            },
+            title: {
+                display: false,
+                text: 'Tasks Done By Week'
+            },
         },
         animation: {
             animateScale: false,
             animateRotate: false
         },
-        circumference: Math.PI,
-        rotation: -Math.PI
+        circumference: 180,
+        rotation: 270,
+        aspectRatio: 2
     }
 };
 
