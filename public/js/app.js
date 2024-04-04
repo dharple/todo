@@ -20,7 +20,7 @@ var config = {
                 '#DFBD9A',
                 '#D99057'
             ],
-            label: 'Tasks Done By Week'
+            label: 'Tasks Done'
         }]
     },
     options: {

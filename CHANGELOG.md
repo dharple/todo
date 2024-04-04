@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Chart.js is upgraded from v2.9.4 to v4.4.2. [#27]
 - The minimum PHP version is now 8.1.  Applied Rector-suggested changes.
 - Fonts have been tweaked to work better with current browsers, both on screen
   and in print.
@@ -145,6 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.0]: https://github.com/dharple/todo/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/dharple/todo/releases/tag/v1.0.0
 
+[#27]: https://github.com/dharple/todo/issues/27
 [#26]: https://github.com/dharple/todo/issues/26
 [#25]: https://github.com/dharple/todo/issues/25
 [#7]: https://github.com/dharple/todo/issues/7
