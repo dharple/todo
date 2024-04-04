@@ -69,7 +69,7 @@ Start the server:
 composer go
 ```
 
-Connect to http://localhost:8666 and log in.
+Connect to http://localhost:8000 and log in.
 
 # Thanks
 
