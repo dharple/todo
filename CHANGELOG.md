@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added "Select All" and "Select None" buttons.
+
 ### Changed
 
 - Chart.js is upgraded from v2.9.4 to v4.4.2. [#27]

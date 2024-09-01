@@ -175,14 +175,24 @@
                 <a href="/logout.php" class="btn btn-danger">Logout</a>
             </div>
             <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-right">
-                {% if hasSections %}
-                    <a href="/item_bulk_add.php" class="btn btn-primary">Bulk</a>
-                    <a href="/item_edit.php?op=add" class="btn btn-secondary">Add New</a>
-                {% else %}
-                    <button type="button" class="btn btn-primary" disabled="disabled">Bulk</button>
-                    <button type="button" class="btn btn-secondary" disabled="disabled">Add New</button>
+                {% if showAdvanced %}
+                    <div class="mb-2">
                 {% endif %}
-                <a href="/section_edit.php" class="btn btn-secondary">Edit Sections</a>
+                {% if hasSections %}
+                        <a href="/item_bulk_add.php" class="btn btn-primary">Bulk</a>
+                        <a href="/item_edit.php?op=add" class="btn btn-secondary">Add New</a>
+                {% else %}
+                        <button type="button" class="btn btn-primary" disabled="disabled">Bulk</button>
+                        <button type="button" class="btn btn-secondary" disabled="disabled">Add New</button>
+                {% endif %}
+                        <a href="/section_edit.php" class="btn btn-secondary">Edit Sections</a>
+                {% if showAdvanced %}
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-success" id="select-all">Select All</button>
+                        <button type="button" class="btn btn-success" id="select-none">Select None</button>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

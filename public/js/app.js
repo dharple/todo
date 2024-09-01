@@ -73,4 +73,12 @@ $(document).ready(function() {
         ctx = document.getElementById('tasksByWeek2').getContext('2d');
         window.myDoughnut2 = new Chart(ctx, printConfig);
     }
+
+    $('#select-all').on('click', function() {
+        $('input[type="checkbox"]').attr('checked', 'checked');
+    });
+
+    $('#select-none').on('click', function() {
+        $('input[type="checkbox"]').attr('checked', null);
+    });
 });
