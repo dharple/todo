@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Node packages are no longer installed; instead we're now using CDNs to
   deliver JavaScript resources. [#25]
 
+### Security
+
+- Bumped Twig from v3.12.0 to v3.14.0, to address [CVE-2024-45411].
+  Thanks to [@dependabot].
+
 ## [v2.0.0] - 2023-10-16
 
 ### Added
@@ -158,3 +163,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#4]: https://github.com/dharple/todo/issues/4
 [#3]: https://github.com/dharple/todo/issues/3
 [#2]: https://github.com/dharple/todo/issues/2
+
+[CVE-2024-45411]: https://nvd.nist.gov/vuln/detail/CVE-2024-45411
