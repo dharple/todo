@@ -165,3 +165,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#2]: https://github.com/dharple/todo/issues/2
 
 [CVE-2024-45411]: https://nvd.nist.gov/vuln/detail/CVE-2024-45411
+
+[@dependabot]: https://github.com/dependabot
