@@ -8,17 +8,17 @@
 </script>
 <div class="no-print">
     <div class="row mb-3">
-        <div class="col-6 text-left">
+        <div class="col-6 text-start">
             <b>To Do List For {{ user.fullname }}</b>
         </div>
-        <div class="col-6 text-right">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMenu" aria-expanded="{% if countOpen > 0 %}true{% else %}false{% endif %}" aria-controls="collapseMenu">
+        <div class="col-6 text-end">
+            <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenu" aria-expanded="{% if countOpen > 0 %}true{% else %}false{% endif %}" aria-controls="collapseMenu">
                 &#x2630;
             </button>
         </div>
     </div>
-    <div class="row collapse {% if countOpen > 0 %}show{% endif %}" id="collapseMenu">
-        <div class="col-sm-12 col-lg-4 text-lg-left">
+    <div class="row top-link collapse {% if countOpen > 0 %}show{% endif %}" id="collapseMenu">
+        <div class="col-sm-12 col-lg-4 text-lg-start">
             {% if itemStats.doneTotal > 0 %}
                 Items Done:<br />
                 &nbsp;&nbsp;
@@ -56,7 +56,7 @@
         <div class="col-sm-12 col-lg-4 chartContainer">
             <canvas id="tasksByWeek" class="mainChart"></canvas>
         </div>
-        <div class="col-sm-12 col-lg-4 text-lg-right">
+        <div class="col-sm-12 col-lg-4 text-lg-end">
             Filter Closed Items:&nbsp;&nbsp;
             {% for value, label in filterClosedValues %}
                 {% if config.filterClosed == value %}
@@ -148,7 +148,7 @@
         <br />
 
         <div class="row">
-            <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-left">
+            <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-start">
                 {% if hasItems %}
                     {% if showAdvanced %}
                         <div class="mb-2">
@@ -174,7 +174,7 @@
                 <a href="/account.php" class="btn btn-secondary">My Account</a>
                 <a href="/logout.php" class="btn btn-danger">Logout</a>
             </div>
-            <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-right">
+            <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-end">
                 {% if showAdvanced %}
                     <div class="mb-2">
                 {% endif %}

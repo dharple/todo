@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Bootstrap is upgraded from v4.6.2 to v5.3.3.
 - Chart.js is upgraded from v2.9.4 to v4.4.2. [#27]
 - The minimum PHP version is now 8.1.  Applied Rector-suggested changes.
 - Fonts have been tweaked to work better with current browsers, both on screen
