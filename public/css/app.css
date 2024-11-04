@@ -57,7 +57,7 @@ div.section {
 
 div.item-row {
     padding-bottom: 5px;
-    line-height: 1.2;
+    line-height: 1.3;
 }
 
 .section-label {
@@ -127,7 +127,7 @@ canvas.mainChart {
 }
 
 canvas.printChart {
-    width: max-content;
+    width: 200px;
     height: max-content;
 }
 
@@ -185,7 +185,7 @@ div.chartContainer {
     }
 
     div.summary {
-        font-size: 1.0rem;
+        font-size: 0.9rem;
     }
 
     span.high-priority {
