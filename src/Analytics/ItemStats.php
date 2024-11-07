@@ -110,7 +110,7 @@ class ItemStats extends AbstractItemAnalyzer
     protected function execute(?DateTime $start = null, ?DateTime $end = null)
     {
         $cache = $this->getCache();
-        $cacheKey = hash('md5', serialize([
+        $cacheKey = md5(serialize([
             __METHOD__,
             $this->user->getId(),
             $start,
@@ -138,7 +138,7 @@ class ItemStats extends AbstractItemAnalyzer
     public function getAverage(): float
     {
         $cache = $this->getCache();
-        $cacheKey = hash('md5', serialize([
+        $cacheKey = md5(serialize([
             __METHOD__,
             $this->user->getId(),
         ]));
