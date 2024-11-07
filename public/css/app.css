@@ -176,11 +176,10 @@ div.chartContainer {
     div.wrapper {
         column-count: 2;
         column-fill: auto;
-        font-size: 1.0rem;
+        font-size: 1.1rem;
     }
 
     div.item-row {
-        padding-bottom: 0;
         line-height: 1.15;
     }
 
