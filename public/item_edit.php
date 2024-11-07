@@ -97,7 +97,7 @@ $sectionOverride = null;
 if ($_REQUEST['op'] == 'edit') {
     $items = $em->getRepository(Item::class)
         ->findBy([
-            'id' => unserialize($_REQUEST['ids']),
+            'id' => $_REQUEST['ids'],
             'user' => $user,
         ]);
 } elseif ($_REQUEST['op'] == 'add') {

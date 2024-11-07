@@ -52,16 +52,22 @@ if (count($_POST)) {
         }
     } elseif (!empty($_POST['editButton'])) {
         if (!empty($_POST['itemIds'])) {
-            header('Location: item_edit.php?op=edit&ids=' . urlencode(serialize($_POST['itemIds'])));
+            $url = sprintf('item_edit.php?%s', http_build_query([
+                'op' => 'edit',
+                'ids' => $_POST['itemIds'],
+            ]));
+            header(sprintf('Location: %s', $url));
             exit;
         }
         $errors[] = 'Please select one or more items to edit';
     } elseif (!empty($_POST['prioritizeButton'])) {
-        $queryString = '';
+        $url = 'item_prioritize.php';
         if (!empty($_POST['itemIds'])) {
-            $queryString = '?ids=' . urlencode(serialize($_POST['itemIds']));
+            $url = sprintf('%s?%s', $url, http_build_query([
+                'ids' => $_POST['itemIds'],
+            ]));
         }
-        header('Location: item_prioritize.php' . $queryString);
+        header(sprintf('Location: %s', $url));
         exit;
     } elseif (!empty($_POST['duplicateButton'])) {
         try {

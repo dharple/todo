@@ -77,7 +77,7 @@ try {
 $config->setShowPriorityEditor(true);
 
 if (isset($_REQUEST['ids'])) {
-    $ids = unserialize($_REQUEST['ids']);
+    $ids = $_REQUEST['ids'];
     if (is_array($ids) && count($ids)) {
         $config->setFilterIds($ids);
     }
