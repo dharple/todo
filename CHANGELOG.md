@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Thanks to [@dependabot].
 - Fixed multiple security alerts via [@dependabot].
 - Replace risky calls to unserialize() with native query parameters. [@snyk]
+- Replace risky Exception dumps with annoying vanilla messages. [@snyk]
 
 ## [v2.0.0] - 2023-10-16
 

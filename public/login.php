@@ -8,7 +8,7 @@ $errors = [];
 try {
     $log = Helper::getLogger();
 } catch (Exception $e) {
-    echo $e->getMessage();
+    print('An error occurred...');
     exit;
 }
 
@@ -16,7 +16,7 @@ try {
     $twig = Helper::getTwig();
 } catch (Exception $e) {
     $log->critical($e->getMessage());
-    echo $e->getMessage();
+    print('An error occurred...');
     exit;
 }
 
@@ -45,6 +45,6 @@ try {
     ]);
 } catch (Exception $e) {
     $log->critical($e->getMessage());
-    echo $e->getMessage();
+    print('An error occurred...');
     exit;
 }

@@ -6,7 +6,7 @@ use App\Helper;
 try {
     $log = Helper::getLogger();
 } catch (Exception $e) {
-    echo $e->getMessage();
+    print('An error occurred...');
     exit;
 }
 
@@ -16,7 +16,7 @@ try {
     $user = Guard::getUser();
 } catch (Exception $e) {
     $log->critical($e->getMessage());
-    echo $e->getMessage();
+    print('An error occurred...');
     exit;
 }
 
@@ -65,6 +65,6 @@ try {
     ]);
 } catch (Exception $e) {
     $log->critical($e->getMessage());
-    echo $e->getMessage();
+    print('An error occurred...');
     exit;
 }
