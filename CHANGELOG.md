@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Bumped Twig from v3.12.0 to v3.14.0, to address [CVE-2024-45411].
   Thanks to [@dependabot].
+- Fixed multiple security alerts via [@dependabot].
 
 ## [v2.0.0] - 2023-10-16
 
