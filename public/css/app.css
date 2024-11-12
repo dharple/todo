@@ -137,6 +137,9 @@ div.chartContainer {
     justify-content: center;
 }
 
+input::placeholder {
+    text-align: center;
+}
 
 @media screen and (max-width: 991.98px) {
     div.wrapper {

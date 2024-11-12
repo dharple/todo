@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The minimum PHP version is now 8.1.  Applied Rector-suggested changes.
 - Fonts have been tweaked to work better with current browsers, both on screen
   and in print.
+- Tweaked login form.
 
 ### Removed
 
