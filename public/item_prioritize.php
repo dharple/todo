@@ -91,7 +91,6 @@ try {
     $twig->display('item_prioritize.html.twig', [
         'hasItems' => ($itemCount > 0),
         'errors' => $errors,
-        'ids' => $_REQUEST['ids'] ?? '',
         'list' => $listOutput,
     ]);
 } catch (Exception $e) {

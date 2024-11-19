@@ -112,7 +112,6 @@ if ($_REQUEST['op'] == 'edit') {
 try {
     $twig->display('item_edit.html.twig', [
         'errors' => $errors,
-        'ids' => $_REQUEST['ids'] ?? '',
         'items' => $items,
         'op' => $_REQUEST['op'],
         'priorityLevels' => $priorityLevels,

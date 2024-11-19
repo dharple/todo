@@ -11,6 +11,7 @@
                         {{ item.task }}
                     </span>
                 </label>
+                <input type="hidden" name="ids[]" value="{{ item.id }}">
             </li>
         {% endfor %}
     </ul>

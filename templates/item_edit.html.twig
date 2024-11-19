@@ -7,7 +7,6 @@
 
 <form method="POST" action="item_edit.php">
     <input type="hidden" name="op" value="{{ op }}">
-    <input type="hidden" name="ids" value="{{ ids }}">
 
     {% if op == 'edit' %}
         Editing...
@@ -20,6 +19,7 @@
     {% for item in items %}
         {% set itemId = item.id ?? 'new' %}
         Item Id #: {{ itemId }}
+        <input type="hidden" name="ids[]" value="{{ itemId }}">
         <br />
         <br />
 
