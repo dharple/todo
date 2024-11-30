@@ -20,4 +20,5 @@ git stash save
 git pull
 composer install --no-dev -o
 bin/console cache:clear
+composer dump-env prod
 bin/console cache:warmup

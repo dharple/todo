@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fonts have been tweaked to work better with current browsers, both on screen
   and in print.
 - Tweaked login form.
+- Updated deploy script to run `composer dump-env`.
 
 ### Removed
 
