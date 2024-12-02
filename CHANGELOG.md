@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.1.0] - 2024-12-01
+## [2.1.0] - 2024-12-01
 
 ### Added
 
@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace risky calls to unserialize() with native query parameters. [@snyk]
 - Replace risky Exception dumps with annoying vanilla messages. [@snyk]
 
-## [v2.0.0] - 2023-10-16
+## [2.0.0] - 2023-10-16
 
 ### Added
 
