@@ -10020,7 +10020,8 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -10029,7 +10030,8 @@
         "ext-iconv": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": {
+    },
     "platform-overrides": {
         "php": "8.1.2"
     },
