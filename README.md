@@ -34,8 +34,6 @@ The remaining pieces:
 
 ```bash
 composer install
-npm install
-npm run prod
 ```
 
 ## Set up .env
