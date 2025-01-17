@@ -196,8 +196,8 @@ div.chartContainer {
     }
 
     span.low-priority {
-        color: black;
-        font-weight: lighter;
+        color: lightblue;
+        font-weight: normal;
     }
 
     .print {
