@@ -37,6 +37,7 @@
         "symfony/property-access": "^5.4.43",
         "symfony/property-info": "^5.4.42",
         "symfony/proxy-manager-bridge": "^5.4.40",
+        "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "^5.4.43",
         "symfony/serializer": "^5.4.43",
         "symfony/string": "^5.4.43",
@@ -78,7 +79,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "symfony/runtime": true
         },
         "audit": {
             "abandoned": "fail"
