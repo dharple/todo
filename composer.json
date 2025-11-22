@@ -15,10 +15,10 @@
         "doctrine/collections": "^1.8",
         "doctrine/dbal": "^2.13.9",
         "doctrine/doctrine-bundle": "^2.7.2",
-        "doctrine/doctrine-migrations-bundle": "^3.6.0",
+        "doctrine/doctrine-migrations-bundle": "^3.7.0",
         "doctrine/orm": "^2.20.8",
         "nesbot/carbon": "^2.73.0",
-        "phpdocumentor/reflection-docblock": "^5.6.3",
+        "phpdocumentor/reflection-docblock": "^5.6.4",
         "psr/log": "^1.1.4",
         "symfony/asset": "^5.4.45",
         "symfony/console": "^5.4.47",
@@ -37,7 +37,7 @@
         "symfony/property-access": "^5.4.45",
         "symfony/property-info": "^5.4.48",
         "symfony/proxy-manager-bridge": "^5.4.45",
-        "symfony/runtime": "5.4.*",
+        "symfony/runtime": "^5.4.46",
         "symfony/security-bundle": "^5.4.45",
         "symfony/serializer": "^5.4.45",
         "symfony/string": "^5.4.47",
@@ -47,8 +47,8 @@
         "symfony/var-exporter": "^5.4.45",
         "symfony/web-link": "^5.4.45",
         "symfony/yaml": "^5.4.45",
-        "twig/extra-bundle": "^2.12|^3.22.0",
-        "twig/twig": "^2.12|^3.22.0"
+        "twig/extra-bundle": "^3.22.1",
+        "twig/twig": "^3.22.0"
     },
     "suggest": {
         "ext-mysqli": "*",
