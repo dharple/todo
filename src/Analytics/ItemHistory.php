@@ -21,6 +21,16 @@ use Exception;
 class ItemHistory extends AbstractItemAnalyzer
 {
     /**
+     * Returns analytics for a given year.
+     *
+     * @return Item[]
+     */
+    public function doneDuringYear(int $year): array
+    {
+        return $this->executeDoneDuringYear($year);
+    }
+
+    /**
      * Returns analytics for the previous month.
      *
      * @return Item[]

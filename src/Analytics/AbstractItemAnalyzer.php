@@ -97,6 +97,21 @@ abstract class AbstractItemAnalyzer
     abstract protected function execute(?DateTime $start = null, ?DateTime $end = null);
 
     /**
+     * Returns analytics for a given year
+     *
+     * @return mixed
+     */
+    protected function executeDoneDuringYear(int $year)
+    {
+        $mid = Carbon::create($year, 6, 6, 6, 6, 6);
+
+        return $this->execute(
+            (clone $mid)->startOfYear(),
+            (clone $mid)->endOfYear()
+        );
+    }
+
+    /**
      * Returns analytics for the previous month.
      *
      * @return mixed

@@ -8,6 +8,10 @@ $errors = [];
 
 $view = $_REQUEST['view'] ?? 'all';
 $sort = $_REQUEST['sort'] ?? 'task';
+$year = $_REQUEST['year'] ?? date('Y');
+if (!is_numeric($year)) {
+    $year = '1969';
+}
 
 try {
     $log = Helper::getLogger();
@@ -80,6 +84,11 @@ switch ($view) {
     case 'month12':
         $items = $itemHistory->donePreviousMonths(12);
         $period = 'Past 12 Months';
+        break;
+
+    case 'year':
+        $items = $itemHistory->doneDuringYear($year);
+        $period = sprintf('Done During %d', $year);
         break;
 
     case 'all':
