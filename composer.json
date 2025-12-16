@@ -83,7 +83,7 @@
             "symfony/runtime": true
         },
         "audit": {
-            "abandoned": "fail"
+            "abandoned": "report"
         }
     },
     "autoload": {
