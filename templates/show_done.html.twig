@@ -13,15 +13,15 @@
             <div class="col-12 col-md-6 text-center text-md-end">
                 {% if view != 'year' %}
                     {% if sort == 'section' %}
-                        <a href="show_done.php?sort=task&view={{ view }}">Main View</a>
+                        <a href="show_done.php?sort=task&view={{ view }}">Sort by Task</a>
                     {% else %}
-                        <a href="show_done.php?sort=section&view={{ view }}">Alternate View</a>
+                        <a href="show_done.php?sort=section&view={{ view }}">Sort by Section</a>
                     {% endif %}
                 {% else %}
                     {% if sort == 'section' %}
-                        <a href="show_done.php?sort=task&view={{ view }}&year={{ year }}">Main View</a>
+                        <a href="show_done.php?sort=task&view={{ view }}&year={{ year }}">Sort by Task</a>
                     {% else %}
-                        <a href="show_done.php?sort=section&view={{ view }}&year={{ year }}">Alternate View</a>
+                        <a href="show_done.php?sort=section&view={{ view }}&year={{ year }}">Sort by Section</a>
                     {% endif %}
                 {% endif %}
                 |

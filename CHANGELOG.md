@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Minimum PHP version is now 8.2.29.
+- The list of items done now defaults to sort by section.
 - Updated 3rd party dependencies.
 
 ## [2.1.1] - 2025-09-01

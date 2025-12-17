@@ -7,7 +7,7 @@ use App\Helper;
 $errors = [];
 
 $view = $_REQUEST['view'] ?? 'all';
-$sort = $_REQUEST['sort'] ?? 'task';
+$sort = $_REQUEST['sort'] ?? 'section';
 $year = $_REQUEST['year'] ?? date('Y');
 if (!is_numeric($year)) {
     $year = '1969';
