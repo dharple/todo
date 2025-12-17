@@ -11,10 +11,18 @@
                 <b>{{ title }}</b>
             </div>
             <div class="col-12 col-md-6 text-center text-md-end">
-                {% if sort == 'section' %}
-                    <a href="show_done.php?sort=task&view={{ view }}">Main View</a>
+                {% if view != 'year' %}
+                    {% if sort == 'section' %}
+                        <a href="show_done.php?sort=task&view={{ view }}">Main View</a>
+                    {% else %}
+                        <a href="show_done.php?sort=section&view={{ view }}">Alternate View</a>
+                    {% endif %}
                 {% else %}
-                    <a href="show_done.php?sort=section&view={{ view }}">Alternate View</a>
+                    {% if sort == 'section' %}
+                        <a href="show_done.php?sort=task&view={{ view }}&year={{ year }}">Main View</a>
+                    {% else %}
+                        <a href="show_done.php?sort=section&view={{ view }}&year={{ year }}">Alternate View</a>
+                    {% endif %}
                 {% endif %}
                 |
                 <a href="index.php">Home</a>

@@ -44,6 +44,15 @@
                 <a href="show_done.php?view=month12">{{ itemStats.donePreviousMonths(12) }}</a>
                 <br />
 
+                &nbsp;&nbsp;
+                By Year:
+                {% for year, count in itemStats.getYearlySummary() %}
+                    {% if count > 0 %}
+                        <a href="show_done.php?view=year&year={{ year }}">{{ year }}</a>
+                    {% endif %}
+                {% endfor %}
+                <br />
+
                 Items Done Since Start: <a href="show_done.php">{{ itemStats.doneTotal }}</a>
                 <br />
 

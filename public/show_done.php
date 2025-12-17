@@ -110,6 +110,7 @@ try {
         'period'   => $period,
         'sort'     => $sort,
         'view'     => $view,
+        'year'     => $year,
     ]);
 } catch (Exception $e) {
     $log->critical($e->getMessage());

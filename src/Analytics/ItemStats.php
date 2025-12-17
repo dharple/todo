@@ -32,6 +32,16 @@ class ItemStats extends AbstractItemAnalyzer
     protected ?Cache $cache = null;
 
     /**
+     * Returns analytics for a given year.
+     *
+     * @return Item[]
+     */
+    public function doneDuringYear(int $year): int
+    {
+        return $this->executeDoneDuringYear($year);
+    }
+
+    /**
      * Returns analytics for the previous month.
      */
     public function doneLastMonth(): int
@@ -226,5 +236,30 @@ class ItemStats extends AbstractItemAnalyzer
         }
 
         return array_reverse($ret);
+    }
+
+    /**
+     * Loads a summary of number of items done by year.
+     *
+     * @throws Exception
+     */
+    public function getYearlySummary(): array
+    {
+        $year = Date('Y');
+        $minYear = $year - 10;
+        $total = $this->doneTotal();
+        $seen = 0;
+        $ret = [];
+
+        while ($seen < $total && $year > $minYear) {
+            $current = $this->doneDuringYear($year);
+
+            $ret[$year] = $current;
+
+            $total += $current;
+            $year--;
+        }
+
+        return $ret;
     }
 }
