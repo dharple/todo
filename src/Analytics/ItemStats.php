@@ -33,8 +33,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for a given year.
-     *
-     * @return Item[]
      */
     public function doneDuringYear(int $year): int
     {
