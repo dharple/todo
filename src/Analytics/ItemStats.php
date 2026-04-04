@@ -205,7 +205,7 @@ class ItemStats extends AbstractItemAnalyzer
         if (count($values) == 0) {
             $result = 0;
         } else {
-            $total = array_reduce($values->toArray(), fn($carry, $value) => $carry + $value);
+            $total = array_reduce($values->toArray(), fn(?int $carry, int $value) => (int) $carry + $value);
 
             $result = $total / count($values);
         }
