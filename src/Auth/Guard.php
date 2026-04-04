@@ -25,6 +25,8 @@ class Guard
      *
      * @param User   $user     The user to confirm.
      * @param string $password The password to confirm.
+     *
+     * @return bool
      */
     public static function checkPassword(User $user, string $password): bool
     {
@@ -33,6 +35,8 @@ class Guard
 
     /**
      * Gets the current logged in user.
+     *
+     * @return User
      *
      * @throws Exception
      */
@@ -60,6 +64,8 @@ class Guard
      * @param string $username The user who is logging in.
      * @param string $password The password they are using.
      *
+     * @return User
+     *
      * @throws Exception
      */
     public static function login(string $username, string $password): User
@@ -86,6 +92,8 @@ class Guard
      *
      * @param User   $user     The user to change.
      * @param string $password The password to set.
+     *
+     * @return void
      */
     public static function setPassword(User $user, string $password): void
     {

@@ -33,6 +33,10 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for a given year.
+     *
+     * @param int $year The year to return analytics for.
+     *
+     * @return int
      */
     public function doneDuringYear(int $year): int
     {
@@ -41,6 +45,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for the previous month.
+     *
+     * @return int
      */
     public function doneLastMonth(): int
     {
@@ -49,6 +55,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for the previous week.
+     *
+     * @return int
      */
     public function doneLastWeek(): int
     {
@@ -59,6 +67,8 @@ class ItemStats extends AbstractItemAnalyzer
      * Returns analytics for a number of previous months.
      *
      * @param int $distance How many months to go back.
+     *
+     * @return int
      */
     public function donePreviousMonths(int $distance): int
     {
@@ -67,6 +77,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for this month.
+     *
+     * @return int
      */
     public function doneThisMonth(): int
     {
@@ -75,6 +87,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for this week.
+     *
+     * @return int
      */
     public function doneThisWeek(): int
     {
@@ -83,6 +97,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for today.
+     *
+     * @return int
      */
     public function doneToday(): int
     {
@@ -91,6 +107,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for all time.
+     *
+     * @return int
      */
     public function doneTotal(): int
     {
@@ -99,6 +117,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for yesterday.
+     *
+     * @return int
      */
     public function doneYesterday(): int
     {
@@ -140,6 +160,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Gets the current average
+     *
+     * @return float
      *
      * @throws Exception
      */
@@ -195,6 +217,8 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Retrieves a cache instance for caching.
+     *
+     * @return Cache
      */
     protected function getCache(): Cache
     {
@@ -213,6 +237,8 @@ class ItemStats extends AbstractItemAnalyzer
      * - int    done   Number of items done.
      *
      * @param int $weeks How many weeks to load back, starting with this week.
+     *
+     * @return array
      *
      * @throws Exception
      */
@@ -239,11 +265,13 @@ class ItemStats extends AbstractItemAnalyzer
     /**
      * Loads a summary of number of items done by year.
      *
+     * @return array
+     *
      * @throws Exception
      */
     public function getYearlySummary(): array
     {
-        $year = Date('Y');
+        $year = date('Y');
         $minYear = $year - 10;
         $total = $this->doneTotal();
         $seen = 0;

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the TodoList package.
+ *
+ * (c) Doug Harple <dharple@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Command;
 
 use App\Entity\Item;
@@ -9,6 +18,9 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Command to list deleted items.
+ */
 class ItemsDeletedListCommand extends Command
 {
     /**
@@ -28,7 +40,7 @@ class ItemsDeletedListCommand extends Command
     /**
      * ItemsDeletedListCommand constructor.
      *
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $em The entity manager.
      */
     public function __construct(protected EntityManagerInterface $em)
     {
@@ -37,6 +49,8 @@ class ItemsDeletedListCommand extends Command
 
     /**
      * Configures the command.
+     *
+     * @return void
      */
     protected function configure()
     {
@@ -46,8 +60,8 @@ class ItemsDeletedListCommand extends Command
     /**
      * Executes the command.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param InputInterface  $input  The input interface.
+     * @param OutputInterface $output The output interface.
      *
      * @return int
      */

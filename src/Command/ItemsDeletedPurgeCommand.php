@@ -1,17 +1,27 @@
 <?php
 
+/**
+ * This file is part of the TodoList package.
+ *
+ * (c) Doug Harple <dharple@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Command;
 
 use App\Entity\Item;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * Command to purge deleted items older than 30 days.
+ */
 class ItemsDeletedPurgeCommand extends Command
 {
     /**
@@ -29,32 +39,47 @@ class ItemsDeletedPurgeCommand extends Command
     protected const RETAIN_DAYS_CORRECTION = 120;
 
     /**
-     * @var string
-     */
-    protected static $defaultName = 'items:deleted:purge';
-
-    /**
+     * Command description.
+     *
      * @var string
      */
     protected static $defaultDescription = 'Purges deleted items older than 30 days';
 
     /**
+     * Command name.
+     *
+     * @var string
+     */
+    protected static $defaultName = 'items:deleted:purge';
+
+    /**
      * ItemsDeletedPurgeCommand constructor.
      *
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface $em The entity manager.
      */
     public function __construct(protected EntityManagerInterface $em)
     {
         parent::__construct();
     }
+
     /**
-     * Configures the command
+     * Configures the command.
+     *
+     * @return void
      */
     protected function configure(): void
     {
         $this->setDescription(self::$defaultDescription);
     }
 
+    /**
+     * Executes the command.
+     *
+     * @param InputInterface  $input  The input interface.
+     * @param OutputInterface $output The output interface.
+     *
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

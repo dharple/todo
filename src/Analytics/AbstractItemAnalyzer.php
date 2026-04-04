@@ -99,6 +99,8 @@ abstract class AbstractItemAnalyzer
     /**
      * Returns analytics for a given year
      *
+     * @param int $year The year to return analytics for.
+     *
      * @return mixed
      */
     protected function executeDoneDuringYear(int $year)

@@ -23,6 +23,8 @@ class ItemHistory extends AbstractItemAnalyzer
     /**
      * Returns analytics for a given year.
      *
+     * @param int $year The year to return analytics for.
+     *
      * @return Item[]
      */
     public function doneDuringYear(int $year): array

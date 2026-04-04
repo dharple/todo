@@ -59,6 +59,8 @@ class SectionDisplay extends BaseDisplay
      * Applies any aging filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
      */
     protected function applyAgingFilter(QueryBuilder $qb): void
     {
@@ -76,6 +78,8 @@ class SectionDisplay extends BaseDisplay
      * Applies a freshness filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
      *
      * @throws Exception
      */
@@ -99,6 +103,8 @@ class SectionDisplay extends BaseDisplay
      * Applies any ID filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
      */
     protected function applyIdFilter(QueryBuilder $qb): void
     {
@@ -112,6 +118,8 @@ class SectionDisplay extends BaseDisplay
      * Apply the priority filter to the main query.
      *
      * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
      */
     protected function applyPriorityFilter(QueryBuilder $qb): void
     {
@@ -133,6 +141,8 @@ class SectionDisplay extends BaseDisplay
      * Applies a status filter to the main QueryBuilder.
      *
      * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
      */
     protected function applyStatusFilter(QueryBuilder $qb): void
     {
