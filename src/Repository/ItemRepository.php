@@ -44,6 +44,8 @@ class ItemRepository extends ServiceEntityRepository
      * Get open item count.
      *
      * @param User $user The user to get an open item count for.
+     *
+     * @return int
      */
     public function getOpenItemCount(User $user): int
     {

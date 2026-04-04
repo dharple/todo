@@ -66,6 +66,8 @@ class ListDisplay extends BaseDisplay
      * Applies any section filter to the query.
      *
      * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
      */
     protected function applySectionFilter(QueryBuilder $qb): void
     {
@@ -79,6 +81,8 @@ class ListDisplay extends BaseDisplay
      * Applies any active or inactive filter to the query.
      *
      * @param QueryBuilder $qb The query builder to use.
+     *
+     * @return void
      */
     protected function applyStatusFilter(QueryBuilder $qb): void
     {
@@ -142,6 +146,8 @@ class ListDisplay extends BaseDisplay
      *
      * @param string $str The string to adjust.
      *
+     * @return string
+     *
      * @throws Exception
      */
     protected function replaceTotals(string $str): string
@@ -159,6 +165,8 @@ class ListDisplay extends BaseDisplay
      * Sets the footer for the list.
      *
      * @param mixed $footer The footer string to use.
+     *
+     * @return ListDisplay
      */
     public function setFooter(mixed $footer): ListDisplay
     {

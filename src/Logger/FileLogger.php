@@ -43,6 +43,8 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      *
      * @param string $level The log level being used.
      *
+     * @return bool
+     *
      * @throws InvalidArgumentException
      */
     protected function checkLogLevel(string $level): bool
@@ -58,6 +60,8 @@ class FileLogger extends AbstractLogger implements LoggerInterface
 
     /**
      * Returns the filename to log to.
+     *
+     * @return ?string
      */
     protected function getFilename(): ?string
     {
@@ -74,10 +78,8 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      * @return void
      *
      * @throws InvalidArgumentException
-     *
-     * @noinspection PhpMissingParamTypeInspection
      */
-    public function log($level, $message, array $context = []): void
+    public function log(mixed $level, $message, array $context = []): void
     {
         $filename = $this->getFilename();
         if ($filename === null) {
@@ -99,6 +101,8 @@ class FileLogger extends AbstractLogger implements LoggerInterface
      *
      * @param string $level The current log level.
      * @param string $line  The message to log.
+     *
+     * @return void
      */
     protected function write(string $level, string $line): void
     {
