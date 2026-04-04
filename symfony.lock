@@ -86,9 +86,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
-    "egulias/email-validator": {
-        "version": "2.1.25"
-    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.2"
     },
@@ -118,15 +115,6 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
-    },
-    "phpdocumentor/reflection-common": {
-        "version": "2.2.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.2.2"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.4.0"
     },
     "phpstan/phpstan": {
         "version": "1.12",
@@ -176,9 +164,6 @@
         "version": "1.0.0"
     },
     "psr/event-dispatcher": {
-        "version": "1.0.0"
-    },
-    "psr/link": {
         "version": "1.0.0"
     },
     "psr/log": {
@@ -244,12 +229,6 @@
             "phpcs.xml.dist"
         ]
     },
-    "symfony/asset": {
-        "version": "v5.2.1"
-    },
-    "symfony/browser-kit": {
-        "version": "v5.2.1"
-    },
     "symfony/cache": {
         "version": "v5.2.1"
     },
@@ -270,9 +249,6 @@
         "files": [
             "bin/console"
         ]
-    },
-    "symfony/css-selector": {
-        "version": "v5.2.1"
     },
     "symfony/debug-bundle": {
         "version": "5.4",
@@ -295,9 +271,6 @@
     "symfony/doctrine-bridge": {
         "version": "v5.2.1"
     },
-    "symfony/dom-crawler": {
-        "version": "v5.2.1"
-    },
     "symfony/dotenv": {
         "version": "v5.2.1"
     },
@@ -309,9 +282,6 @@
     },
     "symfony/event-dispatcher-contracts": {
         "version": "v2.2.0"
-    },
-    "symfony/expression-language": {
-        "version": "v5.2.1"
     },
     "symfony/filesystem": {
         "version": "v5.2.1"
@@ -330,9 +300,6 @@
         "files": [
             ".env"
         ]
-    },
-    "symfony/form": {
-        "version": "v5.2.1"
     },
     "symfony/framework-bundle": {
         "version": "5.4",
@@ -353,32 +320,11 @@
             "src/Kernel.php"
         ]
     },
-    "symfony/http-client": {
-        "version": "v5.2.1"
-    },
-    "symfony/http-client-contracts": {
-        "version": "v2.3.1"
-    },
     "symfony/http-foundation": {
         "version": "v5.2.1"
     },
     "symfony/http-kernel": {
         "version": "v5.2.1"
-    },
-    "symfony/intl": {
-        "version": "v5.2.1"
-    },
-    "symfony/mailer": {
-        "version": "5.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "4.3",
-            "ref": "09051cfde49476e3c12cd3a0e44289ace1c75a4f"
-        },
-        "files": [
-            "config/packages/mailer.yaml"
-        ]
     },
     "symfony/maker-bundle": {
         "version": "1.0",
@@ -388,9 +334,6 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
-    },
-    "symfony/mime": {
-        "version": "v5.2.1"
     },
     "symfony/monolog-bridge": {
         "version": "v5.2.1"
@@ -407,31 +350,10 @@
             "config/packages/monolog.yaml"
         ]
     },
-    "symfony/notifier": {
-        "version": "5.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "5.0",
-            "ref": "178877daf79d2dbd62129dd03612cb1a2cb407cc"
-        },
-        "files": [
-            "config/packages/notifier.yaml"
-        ]
-    },
-    "symfony/options-resolver": {
-        "version": "v5.2.1"
-    },
     "symfony/password-hasher": {
         "version": "v5.3.8"
     },
     "symfony/polyfill-intl-grapheme": {
-        "version": "v1.22.0"
-    },
-    "symfony/polyfill-intl-icu": {
-        "version": "v1.22.0"
-    },
-    "symfony/polyfill-intl-idn": {
         "version": "v1.22.0"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -487,9 +409,6 @@
         "version": "v5.2.1"
     },
     "symfony/security-http": {
-        "version": "v5.2.1"
-    },
-    "symfony/serializer": {
         "version": "v5.2.1"
     },
     "symfony/service-contracts": {
@@ -551,9 +470,6 @@
     "symfony/var-exporter": {
         "version": "v5.2.1"
     },
-    "symfony/web-link": {
-        "version": "v5.2.1"
-    },
     "symfony/web-profiler-bundle": {
         "version": "5.4",
         "recipe": {
@@ -578,8 +494,5 @@
     },
     "twig/twig": {
         "version": "v3.2.1"
-    },
-    "webmozart/assert": {
-        "version": "1.9.1"
     }
 }
