@@ -307,7 +307,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "5.4",
-            "ref": "3cd216a4d007b78d8554d44a5b1c0a446dab24fb"
+            "ref": "9697c048ade32e001e27dd52478ec2642eec7eae"
         },
         "files": [
             "config/packages/cache.yaml",
