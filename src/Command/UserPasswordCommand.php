@@ -13,8 +13,7 @@ namespace App\Command;
 
 use App\Auth\Guard;
 use App\Entity\User;
-use App\Helper;
-use Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,6 +31,16 @@ class UserPasswordCommand extends Command
      * @var string
      */
     protected static $defaultName = 'user:password';
+
+    /**
+     * UserPasswordCommand constructor.
+     *
+     * @param EntityManagerInterface $em The entity manager.
+     */
+    public function __construct(protected EntityManagerInterface $em)
+    {
+        parent::__construct();
+    }
 
     /**
      * Configures the command.
@@ -54,7 +63,7 @@ class UserPasswordCommand extends Command
      *
      * @return int
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -67,15 +76,13 @@ class UserPasswordCommand extends Command
             return Command::FAILURE;
         }
 
-        $em = Helper::getEntityManager();
-
-        $user = $em->getRepository(User::class)
+        $user = $this->em->getRepository(User::class)
             ->findOneBy(['username' => $username]);
 
         Guard::setPassword($user, $password);
 
-        $em->persist($user);
-        $em->flush();
+        $this->em->persist($user);
+        $this->em->flush();
 
         $io->success('User updated');
 

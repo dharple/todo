@@ -13,8 +13,7 @@ namespace App\Command;
 
 use App\Auth\Guard;
 use App\Entity\User;
-use App\Helper;
-use Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,6 +40,16 @@ class UserAddCommand extends Command
     protected const DEFAULT_TIMEZONE = 'America/New_York';
 
     /**
+     * UserAddCommand constructor.
+     *
+     * @param EntityManagerInterface $em The entity manager.
+     */
+    public function __construct(protected EntityManagerInterface $em)
+    {
+        parent::__construct();
+    }
+
+    /**
      * Configures the command.
      *
      * @return void
@@ -63,7 +72,7 @@ class UserAddCommand extends Command
      *
      * @return int
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -84,9 +93,8 @@ class UserAddCommand extends Command
             ->setTimezone($timezone);
         Guard::setPassword($user, $password);
 
-        $em = Helper::getEntityManager();
-        $em->persist($user);
-        $em->flush();
+        $this->em->persist($user);
+        $this->em->flush();
 
         $io->success('User created');
 
