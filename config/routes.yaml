@@ -1,3 +1,49 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+controllers:
+    resource: '../src/Controller/'
+    type: annotation
+
+# Legacy .php URL compatibility redirects (301 permanent)
+legacy_index:
+    path: /index.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_index, permanent: true }
+
+legacy_login:
+    path: /login.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_login, permanent: true }
+
+legacy_logout:
+    path: /logout.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_logout, permanent: true }
+
+legacy_account:
+    path: /account.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_account, permanent: true }
+
+legacy_item_edit:
+    path: /item_edit.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_item_edit, permanent: true }
+
+legacy_item_bulk_add:
+    path: /item_bulk_add.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_item_bulk_add, permanent: true }
+
+legacy_item_prioritize:
+    path: /item_prioritize.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_item_prioritize, permanent: true }
+
+legacy_section_edit:
+    path: /section_edit.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_section_edit, permanent: true }
+
+legacy_show_done:
+    path: /show_done.php
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults: { route: app_show_done, permanent: true }

@@ -13,19 +13,19 @@
             <div class="col-12 col-md-6 text-center text-md-end">
                 {% if view != 'year' %}
                     {% if sort == 'section' %}
-                        <a href="show_done.php?sort=task&view={{ view }}">Sort by Task</a>
+                        <a href="{{ path('app_show_done', {sort: 'task', view: view}) }}">Sort by Task</a>
                     {% else %}
-                        <a href="show_done.php?sort=section&view={{ view }}">Sort by Section</a>
+                        <a href="{{ path('app_show_done', {sort: 'section', view: view}) }}">Sort by Section</a>
                     {% endif %}
                 {% else %}
                     {% if sort == 'section' %}
-                        <a href="show_done.php?sort=task&view={{ view }}&year={{ year }}">Sort by Task</a>
+                        <a href="{{ path('app_show_done', {sort: 'task', view: view, year: year}) }}">Sort by Task</a>
                     {% else %}
-                        <a href="show_done.php?sort=section&view={{ view }}&year={{ year }}">Sort by Section</a>
+                        <a href="{{ path('app_show_done', {sort: 'section', view: view, year: year}) }}">Sort by Section</a>
                     {% endif %}
                 {% endif %}
                 |
-                <a href="index.php">Home</a>
+                <a href="{{ path('app_index') }}">Home</a>
             </div>
         </div>
     </div>
