@@ -22,38 +22,38 @@
             {% if itemStats.doneTotal > 0 %}
                 Items Done:<br />
                 &nbsp;&nbsp;
-                Today: <a href="show_done.php?view=today">{{ itemStats.doneToday }}</a>,
-                Yesterday: <a href="show_done.php?view=yesterday">{{ itemStats.doneYesterday }}</a>
+                Today: <a href="{{ path('app_show_done', {view: 'today'}) }}">{{ itemStats.doneToday }}</a>,
+                Yesterday: <a href="{{ path('app_show_done', {view: 'yesterday'}) }}">{{ itemStats.doneYesterday }}</a>
                 <br />
 
                 &nbsp;&nbsp;
-                This Week: <a href="show_done.php?view=week">{{ itemStats.doneThisWeek }}</a>,
-                Last Week: <a href="show_done.php?view=last-week">{{ itemStats.doneLastWeek }}</a>
+                This Week: <a href="{{ path('app_show_done', {view: 'week'}) }}">{{ itemStats.doneThisWeek }}</a>,
+                Last Week: <a href="{{ path('app_show_done', {view: 'last-week'}) }}">{{ itemStats.doneLastWeek }}</a>
                 <br />
 
                 &nbsp;&nbsp;
-                This Month: <a href="show_done.php?view=month">{{ itemStats.doneThisMonth }}</a>,
-                Last Month: <a href="show_done.php?view=last-month">{{ itemStats.doneLastMonth }}</a>
+                This Month: <a href="{{ path('app_show_done', {view: 'month'}) }}">{{ itemStats.doneThisMonth }}</a>,
+                Last Month: <a href="{{ path('app_show_done', {view: 'last-month'}) }}">{{ itemStats.doneLastMonth }}</a>
                 <br />
 
                 &nbsp;&nbsp;
                 3 / 6 / 9 / 12 Months:
-                <a href="show_done.php?view=month3">{{ itemStats.donePreviousMonths(3) }}</a> /
-                <a href="show_done.php?view=month6">{{ itemStats.donePreviousMonths(6) }}</a> /
-                <a href="show_done.php?view=month9">{{ itemStats.donePreviousMonths(9) }}</a> /
-                <a href="show_done.php?view=month12">{{ itemStats.donePreviousMonths(12) }}</a>
+                <a href="{{ path('app_show_done', {view: 'month3'}) }}">{{ itemStats.donePreviousMonths(3) }}</a> /
+                <a href="{{ path('app_show_done', {view: 'month6'}) }}">{{ itemStats.donePreviousMonths(6) }}</a> /
+                <a href="{{ path('app_show_done', {view: 'month9'}) }}">{{ itemStats.donePreviousMonths(9) }}</a> /
+                <a href="{{ path('app_show_done', {view: 'month12'}) }}">{{ itemStats.donePreviousMonths(12) }}</a>
                 <br />
 
                 &nbsp;&nbsp;
                 By Year:
                 {% for year, count in itemStats.getYearlySummary() %}
                     {% if count > 0 %}
-                        <a href="show_done.php?view=year&year={{ year }}">{{ year }}</a>
+                        <a href="{{ path('app_show_done', {view: 'year', year: year}) }}">{{ year }}</a>
                     {% endif %}
                 {% endfor %}
                 <br />
 
-                Items Done Since Start: <a href="show_done.php">{{ itemStats.doneTotal }}</a>
+                Items Done Since Start: <a href="{{ path('app_show_done') }}">{{ itemStats.doneTotal }}</a>
                 <br />
 
                 Average Turnaround: {{ itemStats.average | number_format(1) }} days
@@ -71,7 +71,7 @@
                 {% if config.filterClosed == value %}
                     {{ label }}
                 {% else %}
-                    <a href="index.php?filter_closed={{ value }}">{{ label }}</a>
+                    <a href="{{ path('app_index', {filter_closed: value}) }}">{{ label }}</a>
                 {% endif %}
             {% endfor %}
             <br />
@@ -81,7 +81,7 @@
                 {% if config.filterDeleted == value %}
                     {{ label }}
                 {% else %}
-                    <a href="index.php?filter_deleted={{ value }}">{{ label }}</a>
+                    <a href="{{ path('app_index', {filter_deleted: value}) }}">{{ label }}</a>
                 {% endif %}
             {% endfor %}
             <br />
@@ -91,7 +91,7 @@
                 {% if config.filterPriority == value %}
                     {{ label }}
                 {% else %}
-                    <a href="index.php?filter_priority={{ value }}">{{ label }}</a>
+                    <a href="{{ path('app_index', {filter_priority: value}) }}">{{ label }}</a>
                 {% endif %}
             {% endfor %}
             <br />
@@ -101,7 +101,7 @@
                 {% if config.showPriority == value %}
                     {{ label }}
                 {% else %}
-                    <a href="index.php?show_priority={{ value }}">{{ label }}</a>
+                    <a href="{{ path('app_index', {show_priority: value}) }}">{{ label }}</a>
                 {% endif %}
             {% endfor %}
             <br />
@@ -111,7 +111,7 @@
                 {% if config.filterFreshness == value %}
                     {{ label }}
                 {% else %}
-                    <a href="index.php?filter_freshness={{ value }}">{{ label }}</a>
+                    <a href="{{ path('app_index', {filter_freshness: value}) }}">{{ label }}</a>
                 {% endif %}
             {% endfor %}
             <br />
@@ -121,7 +121,7 @@
                 {% if config.filterAging == value %}
                     {{ label }}
                 {% else %}
-                    <a href="index.php?filter_aging={{ value }}">{{ label }}</a>
+                    <a href="{{ path('app_index', {filter_aging: value}) }}">{{ label }}</a>
                 {% endif %}
             {% endfor %}
             days old
@@ -129,13 +129,13 @@
 
             Show Inactive Sections:&nbsp;&nbsp;
             {% if config.showInactive == 'y' %}
-                Yes <a href="index.php?show_inactive=n">No</a>
+                Yes <a href="{{ path('app_index', {show_inactive: 'n'}) }}">No</a>
             {% else %}
-                <a href="index.php?show_inactive=y">Yes</a> No
+                <a href="{{ path('app_index', {show_inactive: 'y'}) }}">Yes</a> No
             {% endif %}
             <br />
 
-            Display Settings: <a href="index.php?reset_display_settings=1">Reset</a>
+            Display Settings: <a href="{{ path('app_index', {reset_display_settings: 1}) }}">Reset</a>
         </div>
     </div>
     <hr />
@@ -180,21 +180,21 @@
                 {% endif %}
             </div>
             <div class="col-sm-12 col-lg-4 mb-2 text-center">
-                <a href="/account.php" class="btn btn-secondary">My Account</a>
-                <a href="/logout.php" class="btn btn-danger">Logout</a>
+                <a href="{{ path('app_account') }}" class="btn btn-secondary">My Account</a>
+                <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>
             </div>
             <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-end">
                 {% if showAdvanced %}
                     <div class="mb-2">
                 {% endif %}
                 {% if hasSections %}
-                        <a href="/item_bulk_add.php" class="btn btn-primary">Bulk</a>
-                        <a href="/item_edit.php?op=add" class="btn btn-secondary">Add New</a>
+                        <a href="{{ path('app_item_bulk_add') }}" class="btn btn-primary">Bulk</a>
+                        <a href="{{ path('app_item_edit', {op: 'add'}) }}" class="btn btn-secondary">Add New</a>
                 {% else %}
                         <button type="button" class="btn btn-primary" disabled="disabled">Bulk</button>
                         <button type="button" class="btn btn-secondary" disabled="disabled">Add New</button>
                 {% endif %}
-                        <a href="/section_edit.php" class="btn btn-secondary">Edit Sections</a>
+                        <a href="{{ path('app_section_edit') }}" class="btn btn-secondary">Edit Sections</a>
                 {% if showAdvanced %}
                     </div>
                     <div>

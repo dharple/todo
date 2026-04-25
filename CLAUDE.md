@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Legacy PHP to-do list web application (originally 2007) being incrementally modernized to Symfony 5.4. Doctrine ORM, Twig, and Symfony components are already in place; Symfony Controllers and full DI wiring are still in progress.
+Legacy PHP to-do list web application (originally 2007) modernized to Symfony 5.4. Doctrine ORM, Twig, Symfony Controllers, and full DI wiring are in place.
 
 ## Commands
 
@@ -22,24 +22,29 @@ bin/console doctrine:migrations:migrate
 bin/console user:add <username>
 bin/console user:password <username>
 
-# Start dev server (legacy PHP built-in server)
-php -S localhost:8000 -t public/ -d auto_prepend_file=include/common.php
+# Start dev server
+composer go
+# or: php -S localhost:8000 -t public/ public/index.php
 ```
 
 ## Tech Stack
 
 - **PHP** 8.2, **Symfony** 5.4
 - **Doctrine ORM** with migrations
-- **Twig** templates, **Bootstrap** (index page; other pages pending)
+- **Twig** templates, **Bootstrap**
 - **Database**: MySQL, PostgreSQL, or SQLite
 
 ## Architecture
 
-**Two-layer hybrid**: Active pages are plain PHP scripts in `public/` (account.php, item_edit.php, etc.). Symfony Controllers do not yet exist. The `public/` scripts rely on `include/common.php` being loaded as an auto-prepend, which boots the Symfony kernel, starts a PHP session, and authenticates the user via `App\Auth\Guard`.
+**Symfony Controllers**: All pages are handled by Symfony controllers in `src/Controller/`. The Symfony front controller at `public/index.php` handles all routing. Legacy `.php` URLs (e.g. `/login.php`) are kept as 301 redirects in `config/routes.yaml`.
 
-**`App\Helper`** is a static service locator that bridges legacy code to the Symfony container (EntityManager, Twig, Logger). It's a deliberate temporary shim until DI is fully wired.
+**Authentication**: Symfony's `form_login` firewall against `App\Entity\User` (implements `UserInterface`). `App\Auth\Guard` is still used for password hashing/verification in `AccountController`.
 
-**Authentication** is session-based: `$_SESSION['userId']` stores the authenticated user ID. `App\Auth\Guard` handles login, password verification (`password_hash`/`password_verify`), and user resolution.
+**`App\Helper`** is a legacy static service locator — **do not use it in controllers**. It requires `$GLOBALS['kernel']` which is not set in the Symfony controller context. Use injected services instead.
+
+**Timezone**: `App\EventSubscriber\TimezoneSubscriber` sets `date_default_timezone_set()` on every authenticated request (priority -10, after the security firewall).
+
+**Session / DisplayConfig**: `App\Renderer\DisplayConfig` is stored in Symfony's session under the key `displayConfig`. Load and save it via `$request->getSession()->get/set('displayConfig', ...)`.
 
 **Data model**: Three Doctrine entities — `User` owns `Section[]` and `Item[]`; each `Item` belongs to a `Section` and a `User`. Item status is a plain string column (`Open`, `Closed`, `Deleted`).
 

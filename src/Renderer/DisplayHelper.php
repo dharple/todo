@@ -16,6 +16,7 @@ use App\Entity\Section;
 use App\Entity\User;
 use App\Helper;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Helper methods for renderer classes.
@@ -25,14 +26,14 @@ class DisplayHelper
     /**
      * Returns the default section to use for editors.
      *
-     * @param EntityManager $em   The entity manager to use.
-     * @param User          $user The user to use.
+     * @param EntityManagerInterface $em     The entity manager to use.
+     * @param User                   $user   The user to use.
+     * @param DisplayConfig          $config Optional display config; falls back to the session value when null.
      *
      * @return int
      */
-    public static function getDefaultSectionId(EntityManager $em, User $user): int
+    public static function getDefaultSectionId(EntityManagerInterface $em, User $user, DisplayConfig $config): int
     {
-        $config = Helper::getDisplayConfig();
         if ($config->getFilterSection()) {
             return $config->getFilterSection();
         }

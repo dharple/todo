@@ -14,6 +14,7 @@ namespace App\Renderer;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Entity\User;
+use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
@@ -156,7 +157,9 @@ class ListDisplay extends BaseDisplay
 
         $str = str_replace('{GRAND_TOTAL}', (string) $grandTotal, $str);
 
-        $total = $this->em->getRepository(Item::class)->getOpenItemCount($this->user);
+        $itemRepository = $this->em->getRepository(Item::class);
+        assert($itemRepository instanceof ItemRepository);
+        $total = $itemRepository->getOpenItemCount($this->user);
 
         return str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grandTotal), $str);
     }

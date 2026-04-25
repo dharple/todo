@@ -2,7 +2,7 @@
     <div class="row mb-1">
         <div class="col-12">
             <span class="section-label">
-                <a class="section-link" href="/index.php?filter_section={{ filterSection == section.id ? 0 : section.id }}">{{ section.name }}</a>
+                <a class="section-link" href="{{ path('app_index', {filter_section: filterSection == section.id ? 0 : section.id}) }}">{{ section.name }}</a>
                 {% if section.status == 'Inactive' %}
                     (Inactive)
                 {% endif %}

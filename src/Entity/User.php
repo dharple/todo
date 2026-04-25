@@ -14,14 +14,16 @@ namespace App\Entity;
 use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Describes an item or task that needs to be done.
+ * Describes a user of the application.
  *
  * @ORM\Entity()
  * @ORM\Table(name="user")
  */
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Full name
@@ -98,6 +100,25 @@ class User
     }
 
     /**
+     * Removes sensitive data from the user.
+     *
+     * @return void
+     */
+    public function eraseCredentials(): void
+    {
+    }
+
+    /**
+     * Returns null; modern password hashing does not use a salt.
+     *
+     * @return string|null
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Returns the full name of this user.
      *
      * @return string
@@ -138,6 +159,16 @@ class User
     }
 
     /**
+     * Returns the roles granted to this user.
+     *
+     * @return string[]
+     */
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+    /**
      * Returns the sections associated with this user.
      *
      * @return AbstractLazyCollection|ArrayCollection
@@ -155,6 +186,16 @@ class User
     public function getTimezone(): string
     {
         return $this->timezone;
+    }
+
+    /**
+     * Returns the identifier for this user (the username).
+     *
+     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
     }
 
     /**

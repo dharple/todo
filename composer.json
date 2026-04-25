@@ -19,6 +19,7 @@
         "doctrine/orm": "^2.20.8",
         "nesbot/carbon": "^2.73.0",
         "psr/log": "^1.1.4",
+        "symfony/asset": "5.4.*",
         "symfony/console": "^5.4.47",
         "symfony/dotenv": "^5.4.48",
         "symfony/flex": "^1.22.0",
@@ -97,7 +98,7 @@
         ],
         "go": [
             "php bin/console cache:clear",
-            "php -S localhost:8000 -t public/ -d auto_prepend_file=../include/common.php"
+            "php -S localhost:8000 -t public/ public/index.php"
         ],
         "phpcbf":  "phpcbf",
         "phpcs":   "phpcs",
