@@ -26,17 +26,14 @@ class DisplayHelper
     /**
      * Returns the default section to use for editors.
      *
-     * @param EntityManager|EntityManagerInterface $em     The entity manager to use.
-     * @param User                                 $user   The user to use.
-     * @param DisplayConfig|null                   $config Optional display config; falls back to the session value when null.
+     * @param EntityManagerInterface $em     The entity manager to use.
+     * @param User                   $user   The user to use.
+     * @param DisplayConfig          $config Optional display config; falls back to the session value when null.
      *
      * @return int
      */
-    public static function getDefaultSectionId(EntityManager|EntityManagerInterface $em, User $user, ?DisplayConfig $config = null): int
+    public static function getDefaultSectionId(EntityManagerInterface $em, User $user, DisplayConfig $config): int
     {
-        if ($config === null) {
-            $config = Helper::getDisplayConfig();
-        }
         if ($config->getFilterSection()) {
             return $config->getFilterSection();
         }
