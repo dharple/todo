@@ -7,9 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Converted existing legacy pages to controllers, using Claude Code.
+
+### Removed
+
+- Removed most of the transitional legacy code bridge, mostly using Claude
+  Code.  Mostly.
+
+## [2.2.0] - 2026-06-25
+
 ### Added
 
-- Added support for viewing items done by year.
+- Added support for viewing items done by year, but in the UI and the CLI.
+- Added support for deleting items that are done, based on a date range or a
+  year.
 
 ### Changed
 
