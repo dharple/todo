@@ -485,8 +485,13 @@ class ItemController extends AbstractController
      */
     private function loadDisplayConfig(Request $request): DisplayConfig
     {
-        $config = $request->getSession()->get('displayConfig');
-        return ($config instanceof DisplayConfig) ? $config : new DisplayConfig();
+        if (!$request->query->has('reset_display_settings')) {
+            $config = $request->getSession()->get('displayConfig');
+            if ($config instanceof DisplayConfig) {
+                return $config;
+            }
+        }
+        return new DisplayConfig();
     }
 
     /**
