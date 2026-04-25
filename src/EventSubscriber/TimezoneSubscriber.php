@@ -26,20 +26,13 @@ use Symfony\Component\Security\Core\Security;
 class TimezoneSubscriber implements EventSubscriberInterface
 {
     /**
-     * Symfony security helper.
-     *
-     * @var Security
-     */
-    protected Security $security;
-
-    /**
      * Constructs a new TimezoneSubscriber.
      *
      * @param Security $security Symfony security helper.
      */
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
+    public function __construct(
+        protected Security $security
+    ) {
     }
 
     /**

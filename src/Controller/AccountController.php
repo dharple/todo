@@ -25,20 +25,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccountController extends AbstractController
 {
     /**
-     * Doctrine entity manager.
-     *
-     * @var EntityManagerInterface
-     */
-    protected EntityManagerInterface $em;
-
-    /**
      * Constructs a new AccountController.
      *
      * @param EntityManagerInterface $em Doctrine entity manager.
      */
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
+    public function __construct(
+        protected EntityManagerInterface $em
+    ) {
     }
 
     /**

@@ -35,38 +35,17 @@ use Twig\Environment;
 class ItemController extends AbstractController
 {
     /**
-     * Doctrine entity manager.
-     *
-     * @var EntityManagerInterface
-     */
-    protected EntityManagerInterface $em;
-
-    /**
-     * Logger.
-     *
-     * @var LoggerInterface
-     */
-    protected LoggerInterface $log;
-
-    /**
-     * Twig template environment.
-     *
-     * @var Environment
-     */
-    protected Environment $twig;
-
-    /**
      * Constructs a new ItemController.
      *
      * @param EntityManagerInterface $em   Doctrine entity manager.
      * @param LoggerInterface        $log  Logger.
      * @param Environment            $twig Twig template environment.
      */
-    public function __construct(EntityManagerInterface $em, LoggerInterface $log, Environment $twig)
-    {
-        $this->em   = $em;
-        $this->log  = $log;
-        $this->twig = $twig;
+    public function __construct(
+        protected EntityManagerInterface $em,
+        protected LoggerInterface $log,
+        protected Environment $twig
+    ) {
     }
 
     /**
@@ -454,7 +433,7 @@ class ItemController extends AbstractController
 
         try {
             $config->setFilterDeleted('none');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $errors[] = 'Could not disable deleted filter for this view.';
         }
 

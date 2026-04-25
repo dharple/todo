@@ -41,7 +41,7 @@ abstract class BaseDisplay
      *
      * @var ?ItemCount
      */
-    protected ?ItemCount $itemCount;
+    protected ?ItemCount $itemCount = null;
 
     /**
      * The logger to use.

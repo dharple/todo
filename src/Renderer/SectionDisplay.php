@@ -26,13 +26,6 @@ use Twig\Environment;
 class SectionDisplay extends BaseDisplay
 {
     /**
-     * The section to render.
-     *
-     * @var Section
-     */
-    protected Section $section;
-
-    /**
      * SectionDisplay constructor.
      *
      * @param Section                $section The section to render.
@@ -42,7 +35,7 @@ class SectionDisplay extends BaseDisplay
      * @param Environment            $twig    The renderer to use.
      */
     public function __construct(
-        Section $section,
+        protected Section $section,
         DisplayConfig $config,
         EntityManagerInterface $em,
         LoggerInterface $log,
@@ -51,7 +44,6 @@ class SectionDisplay extends BaseDisplay
         $this->config  = $config;
         $this->em      = $em;
         $this->log     = $log;
-        $this->section = $section;
         $this->twig    = $twig;
     }
 

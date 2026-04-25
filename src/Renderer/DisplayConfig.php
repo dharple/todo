@@ -275,7 +275,7 @@ class DisplayConfig
     public function processRequest(): DisplayConfig
     {
         foreach (static::SAVED_VALUES as $field) {
-            $requestVar = strtolower(preg_replace('/[A-Z]/', '_\0', $field));
+            $requestVar = strtolower((string) preg_replace('/[A-Z]/', '_\0', $field));
 
             if (isset($_REQUEST[$requestVar])) {
                 $setMethod = 'set' . ucfirst($field);

@@ -34,13 +34,6 @@ class ListDisplay extends BaseDisplay
     protected string $footer;
 
     /**
-     * The user to use.
-     *
-     * @var User
-     */
-    protected User $user;
-
-    /**
      * ListDisplay constructor.
      *
      * @param DisplayConfig          $config The display config to use.
@@ -54,13 +47,12 @@ class ListDisplay extends BaseDisplay
         EntityManagerInterface $em,
         LoggerInterface $log,
         Environment $twig,
-        User $user
+        protected User $user
     ) {
         $this->config = $config;
         $this->em     = $em;
         $this->log    = $log;
         $this->twig   = $twig;
-        $this->user   = $user;
     }
 
     /**
