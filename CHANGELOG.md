@@ -20,9 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added support for viewing items done by year, but in the UI and the CLI.
+- Added support for viewing items done by year, but in the UI and the CLI.  CLI
+  support done using Claude Code.
 - Added support for deleting items that are done, based on a date range or a
-  year.
+  year, using Claude Code.
 
 ### Changed
 
