@@ -24,7 +24,7 @@ bin/console user:password <username>
 
 # Start dev server
 composer go
-# or: php -S localhost:8000 -t public/ public/index.php
+# or: php -S localhost:8000 -t public/
 ```
 
 ## Tech Stack
