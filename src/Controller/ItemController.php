@@ -15,7 +15,6 @@ use App\Analytics\ItemStats;
 use App\Entity\Item;
 use App\Entity\Section;
 use App\Entity\User;
-use App\Helper;
 use App\Renderer\DisplayConfig;
 use App\Renderer\DisplayHelper;
 use App\Renderer\ListDisplay;
@@ -84,8 +83,6 @@ class ItemController extends AbstractController
 
         $user = $this->getUser();
         assert($user instanceof User);
-
-        Helper::setTimezone($user);
 
         $errors = [];
 
