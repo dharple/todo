@@ -39,7 +39,7 @@ class Section
      *
      * @var AbstractLazyCollection|ArrayCollection
      */
-    #[ORM\OneToMany(targetEntity: 'App\Entity\Item', mappedBy: 'section')]
+    #[ORM\OneToMany(targetEntity: \App\Entity\Item::class, mappedBy: 'section')]
     protected $items;
 
     /**
@@ -63,7 +63,7 @@ class Section
      *
      * @var ?User
      */
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\User', inversedBy: 'sections')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'sections')]
     protected ?User $user = null;
 
     /**

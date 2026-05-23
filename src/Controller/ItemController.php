@@ -427,7 +427,7 @@ class ItemController extends AbstractController
 
         try {
             $config->setFilterClosed('none');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $errors[] = 'Could not disable closed filter for this view.';
         }
 

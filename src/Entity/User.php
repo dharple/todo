@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @var AbstractLazyCollection|ArrayCollection
      */
-    #[ORM\OneToMany(targetEntity: 'App\Entity\Item', mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: \App\Entity\Item::class, mappedBy: 'user')]
     protected $items;
 
     /**
@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @var AbstractLazyCollection|ArrayCollection
      */
-    #[ORM\OneToMany(targetEntity: 'App\Entity\Section', mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: \App\Entity\Section::class, mappedBy: 'user')]
     protected $sections;
 
     /**

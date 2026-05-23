@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Describes an item or task that needs to be done.
  */
-#[ORM\Entity(repositoryClass: 'App\Repository\ItemRepository')]
+#[ORM\Entity(repositoryClass: \App\Repository\ItemRepository::class)]
 #[ORM\Table(name: 'item')]
 class Item
 {
@@ -60,7 +60,7 @@ class Item
      *
      * @var ?Section
      */
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\Section', inversedBy: 'items')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Section::class, inversedBy: 'items')]
     protected ?Section $section = null;
 
     /**
@@ -84,7 +84,7 @@ class Item
      *
      * @var ?User
      */
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\User', inversedBy: 'items')]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'items')]
     protected ?User $user = null;
 
     /**
