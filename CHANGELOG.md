@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Tag this as version 3.
 
+### Changed
+
+- Upgraded Symfony to 6.4.
+
 ### Removed
 
 - Removed legacy routes.

@@ -17,21 +17,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Describes a section that tasks get grouped into.
- *
- * @ORM\Entity()
- * @ORM\Table(name="section")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'section')]
 class Section
 {
     /**
      * Primary key
      *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     *
      * @var int
      */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
     protected int $id;
 
     /**
@@ -39,35 +37,33 @@ class Section
      *
      * This is an instance of a Collection that also implements Selectable.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="section")
-     *
      * @var AbstractLazyCollection|ArrayCollection
      */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Item', mappedBy: 'section')]
     protected $items;
 
     /**
      * Name
      *
-     * @ORM\Column(type="string")
      * @var string
      */
+    #[ORM\Column(type: 'string')]
     protected string $name;
 
     /**
      * Status
      *
-     * @ORM\Column(type="string",length=20)
      * @var string
      */
+    #[ORM\Column(type: 'string', length: 20)]
     protected string $status;
 
     /**
      * The user that this item belongs to.
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sections")
-     *
      * @var ?User
      */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\User', inversedBy: 'sections')]
     protected ?User $user = null;
 
     /**

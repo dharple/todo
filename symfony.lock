@@ -371,9 +371,6 @@
     "symfony/property-info": {
         "version": "v5.2.1"
     },
-    "symfony/proxy-manager-bridge": {
-        "version": "v5.2.1"
-    },
     "symfony/routing": {
         "version": "5.4",
         "recipe": {
@@ -403,9 +400,6 @@
         "version": "v5.2.1"
     },
     "symfony/security-csrf": {
-        "version": "v5.2.1"
-    },
-    "symfony/security-guard": {
         "version": "v5.2.1"
     },
     "symfony/security-http": {

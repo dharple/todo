@@ -14,6 +14,7 @@ namespace App\Command;
 use App\Entity\Item;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,22 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Command to list closed items in a given timeframe.
  */
+#[AsCommand(name: 'items:closed:list', description: 'List closed items')]
 class ItemsClosedListCommand extends Command
 {
-    /**
-     * Command description.
-     *
-     * @var string
-     */
-    protected static $defaultDescription = 'List closed items';
-
-    /**
-     * Command name.
-     *
-     * @var string
-     */
-    protected static $defaultName = 'items:closed:list';
-
     /**
      * ItemsClosedListCommand constructor.
      *
@@ -57,7 +45,6 @@ class ItemsClosedListCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription(self::$defaultDescription)
             ->addOption('year', null, InputOption::VALUE_REQUIRED, 'Show items closed in this year (YYYY); cannot be combined with --start-date or --end-date')
             ->addOption('start-date', null, InputOption::VALUE_REQUIRED, 'Show items closed on or after this date (YYYY-MM-DD)')
             ->addOption('end-date', null, InputOption::VALUE_REQUIRED, 'Show items closed on or before this date (YYYY-MM-DD)');

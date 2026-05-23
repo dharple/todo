@@ -14,6 +14,7 @@ namespace App\Command;
 use App\Auth\Guard;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,15 +24,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Command to add a user.
  */
+#[AsCommand(name: 'user:add', description: 'Add a new user')]
 class UserAddCommand extends Command
 {
-    /**
-     * Command signature.
-     *
-     * @var string
-     */
-    protected static $defaultName = 'user:add';
-
     /**
      * Default timezone to use for users.
      *
@@ -57,7 +52,6 @@ class UserAddCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Add a new user')
             ->addArgument('username', InputArgument::REQUIRED, 'User to add')
             ->addArgument('fullname', InputArgument::OPTIONAL, 'Full name of the user to add')
             ->addArgument('timezone', InputArgument::OPTIONAL, 'Time zone for the user')

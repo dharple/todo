@@ -14,6 +14,7 @@ namespace App\Command;
 use App\Auth\Guard;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,15 +24,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Changes a user's password.
  */
+#[AsCommand(name: 'user:password', description: "Changes a user's password")]
 class UserPasswordCommand extends Command
 {
-    /**
-     * Command signature.
-     *
-     * @var string
-     */
-    protected static $defaultName = 'user:password';
-
     /**
      * UserPasswordCommand constructor.
      *
@@ -49,10 +44,7 @@ class UserPasswordCommand extends Command
      */
     protected function configure(): void
     {
-        $this
-            ->setDescription('Changes a user\'s password')
-            ->addArgument('username', InputArgument::REQUIRED, 'User whose password is to be changed')
-        ;
+        $this->addArgument('username', InputArgument::REQUIRED, 'User whose password is to be changed');
     }
 
     /**

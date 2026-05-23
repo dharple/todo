@@ -16,77 +16,75 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Describes an item or task that needs to be done.
- *
- * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
- * @ORM\Table(name="item")
  */
+#[ORM\Entity(repositoryClass: 'App\Repository\ItemRepository')]
+#[ORM\Table(name: 'item')]
 class Item
 {
     /**
      * Date completed
      *
-     * @ORM\Column(type="datetime",nullable=true)
      * @var ?DateTime
      */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected ?DateTime $completed = null;
 
     /**
      * Date created
      *
-     * @ORM\Column(type="datetime")
      * @var DateTime
      */
+    #[ORM\Column(type: 'datetime')]
     protected DateTime $created;
 
     /**
      * Primary key
      *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     *
      * @var int
      */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
     protected int $id;
 
     /**
      * Priority
      *
-     * @ORM\Column(type="integer")
      * @var int
      */
+    #[ORM\Column(type: 'integer')]
     protected int $priority;
 
     /**
      * The section that this item belongs to.
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="items")
      * @var ?Section
      */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Section', inversedBy: 'items')]
     protected ?Section $section = null;
 
     /**
      * Status
      *
-     * @ORM\Column(type="string",length=20)
      * @var string
      */
+    #[ORM\Column(type: 'string', length: 20)]
     protected string $status;
 
     /**
      * Task
      *
-     * @ORM\Column(type="string")
      * @var string
      */
+    #[ORM\Column(type: 'string')]
     protected string $task;
 
     /**
      * The user that this item belongs to.
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="items")
      * @var ?User
      */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\User', inversedBy: 'items')]
     protected ?User $user = null;
 
     /**

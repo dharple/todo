@@ -13,6 +13,7 @@ namespace App\Command;
 
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,22 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Command to list deleted items.
  */
+#[AsCommand(name: 'items:deleted:list', description: 'List deleted items')]
 class ItemsDeletedListCommand extends Command
 {
-    /**
-     * Command description.
-     *
-     * @var string
-     */
-    protected static $defaultDescription = 'List deleted items';
-
-    /**
-     * Command name.
-     *
-     * @var string
-     */
-    protected static $defaultName = 'items:deleted:list';
-
     /**
      * ItemsDeletedListCommand constructor.
      *
@@ -45,16 +33,6 @@ class ItemsDeletedListCommand extends Command
     public function __construct(protected EntityManagerInterface $em)
     {
         parent::__construct();
-    }
-
-    /**
-     * Configures the command.
-     *
-     * @return void
-     */
-    protected function configure()
-    {
-        $this->setDescription(self::$defaultDescription);
     }
 
     /**

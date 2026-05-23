@@ -14,6 +14,7 @@ namespace App\Command;
 use App\Entity\Item;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,6 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Command to purge deleted items older than 30 days.
  */
+#[AsCommand(name: 'items:deleted:purge', description: 'Purges deleted items older than 30 days')]
 class ItemsDeletedPurgeCommand extends Command
 {
     /**
@@ -39,20 +41,6 @@ class ItemsDeletedPurgeCommand extends Command
     protected const RETAIN_DAYS_CORRECTION = 120;
 
     /**
-     * Command description.
-     *
-     * @var string
-     */
-    protected static $defaultDescription = 'Purges deleted items older than 30 days';
-
-    /**
-     * Command name.
-     *
-     * @var string
-     */
-    protected static $defaultName = 'items:deleted:purge';
-
-    /**
      * ItemsDeletedPurgeCommand constructor.
      *
      * @param EntityManagerInterface $em The entity manager.
@@ -60,16 +48,6 @@ class ItemsDeletedPurgeCommand extends Command
     public function __construct(protected EntityManagerInterface $em)
     {
         parent::__construct();
-    }
-
-    /**
-     * Configures the command.
-     *
-     * @return void
-     */
-    protected function configure(): void
-    {
-        $this->setDescription(self::$defaultDescription);
     }
 
     /**

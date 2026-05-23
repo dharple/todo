@@ -14,6 +14,7 @@ namespace App\Command;
 use App\Entity\Item;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,22 +24,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Command to purge closed items in a given timeframe.
  */
+#[AsCommand(name: 'items:closed:purge', description: 'Purges closed items in a given timeframe')]
 class ItemsClosedPurgeCommand extends Command
 {
-    /**
-     * Command description.
-     *
-     * @var string
-     */
-    protected static $defaultDescription = 'Purges closed items in a given timeframe';
-
-    /**
-     * Command name.
-     *
-     * @var string
-     */
-    protected static $defaultName = 'items:closed:purge';
-
     /**
      * ItemsClosedPurgeCommand constructor.
      *
@@ -57,7 +45,6 @@ class ItemsClosedPurgeCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription(self::$defaultDescription)
             ->addOption('year', null, InputOption::VALUE_REQUIRED, 'Purge items closed in this year (YYYY); cannot be combined with --start-date or --end-date')
             ->addOption('start-date', null, InputOption::VALUE_REQUIRED, 'Purge items closed on or after this date (YYYY-MM-DD)')
             ->addOption('end-date', null, InputOption::VALUE_REQUIRED, 'Purge items closed on or before this date (YYYY-MM-DD)');

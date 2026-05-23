@@ -19,29 +19,27 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Describes a user of the application.
- *
- * @ORM\Entity()
- * @ORM\Table(name="user")
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'user')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Full name
      *
-     * @ORM\Column(type="string")
      * @var string
      */
+    #[ORM\Column(type: 'string')]
     protected string $fullname;
 
     /**
      * Primary key
      *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue
-     *
      * @var int
      */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue]
     protected int $id;
 
     /**
@@ -49,18 +47,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * This is an instance of a Collection that also implements Selectable.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="user")
-     *
      * @var AbstractLazyCollection|ArrayCollection
      */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Item', mappedBy: 'user')]
     protected $items;
 
     /**
      * Password
      *
-     * @ORM\Column(type="string")
      * @var string
      */
+    #[ORM\Column(type: 'string')]
     protected string $password;
 
     /**
@@ -68,26 +65,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * This is an instance of a Collection that also implements Selectable.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Section", mappedBy="user")
-     *
      * @var AbstractLazyCollection|ArrayCollection
      */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Section', mappedBy: 'user')]
     protected $sections;
 
     /**
      * Timezone
      *
-     * @ORM\Column(type="string",length=128)
      * @var string
      */
+    #[ORM\Column(type: 'string', length: 128)]
     protected string $timezone;
 
     /**
      * Username
      *
-     * @ORM\Column(type="string",length=32,unique=true)
      * @var string
      */
+    #[ORM\Column(type: 'string', length: 32, unique: true)]
     protected string $username;
 
     /**
@@ -159,16 +155,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Returns null; modern password hashing does not use a salt.
-     *
-     * @return string|null
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
      * Returns the sections associated with this user.
      *
      * @return AbstractLazyCollection|ArrayCollection
@@ -195,7 +181,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return $this->getUsername();
     }
 
     /**
