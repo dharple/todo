@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Note
+
+- Tag this as version 3.
+
+### Removed
+
+- Removed legacy routes.
+
 ## [2.3.0] - 2026-05-23
 
 ### Changed
