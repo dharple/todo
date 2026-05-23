@@ -15,7 +15,6 @@ use App\Entity\Item;
 use App\Entity\Section;
 use App\Entity\User;
 use App\Helper;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**

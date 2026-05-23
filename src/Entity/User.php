@@ -109,16 +109,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Returns null; modern password hashing does not use a salt.
-     *
-     * @return string|null
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
      * Returns the full name of this user.
      *
      * @return string
@@ -166,6 +156,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         return ['ROLE_USER'];
+    }
+
+    /**
+     * Returns null; modern password hashing does not use a salt.
+     *
+     * @return string|null
+     */
+    public function getSalt(): ?string
+    {
+        return null;
     }
 
     /**
