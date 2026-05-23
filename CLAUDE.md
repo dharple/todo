@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Legacy PHP to-do list web application (originally 2007) modernized to Symfony 5.4. Doctrine ORM, Twig, Symfony Controllers, and full DI wiring are in place.
+Legacy PHP to-do list web application (originally 2007) modernized to Symfony 6.4. Doctrine ORM, Twig, Symfony Controllers, and full DI wiring are in place.
 
 ## Commands
 
@@ -14,7 +14,7 @@ composer test                             # run PHPUnit tests
 composer phpcs                            # check code style (PSR-12 + outsanity ruleset)
 composer phpcbf                           # auto-fix style issues
 composer phpstan                          # static analysis (level 5, all paths)
-vendor/bin/rector process                 # apply PHP 8.1 modernization rules
+vendor/bin/rector process                 # apply PHP 8.3 modernization rules
 vendor/bin/phpunit --filter testMethod    # run a single test by name
 
 bin/console doctrine:database:create
@@ -29,7 +29,7 @@ composer go
 
 ## Tech Stack
 
-- **PHP** 8.2, **Symfony** 5.4
+- **PHP** 8.3, **Symfony** 6.4
 - **Doctrine ORM** with migrations
 - **Twig** templates, **Bootstrap**
 - **Database**: MySQL, PostgreSQL, or SQLite
