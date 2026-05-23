@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Hide inactive sections when adding new items.
 - Upgraded Symfony from 5.4 to 6.4 using Claude Code.
 - Updated annotations to attributes using Claude Code.
 

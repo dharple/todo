@@ -159,11 +159,7 @@ class ItemController extends AbstractController
             $listOutput = $listDisplay->getOutput();
         }
 
-        $sections     = $user->getSections()->matching(
-            new Criteria(
-                new Comparison('status', '=', 'Active')
-            )
-        );
+        $sections = $this->em->getRepository(Section::class)->getActive($user);
         $sectionCount = count($sections);
 
         return $this->render('index.html.twig', [
@@ -238,8 +234,7 @@ class ItemController extends AbstractController
         $config   = $this->loadDisplayConfig($request);
         $selected = DisplayHelper::getDefaultSectionId($this->em, $user, $config);
 
-        $sections = $this->em->getRepository(Section::class)
-            ->findBy(['user' => $user], ['name' => 'ASC']);
+        $sections = $this->em->getRepository(Section::class)->getActive($user);
 
         return $this->render('item_bulk_add.html.twig', [
             'errors'          => $errors,
@@ -338,13 +333,12 @@ class ItemController extends AbstractController
             }
         }
 
-        $sections        = $this->em->getRepository(Section::class)
-            ->findBy(['user' => $user], ['name' => 'ASC']);
         $items           = [];
         $op              = $request->query->get('op', 'add');
         $sectionOverride = null;
 
         if ($op === 'edit') {
+            $sections = $this->em->getRepository(Section::class)->findByUser($user, ['name' => 'ASC']);
             $ids   = $request->query->all('ids');
             $items = $this->em->getRepository(Item::class)
                 ->findBy([
@@ -352,6 +346,7 @@ class ItemController extends AbstractController
                     'user' => $user,
                 ]);
         } elseif ($op === 'add') {
+            $sections = $this->em->getRepository(Section::class)->getActive($user);
             $items = [
                 (new Item())
                     ->setPriority($priorityLevels['normal'])
