@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Converted existing legacy pages to controllers, using Claude Code.
+- Minimum PHP version is now 8.3.6.
+- Updated 3rd party dependencies.
 
 ### Removed
 
