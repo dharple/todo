@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Converted from Symfony 5.4 to Laravel 13 using Claude Code.
+- Hide inactive sections when adding new items.
 - Updated deploy script to work with Laravel.
 - Updated DisplayConfig to work with Laravel's serialization, and to stop
   accessing `$_REQUEST` directly.

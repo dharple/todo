@@ -139,8 +139,6 @@ class ItemController extends Controller
             $listOutput = $listDisplay->getOutput();
         }
 
-        $sectionCount = $user->sections()->where('status', 'Active')->count();
-
         return view('index', [
             'chartData'             => $itemStats->getWeeklySummary(4),
             'config'                => $config,
@@ -153,7 +151,7 @@ class ItemController extends Controller
             'filterFreshnessValues' => DisplayHelper::getFilterFreshnessValues(),
             'filterPriorityValues'  => DisplayHelper::getFilterPriorityValues(),
             'hasItems'              => ($itemCount > 0),
-            'hasSections'           => ($sectionCount > 0),
+            'hasSections'           => ($user->sections()->active()->count() > 0),
             'itemStats'             => $itemStats,
             'list'                  => $listOutput,
             'showAdvanced'          => ($config->getFilterClosed() !== 'none' || $config->getFilterDeleted() !== 'none'),
@@ -208,12 +206,10 @@ class ItemController extends Controller
         $config   = $this->loadDisplayConfig($request);
         $selected = DisplayHelper::getDefaultSectionId($user, $config);
 
-        $sections = Section::where('user_id', $user->id)->orderBy('name')->get();
-
         return view('item_bulk_add', [
             'errors'           => $errors,
             'priorityLevels'   => $priorityLevels,
-            'sections'         => $sections,
+            'sections'         => $user->sections()->active()->orderBy('name')->get(),
             'selectedPriority' => $priorityLevels['normal'],
             'selectedSection'  => $selected,
         ]);
@@ -300,18 +296,20 @@ class ItemController extends Controller
             }
         }
 
-        $sections        = Section::where('user_id', $user->id)->orderBy('name')->get();
+        $sections        = [];
         $items           = [];
         $op              = $request->query('op', 'add');
         $sectionOverride = null;
 
         if ($op === 'edit') {
+            $sections = $user->sections()->orderBy('name')->get();
             $ids   = (array) $request->query('ids', []);
             $items = Item::whereIn('id', $ids)
                 ->where('user_id', $user->id)
                 ->get()
                 ->all();
         } elseif ($op === 'add') {
+            $sections = $user->sections()->active()->orderBy('name')->get();
             $items = [
                 (new Item())
                     ->setPriority($priorityLevels['normal'])
