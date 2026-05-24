@@ -17,6 +17,8 @@ use App\Models\Item;
 use App\Models\Section;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Historical analytics. Returns counts of closed items.
@@ -24,11 +26,11 @@ use DateTime;
 class ItemStats extends AbstractItemAnalyzer
 {
     /**
-     * Request-scoped result cache.
+     * How long to cache stats for, in seconds.
      *
-     * @var array<string, mixed>
+     * @var integer
      */
-    protected static array $cache = [];
+    protected const CACHE_TIMEOUT = 30;
 
     /**
      * Returns analytics for a given year.
@@ -134,17 +136,20 @@ class ItemStats extends AbstractItemAnalyzer
      */
     protected function execute(?DateTime $start = null, ?DateTime $end = null): int
     {
-        $cacheKey = md5(serialize([__METHOD__, $this->user->id, $start, $end]));
+        $key = hash('md5', serialize([__METHOD__, $this->user->id, $start, $end]));
 
-        if (array_key_exists($cacheKey, static::$cache)) {
-            return (int) static::$cache[$cacheKey];
-        }
+        Log::debug(sprintf(
+            '%s, %s, %s, %s, %s',
+            $key,
+            Cache::has($key) ? 'hit' : 'miss',
+            $this->user->id,
+            $start ?? 'null',
+            $end ?? 'null'
+        ));
 
-        $result = $this->createQueryBuilder($start, $end)->count();
-
-        static::$cache[$cacheKey] = $result;
-
-        return $result;
+        return (int) Cache::remember($key, static::CACHE_TIMEOUT, fn () =>
+            $this->createQueryBuilder($start, $end)->count()
+        );
     }
 
     /**
@@ -154,38 +159,41 @@ class ItemStats extends AbstractItemAnalyzer
      */
     public function getAverage(): float
     {
-        $cacheKey = md5(serialize([__METHOD__, $this->user->id]));
+        $key = hash('md5', serialize([__METHOD__, $this->user->id]));
 
-        if (array_key_exists($cacheKey, static::$cache)) {
-            return (float) static::$cache[$cacheKey];
-        }
+        Log::debug(sprintf(
+            '%s, %s, %s',
+            $key,
+            Cache::has($key) ? 'hit' : 'miss',
+            $this->user->id
+        ));
 
-        $activeSectionIds = Section::where('user_id', $this->user->id)
-            ->where('status', 'Active')
-            ->pluck('id');
+        return (float) Cache::remember($key, static::CACHE_TIMEOUT, function () {
+            $activeSectionIds = Section::where('user_id', $this->user->id)
+                ->where('status', 'Active')
+                ->pluck('id');
 
-        $items = Item::where('user_id', $this->user->id)
-            ->where(function ($q) use ($activeSectionIds) {
-                $q->where('status', 'Closed')
-                    ->orWhere(function ($q2) use ($activeSectionIds) {
-                        $q2->where('status', 'Open')->whereIn('section_id', $activeSectionIds);
-                    });
-            })
-            ->get();
+            $items = Item::where('user_id', $this->user->id)
+                ->where(function ($q) use ($activeSectionIds) {
+                    $q->where('status', 'Closed')
+                        ->orWhere(function ($q2) use ($activeSectionIds) {
+                            $q2->where('status', 'Open')->whereIn('section_id', $activeSectionIds);
+                        });
+                })
+                ->get();
 
-        if ($items->isEmpty()) {
-            $result = 0.0;
-        } else {
-            $total = $items->sum(function (Item $item) {
-                $completed = $item->completed ?? Carbon::now();
-                return max($completed->diffInDays($item->created), 0) + 1;
-            });
-            $result = $total / $items->count();
-        }
+            if ($items->isEmpty()) {
+                $result = 0.0;
+            } else {
+                $total = $items->sum(function (Item $item) {
+                    $completed = $item->completed ?? Carbon::now();
+                    return max($completed->diffInDays($item->created), 0) + 1;
+                });
+                $result = $total / $items->count();
+            }
 
-        static::$cache[$cacheKey] = $result;
-
-        return (float) $result;
+            return $result;
+        });
     }
 
     /**
