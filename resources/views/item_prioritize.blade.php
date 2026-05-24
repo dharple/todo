@@ -5,7 +5,7 @@
 @section('body')
 @include('partials.page.head', ['title' => 'Priority Editor'])
 
-<form method="POST" action="{{ route('app_item_prioritize') }}">
+<form method="POST" action="{{ route('item_prioritize') }}">
     @csrf
     {!! $list !!}
     <br />

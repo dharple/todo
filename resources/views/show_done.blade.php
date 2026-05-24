@@ -13,19 +13,19 @@
             <div class="col-12 col-md-6 text-center text-md-end">
                 @if ($view !== 'year')
                     @if ($sort === 'section')
-                        <a href="{{ route('app_show_done', ['sort' => 'task', 'view' => $view]) }}">Sort by Task</a>
+                        <a href="{{ route('show_done', ['sort' => 'task', 'view' => $view]) }}">Sort by Task</a>
                     @else
-                        <a href="{{ route('app_show_done', ['sort' => 'section', 'view' => $view]) }}">Sort by Section</a>
+                        <a href="{{ route('show_done', ['sort' => 'section', 'view' => $view]) }}">Sort by Section</a>
                     @endif
                 @else
                     @if ($sort === 'section')
-                        <a href="{{ route('app_show_done', ['sort' => 'task', 'view' => $view, 'year' => $year]) }}">Sort by Task</a>
+                        <a href="{{ route('show_done', ['sort' => 'task', 'view' => $view, 'year' => $year]) }}">Sort by Task</a>
                     @else
-                        <a href="{{ route('app_show_done', ['sort' => 'section', 'view' => $view, 'year' => $year]) }}">Sort by Section</a>
+                        <a href="{{ route('show_done', ['sort' => 'section', 'view' => $view, 'year' => $year]) }}">Sort by Section</a>
                     @endif
                 @endif
                 |
-                <a href="{{ route('app_index') }}">Home</a>
+                <a href="{{ route('index') }}">Home</a>
             </div>
         </div>
     </div>

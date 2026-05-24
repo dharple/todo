@@ -71,7 +71,7 @@ class ItemController extends Controller
                 }
             } elseif (!empty($editButton)) {
                 if (!empty($itemIds)) {
-                    return redirect()->route('app_item_edit', [
+                    return redirect()->route('item_edit', [
                         'op'  => 'edit',
                         'ids' => $itemIds,
                     ]);
@@ -79,7 +79,7 @@ class ItemController extends Controller
                 $errors[] = 'Please select one or more items to edit';
             } elseif (!empty($prioritizeButton)) {
                 $params = !empty($itemIds) ? ['ids' => $itemIds] : [];
-                return redirect()->route('app_item_prioritize', $params);
+                return redirect()->route('item_prioritize', $params);
             } elseif (!empty($duplicateButton)) {
                 try {
                     foreach ($itemIds as $itemId) {
@@ -193,7 +193,7 @@ class ItemController extends Controller
             }
 
             if (empty($errors) && $request->input('submitButton') === 'Do It') {
-                return redirect()->route('app_index');
+                return redirect()->route('index');
             }
         }
 
@@ -288,7 +288,7 @@ class ItemController extends Controller
             }
 
             if (empty($errors) && $request->input('submitButton') === 'Do It') {
-                return redirect()->route('app_index');
+                return redirect()->route('index');
             }
         }
 
@@ -365,7 +365,7 @@ class ItemController extends Controller
             }
 
             if (empty($errors)) {
-                return redirect()->route('app_index');
+                return redirect()->route('index');
             }
         }
 

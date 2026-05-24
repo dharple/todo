@@ -5,7 +5,7 @@
 @section('body')
 @include('partials.page.head', ['title' => 'Account Editor'])
 
-<form method="POST" action="{{ route('app_account') }}">
+<form method="POST" action="{{ route('account') }}">
     @csrf
 
     <table>

@@ -2,7 +2,7 @@
     <div class="row mb-1">
         <div class="col-12">
             <span class="section-label">
-                <a class="section-link" href="{{ route('app_index', ['filter_section' => $filterSection == $section->getId() ? 0 : $section->getId()]) }}">{{ $section->getName() }}</a>
+                <a class="section-link" href="{{ route('index', ['filter_section' => $filterSection == $section->getId() ? 0 : $section->getId()]) }}">{{ $section->getName() }}</a>
                 @if ($section->getStatus() === 'Inactive')
                     (Inactive)
                 @endif
