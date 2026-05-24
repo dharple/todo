@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Converted from Symfony 5.4 to Laravel 13 using Claude Code.
 
+### Removed
+
+- Removed legacy routes.
+
 ## [2.3.0] - 2026-05-23
 
 ### Changed

@@ -65,7 +65,7 @@ abstract class AbstractItemAnalyzer
      */
     protected function createQueryBuilder(?DateTime $start = null, ?DateTime $end = null): Builder
     {
-        $qb = Item::where('user_id', $this->user->id)->where('status', 'Closed');
+        $qb = Item::where('item.user_id', $this->user->id)->where('item.status', 'Closed');
 
         if ($start !== null && $end !== null) {
             $qb->whereBetween('completed', [

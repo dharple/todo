@@ -1,10 +1,11 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with
+code in this repository.
 
 ## Project Overview
 
-Legacy PHP to-do list web application (originally 2007) modernized to Laravel 13. Eloquent ORM, Blade templates, Laravel Controllers, and standard Laravel conventions are in place.
+Laravel to-do list web app, originally written in 2007 without any framework.
 
 ## Commands
 
@@ -35,7 +36,7 @@ composer go
 
 ## Architecture
 
-**Laravel Controllers**: All pages are handled by controllers in `app/Http/Controllers/`. Routes are defined in `routes/web.php`. Legacy `.php` URLs (e.g. `/login.php`) are kept as 301 redirects in `routes/web.php`.
+**Laravel Controllers**: All pages are handled by controllers in `app/Http/Controllers/`. Routes are defined in `routes/web.php`.
 
 **Authentication**: Laravel's standard `Auth::attempt()` with the `web` guard against `App\Models\User`. The User model overrides `getAuthIdentifierName()` to return `'username'` instead of `'email'`. `App\Services\Guard` handles password hashing/verification.
 

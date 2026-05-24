@@ -1,26 +1,17 @@
 # Overview
 
-A legacy web application for keeping track of to do lists.
+A legacy web application for keeping track of to do lists, slowly being
+modernized.
 
-This was originally written in ~2007.  (The first commit was made on a baz
-repo, in 2007-09-10.)  I used it for a few years, but eventually moved on to
-other software for tracking to do lists.  In 2020, I picked it back up again,
+This was originally written in ~2007.  In 2020, I picked it back up again,
 and began the process of converting it to using modern frameworks.
 
-So far, I've introduced:
-- PSR-12 style code
-- Bootstrap (Index Page)
-- Doctrine ORM
-- Dotenv
-- Merged Index and Print Templates
-- Symfony Kernel
-- Twig
-- Database Migrations
+# Upgrading
 
-The remaining pieces:
-- Bootstrap (Other Pages)
-- Symfony Controllers
-- Unit Tests
+Todo v3 introduces a new framework, Laravel, and a shift in the .env format.
+If you had previously been running Todo on v2, move your .env.local out of the
+way.  Update as usual, then copy `.env.example` to `.env`, and update the
+database settings, using your previous copy of `.env.local` as a guide.
 
 # Requirements
 
@@ -38,26 +29,26 @@ composer install
 
 ## Set up .env
 
-Copy `.env` to `.env.local`.  Edit it and set the database parameters.
+Copy `.env.example` to `.env`.  Edit it and set the database parameters.
+
+## Geneate any application encryption key
+
+```bash
+./artisan key:generate
+```
 
 ## Generate DB Schema
 
-Create the database using:
+Create the database using, or update the schema after changes using:
 
 ```bash
-bin/console doctrine:database:create
-```
-
-Update the schema after updates using:
-
-```bash
-bin/console doctrine:migrations:migrate
+./artisan migrate
 ```
 
 ## Create a User
 
 ```bash
-bin/console user:add myuser
+./artisan user:add
 ```
 
 ## Test

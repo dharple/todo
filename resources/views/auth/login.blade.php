@@ -5,7 +5,7 @@
 @section('body')
 <div class="row h-100 align-items-center justify-content-center">
     <div class="col-lg-3">
-        <form method="post" action="{{ route('app_login') }}">
+        <form method="post" action="{{ route('login') }}">
             @csrf
             <div class="d-grid">
                 <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" autocomplete="username" value="{{ $last_username }}" required autofocus>

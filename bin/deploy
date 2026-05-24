@@ -1,0 +1,23 @@
+#!/bin/bash -ex
+#
+# Simple deployment script
+#
+
+DEPLOYUSER=www-data
+
+if [ "$USER" != "$DEPLOYUSER" ] ; then
+	sudo -H -u $DEPLOYUSER $0 "$@"
+	exit
+fi
+
+BASE=$(dirname $(dirname $(realpath $0)))
+
+echo Deploying to $BASE
+
+cd $BASE
+
+./artisan down || echo not down
+git stash save
+git pull
+composer install --no-dev -o
+./artisan optimize

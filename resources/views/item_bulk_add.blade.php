@@ -5,7 +5,7 @@
 @section('body')
 @include('partials.page.head', ['title' => 'Item Bulk Add'])
 
-<form method="POST" action="{{ route('app_item_bulk_add') }}">
+<form method="POST" action="{{ route('item_bulk_add') }}">
     @csrf
 
     Bulk Adding...<br /><br />

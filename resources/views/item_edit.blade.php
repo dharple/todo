@@ -5,7 +5,7 @@
 @section('body')
 @include('partials.page.head', ['title' => 'Item Edit'])
 
-<form method="POST" action="{{ route('app_item_edit') }}">
+<form method="POST" action="{{ route('item_edit') }}">
     @csrf
     <input type="hidden" name="op" value="{{ $op }}">
 

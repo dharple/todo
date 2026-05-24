@@ -14,11 +14,13 @@ declare(strict_types=1);
 namespace App\Renderer;
 
 use Exception;
+use Illuminate\Http\Request;
+use JsonSerializable;
 
 /**
  * Holds the current display configuration.
  */
-class DisplayConfig
+class DisplayConfig implements JsonSerializable
 {
     /**
      * These members persist between page loads.
@@ -117,6 +119,21 @@ class DisplayConfig
      * @var bool
      */
     protected bool $showPriorityEditor = false;
+
+    /**
+     * Constructs a new DisplayConfig.
+     *
+     * @param array $values An array of values to initialize the config with.
+     */
+    public function __construct(array $values = [])
+    {
+        foreach (static::SAVED_VALUES as $field) {
+            if (isset($values[$field])) {
+                $setMethod = 'set' . ucfirst($field);
+                $this->$setMethod($values[$field]);
+            }
+        }
+    }
 
     /**
      * Only save persistent values on sleep.
@@ -229,6 +246,22 @@ class DisplayConfig
     }
 
     /**
+     * Generate a json_encode() friendly data set.
+     *
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        $build = [];
+
+        foreach (static::SAVED_VALUES as $field) {
+            $build[$field] = $this->$field;
+        }
+
+        return $build;
+    }
+
+    /**
      * Turns a string into a bool; leaves booleans alone.
      *
      * @param bool|string $in The value to review.
@@ -243,18 +276,20 @@ class DisplayConfig
     /**
      * Processes any request variables.
      *
+     * @param Request $request The incoming HTTP request to process.
+     *
      * @return DisplayConfig
      *
      * @throws Exception
      */
-    public function processRequest(): DisplayConfig
+    public function processRequest(Request $request): DisplayConfig
     {
         foreach (static::SAVED_VALUES as $field) {
             $requestVar = strtolower((string) preg_replace('/[A-Z]/', '_\0', $field));
 
-            if (isset($_REQUEST[$requestVar])) {
+            if ($request->query->has($requestVar)) {
                 $setMethod = 'set' . ucfirst($field);
-                $this->$setMethod($_REQUEST[$requestVar]);
+                $this->$setMethod($request->query->get($requestVar));
             }
         }
 

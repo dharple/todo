@@ -17,25 +17,16 @@ use App\Http\Controllers\SectionController;
 use App\Http\Middleware\SetTimezone;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/login', [AuthController::class, 'login'])->name('app_login');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('app_logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', SetTimezone::class])->group(function () {
-    Route::match(['GET', 'POST'], '/', [ItemController::class, 'index'])->name('app_index');
-    Route::match(['GET', 'POST'], '/items/bulk-add', [ItemController::class, 'itemBulkAdd'])->name('app_item_bulk_add');
-    Route::match(['GET', 'POST'], '/items/edit', [ItemController::class, 'itemEdit'])->name('app_item_edit');
-    Route::match(['GET', 'POST'], '/items/prioritize', [ItemController::class, 'itemPrioritize'])->name('app_item_prioritize');
-    Route::match(['GET', 'POST'], '/sections', [SectionController::class, 'sectionEdit'])->name('app_section_edit');
-    Route::match(['GET', 'POST'], '/account', [AccountController::class, 'account'])->name('app_account');
-    Route::get('/history', [HistoryController::class, 'showDone'])->name('app_show_done');
+    Route::match(['GET', 'POST'], '/', [ItemController::class, 'index'])->name('index');
+    Route::match(['GET', 'POST'], '/items/bulk-add', [ItemController::class, 'itemBulkAdd'])->name('item_bulk_add');
+    Route::match(['GET', 'POST'], '/items/edit', [ItemController::class, 'itemEdit'])->name('item_edit');
+    Route::match(['GET', 'POST'], '/items/prioritize', [ItemController::class, 'itemPrioritize'])->name('item_prioritize');
+    Route::match(['GET', 'POST'], '/sections', [SectionController::class, 'sectionEdit'])->name('section_edit');
+    Route::match(['GET', 'POST'], '/account', [AccountController::class, 'account'])->name('account');
+    Route::get('/history', [HistoryController::class, 'showDone'])->name('show_done');
 });
-
-Route::permanentRedirect('/index.php', '/');
-Route::permanentRedirect('/login.php', '/login');
-Route::permanentRedirect('/logout.php', '/logout');
-Route::permanentRedirect('/account.php', '/account');
-Route::permanentRedirect('/history.php', '/history');
-Route::permanentRedirect('/add.php', '/items/edit');
-Route::permanentRedirect('/edit.php', '/items/edit');
-Route::permanentRedirect('/sections.php', '/sections');

@@ -64,6 +64,7 @@
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ],
         "go": [
+            "php artisan optimize:clear",
             "php artisan serve"
         ],
         "phpcbf": "phpcbf",

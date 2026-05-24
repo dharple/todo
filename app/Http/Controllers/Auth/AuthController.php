@@ -34,7 +34,7 @@ class AuthController extends Controller
     public function login(Request $request): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->route('app_index');
+            return redirect()->route('index');
         }
 
         $errors       = [];
@@ -48,7 +48,7 @@ class AuthController extends Controller
 
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
-                return redirect()->route('app_index');
+                return redirect()->route('index');
             }
 
             $errors[]     = 'Invalid credentials.';
@@ -73,6 +73,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('app_login');
+        return redirect()->route('login');
     }
 }
