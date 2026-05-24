@@ -183,7 +183,6 @@
             <div class="col-sm-12 col-lg-4 mb-2 text-center">
                 <a href="{{ route('account') }}" class="btn btn-secondary">My Account</a>
                 <a href="{{ route('logout') }}" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">@csrf</form>
             </div>
             <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-end">
                 @if ($showAdvanced)
@@ -208,4 +207,5 @@
         </div>
     </div>
 </form>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">@csrf</form>
 @endsection
