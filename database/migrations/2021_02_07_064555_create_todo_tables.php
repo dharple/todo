@@ -24,34 +24,40 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('user', function (Blueprint $table) {
-            $table->id();
-            $table->string('fullname');
-            $table->string('password');
-            $table->string('timezone', 128);
-            $table->string('username', 32)->unique();
-        });
+        if (!Schema::hasTable('user')) {
+            Schema::create('user', function (Blueprint $table) {
+                $table->id();
+                $table->string('fullname');
+                $table->string('password');
+                $table->string('timezone', 128);
+                $table->string('username', 32)->unique();
+            });
+        }
 
-        Schema::create('section', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('status', 20);
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('user');
-        });
+        if (!Schema::hasTable('section')) {
+            Schema::create('section', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('status', 20);
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->foreign('user_id')->references('id')->on('user');
+            });
+        }
 
-        Schema::create('item', function (Blueprint $table) {
-            $table->id();
-            $table->datetime('completed')->nullable();
-            $table->datetime('created');
-            $table->integer('priority');
-            $table->unsignedBigInteger('section_id')->nullable();
-            $table->foreign('section_id')->references('id')->on('section');
-            $table->string('status', 20);
-            $table->string('task');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('user');
-        });
+        if (!Schema::hasTable('item')) {
+            Schema::create('item', function (Blueprint $table) {
+                $table->id();
+                $table->datetime('completed')->nullable();
+                $table->datetime('created');
+                $table->integer('priority');
+                $table->unsignedBigInteger('section_id')->nullable();
+                $table->foreign('section_id')->references('id')->on('section');
+                $table->string('status', 20);
+                $table->string('task');
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->foreign('user_id')->references('id')->on('user');
+            });
+        }
     }
 
     /**
