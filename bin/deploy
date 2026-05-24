@@ -21,3 +21,4 @@ git stash save
 git pull
 composer install --no-dev -o
 ./artisan optimize
+./artisan up
