@@ -23,6 +23,7 @@ use App\Renderer\ListDisplay;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 /**
@@ -30,6 +31,13 @@ use Illuminate\View\View;
  */
 class ItemController extends Controller
 {
+    /**
+     * Session index for display config.
+     *
+     * @var string
+     */
+    protected const DISPLAY_CONFIG = 'display-config';
+
     /**
      * Displays the main to-do list and handles bulk item actions.
      *
@@ -105,7 +113,7 @@ class ItemController extends Controller
         $config = $this->loadDisplayConfig($request);
 
         try {
-            $config->processRequest();
+            $config->processRequest($request);
         } catch (\Exception $e) {
             $errors[] = $e->getMessage();
         }
@@ -404,19 +412,20 @@ class ItemController extends Controller
     /**
      * Loads the display config from the session.
      *
+     * NOTE: this is dependent upon Laravel using JSON as the serialization
+     * method for sessions.
+     *
      * @param Request $request The current HTTP request.
      *
      * @return DisplayConfig
      */
-    private function loadDisplayConfig(Request $request): DisplayConfig
+    protected function loadDisplayConfig(Request $request): DisplayConfig
     {
-        if (!$request->query->has('reset_display_settings')) {
-            $config = session('displayConfig');
-            if ($config instanceof DisplayConfig) {
-                return $config;
-            }
+        if ($request->query->has('reset_display_settings')) {
+            $request->session()->forget(static::DISPLAY_CONFIG);
         }
-        return new DisplayConfig();
+
+        return new DisplayConfig($request->session()->get(static::DISPLAY_CONFIG, []));
     }
 
     /**
@@ -427,8 +436,8 @@ class ItemController extends Controller
      *
      * @return void
      */
-    private function saveDisplayConfig(Request $request, DisplayConfig $config): void
+    protected function saveDisplayConfig(Request $request, DisplayConfig $config): void
     {
-        session(['displayConfig' => $config]);
+        $request->session()->put(static::DISPLAY_CONFIG, $config);
     }
 }
