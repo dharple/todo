@@ -6,6 +6,13 @@ modernized.
 This was originally written in ~2007.  In 2020, I picked it back up again,
 and began the process of converting it to using modern frameworks.
 
+# Upgrading
+
+Todo v3 introduces a new framework, Laravel, and a shift in the .env format.
+If you had previously been running Todo on v2, move your .env.local out of the
+way.  Update as usual, then copy `.env.example` to `.env`, and update the
+database settings, using your previous copy of `.env.local` as a guide.
+
 # Requirements
 
 * Composer
