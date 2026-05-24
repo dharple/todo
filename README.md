@@ -38,26 +38,26 @@ composer install
 
 ## Set up .env
 
-Copy `.env` to `.env.local`.  Edit it and set the database parameters.
+Copy `.env.example` to `.env`.  Edit it and set the database parameters.
+
+## Geneate any application encryption key
+
+```bash
+./artisan key:generate
+```
 
 ## Generate DB Schema
 
-Create the database using:
+Create the database using, or update the schema after changes using:
 
 ```bash
-bin/console doctrine:database:create
-```
-
-Update the schema after updates using:
-
-```bash
-bin/console doctrine:migrations:migrate
+./artisan migrate
 ```
 
 ## Create a User
 
 ```bash
-bin/console user:add myuser
+./artisan user:add
 ```
 
 ## Test
