@@ -1,7 +1,0 @@
-<select name="{{ selectName ?? 'priority' }}">
-    {% for priority in priorityLevels.high..priorityLevels.low %}
-        <option value="{{ priority }}" {% if priority == selectedPriority %}selected {% endif %}>
-            {{- priority -}}
-        </option>
-    {% endfor %}
-</select>

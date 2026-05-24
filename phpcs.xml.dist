@@ -3,38 +3,23 @@
 
     <rule ref="vendor/outsanity/phpcs/Outsanity/ruleset.xml" />
 
-    <file>src</file>
-
-    <rule ref="Squiz.Commenting.FunctionComment.MissingParamComment">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Generic.Commenting.DocComment.MissingShort">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.Missing">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.VariableComment.Missing">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Squiz.Commenting.ClassComment.Missing">
-        <exclude-pattern>src/Legacy/*</exclude-pattern>
-    </rule>
+    <file>app</file>
+    <file>tests</file>
 
     <rule ref="Squiz.Commenting.ClassComment.TagNotAllowed">
-        <exclude-pattern>src/*</exclude-pattern>
+        <exclude-pattern>app/*</exclude-pattern>
     </rule>
 
     <rule ref="Squiz.Commenting.FunctionComment.EmptyThrows">
-        <exclude-pattern>src/*</exclude-pattern>
+        <exclude-pattern>app/*</exclude-pattern>
     </rule>
 
-    <rule ref="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing">
-        <exclude-pattern>src/Logger/*</exclude-pattern>
+    <rule ref="Squiz.Commenting.ClassComment.Missing">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+        <exclude-pattern>tests/*</exclude-pattern>
     </rule>
 
 </ruleset>

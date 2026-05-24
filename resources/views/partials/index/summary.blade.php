@@ -1,0 +1,26 @@
+<div class="print summary">
+    <i>
+    @if ($itemStats->doneTotal() > 0)
+        Items Done
+            Today: {{ $itemStats->doneToday() }},
+            Yesterday: {{ $itemStats->doneYesterday() }},
+            This Week: {{ $itemStats->doneThisWeek() }},
+            Last Week: {{ $itemStats->doneLastWeek() }},
+            This Month: {{ $itemStats->doneThisMonth() }},
+            Last Month: {{ $itemStats->doneLastMonth() }},
+            Since Start: {{ $itemStats->doneTotal() }},
+            Avg: {{ number_format($itemStats->getAverage(), 1) }} days
+        <br />
+        <br />
+    @endif
+    Items Shown: {GRAND_TOTAL}
+    <br />
+    Items Hidden: {NOT_SHOWN}
+    </i>
+    <br />
+    @if ($itemStats->doneTotal() > 0)
+        <div class="mt-4 chartContainer">
+            <canvas id="tasksByWeek2" class="printChart"></canvas>
+        </div>
+    @endif
+</div>

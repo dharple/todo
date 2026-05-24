@@ -1,111 +1,81 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "outsanity/todo",
     "description": "Old TODO Software",
     "type": "project",
     "license": "BSD-2-Clause",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
-        "php": "^8.3.6",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
-        "ext-json": "*",
-        "doctrine/cache": "^1.13",
-        "doctrine/collections": "^1.8",
-        "doctrine/dbal": "^2.13.9",
-        "doctrine/doctrine-bundle": "^2.7.2",
-        "doctrine/doctrine-migrations-bundle": "^3.7.0",
-        "doctrine/orm": "^2.20.8",
-        "nesbot/carbon": "^2.73.0",
-        "psr/log": "^1.1.4",
-        "symfony/asset": "6.4.*",
-        "symfony/console": "^6.4",
-        "symfony/dotenv": "^6.4",
-        "symfony/flex": "^2.0",
-        "symfony/framework-bundle": "^6.4",
-        "symfony/monolog-bundle": "^3.10",
-        "symfony/runtime": "^6.4",
-        "symfony/security-bundle": "^6.4",
-        "symfony/twig-bundle": "^6.4",
-        "symfony/var-exporter": "^6.4",
-        "symfony/yaml": "^6.4",
-        "twig/extra-bundle": "^3.22.1",
-        "twig/twig": "^3.22.0"
-    },
-    "suggest": {
-        "ext-mysqli": "*",
-        "ext-sqlite3": "*"
+        "php": "^8.3",
+        "laravel/framework": "^13.8",
+        "laravel/tinker": "^3.0"
     },
     "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.0",
+        "laravel/pail": "^1.2.5",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
         "outsanity/phpcs": ">=0.4.0",
-        "phpunit/phpunit": "^9.6.29",
-        "rector/rector": "^1.0.0",
-        "symfony/debug-bundle": "^6.4",
-        "symfony/maker-bundle": "^1.50",
-        "symfony/var-dumper": "^6.4",
-        "symfony/web-profiler-bundle": "^6.4"
+        "phpunit/phpunit": "^12.0",
+        "rector/rector": "^2.0"
     },
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "8.3.6"
+            "php": "8.3.0"
         },
-        "preferred-install": {
-            "*": "dist"
-        },
+        "preferred-install": "dist",
         "process-timeout": 0,
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "symfony/flex": true,
-            "symfony/runtime": true
-        },
-        "audit": {
-            "abandoned": "report"
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
-    },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*"
     },
     "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ],
         "go": [
-            "php bin/console cache:clear",
-            "php -S localhost:8000 -t public/"
+            "php artisan serve"
         ],
-        "phpcbf":  "phpcbf",
-        "phpcs":   "phpcs",
+        "phpcbf": "phpcbf",
+        "phpcs": "phpcs",
         "phpstan": "phpstan analyse",
-        "test":    "phpunit"
-    },
-    "conflict": {
-        "symfony/symfony": "*"
+        "test": "phpunit"
     },
     "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "6.4.*"
+        "laravel": {
+            "dont-discover": []
         }
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

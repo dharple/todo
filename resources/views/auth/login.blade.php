@@ -1,0 +1,22 @@
+@extends('layouts.base')
+
+@section('title', 'Login')
+
+@section('body')
+<div class="row h-100 align-items-center justify-content-center">
+    <div class="col-lg-3">
+        <form method="post" action="{{ route('app_login') }}">
+            @csrf
+            <div class="d-grid">
+                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" autocomplete="username" value="{{ $last_username }}" required autofocus>
+            </div>
+            <div class="d-grid mt-3">
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" autocomplete="current-password" required>
+            </div>
+            <div class="d-grid mt-3">
+                <input type="submit" name="submitButton" value="Login" class="btn btn-primary btn-lg" />
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
