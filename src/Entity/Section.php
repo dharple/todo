@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Describes a section that tasks get grouped into.
  */
-#[ORM\Entity(repositoryClass: \App\Repository\SectionRepository::class)]
+#[ORM\Entity]
 #[ORM\Table(name: 'section')]
 class Section
 {
