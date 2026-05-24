@@ -35,7 +35,7 @@ composer go
 
 ## Architecture
 
-**Laravel Controllers**: All pages are handled by controllers in `app/Http/Controllers/`. Routes are defined in `routes/web.php`. Legacy `.php` URLs (e.g. `/login.php`) are kept as 301 redirects in `routes/web.php`.
+**Laravel Controllers**: All pages are handled by controllers in `app/Http/Controllers/`. Routes are defined in `routes/web.php`.
 
 **Authentication**: Laravel's standard `Auth::attempt()` with the `web` guard against `App\Models\User`. The User model overrides `getAuthIdentifierName()` to return `'username'` instead of `'email'`. `App\Services\Guard` handles password hashing/verification.
 

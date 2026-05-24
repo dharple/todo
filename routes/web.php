@@ -30,12 +30,3 @@ Route::middleware(['auth', SetTimezone::class])->group(function () {
     Route::match(['GET', 'POST'], '/account', [AccountController::class, 'account'])->name('app_account');
     Route::get('/history', [HistoryController::class, 'showDone'])->name('app_show_done');
 });
-
-Route::permanentRedirect('/index.php', '/');
-Route::permanentRedirect('/login.php', '/login');
-Route::permanentRedirect('/logout.php', '/logout');
-Route::permanentRedirect('/account.php', '/account');
-Route::permanentRedirect('/history.php', '/history');
-Route::permanentRedirect('/add.php', '/items/edit');
-Route::permanentRedirect('/edit.php', '/items/edit');
-Route::permanentRedirect('/sections.php', '/sections');
