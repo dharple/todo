@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   accessing `$_REQUEST` directly.
 - Updated route names to drop `app_` prefix.
 
+### Fixed
+
+- Fixed a long-lived bug in ItemStats::getAverage() that was silently masked by
+  Carbon 2 defaulting to always returning the absolute value when calling
+  diff...().  h/t Claude Code
+
 ### Removed
 
 - Removed legacy routes.
