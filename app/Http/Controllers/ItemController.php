@@ -15,7 +15,6 @@ namespace App\Http\Controllers;
 
 use App\Analytics\ItemStats;
 use App\Models\Item;
-use App\Models\Section;
 use App\Models\User;
 use App\Renderer\DisplayConfig;
 use App\Renderer\DisplayHelper;
@@ -23,7 +22,6 @@ use App\Renderer\ListDisplay;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 /**
