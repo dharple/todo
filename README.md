@@ -1,26 +1,10 @@
 # Overview
 
-A legacy web application for keeping track of to do lists.
+A legacy web application for keeping track of to do lists, slowly being
+modernized.
 
-This was originally written in ~2007.  (The first commit was made on a baz
-repo, in 2007-09-10.)  I used it for a few years, but eventually moved on to
-other software for tracking to do lists.  In 2020, I picked it back up again,
+This was originally written in ~2007.  In 2020, I picked it back up again,
 and began the process of converting it to using modern frameworks.
-
-So far, I've introduced:
-- PSR-12 style code
-- Bootstrap (Index Page)
-- Doctrine ORM
-- Dotenv
-- Merged Index and Print Templates
-- Symfony Kernel
-- Twig
-- Database Migrations
-
-The remaining pieces:
-- Bootstrap (Other Pages)
-- Symfony Controllers
-- Unit Tests
 
 # Requirements
 

@@ -1,10 +1,11 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with
+code in this repository.
 
 ## Project Overview
 
-Legacy PHP to-do list web application (originally 2007) modernized to Laravel 13. Eloquent ORM, Blade templates, Laravel Controllers, and standard Laravel conventions are in place.
+Laravel to-do list web app, originally written in 2007 without any framework.
 
 ## Commands
 
