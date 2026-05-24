@@ -411,9 +411,9 @@ class DisplayConfig implements JsonSerializable
      *
      * @return DisplayConfig
      */
-    public function setFilterSection(int $filterSection): DisplayConfig
+    public function setFilterSection(mixed $filterSection): DisplayConfig
     {
-        $this->filterSection = $filterSection;
+        $this->filterSection = (int) $filterSection;
         return $this;
     }
 
