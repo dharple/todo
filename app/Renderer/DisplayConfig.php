@@ -407,7 +407,7 @@ class DisplayConfig implements JsonSerializable
     /**
      * If set, only this section is shown.
      *
-     * @param int $filterSection A section ID, or 0.
+     * @param mixed $filterSection A section ID, or 0.
      *
      * @return DisplayConfig
      */

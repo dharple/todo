@@ -139,7 +139,8 @@ class ItemStats extends AbstractItemAnalyzer
         $key = hash('md5', serialize([__METHOD__, $this->user->id, $start, $end]));
 
         Log::debug(sprintf(
-            '%s, %s, %s, %s, %s',
+            '%s, %s, %s, %s, %s, %s',
+            __METHOD__,
             $key,
             Cache::has($key) ? 'hit' : 'miss',
             $this->user->id,
@@ -148,8 +149,7 @@ class ItemStats extends AbstractItemAnalyzer
         ));
 
         return (int) Cache::remember($key, static::CACHE_TIMEOUT, fn () =>
-            $this->createQueryBuilder($start, $end)->count()
-        );
+            $this->createQueryBuilder($start, $end)->count());
     }
 
     /**
@@ -162,7 +162,8 @@ class ItemStats extends AbstractItemAnalyzer
         $key = hash('md5', serialize([__METHOD__, $this->user->id]));
 
         Log::debug(sprintf(
-            '%s, %s, %s',
+            '%s, %s, %s, %s',
+            __METHOD__,
             $key,
             Cache::has($key) ? 'hit' : 'miss',
             $this->user->id
