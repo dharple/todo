@@ -7,18 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Note
-
-- Tag this as version 3.
-
 ### Changed
 
-- Upgraded Symfony from 5.4 to 6.4 using Claude Code.
-- Updated annotations to attributes using Claude Code.
-
-### Removed
-
-- Removed legacy routes.
+- Converted from Symfony 5.4 to Laravel 13 using Claude Code.
 
 ## [2.3.0] - 2026-05-23
 

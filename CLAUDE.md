@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Legacy PHP to-do list web application (originally 2007) modernized to Symfony 6.4. Doctrine ORM, Twig, Symfony Controllers, and full DI wiring are in place.
+Legacy PHP to-do list web application (originally 2007) modernized to Laravel 13. Eloquent ORM, Blade templates, Laravel Controllers, and standard Laravel conventions are in place.
 
 ## Commands
 
@@ -17,50 +17,46 @@ composer phpstan                          # static analysis (level 5, all paths)
 vendor/bin/rector process                 # apply PHP 8.3 modernization rules
 vendor/bin/phpunit --filter testMethod    # run a single test by name
 
-bin/console doctrine:database:create
-bin/console doctrine:migrations:migrate
-bin/console user:add <username>
-bin/console user:password <username>
+php artisan migrate
+php artisan user:add <username>
+php artisan user:password <username>
 
 # Start dev server
 composer go
-# or: php -S localhost:8000 -t public/
+# or: php artisan serve
 ```
 
 ## Tech Stack
 
-- **PHP** 8.3, **Symfony** 6.4
-- **Doctrine ORM** with migrations
-- **Twig** templates, **Bootstrap**
+- **PHP** 8.3, **Laravel** 13
+- **Eloquent ORM** with migrations
+- **Blade** templates, **Bootstrap** 5
 - **Database**: MySQL, PostgreSQL, or SQLite
 
 ## Architecture
 
-**Symfony Controllers**: All pages are handled by Symfony controllers in `src/Controller/`. The Symfony front controller at `public/index.php` handles all routing. Legacy `.php` URLs (e.g. `/login.php`) are kept as 301 redirects in `config/routes.yaml`.
+**Laravel Controllers**: All pages are handled by controllers in `app/Http/Controllers/`. Routes are defined in `routes/web.php`. Legacy `.php` URLs (e.g. `/login.php`) are kept as 301 redirects in `routes/web.php`.
 
-**Authentication**: Symfony's `form_login` firewall against `App\Entity\User` (implements `UserInterface`). `App\Auth\Guard` is still used for password hashing/verification in `AccountController`.
+**Authentication**: Laravel's standard `Auth::attempt()` with the `web` guard against `App\Models\User`. The User model overrides `getAuthIdentifierName()` to return `'username'` instead of `'email'`. `App\Services\Guard` handles password hashing/verification.
 
-**`App\Helper`** is a legacy static service locator — **do not use it in controllers**. It requires `$GLOBALS['kernel']` which is not set in the Symfony controller context. Use injected services instead.
+**Timezone**: `App\Http\Middleware\SetTimezone` sets `date_default_timezone_set()` on every authenticated request via the web middleware stack (registered in `bootstrap/app.php`).
 
-**Timezone**: `App\EventSubscriber\TimezoneSubscriber` sets `date_default_timezone_set()` on every authenticated request (priority -10, after the security firewall).
+**Session / DisplayConfig**: `App\Renderer\DisplayConfig` is stored in Laravel's session under the key `displayConfig`. Load and save it via `session('displayConfig')` / `session(['displayConfig' => $config])`.
 
-**Session / DisplayConfig**: `App\Renderer\DisplayConfig` is stored in Symfony's session under the key `displayConfig`. Load and save it via `$request->getSession()->get/set('displayConfig', ...)`.
+**Data model**: Three Eloquent models — `User` owns `Section[]` and `Item[]`; each `Item` belongs to a `Section` and a `User`. Item status is a plain string column (`Open`, `Closed`, `Deleted`). No `created_at`/`updated_at` timestamp columns — `$timestamps = false` on all models.
 
-**Data model**: Three Doctrine entities — `User` owns `Section[]` and `Item[]`; each `Item` belongs to a `Section` and a `User`. Item status is a plain string column (`Open`, `Closed`, `Deleted`).
-
-**Rendering**: `App\Renderer\BaseDisplay` → `ListDisplay` / `SectionDisplay` render Twig templates and expose `getOutput()` / `getOutputCount()`. `App\Analytics\*` runs DQL queries against closed items for stats (this week, last month, by year, etc.).
+**Rendering**: `App\Renderer\BaseDisplay` → `ListDisplay` / `SectionDisplay` render Blade templates and expose `getOutput()` / `getOutputCount()`. `App\Analytics\*` runs Eloquent queries against closed items for stats (this week, last month, by year, etc.).
 
 ## Code Standards
 
 - `declare(strict_types=1)` on every PHP file
 - Copyright header block required on every new file (see existing files for exact format)
 - PHPDoc required: class-level doc comment, `@param` with description, `@return` tag, properties in alphabetical order
-- `src/Legacy/` (if created) has relaxed docblock rules per `phpcs.xml.dist`
 - Run `composer phpcs` and `composer phpstan` before committing
 
 ## Environment
 
-Copy `.env` to `.env.local` and set:
-- `DATABASE_URL` — MySQL, PostgreSQL, or SQLite connection string
-- `APP_SECRET` — random Symfony secret
-- `APP_ENV` — `dev` for local development
+Copy `.env.example` to `.env` and set:
+- `DB_CONNECTION` / `DB_HOST` / `DB_PORT` / `DB_DATABASE` / `DB_USERNAME` / `DB_PASSWORD`
+- `APP_KEY` — generate with `php artisan key:generate`
+- `APP_ENV` — `local` for local development

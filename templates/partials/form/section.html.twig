@@ -1,8 +1,0 @@
-<select name="{{ selectName ?? 'section' }}" autofocus>
-    {% for section in sections %}
-        <option value="{{ section.id }}" {% if section.id == selectedSection %}selected {% endif %}>
-            {{- section.name -}}
-            {%- if section.status == 'Inactive' %} (Inactive){% endif -%}
-        </option>
-    {% endfor %}
-</select>

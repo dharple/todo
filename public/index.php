@@ -1,27 +1,20 @@
 <?php
 
-/**
- * This file is part of the TodoList package.
- *
- * (c) Doug Harple <dharple@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
-use App\Kernel;
+define('LARAVEL_START', microtime(true));
 
-// Serve static files directly when using PHP's built-in development server.
-if (PHP_SAPI === 'cli-server') {
-    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $file = __DIR__ . $path;
-    if ($path !== '/' && is_file($file)) {
-        return false;
-    }
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
-require_once dirname(__DIR__) . '/vendor/autoload_runtime.php';
+// Register the Composer autoloader...
+require __DIR__.'/../vendor/autoload.php';
 
-return function (array $context): Kernel {
-    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
-};
+// Bootstrap Laravel and handle the request...
+/** @var Application $app */
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$app->handleRequest(Request::capture());
