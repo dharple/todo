@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Services\Guard;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Command to add a user.
@@ -65,10 +65,9 @@ class UserAddCommand extends Command
         $user = (new User())
             ->setUsername($username)
             ->setFullname($fullname)
-            ->setTimezone($timezone);
-
-        Guard::setPassword($user, $password);
-        $user->save();
+            ->setTimezone($timezone)
+            ->setPassword(Hash::make($password))
+            ->save();
 
         $this->info('User created');
 

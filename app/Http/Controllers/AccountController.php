@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Services\Guard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 /**
@@ -87,10 +87,9 @@ class AccountController extends Controller
             $newPassword = (string) $request->input('new_password', '');
             $confirm     = (string) $request->input('confirm', '');
 
-            $ret = Guard::checkPassword($user, $oldPassword);
+            $ret = Hash::check($oldPassword, $user->getPassword());
             if ($ret && $newPassword === $confirm) {
-                Guard::setPassword($user, $newPassword);
-                $user->save();
+                $user->setPassword(Hash::make($newPassword))->save();
             } elseif (!$ret) {
                 $errors[] = 'Incorrect password';
             } else {

@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Services\Guard;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Changes a user's password.
@@ -60,8 +60,7 @@ class UserPasswordCommand extends Command
             return self::FAILURE;
         }
 
-        Guard::setPassword($user, $password);
-        $user->save();
+        $user->setPassword(Hash::make($password))->save();
 
         $this->info('User updated');
 
