@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,7 +40,6 @@ class Item extends Model
      */
     protected $casts = [
         'completed_at' => 'datetime',
-        'created_at'   => 'datetime',
     ];
 
     /**
@@ -76,11 +74,11 @@ class Item extends Model
     /**
      * Returns the completion stamp.
      *
-     * @return ?DateTime
+     * @return ?Carbon
      */
-    public function getCompletedAt(): ?DateTime
+    public function getCompletedAt(): ?Carbon
     {
-        return $this->completed_at?->toDateTime();
+        return $this->completed_at;
     }
 
     /**
@@ -181,13 +179,15 @@ class Item extends Model
     /**
      * Sets the completion stamp of the task.
      *
-     * @param ?DateTime $completedAt The completion stamp.
+     * @param mixed $completedAt The completion stamp.  Pass `null` to wipe it
+     *                           out, anything else gets fed into Carbon's
+     *                           constructor.
      *
      * @return Item
      */
-    public function setCompletedAt(?DateTime $completedAt): Item
+    public function setCompletedAt(mixed $completedAt): Item
     {
-        $this->completed_at = $completedAt ? Carbon::instance($completedAt) : null;
+        $this->completed_at = $completedAt ? new Carbon($completedAt) : null;
         return $this;
     }
 

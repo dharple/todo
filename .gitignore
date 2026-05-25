@@ -23,7 +23,6 @@ phpstan.neon
 .env.backup
 .env.production
 .phpactor.json
-.phpunit.result.cache
 /.codex
 /.cursor/
 /.idea

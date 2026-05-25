@@ -133,7 +133,7 @@ class ItemController extends Controller
 
                     $item
                         ->setStatus(($markDoneButton !== 'Delete') ? 'Closed' : 'Deleted')
-                        ->setCompletedAt(new \DateTime(($markDoneButton === 'Mark Done Yesterday') ? 'yesterday 23:45' : 'now'))
+                        ->setCompletedAt($markDoneButton === 'Mark Done Yesterday' ? 'yesterday 23:45' : 'now')
                         ->save();
                 }
             } catch (\Exception $e) {
@@ -349,7 +349,7 @@ class ItemController extends Controller
 
                         case 'Closed':
                         case 'Deleted':
-                            $item->setCompletedAt(new \DateTime((string) ($completedData[$itemId] ?? 'now')));
+                            $item->setCompletedAt($completedData[$itemId] ?? 'now');
                             break;
                     }
                 }
