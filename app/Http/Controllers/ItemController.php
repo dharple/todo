@@ -96,6 +96,7 @@ class ItemController extends Controller
             'list'                  => $listOutput,
             'showAdvanced'          => ($config->getFilterClosed() !== 'none' || $config->getFilterDeleted() !== 'none'),
             'showPriorityValues'    => DisplayHelper::getShowPriorityValues(),
+            'timezones'             => timezone_identifiers_list(\DateTimeZone::PER_COUNTRY, 'US'),
             'user'                  => $user,
         ]);
     }

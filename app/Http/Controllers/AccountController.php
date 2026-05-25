@@ -26,25 +26,6 @@ use Illuminate\View\View;
 class AccountController extends Controller
 {
     /**
-     * Displays the account settings form.
-     *
-     * @param Request $request The current HTTP request.
-     *
-     * @return View
-     */
-    public function account(Request $request): View
-    {
-        $user = Auth::user();
-        assert($user instanceof User);
-
-        return view('account', [
-            'errors'    => session('controller_errors', []),
-            'timezones' => timezone_identifiers_list(\DateTimeZone::PER_COUNTRY, 'US'),
-            'user'      => $user,
-        ]);
-    }
-
-    /**
      * Handles the account settings form submission.
      *
      * @param Request $request The current HTTP request.
@@ -56,41 +37,73 @@ class AccountController extends Controller
         $user = Auth::user();
         assert($user instanceof User);
 
-        $errors       = [];
-        $submitButton = $request->input('submitButton');
+        $errors = [];
 
-        if ($submitButton === 'Update') {
-            try {
-                $user->setFullname((string) $request->input('fullname', ''));
-                $timezone = (string) $request->input('timezone', '');
-                if ($timezone === 'Other') {
-                    $timezone = (string) $request->input('timezone_other', '');
-                }
-                $user->setTimezone($timezone);
-                $user->save();
-            } catch (\Exception $e) {
-                $errors[] = sprintf('Failed to update user information: %s', $e->getMessage());
-            }
-        } elseif ($submitButton === 'Change Password') {
-            try {
-                $oldPassword = (string) $request->input('old_password', '');
-                $newPassword = (string) $request->input('new_password', '');
-                $confirm     = (string) $request->input('confirm', '');
-
-                $ret = Guard::checkPassword($user, $oldPassword);
-                if ($ret && $newPassword === $confirm) {
-                    Guard::setPassword($user, $newPassword);
-                    $user->save();
-                } elseif (!$ret) {
-                    $errors[] = 'Incorrect password';
-                } else {
-                    $errors[] = 'New passwords do not match';
-                }
-            } catch (\Exception $e) {
-                $errors[] = sprintf('Failed to change password: %s', $e->getMessage());
-            }
+        try {
+            $user->setFullname((string) $request->input('fullname', ''));
+            $user->setTimezone((string) $request->input('timezone', ''));
+            $user->save();
+        } catch (\Exception $e) {
+            $errors[] = sprintf('Failed to update user information: %s', $e->getMessage());
         }
 
-        return redirect()->route('account')->with('controller_errors', $errors);
+        return redirect()->route('index')->with('controller_errors', $errors);
+    }
+
+    /**
+     * Draws the password editor.
+     *
+     * @param Request $request The current HTTP request.
+     *
+     * @return Response
+     */
+    public function password(Request $request): View
+    {
+        $user = Auth::user();
+        assert($user instanceof User);
+
+        return view('password', [
+            'errors' => session('controller_errors', []),
+            'user'   => $user,
+        ]);
+    }
+
+    /**
+     * Handles the password edit submission.
+     *
+     * @param Request $request The current HTTP request.
+     *
+     * @return RedirectResponse
+     */
+    public function passwordPost(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        assert($user instanceof User);
+
+        $errors = [];
+
+        try {
+            $oldPassword = (string) $request->input('old_password', '');
+            $newPassword = (string) $request->input('new_password', '');
+            $confirm     = (string) $request->input('confirm', '');
+
+            $ret = Guard::checkPassword($user, $oldPassword);
+            if ($ret && $newPassword === $confirm) {
+                Guard::setPassword($user, $newPassword);
+                $user->save();
+            } elseif (!$ret) {
+                $errors[] = 'Incorrect password';
+            } else {
+                $errors[] = 'New passwords do not match';
+            }
+        } catch (\Exception $e) {
+            $errors[] = sprintf('Failed to change password: %s', $e->getMessage());
+        }
+
+        if ($errors) {
+            return redirect()->route('password')->with('controller_errors', $errors);
+        }
+
+        return redirect()->route('index');
     }
 }

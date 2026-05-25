@@ -37,8 +37,10 @@ Route::middleware(['auth', SetTimezone::class])->group(function () {
     Route::get('/sections', [SectionController::class, 'sectionEdit'])->name('section_edit');
     Route::post('/sections', [SectionController::class, 'sectionEditPost']);
 
-    Route::get('/account', [AccountController::class, 'account'])->name('account');
-    Route::post('/account', [AccountController::class, 'accountPost']);
+    Route::post('/account', [AccountController::class, 'accountPost'])->name('account_edit');
+
+    Route::get('/password', [AccountController::class, 'password'])->name('password');
+    Route::post('/password', [AccountController::class, 'passwordPost']);
 
     Route::get('/history', [HistoryController::class, 'showDone'])->name('show_done');
 });

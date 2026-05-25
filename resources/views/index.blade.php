@@ -163,9 +163,9 @@
                     @if ($showAdvanced)
                         <div class="mb-2">
                     @endif
-                            <input type="submit" class="btn btn-secondary" name="editButton" value="Edit" />
-                            <input type="submit" class="btn btn-primary" name="markDoneButton" value="Mark Done" />
-                            <input type="submit" class="btn btn-secondary" name="prioritizeButton" value="Prioritize" />
+                    <input type="submit" class="btn btn-secondary" name="editButton" value="Edit" />
+                    <input type="submit" class="btn btn-primary" name="markDoneButton" value="Mark Done" />
+                    <input type="submit" class="btn btn-secondary" name="prioritizeButton" value="Prioritize" />
                     @if ($showAdvanced)
                         </div>
                         <div>
@@ -181,7 +181,9 @@
                 @endif
             </div>
             <div class="col-sm-12 col-lg-4 mb-2 text-center">
-                <a href="{{ route('account') }}" class="btn btn-secondary">My Account</a>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#accountModal">
+                    My Account
+                </button>
                 <a href="{{ route('logout') }}" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
             </div>
             <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-end">
@@ -189,13 +191,13 @@
                     <div class="mb-2">
                 @endif
                 @if ($hasSections)
-                        <a href="{{ route('item_bulk_add') }}" class="btn btn-primary">Bulk</a>
-                        <a href="{{ route('item_edit', ['op' => 'add']) }}" class="btn btn-secondary">Add New</a>
+                    <a href="{{ route('item_bulk_add') }}" class="btn btn-primary">Bulk</a>
+                    <a href="{{ route('item_edit', ['op' => 'add']) }}" class="btn btn-secondary">Add New</a>
                 @else
-                        <button type="button" class="btn btn-primary" disabled="disabled">Bulk</button>
-                        <button type="button" class="btn btn-secondary" disabled="disabled">Add New</button>
+                    <button type="button" class="btn btn-primary" disabled="disabled">Bulk</button>
+                    <button type="button" class="btn btn-secondary" disabled="disabled">Add New</button>
                 @endif
-                        <a href="{{ route('section_edit') }}" class="btn btn-secondary">Edit Sections</a>
+                <a href="{{ route('section_edit') }}" class="btn btn-secondary">Edit Sections</a>
                 @if ($showAdvanced)
                     </div>
                     <div>
@@ -207,5 +209,46 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="{{ route('account_edit') }}">
+            @csrf
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="accountModalLabel">Account Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="fullnameInput" class="form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="fullnameInput" name="fullname" placeholder="first last" value="{{ $user->getFullname() }}" data-lpignore="true">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="timezoneInput" class="form-label">Timezone:</label>
+                        <select class="form-select" aria-label="Timezone Selection" name="timezone" id="timezoneInput">
+                            @foreach ($timezones as $timezone)
+                                <option value="{{ $timezone }}" @if ($user->getTimezone() === $timezone) selected @endif>{{ $timezone }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <span class="fs-6">
+                            <a href="{{ route('password') }}">Change password...</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">@csrf</form>
 @endsection
