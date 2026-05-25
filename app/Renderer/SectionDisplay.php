@@ -49,7 +49,7 @@ class SectionDisplay extends BaseDisplay
                 ->subDays((int) $this->config->getFilterAging())
                 ->startOfDay();
 
-            $qb->where('created', '<=', $start->format('Y-m-d H:i:s'));
+            $qb->where('created_at', '<=', $start->format('Y-m-d H:i:s'));
         }
     }
 
@@ -73,7 +73,7 @@ class SectionDisplay extends BaseDisplay
                 default    => throw new Exception('Unsupported level of freshness.  Too fresh.'),
             };
 
-            $qb->where('created', '>=', $start->startOfDay()->format('Y-m-d H:i:s'));
+            $qb->where('created_at', '>=', $start->startOfDay()->format('Y-m-d H:i:s'));
         }
     }
 
@@ -129,8 +129,8 @@ class SectionDisplay extends BaseDisplay
                 $start = ($this->config->getFilterClosed() == 'today') ? Carbon::now() : Carbon::now()->subDays(3);
                 $q->orWhere(function (Builder $q2) use ($start) {
                     $q2->where('status', 'Closed')
-                        ->where('completed', '>=', $start->startOfDay()->format('Y-m-d H:i:s'))
-                        ->where('completed', '<', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'));
+                        ->where('completed_at', '>=', $start->startOfDay()->format('Y-m-d H:i:s'))
+                        ->where('completed_at', '<', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'));
                 });
             }
 
@@ -140,8 +140,8 @@ class SectionDisplay extends BaseDisplay
                 $start = ($this->config->getFilterDeleted() == 'today') ? Carbon::now() : Carbon::now()->subDays(3);
                 $q->orWhere(function (Builder $q2) use ($start) {
                     $q2->where('status', 'Deleted')
-                        ->where('completed', '>=', $start->startOfDay()->format('Y-m-d H:i:s'))
-                        ->where('completed', '<', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'));
+                        ->where('completed_at', '>=', $start->startOfDay()->format('Y-m-d H:i:s'))
+                        ->where('completed_at', '<', Carbon::now()->endOfDay()->format('Y-m-d H:i:s'));
                 });
             }
         });

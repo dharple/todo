@@ -187,8 +187,8 @@ class ItemStats extends AbstractItemAnalyzer
                 $result = 0.0;
             } else {
                 $total = $items->sum(function (Item $item) {
-                    $completed = $item->completed ?? Carbon::now();
-                    return (int) max($item->created->diffInDays($completed), 0) + 1;
+                    $completed = $item->completed_at ?? Carbon::now();
+                    return (int) max($item->created_at->diffInDays($completed), 0) + 1;
                 });
                 $result = $total / $items->count();
             }

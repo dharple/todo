@@ -43,14 +43,14 @@ class ItemsDeletedListCommand extends Command
     public function handle(): int
     {
         $items = Item::where('status', 'Deleted')
-            ->orderBy('completed', 'desc')
+            ->orderBy('completed_at', 'desc')
             ->with(['section', 'user'])
             ->get();
 
         $rows = $items->map(fn (Item $item) => [
             $item->getId(),
             $item->getTask(),
-            $item->getCompleted() ? $item->getCompleted()->format('Y-m-d') : 'unknown',
+            $item->getCompletedAt() ? $item->getCompletedAt()->format('Y-m-d') : 'unknown',
             $item->getSection()?->getName() ?? '',
             $item->getUser()?->getUsername() ?? '',
         ]);

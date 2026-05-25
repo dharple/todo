@@ -104,7 +104,7 @@ class SectionController extends Controller
                                     ->where('status', 'Open')
                                     ->where('user_id', $user->id)
                                     ->get()
-                                    ->each(fn (Item $item) => $item->setCreated(new \DateTime())->save());
+                                    ->each(fn (Item $item) => $item->save());
                             }
                             $section->setStatus('Active')->save();
                         }

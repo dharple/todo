@@ -130,11 +130,11 @@ class ItemHistory extends AbstractItemAnalyzer
 
         if ($this->ordering === static::ORDER_BY_SECTION) {
             $qb->leftJoin('section', 'section.id', '=', 'item.section_id')
-                ->orderByRaw('DATE(item.completed) DESC')
+                ->orderByRaw('DATE(item.completed_at) DESC')
                 ->orderBy('section.name')
                 ->orderBy('item.task');
         } else {
-            $qb->orderByRaw('DATE(completed) DESC')
+            $qb->orderByRaw('DATE(completed_at) DESC')
                 ->orderBy('task');
         }
 

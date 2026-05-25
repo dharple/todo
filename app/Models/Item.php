@@ -26,8 +26,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string   $task
  * @property string   $status
  * @property int      $priority
- * @property Carbon   $created
- * @property ?Carbon  $completed
+ * @property Carbon   $created_at
+ * @property ?Carbon  $completed_at
+ * @property ?Carbon  $updated_at
  * @property ?int     $section_id
  * @property ?int     $user_id
  */
@@ -39,8 +40,8 @@ class Item extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'completed' => 'datetime',
-        'created'   => 'datetime',
+        'completed_at' => 'datetime',
+        'created_at'   => 'datetime',
     ];
 
     /**
@@ -49,8 +50,8 @@ class Item extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'completed',
-        'created',
+        'completed_at',
+        'created_at',
         'priority',
         'section_id',
         'status',
@@ -70,26 +71,16 @@ class Item extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * Returns the completion stamp.
      *
      * @return ?DateTime
      */
-    public function getCompleted(): ?DateTime
+    public function getCompletedAt(): ?DateTime
     {
-        return $this->completed?->toDateTime();
-    }
-
-    /**
-     * Returns the creation stamp.
-     *
-     * @return DateTime
-     */
-    public function getCreated(): DateTime
-    {
-        return $this->created->toDateTime();
+        return $this->completed_at?->toDateTime();
     }
 
     /**
@@ -190,26 +181,13 @@ class Item extends Model
     /**
      * Sets the completion stamp of the task.
      *
-     * @param ?DateTime $completed The completion stamp.
+     * @param ?DateTime $completedAt The completion stamp.
      *
      * @return Item
      */
-    public function setCompleted(?DateTime $completed): Item
+    public function setCompletedAt(?DateTime $completedAt): Item
     {
-        $this->completed = $completed ? Carbon::instance($completed) : null;
-        return $this;
-    }
-
-    /**
-     * Sets the creation stamp of the task.
-     *
-     * @param DateTime $created The creation stamp.
-     *
-     * @return Item
-     */
-    public function setCreated(DateTime $created): Item
-    {
-        $this->created = Carbon::instance($created);
+        $this->completed_at = $completedAt ? Carbon::instance($completedAt) : null;
         return $this;
     }
 

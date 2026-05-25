@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added proper model timestamps using Claude Code.
+
 ### Changed
 
 - Converted from Symfony 5.4 to Laravel 13 using Claude Code.

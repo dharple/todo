@@ -3,7 +3,7 @@
 @php $lastDate = ''; @endphp
 
 @foreach ($items as $item)
-    @php $thisDate = $item->completed->format('F jS, Y'); @endphp
+    @php $thisDate = $item->completed_at->format('F jS, Y'); @endphp
 
     @if ($lastDate !== '' && $thisDate !== $lastDate)
         <div class="row">

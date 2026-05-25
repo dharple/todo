@@ -60,7 +60,7 @@ class ItemsClosedListCommand extends Command
             $endDate   = $year . '-12-31';
         }
 
-        $qb = Item::where('status', 'Closed')->orderBy('completed', 'desc');
+        $qb = Item::where('status', 'Closed')->orderBy('completed_at', 'desc');
 
         if ($startDate !== null) {
             $start = DateTime::createFromFormat('Y-m-d', $startDate);
@@ -68,7 +68,7 @@ class ItemsClosedListCommand extends Command
                 $this->error('Invalid --start-date format; expected YYYY-MM-DD');
                 return self::FAILURE;
             }
-            $qb->where('completed', '>=', $start->format('Y-m-d 00:00:00'));
+            $qb->where('completed_at', '>=', $start->format('Y-m-d 00:00:00'));
         }
 
         if ($endDate !== null) {
@@ -77,7 +77,7 @@ class ItemsClosedListCommand extends Command
                 $this->error('Invalid --end-date format; expected YYYY-MM-DD');
                 return self::FAILURE;
             }
-            $qb->where('completed', '<=', $end->format('Y-m-d 23:59:59'));
+            $qb->where('completed_at', '<=', $end->format('Y-m-d 23:59:59'));
         }
 
         $items = $qb->with(['section', 'user'])->get();
@@ -85,7 +85,7 @@ class ItemsClosedListCommand extends Command
         $rows = $items->map(fn (Item $item) => [
             $item->getId(),
             $item->getTask(),
-            $item->getCompleted() ? $item->getCompleted()->format('Y-m-d') : 'unknown',
+            $item->getCompletedAt() ? $item->getCompletedAt()->format('Y-m-d') : 'unknown',
             $item->getSection()?->getName() ?? '',
             $item->getUser()?->getUsername() ?? '',
         ]);

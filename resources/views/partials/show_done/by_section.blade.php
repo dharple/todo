@@ -4,7 +4,7 @@
 
 @foreach ($items as $item)
     @php
-        $thisDate = $item->completed->format('F jS, Y');
+        $thisDate = $item->completed_at->format('F jS, Y');
         $thisSection = $item->section->name;
     @endphp
 

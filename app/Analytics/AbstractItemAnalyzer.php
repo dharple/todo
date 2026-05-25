@@ -68,7 +68,7 @@ abstract class AbstractItemAnalyzer
         $qb = Item::where('item.user_id', $this->user->id)->where('item.status', 'Closed');
 
         if ($start !== null && $end !== null) {
-            $qb->whereBetween('completed', [
+            $qb->whereBetween('completed_at', [
                 $start->format('Y-m-d H:i:s'),
                 $end->format('Y-m-d H:i:s'),
             ]);

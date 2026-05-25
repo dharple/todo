@@ -68,7 +68,7 @@ class ItemsClosedPurgeCommand extends Command
                 $this->error('Invalid --start-date format; expected YYYY-MM-DD');
                 return self::FAILURE;
             }
-            $qb->where('completed', '>=', $start->format('Y-m-d 00:00:00'));
+            $qb->where('completed_at', '>=', $start->format('Y-m-d 00:00:00'));
         }
 
         if ($endDate !== null) {
@@ -77,7 +77,7 @@ class ItemsClosedPurgeCommand extends Command
                 $this->error('Invalid --end-date format; expected YYYY-MM-DD');
                 return self::FAILURE;
             }
-            $qb->where('completed', '<=', $end->format('Y-m-d 23:59:59'));
+            $qb->where('completed_at', '<=', $end->format('Y-m-d 23:59:59'));
         }
 
         $qb->with(['user'])->get()->each(function (Item $item) {

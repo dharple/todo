@@ -90,13 +90,13 @@ class ItemStatsTest extends TestCase
     private function createClosedItem(string $created, string $completed): Item
     {
         return Item::create([
-            'completed'  => $completed,
-            'created'    => $created,
-            'priority'   => 1,
-            'section_id' => $this->activeSection->id,
-            'status'     => 'Closed',
-            'task'       => 'Test task',
-            'user_id'    => $this->user->id,
+            'completed_at' => $completed,
+            'created_at'   => $created,
+            'priority'     => 1,
+            'section_id'   => $this->activeSection->id,
+            'status'       => 'Closed',
+            'task'         => 'Test task',
+            'user_id'      => $this->user->id,
         ]);
     }
 
@@ -111,13 +111,13 @@ class ItemStatsTest extends TestCase
     private function createOpenItem(string $created, Section $section): Item
     {
         return Item::create([
-            'completed'  => null,
-            'created'    => $created,
-            'priority'   => 1,
-            'section_id' => $section->id,
-            'status'     => 'Open',
-            'task'       => 'Test task',
-            'user_id'    => $this->user->id,
+            'completed_at' => null,
+            'created_at'   => $created,
+            'priority'     => 1,
+            'section_id'   => $section->id,
+            'status'       => 'Open',
+            'task'         => 'Test task',
+            'user_id'      => $this->user->id,
         ]);
     }
 
@@ -228,13 +228,13 @@ class ItemStatsTest extends TestCase
     public function testGetAverageExcludesDeletedItems(): void
     {
         Item::create([
-            'completed'  => null,
-            'created'    => '2024-01-01 12:00:00',
-            'priority'   => 1,
-            'section_id' => $this->activeSection->id,
-            'status'     => 'Deleted',
-            'task'       => 'Deleted task',
-            'user_id'    => $this->user->id,
+            'completed_at' => null,
+            'created_at'   => '2024-01-01 12:00:00',
+            'priority'     => 1,
+            'section_id'   => $this->activeSection->id,
+            'status'       => 'Deleted',
+            'task'         => 'Deleted task',
+            'user_id'      => $this->user->id,
         ]);
 
         $stats = new ItemStats($this->user);
@@ -264,13 +264,13 @@ class ItemStatsTest extends TestCase
 
         // Other user's item with a large value — should not affect the primary user's average
         Item::create([
-            'completed'  => '2024-12-31 12:00:00',
-            'created'    => '2024-01-01 12:00:00',
-            'priority'   => 1,
-            'section_id' => $otherSection->id,
-            'status'     => 'Closed',
-            'task'       => 'Other task',
-            'user_id'    => $otherUser->id,
+            'completed_at' => '2024-12-31 12:00:00',
+            'created_at'   => '2024-01-01 12:00:00',
+            'priority'     => 1,
+            'section_id'   => $otherSection->id,
+            'status'       => 'Closed',
+            'task'         => 'Other task',
+            'user_id'      => $otherUser->id,
         ]);
 
         $stats = new ItemStats($this->user);

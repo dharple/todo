@@ -51,7 +51,7 @@ class Section extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * Returns the ID of this section.

@@ -62,9 +62,9 @@ class ItemsDeletedPurgeCommand extends Command
 
         Item::where('status', 'Deleted')
             ->where(function ($q) use ($stamp, $altStamp) {
-                $q->where('completed', '<=', $stamp)
+                $q->where('completed_at', '<=', $stamp)
                     ->orWhere(function ($q2) use ($altStamp) {
-                        $q2->whereNull('completed')->where('created', '<=', $altStamp);
+                        $q2->whereNull('completed_at')->where('created_at', '<=', $altStamp);
                     });
             })
             ->with(['user'])

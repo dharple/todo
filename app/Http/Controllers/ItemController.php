@@ -133,7 +133,7 @@ class ItemController extends Controller
 
                     $item
                         ->setStatus(($markDoneButton !== 'Delete') ? 'Closed' : 'Deleted')
-                        ->setCompleted(new \DateTime(($markDoneButton === 'Mark Done Yesterday') ? 'yesterday 23:45' : 'now'))
+                        ->setCompletedAt(new \DateTime(($markDoneButton === 'Mark Done Yesterday') ? 'yesterday 23:45' : 'now'))
                         ->save();
                 }
             } catch (\Exception $e) {
@@ -161,8 +161,7 @@ class ItemController extends Controller
                     }
 
                     $item->replicate()
-                        ->setCompleted(null)
-                        ->setCreated(new \DateTime())
+                        ->setCompletedAt(null)
                         ->setStatus('Open')
                         ->save();
                 }
@@ -226,8 +225,7 @@ class ItemController extends Controller
 
                 $item = new Item();
                 $item->section_id = $sectionId;
-                $item->setCreated(new \DateTime())
-                    ->setPriority((int) $request->input('priority', $priorityLevels['normal']))
+                $item->setPriority((int) $request->input('priority', $priorityLevels['normal']))
                     ->setStatus('Open')
                     ->setTask($task)
                     ->setUser($user)
@@ -320,7 +318,6 @@ class ItemController extends Controller
 
             if (count($itemIds) === 1 && $itemIds[0] === 'new') {
                 $items[] = (new Item())
-                    ->setCreated(new \DateTime())
                     ->setUser($user)
                     ->setStatus('Open');
             } else {
@@ -331,7 +328,7 @@ class ItemController extends Controller
             }
 
             $statusData    = (array) $request->input('status', []);
-            $completedData = (array) $request->input('completed', []);
+            $completedData = (array) $request->input('completed_at', []);
             $priorityData  = (array) $request->input('priority', []);
             $sectionData   = (array) $request->input('section', []);
 
@@ -347,12 +344,12 @@ class ItemController extends Controller
                     $item->setStatus($status);
                     switch ($status) {
                         case 'Open':
-                            $item->setCompleted(null);
+                            $item->setCompletedAt(null);
                             break;
 
                         case 'Closed':
                         case 'Deleted':
-                            $item->setCompleted(new \DateTime((string) ($completedData[$itemId] ?? 'now')));
+                            $item->setCompletedAt(new \DateTime((string) ($completedData[$itemId] ?? 'now')));
                             break;
                     }
                 }

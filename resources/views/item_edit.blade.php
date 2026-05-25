@@ -60,7 +60,7 @@
 
         @if ($op === 'edit')
             Completed:
-            <input type=text name="completed[{{ $itemId }}]" value="{{ $item->getCompleted() ? $item->getCompleted()->format('Y-m-d H:i:s') : '' }}">
+            <input type=text name="completed_at[{{ $itemId }}]" value="{{ $item->getCompletedAt() ? $item->getCompletedAt()->format('Y-m-d H:i:s') : '' }}">
             <br />
         @endif
 
