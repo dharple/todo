@@ -30,7 +30,7 @@ class ItemStats extends AbstractItemAnalyzer
      *
      * @var integer
      */
-    protected const CACHE_TIMEOUT = 30;
+    protected const CACHE_TIMEOUT = 3;
 
     /**
      * Returns analytics for a given year.
