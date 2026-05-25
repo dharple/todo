@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Converted from Symfony 5.4 to Laravel 13 using Claude Code.
 - Hide inactive sections when adding new items.
+- Split the GET and POST endpoints into separate methods using Claude Code.
 - Updated stat caching to use Laravel's Cache facade.
 - Updated deploy script to work with Laravel.
 - Updated DisplayConfig to work with Laravel's serialization, and to stop
