@@ -22,4 +22,8 @@
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
 
+    <rule ref="Ork.Formatting.AlphabeticalMethodNames.OutOfOrder">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+
 </ruleset>
