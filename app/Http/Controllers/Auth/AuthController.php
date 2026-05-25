@@ -25,40 +25,46 @@ use Illuminate\View\View;
 class AuthController extends Controller
 {
     /**
-     * Renders the login form, or handles the login POST.
+     * Renders the login form.
      *
      * @param Request $request The current HTTP request.
      *
-     * @return View|RedirectResponse
+     * @return RedirectResponse|View
      */
-    public function login(Request $request): View|RedirectResponse
+    public function login(Request $request): RedirectResponse|View
     {
         if (Auth::check()) {
             return redirect()->route('index');
         }
 
-        $errors       = [];
-        $lastUsername = session('_old_input.username', '');
+        return view('auth.login', [
+            'errors'        => session('controller_errors', []),
+            'last_username' => session('_old_input.username', ''),
+        ]);
+    }
 
-        if ($request->isMethod('POST')) {
-            $credentials = [
-                'username' => $request->input('username', ''),
-                'password' => $request->input('password', ''),
-            ];
+    /**
+     * Handles the login form submission.
+     *
+     * @param Request $request The current HTTP request.
+     *
+     * @return RedirectResponse
+     */
+    public function loginPost(Request $request): RedirectResponse
+    {
+        $credentials = [
+            'username' => $request->input('username', ''),
+            'password' => $request->input('password', ''),
+        ];
 
-            if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
-                return redirect()->route('index');
-            }
-
-            $errors[]     = 'Invalid credentials.';
-            $lastUsername = $credentials['username'];
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('index');
         }
 
-        return view('auth.login', [
-            'errors'        => $errors,
-            'last_username' => $lastUsername,
-        ]);
+        return redirect()->route('login')
+            ->with('controller_errors', ['Invalid credentials.'])
+            ->with('_old_input.username', $credentials['username']);
     }
 
     /**

@@ -18,15 +18,27 @@ use App\Http\Middleware\SetTimezone;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'loginPost']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', SetTimezone::class])->group(function () {
-    Route::match(['GET', 'POST'], '/', [ItemController::class, 'index'])->name('index');
-    Route::match(['GET', 'POST'], '/items/bulk-add', [ItemController::class, 'itemBulkAdd'])->name('item_bulk_add');
-    Route::match(['GET', 'POST'], '/items/edit', [ItemController::class, 'itemEdit'])->name('item_edit');
-    Route::match(['GET', 'POST'], '/items/prioritize', [ItemController::class, 'itemPrioritize'])->name('item_prioritize');
-    Route::match(['GET', 'POST'], '/sections', [SectionController::class, 'sectionEdit'])->name('section_edit');
-    Route::match(['GET', 'POST'], '/account', [AccountController::class, 'account'])->name('account');
+    Route::get('/', [ItemController::class, 'index'])->name('index');
+    Route::post('/', [ItemController::class, 'indexPost']);
+
+    Route::get('/items/bulk-add', [ItemController::class, 'itemBulkAdd'])->name('item_bulk_add');
+    Route::post('/items/bulk-add', [ItemController::class, 'itemBulkAddPost']);
+
+    Route::get('/items/edit', [ItemController::class, 'itemEdit'])->name('item_edit');
+    Route::post('/items/edit', [ItemController::class, 'itemEditPost']);
+
+    Route::get('/items/prioritize', [ItemController::class, 'itemPrioritize'])->name('item_prioritize');
+    Route::post('/items/prioritize', [ItemController::class, 'itemPriorizePost']);
+
+    Route::get('/sections', [SectionController::class, 'sectionEdit'])->name('section_edit');
+    Route::post('/sections', [SectionController::class, 'sectionEditPost']);
+
+    Route::get('/account', [AccountController::class, 'account'])->name('account');
+    Route::post('/account', [AccountController::class, 'accountPost']);
+
     Route::get('/history', [HistoryController::class, 'showDone'])->name('show_done');
 });

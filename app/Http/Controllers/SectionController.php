@@ -28,90 +28,100 @@ use Illuminate\View\View;
 class SectionController extends Controller
 {
     /**
-     * Displays and processes the section management form.
+     * Displays the section management form.
      *
      * @param Request $request The current HTTP request.
      *
-     * @return View|RedirectResponse
+     * @return View
      */
-    public function sectionEdit(Request $request): View|RedirectResponse
+    public function sectionEdit(Request $request): View
     {
         $user = Auth::user();
         assert($user instanceof User);
 
-        $errors = [];
+        return view('section_edit', [
+            'errors'   => session('controller_errors', []),
+            'sections' => Section::where('user_id', $user->id)->orderBy('name')->get(),
+        ]);
+    }
 
-        if ($request->isMethod('POST')) {
-            $submitButton = (string) $request->input('submitButton', '');
+    /**
+     * Handles the section management form submission.
+     *
+     * @param Request $request The current HTTP request.
+     *
+     * @return RedirectResponse
+     */
+    public function sectionEditPost(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        assert($user instanceof User);
 
-            if ($submitButton !== '') {
-                try {
-                    DB::transaction(function () use ($request, $user, $submitButton, &$errors) {
-                        if ($submitButton === 'Add') {
-                            $name = trim((string) $request->input('add_name', ''));
+        $errors       = [];
+        $submitButton = (string) $request->input('submitButton', '');
 
-                            if ($name !== '') {
-                                (new Section())
-                                    ->setName($name)
-                                    ->setStatus('Active')
-                                    ->setUser($user)
-                                    ->save();
-                            } else {
-                                $errors[] = 'Please specify the name of the section to add.';
-                            }
-                        } elseif ($submitButton === 'Rename') {
-                            $name = trim((string) $request->input('edit_name', ''));
-                            $id   = (int) $request->input('edit_section_id', 0);
+        if ($submitButton !== '') {
+            try {
+                DB::transaction(function () use ($request, $user, $submitButton, &$errors) {
+                    if ($submitButton === 'Add') {
+                        $name = trim((string) $request->input('add_name', ''));
 
-                            if ($id > 0) {
-                                $section = Section::where('id', $id)
-                                    ->where('user_id', $user->id)
-                                    ->first();
-
-                                if ($section !== null) {
-                                    $section->setName($name)->save();
-                                }
-                            } else {
-                                $errors[] = 'Please specify a section to rename.';
-                            }
-                        } elseif ($submitButton === 'Activate') {
-                            $query    = Section::where('user_id', $user->id)->where('status', 'Inactive');
-                            $toggleId = $request->input('toggle_section_id');
-                            if ($toggleId !== 'all') {
-                                $query->where('id', (int) $toggleId);
-                            }
-                            $sections = $query->get();
-
-                            foreach ($sections as $section) {
-                                if ($request->input('resetStartTimes') !== null) {
-                                    Item::where('section_id', $section->id)
-                                        ->where('status', 'Open')
-                                        ->where('user_id', $user->id)
-                                        ->get()
-                                        ->each(fn (Item $item) => $item->setCreated(new \DateTime())->save());
-                                }
-                                $section->setStatus('Active')->save();
-                            }
-                        } elseif ($submitButton === 'Deactivate') {
-                            $query    = Section::where('user_id', $user->id)->where('status', 'Active');
-                            $toggleId = $request->input('toggle_section_id');
-                            if ($toggleId !== 'all') {
-                                $query->where('id', (int) $toggleId);
-                            }
-                            $query->get()->each(fn (Section $section) => $section->setStatus('Inactive')->save());
+                        if ($name !== '') {
+                            (new Section())
+                                ->setName($name)
+                                ->setStatus('Active')
+                                ->setUser($user)
+                                ->save();
+                        } else {
+                            $errors[] = 'Please specify the name of the section to add.';
                         }
-                    });
-                } catch (\Exception $e) {
-                    $errors[] = sprintf('Failed to edit sections: %s', $e->getMessage());
-                }
+                    } elseif ($submitButton === 'Rename') {
+                        $name = trim((string) $request->input('edit_name', ''));
+                        $id   = (int) $request->input('edit_section_id', 0);
+
+                        if ($id > 0) {
+                            $section = Section::where('id', $id)
+                                ->where('user_id', $user->id)
+                                ->first();
+
+                            if ($section !== null) {
+                                $section->setName($name)->save();
+                            }
+                        } else {
+                            $errors[] = 'Please specify a section to rename.';
+                        }
+                    } elseif ($submitButton === 'Activate') {
+                        $query    = Section::where('user_id', $user->id)->where('status', 'Inactive');
+                        $toggleId = $request->input('toggle_section_id');
+                        if ($toggleId !== 'all') {
+                            $query->where('id', (int) $toggleId);
+                        }
+                        $sections = $query->get();
+
+                        foreach ($sections as $section) {
+                            if ($request->input('resetStartTimes') !== null) {
+                                Item::where('section_id', $section->id)
+                                    ->where('status', 'Open')
+                                    ->where('user_id', $user->id)
+                                    ->get()
+                                    ->each(fn (Item $item) => $item->setCreated(new \DateTime())->save());
+                            }
+                            $section->setStatus('Active')->save();
+                        }
+                    } elseif ($submitButton === 'Deactivate') {
+                        $query    = Section::where('user_id', $user->id)->where('status', 'Active');
+                        $toggleId = $request->input('toggle_section_id');
+                        if ($toggleId !== 'all') {
+                            $query->where('id', (int) $toggleId);
+                        }
+                        $query->get()->each(fn (Section $section) => $section->setStatus('Inactive')->save());
+                    }
+                });
+            } catch (\Exception $e) {
+                $errors[] = sprintf('Failed to edit sections: %s', $e->getMessage());
             }
         }
 
-        $sections = Section::where('user_id', $user->id)->orderBy('name')->get();
-
-        return view('section_edit', [
-            'errors'   => $errors,
-            'sections' => $sections,
-        ]);
+        return redirect()->route('section_edit')->with('controller_errors', $errors);
     }
 }

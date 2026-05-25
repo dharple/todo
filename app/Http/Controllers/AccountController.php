@@ -26,61 +26,71 @@ use Illuminate\View\View;
 class AccountController extends Controller
 {
     /**
-     * Displays and processes the account settings form.
+     * Displays the account settings form.
      *
      * @param Request $request The current HTTP request.
      *
-     * @return View|RedirectResponse
+     * @return View
      */
-    public function account(Request $request): View|RedirectResponse
+    public function account(Request $request): View
     {
         $user = Auth::user();
         assert($user instanceof User);
 
-        $errors = [];
+        return view('account', [
+            'errors'    => session('controller_errors', []),
+            'timezones' => timezone_identifiers_list(\DateTimeZone::PER_COUNTRY, 'US'),
+            'user'      => $user,
+        ]);
+    }
 
-        if ($request->isMethod('POST')) {
-            $submitButton = $request->input('submitButton');
+    /**
+     * Handles the account settings form submission.
+     *
+     * @param Request $request The current HTTP request.
+     *
+     * @return RedirectResponse
+     */
+    public function accountPost(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        assert($user instanceof User);
 
-            if ($submitButton === 'Update') {
-                try {
-                    $user->setFullname((string) $request->input('fullname', ''));
-                    $timezone = (string) $request->input('timezone', '');
-                    if ($timezone === 'Other') {
-                        $timezone = (string) $request->input('timezone_other', '');
-                    }
-                    $user->setTimezone($timezone);
+        $errors       = [];
+        $submitButton = $request->input('submitButton');
+
+        if ($submitButton === 'Update') {
+            try {
+                $user->setFullname((string) $request->input('fullname', ''));
+                $timezone = (string) $request->input('timezone', '');
+                if ($timezone === 'Other') {
+                    $timezone = (string) $request->input('timezone_other', '');
+                }
+                $user->setTimezone($timezone);
+                $user->save();
+            } catch (\Exception $e) {
+                $errors[] = sprintf('Failed to update user information: %s', $e->getMessage());
+            }
+        } elseif ($submitButton === 'Change Password') {
+            try {
+                $oldPassword = (string) $request->input('old_password', '');
+                $newPassword = (string) $request->input('new_password', '');
+                $confirm     = (string) $request->input('confirm', '');
+
+                $ret = Guard::checkPassword($user, $oldPassword);
+                if ($ret && $newPassword === $confirm) {
+                    Guard::setPassword($user, $newPassword);
                     $user->save();
-                } catch (\Exception $e) {
-                    $errors[] = sprintf('Failed to update user information: %s', $e->getMessage());
+                } elseif (!$ret) {
+                    $errors[] = 'Incorrect password';
+                } else {
+                    $errors[] = 'New passwords do not match';
                 }
-            } elseif ($submitButton === 'Change Password') {
-                try {
-                    $oldPassword = (string) $request->input('old_password', '');
-                    $newPassword = (string) $request->input('new_password', '');
-                    $confirm     = (string) $request->input('confirm', '');
-
-                    $ret = Guard::checkPassword($user, $oldPassword);
-                    if ($ret && $newPassword === $confirm) {
-                        Guard::setPassword($user, $newPassword);
-                        $user->save();
-                    } elseif (!$ret) {
-                        $errors[] = 'Incorrect password';
-                    } else {
-                        $errors[] = 'New passwords do not match';
-                    }
-                } catch (\Exception $e) {
-                    $errors[] = sprintf('Failed to change password: %s', $e->getMessage());
-                }
+            } catch (\Exception $e) {
+                $errors[] = sprintf('Failed to change password: %s', $e->getMessage());
             }
         }
 
-        $timezones = timezone_identifiers_list(\DateTimeZone::PER_COUNTRY, 'US');
-
-        return view('account', [
-            'errors'    => $errors,
-            'timezones' => $timezones,
-            'user'      => $user,
-        ]);
+        return redirect()->route('account')->with('controller_errors', $errors);
     }
 }
