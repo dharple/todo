@@ -25,53 +25,6 @@ use PHPUnit\Framework\TestCase;
 class DisplayConfigTest extends TestCase
 {
     /**
-     * Data provider for testSetFilterSection.
-     *
-     * @return array<string, array{mixed, int}>
-     */
-    public static function filterSectionProvider(): array
-    {
-        return [
-            'integer'        => [5, 5],
-            'string integer' => ['12', 12],
-            'zero'           => [0, 0],
-            'string zero'    => ['0', 0],
-        ];
-    }
-
-    /**
-     * Data provider for testSetShowInactive.
-     *
-     * @return array<string, array{bool|string, bool}>
-     */
-    public static function showInactiveProvider(): array
-    {
-        return [
-            'bool true'    => [true, true],
-            'bool false'   => [false, false],
-            'string y'     => ['y', true],
-            'string n'     => ['n', false],
-            'string other' => ['yes', false],
-        ];
-    }
-
-    /**
-     * Data provider for testSetShowPriorityEditor.
-     *
-     * @return array<string, array{bool|string, bool}>
-     */
-    public static function showPriorityEditorProvider(): array
-    {
-        return [
-            'bool true'    => [true, true],
-            'bool false'   => [false, false],
-            'string y'     => ['y', true],
-            'string n'     => ['n', false],
-            'string other' => ['yes', false],
-        ];
-    }
-
-    /**
      * Verifies that the constructor does not apply non-saved fields (filterIds, showPriorityEditor).
      *
      * @return void
@@ -231,6 +184,22 @@ class DisplayConfigTest extends TestCase
     }
 
     /**
+     * Data provider for testSetFilterAgingValid.
+     *
+     * @return array
+     */
+    public static function validFilterAgingProvider(): array
+    {
+        return [
+            'all' => ['all'],
+            '30'  => ['30'],
+            '60'  => ['60'],
+            '90'  => ['90'],
+            '365' => ['365'],
+        ];
+    }
+
+    /**
      * Verifies that setFilterAging accepts all valid values.
      *
      * @param string $value The valid aging filter value to test.
@@ -256,6 +225,21 @@ class DisplayConfigTest extends TestCase
     {
         $this->expectException(Exception::class);
         (new DisplayConfig())->setFilterClosed('invalid');
+    }
+
+    /**
+     * Data provider for testSetFilterClosedValid.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function validFilterClosedProvider(): array
+    {
+        return [
+            'none'     => ['none'],
+            'recently' => ['recently'],
+            'today'    => ['today'],
+            'all'      => ['all'],
+        ];
     }
 
     /**
@@ -287,6 +271,21 @@ class DisplayConfigTest extends TestCase
     }
 
     /**
+     * Data provider for testSetFilterDeletedValid.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function validFilterDeletedProvider(): array
+    {
+        return [
+            'none'     => ['none'],
+            'recently' => ['recently'],
+            'today'    => ['today'],
+            'all'      => ['all'],
+        ];
+    }
+
+    /**
      * Verifies that setFilterDeleted accepts all valid values.
      *
      * @param string $value The valid deleted filter value to test.
@@ -312,6 +311,22 @@ class DisplayConfigTest extends TestCase
     {
         $this->expectException(Exception::class);
         (new DisplayConfig())->setFilterFreshness('invalid');
+    }
+
+    /**
+     * Data provider for testSetFilterFreshnessValid.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function validFilterFreshnessProvider(): array
+    {
+        return [
+            'all'      => ['all'],
+            'today'    => ['today'],
+            'recently' => ['recently'],
+            'week'     => ['week'],
+            'month'    => ['month'],
+        ];
     }
 
     /**
@@ -358,6 +373,21 @@ class DisplayConfigTest extends TestCase
     }
 
     /**
+     * Data provider for testSetFilterPriorityValid.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function validFilterPriorityProvider(): array
+    {
+        return [
+            'all'    => ['all'],
+            'high'   => ['high'],
+            'normal' => ['normal'],
+            'low'    => ['low'],
+        ];
+    }
+
+    /**
      * Verifies that setFilterPriority accepts all valid values.
      *
      * @param string $value The valid priority filter value to test.
@@ -372,6 +402,21 @@ class DisplayConfigTest extends TestCase
 
         $this->assertSame($value, $config->getFilterPriority());
         $this->assertSame($config, $result);
+    }
+
+    /**
+     * Data provider for testSetFilterSection.
+     *
+     * @return array<string, array{mixed, int}>
+     */
+    public static function filterSectionProvider(): array
+    {
+        return [
+            'integer'        => [5, 5],
+            'string integer' => ['12', 12],
+            'zero'           => [0, 0],
+            'string zero'    => ['0', 0],
+        ];
     }
 
     /**
@@ -393,6 +438,22 @@ class DisplayConfigTest extends TestCase
     }
 
     /**
+     * Data provider for testSetShowInactive.
+     *
+     * @return array<string, array{bool|string, bool}>
+     */
+    public static function showInactiveProvider(): array
+    {
+        return [
+            'bool true'    => [true, true],
+            'bool false'   => [false, false],
+            'string y'     => ['y', true],
+            'string n'     => ['n', false],
+            'string other' => ['yes', false],
+        ];
+    }
+
+    /**
      * Verifies that setShowInactive handles both bool and string inputs.
      *
      * @param bool|string $input    The input value to set.
@@ -408,6 +469,22 @@ class DisplayConfigTest extends TestCase
 
         $this->assertSame($expected, $config->getShowInactive());
         $this->assertSame($config, $result);
+    }
+
+    /**
+     * Data provider for testSetShowPriorityEditor.
+     *
+     * @return array<string, array{bool|string, bool}>
+     */
+    public static function showPriorityEditorProvider(): array
+    {
+        return [
+            'bool true'    => [true, true],
+            'bool false'   => [false, false],
+            'string y'     => ['y', true],
+            'string n'     => ['n', false],
+            'string other' => ['yes', false],
+        ];
     }
 
     /**
@@ -437,6 +514,20 @@ class DisplayConfigTest extends TestCase
     {
         $this->expectException(Exception::class);
         (new DisplayConfig())->setShowPriority('invalid');
+    }
+
+    /**
+     * Data provider for testSetShowPriorityValid.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function validShowPriorityProvider(): array
+    {
+        return [
+            'y'            => ['y'],
+            'above_normal' => ['above_normal'],
+            'n'            => ['n'],
+        ];
     }
 
     /**
@@ -477,96 +568,5 @@ class DisplayConfigTest extends TestCase
 
         $this->assertNotContains('filterIds', $fields);
         $this->assertNotContains('showPriorityEditor', $fields);
-    }
-
-    /**
-     * Data provider for testSetFilterAgingValid.
-     *
-     * @return array
-     */
-    public static function validFilterAgingProvider(): array
-    {
-        return [
-            'all' => ['all'],
-            '30'  => ['30'],
-            '60'  => ['60'],
-            '90'  => ['90'],
-            '365' => ['365'],
-        ];
-    }
-
-    /**
-     * Data provider for testSetFilterClosedValid.
-     *
-     * @return array<string, array{string}>
-     */
-    public static function validFilterClosedProvider(): array
-    {
-        return [
-            'none'     => ['none'],
-            'recently' => ['recently'],
-            'today'    => ['today'],
-            'all'      => ['all'],
-        ];
-    }
-
-    /**
-     * Data provider for testSetFilterDeletedValid.
-     *
-     * @return array<string, array{string}>
-     */
-    public static function validFilterDeletedProvider(): array
-    {
-        return [
-            'none'     => ['none'],
-            'recently' => ['recently'],
-            'today'    => ['today'],
-            'all'      => ['all'],
-        ];
-    }
-
-    /**
-     * Data provider for testSetFilterFreshnessValid.
-     *
-     * @return array<string, array{string}>
-     */
-    public static function validFilterFreshnessProvider(): array
-    {
-        return [
-            'all'      => ['all'],
-            'today'    => ['today'],
-            'recently' => ['recently'],
-            'week'     => ['week'],
-            'month'    => ['month'],
-        ];
-    }
-
-    /**
-     * Data provider for testSetFilterPriorityValid.
-     *
-     * @return array<string, array{string}>
-     */
-    public static function validFilterPriorityProvider(): array
-    {
-        return [
-            'all'    => ['all'],
-            'high'   => ['high'],
-            'normal' => ['normal'],
-            'low'    => ['low'],
-        ];
-    }
-
-    /**
-     * Data provider for testSetShowPriorityValid.
-     *
-     * @return array<string, array{string}>
-     */
-    public static function validShowPriorityProvider(): array
-    {
-        return [
-            'y'            => ['y'],
-            'above_normal' => ['above_normal'],
-            'n'            => ['n'],
-        ];
     }
 }
