@@ -15,30 +15,22 @@ namespace App\Console\Commands;
 
 use App\Models\Item;
 use DateTime;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 /**
  * Command to purge closed items in a given timeframe.
  */
+#[Description('Purges closed items in a given timeframe')]
+#[Signature(
+    'items:closed:purge
+    {--year= : Purge items closed in this year (YYYY); cannot be combined with --start-date or --end-date}
+    {--start-date= : Purge items closed on or after this date (YYYY-MM-DD)}
+    {--end-date= : Purge items closed on or before this date (YYYY-MM-DD)}'
+)]
 class ItemsClosedPurgeCommand extends Command
 {
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Purges closed items in a given timeframe';
-
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'items:closed:purge
-        {--year= : Purge items closed in this year (YYYY); cannot be combined with --start-date or --end-date}
-        {--start-date= : Purge items closed on or after this date (YYYY-MM-DD)}
-        {--end-date= : Purge items closed on or before this date (YYYY-MM-DD)}';
-
     /**
      * Executes the command.
      *

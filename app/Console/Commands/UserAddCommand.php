@@ -14,12 +14,18 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
 /**
  * Command to add a user.
  */
+#[Description('Add a new user')]
+#[Signature(
+    'user:add {username : User to add} {fullname? : Full name of the user} {timezone? : Time zone for the user}'
+)]
 class UserAddCommand extends Command
 {
     /**
@@ -28,20 +34,6 @@ class UserAddCommand extends Command
      * @var string
      */
     protected const DEFAULT_TIMEZONE = 'America/New_York';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Add a new user';
-
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'user:add {username : User to add} {fullname? : Full name of the user} {timezone? : Time zone for the user}';
 
     /**
      * Executes the command.

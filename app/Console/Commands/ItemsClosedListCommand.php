@@ -15,30 +15,22 @@ namespace App\Console\Commands;
 
 use App\Models\Item;
 use DateTime;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 /**
  * Command to list closed items in a given timeframe.
  */
+#[Description('List closed items')]
+#[Signature(
+    'items:closed:list
+    {--year= : Show items closed in this year (YYYY); cannot be combined with --start-date or --end-date}
+    {--start-date= : Show items closed on or after this date (YYYY-MM-DD)}
+    {--end-date= : Show items closed on or before this date (YYYY-MM-DD)}'
+)]
 class ItemsClosedListCommand extends Command
 {
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'List closed items';
-
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'items:closed:list
-        {--year= : Show items closed in this year (YYYY); cannot be combined with --start-date or --end-date}
-        {--start-date= : Show items closed on or after this date (YYYY-MM-DD)}
-        {--end-date= : Show items closed on or before this date (YYYY-MM-DD)}';
-
     /**
      * Executes the command.
      *

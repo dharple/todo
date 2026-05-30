@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,26 +28,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string  $status
  * @property ?int    $user_id
  */
+#[Fillable([
+    'name',
+    'status',
+    'user_id',
+])]
+#[Table(name: 'section')]
 class Section extends Model
 {
-    /**
-     * Mass-assignable attributes.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'status',
-        'user_id',
-    ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'section';
-
     /**
      * Whether the model uses created_at and updated_at columns.
      *

@@ -15,11 +15,15 @@ namespace App\Console\Commands;
 
 use App\Models\Item;
 use Carbon\Carbon;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 /**
  * Command to purge deleted items older than 30 days.
  */
+#[Description('Purges deleted items older than 30 days')]
+#[Signature('items:deleted:purge')]
 class ItemsDeletedPurgeCommand extends Command
 {
     /**
@@ -35,20 +39,6 @@ class ItemsDeletedPurgeCommand extends Command
      * @var int
      */
     protected const RETAIN_DAYS_CORRECTION = 120;
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Purges deleted items older than 30 days';
-
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'items:deleted:purge';
 
     /**
      * Executes the command.

@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +33,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property ?int     $section_id
  * @property ?int     $user_id
  */
+#[Fillable([
+    'completed_at',
+    'created_at',
+    'priority',
+    'section_id',
+    'status',
+    'task',
+    'user_id',
+])]
+#[Table(name: 'item')]
 class Item extends Model
 {
     /**
@@ -41,28 +53,6 @@ class Item extends Model
     protected $casts = [
         'completed_at' => 'datetime',
     ];
-
-    /**
-     * Mass-assignable attributes.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'completed_at',
-        'created_at',
-        'priority',
-        'section_id',
-        'status',
-        'task',
-        'user_id',
-    ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'item';
 
     /**
      * Whether the model uses created_at and updated_at columns.

@@ -14,28 +14,18 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
 /**
  * Changes a user's password.
  */
+#[Description("Changes a user's password")]
+#[Signature('user:password {username : User whose password is to be changed}')]
 class UserPasswordCommand extends Command
 {
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = "Changes a user's password";
-
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'user:password {username : User whose password is to be changed}';
-
     /**
      * Executes the command.
      *

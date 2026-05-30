@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -25,36 +28,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $fullname
  * @property string $timezone
  */
+#[Fillable([
+    'username',
+    'password',
+    'fullname',
+    'timezone',
+])]
+#[Hidden([
+    'password',
+])]
+#[Table(name: 'user')]
 class User extends Authenticatable
 {
-    /**
-     * Mass-assignable attributes.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'username',
-        'password',
-        'fullname',
-        'timezone',
-    ];
-
-    /**
-     * Attributes hidden from serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-    ];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'user';
-
     /**
      * Whether the model uses created_at and updated_at columns.
      *

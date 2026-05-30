@@ -14,27 +14,17 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Item;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 /**
  * Command to list deleted items.
  */
+#[Description('List deleted items')]
+#[Signature('items:deleted:list')]
 class ItemsDeletedListCommand extends Command
 {
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'List deleted items';
-
-    /**
-     * The console command signature.
-     *
-     * @var string
-     */
-    protected $signature = 'items:deleted:list';
-
     /**
      * Executes the command.
      *
