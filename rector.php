@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use RectorLaravel\Set\LaravelSetProvider;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 
 return RectorConfig::configure()
@@ -17,4 +18,6 @@ return RectorConfig::configure()
     )
     ->withSkip([
         AddOverrideAttributeToOverriddenMethodsRector::class
-    ]);
+    ])
+    ->withSetProviders(LaravelSetProvider::class)
+    ->withComposerBased(laravel: true);

@@ -10,6 +10,7 @@
         "laravel/tinker": "^3.0.2"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.4",
         "fakerphp/faker": "^1.24.1",
         "fruitcake/laravel-debugbar": "^4.2.8",
         "larastan/larastan": "^3.10.0",
