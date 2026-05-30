@@ -6,19 +6,19 @@
     "license": "BSD-2-Clause",
     "require": {
         "php": "^8.3",
-        "laravel/framework": "^13.11.2",
+        "laravel/framework": "^13.12.0",
         "laravel/tinker": "^3.0.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",
-        "fruitcake/laravel-debugbar": "^4.2",
-        "larastan/larastan": "^3.9.6",
-        "laravel/pail": "^1.2.6",
+        "fruitcake/laravel-debugbar": "^4.2.8",
+        "larastan/larastan": "^3.10.0",
+        "laravel/pail": "^1.2.7",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.4",
         "outsanity/phpcs": "^1.1.0",
-        "phpunit/phpunit": "^12.5.26",
-        "rector/rector": "^2.4.4"
+        "phpunit/phpunit": "^12.5.28",
+        "rector/rector": "^2.4.5"
     },
     "config": {
         "optimize-autoloader": true,
