@@ -36,8 +36,6 @@ class ItemStats extends AbstractItemAnalyzer
      * Returns analytics for a given year.
      *
      * @param int $year The year to return analytics for.
-     *
-     * @return int
      */
     public function doneDuringYear(int $year): int
     {
@@ -46,8 +44,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for the previous month.
-     *
-     * @return int
      */
     public function doneLastMonth(): int
     {
@@ -56,8 +52,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for the previous week.
-     *
-     * @return int
      */
     public function doneLastWeek(): int
     {
@@ -68,8 +62,6 @@ class ItemStats extends AbstractItemAnalyzer
      * Returns analytics for a number of previous months.
      *
      * @param int $distance How many months to go back.
-     *
-     * @return int
      */
     public function donePreviousMonths(int $distance): int
     {
@@ -78,8 +70,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for this month.
-     *
-     * @return int
      */
     public function doneThisMonth(): int
     {
@@ -88,8 +78,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for this week.
-     *
-     * @return int
      */
     public function doneThisWeek(): int
     {
@@ -98,8 +86,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for today.
-     *
-     * @return int
      */
     public function doneToday(): int
     {
@@ -108,8 +94,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for all time.
-     *
-     * @return int
      */
     public function doneTotal(): int
     {
@@ -118,8 +102,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Returns analytics for yesterday.
-     *
-     * @return int
      */
     public function doneYesterday(): int
     {
@@ -131,8 +113,6 @@ class ItemStats extends AbstractItemAnalyzer
      *
      * @param DateTime|null $start Starting DateTime.
      * @param DateTime|null $end   Ending DateTime.
-     *
-     * @return int
      */
     protected function execute(?DateTime $start = null, ?DateTime $end = null): int
     {
@@ -154,8 +134,6 @@ class ItemStats extends AbstractItemAnalyzer
 
     /**
      * Gets the current average days per item.
-     *
-     * @return float
      */
     public function getAverage(): float
     {

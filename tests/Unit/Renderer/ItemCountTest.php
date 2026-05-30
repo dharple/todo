@@ -23,8 +23,6 @@ class ItemCountTest extends TestCase
 {
     /**
      * Tests that add() combines two ItemCount instances correctly.
-     *
-     * @return void
      */
     public function testAdd(): void
     {
@@ -44,8 +42,6 @@ class ItemCountTest extends TestCase
 
     /**
      * Tests that addClosed() increments the closed count correctly.
-     *
-     * @return void
      */
     public function testAddClosed(): void
     {
@@ -61,8 +57,6 @@ class ItemCountTest extends TestCase
 
     /**
      * Tests that addOpen() increments the open count correctly.
-     *
-     * @return void
      */
     public function testAddOpen(): void
     {
@@ -78,8 +72,6 @@ class ItemCountTest extends TestCase
 
     /**
      * Tests that getTotalCount() returns the sum of open and closed counts.
-     *
-     * @return void
      */
     public function testGetTotalCount(): void
     {
@@ -91,8 +83,6 @@ class ItemCountTest extends TestCase
 
     /**
      * Tests that setClosedCount() sets the closed count without affecting open count.
-     *
-     * @return void
      */
     public function testSetClosedCount(): void
     {
@@ -104,8 +94,6 @@ class ItemCountTest extends TestCase
 
     /**
      * Tests that setOpenCount() sets the open count without affecting closed count.
-     *
-     * @return void
      */
     public function testSetOpenCount(): void
     {

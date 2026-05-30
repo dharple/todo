@@ -28,8 +28,6 @@ class HistoryController extends Controller
      * Displays completed items filtered by a time period and sort order.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return View
      */
     public function showDone(Request $request): View
     {

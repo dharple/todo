@@ -28,8 +28,6 @@ class AuthController extends Controller
      * Renders the login form.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse|View
      */
     public function login(Request $request): RedirectResponse|View
     {
@@ -47,8 +45,6 @@ class AuthController extends Controller
      * Handles the login form submission.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function loginPost(Request $request): RedirectResponse
     {
@@ -71,8 +67,6 @@ class AuthController extends Controller
      * Logs out the current user.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function logout(Request $request): RedirectResponse
     {

@@ -29,8 +29,6 @@ class AccountController extends Controller
      * Handles the account settings form submission.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function accountPost(Request $request): RedirectResponse
     {
@@ -72,8 +70,6 @@ class AccountController extends Controller
      * Handles the password edit submission.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function passwordPost(Request $request): RedirectResponse
     {

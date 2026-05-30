@@ -49,8 +49,6 @@ class User extends Authenticatable
 
     /**
      * Returns the login identifier field name.
-     *
-     * @return string
      */
     public function getAuthIdentifierName(): string
     {
@@ -59,8 +57,6 @@ class User extends Authenticatable
 
     /**
      * Returns the full name of this user.
-     *
-     * @return string
      */
     public function getFullname(): string
     {
@@ -69,8 +65,6 @@ class User extends Authenticatable
 
     /**
      * Returns the hashed password for this user.
-     *
-     * @return string
      */
     public function getPassword(): string
     {
@@ -79,8 +73,6 @@ class User extends Authenticatable
 
     /**
      * Returns the timezone for this user.
-     *
-     * @return string
      */
     public function getTimezone(): string
     {
@@ -89,8 +81,6 @@ class User extends Authenticatable
 
     /**
      * Returns the username for this user.
-     *
-     * @return string
      */
     public function getUsername(): string
     {
@@ -121,8 +111,6 @@ class User extends Authenticatable
      * Sets the full name of this user.
      *
      * @param string $fullname The full name.
-     *
-     * @return User
      */
     public function setFullname(string $fullname): User
     {
@@ -134,8 +122,6 @@ class User extends Authenticatable
      * Sets the hashed password for this user.
      *
      * @param string $password The password, already hashed.
-     *
-     * @return User
      */
     public function setPassword(string $password): User
     {
@@ -147,8 +133,6 @@ class User extends Authenticatable
      * Sets the timezone for this user.
      *
      * @param string $timezone The timezone for this user.
-     *
-     * @return User
      */
     public function setTimezone(string $timezone): User
     {
@@ -160,8 +144,6 @@ class User extends Authenticatable
      * Sets the username of this user.
      *
      * @param string $username The username.
-     *
-     * @return User
      */
     public function setUsername(string $username): User
     {

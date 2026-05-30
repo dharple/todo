@@ -26,8 +26,6 @@ class ListDisplay extends BaseDisplay
 {
     /**
      * The footer template to display.
-     *
-     * @var string
      */
     protected string $footer;
 
@@ -46,8 +44,6 @@ class ListDisplay extends BaseDisplay
      * Applies any section filter to the query.
      *
      * @param Builder $qb The query builder to use.
-     *
-     * @return void
      */
     protected function applySectionFilter(Builder $qb): void
     {
@@ -60,8 +56,6 @@ class ListDisplay extends BaseDisplay
      * Applies any active or inactive filter to the query.
      *
      * @param Builder $qb The query builder to use.
-     *
-     * @return void
      */
     protected function applyStatusFilter(Builder $qb): void
     {
@@ -73,7 +67,6 @@ class ListDisplay extends BaseDisplay
     /**
      * Builds the output for this display.
      *
-     * @return void
      *
      * @throws Exception
      */
@@ -117,8 +110,6 @@ class ListDisplay extends BaseDisplay
      * Replaces {GRAND_TOTAL} and {NOT_SHOWN} with the appropriate values.
      *
      * @param string $str The string to adjust.
-     *
-     * @return string
      */
     protected function replaceTotals(string $str): string
     {
@@ -133,8 +124,6 @@ class ListDisplay extends BaseDisplay
      * Sets the footer for the list.
      *
      * @param string $footer The footer string to use.
-     *
-     * @return ListDisplay
      */
     public function setFooter(string $footer): ListDisplay
     {

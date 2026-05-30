@@ -27,8 +27,6 @@ class DisplayHelper
      *
      * @param User          $user   The user to use.
      * @param DisplayConfig $config Display config; falls back to the most recently edited item.
-     *
-     * @return int
      */
     public static function getDefaultSectionId(User $user, DisplayConfig $config): int
     {

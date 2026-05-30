@@ -37,8 +37,6 @@ class UserAddCommand extends Command
 
     /**
      * Executes the command.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -54,7 +52,7 @@ class UserAddCommand extends Command
             return self::FAILURE;
         }
 
-        $user = (new User())
+        (new User())
             ->setUsername($username)
             ->setFullname($fullname)
             ->setTimezone($timezone)

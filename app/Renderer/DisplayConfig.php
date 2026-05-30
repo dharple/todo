@@ -42,8 +42,6 @@ class DisplayConfig implements JsonSerializable
      * Filters based on aging.
      *
      * Valid values: 'all', or a string containing an integer greater than zero.
-     *
-     * @var string
      */
     protected string $filterAging = 'all';
 
@@ -51,8 +49,6 @@ class DisplayConfig implements JsonSerializable
      * Filters based on whether or not the item is closed.
      *
      * Valid values: 'none', 'recently', 'today', 'all'.
-     *
-     * @var string
      */
     protected string $filterClosed = 'none';
 
@@ -60,8 +56,6 @@ class DisplayConfig implements JsonSerializable
      * Filters based on whether or not the item is deleted.
      *
      * Valid values: 'none', 'recently', 'today', 'all'.
-     *
-     * @var string
      */
     protected string $filterDeleted = 'none';
 
@@ -69,8 +63,6 @@ class DisplayConfig implements JsonSerializable
      * Filters based on freshness.
      *
      * Valid values: 'all', 'today', 'recently', 'week', 'month'.
-     *
-     * @var string
      */
     protected string $filterFreshness = 'all';
 
@@ -85,22 +77,16 @@ class DisplayConfig implements JsonSerializable
      * Filters based on priority.
      *
      * Valid values: 'all', 'high', 'normal', 'low'.
-     *
-     * @var string
      */
     protected string $filterPriority = 'all';
 
     /**
      * Filters based on section ID.
-     *
-     * @var int
      */
     protected int $filterSection = 0;
 
     /**
      * Whether or not to show inactive sections.
-     *
-     * @var bool
      */
     protected bool $showInactive = false;
 
@@ -108,15 +94,11 @@ class DisplayConfig implements JsonSerializable
      * Whether or not to show priority values in the list.
      *
      * Valid values: 'y', 'n', 'above_normal'.
-     *
-     * @var string
      */
     protected string $showPriority = 'n';
 
     /**
      * Whether or not to show the priority editor. Does not persist between page loads.
-     *
-     * @var bool
      */
     protected bool $showPriorityEditor = false;
 
@@ -147,8 +129,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns the current aging filter.
-     *
-     * @return string
      */
     public function getFilterAging(): string
     {
@@ -157,8 +137,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns the current closed filter.
-     *
-     * @return string
      */
     public function getFilterClosed(): string
     {
@@ -167,8 +145,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns the current deleted filter.
-     *
-     * @return string
      */
     public function getFilterDeleted(): string
     {
@@ -177,8 +153,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns the current freshness filter.
-     *
-     * @return string
      */
     public function getFilterFreshness(): string
     {
@@ -197,8 +171,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns the current priority filter.
-     *
-     * @return string
      */
     public function getFilterPriority(): string
     {
@@ -207,8 +179,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns the current filter for section.
-     *
-     * @return int
      */
     public function getFilterSection(): int
     {
@@ -217,8 +187,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns whether or not to show inactive sections.
-     *
-     * @return bool
      */
     public function getShowInactive(): bool
     {
@@ -227,8 +195,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns whether to show priority values.
-     *
-     * @return string
      */
     public function getShowPriority(): string
     {
@@ -237,8 +203,6 @@ class DisplayConfig implements JsonSerializable
 
     /**
      * Returns whether or not to show the priority editor.
-     *
-     * @return bool
      */
     public function getShowPriorityEditor(): bool
     {
@@ -265,8 +229,6 @@ class DisplayConfig implements JsonSerializable
      * Turns a string into a bool; leaves booleans alone.
      *
      * @param bool|string $in The value to review.
-     *
-     * @return bool
      */
     protected function processBoolean(bool|string $in): bool
     {
@@ -278,7 +240,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param Request $request The incoming HTTP request to process.
      *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -301,7 +262,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $filterAging Aging filter.
      *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -320,7 +280,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $filterClosed Closed filter.
      *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -339,7 +298,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $filterDeleted Deleted filter.
      *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -358,7 +316,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $filterFreshness Freshness filter.
      *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -376,8 +333,6 @@ class DisplayConfig implements JsonSerializable
      * Sets the ID filter.
      *
      * @param int[] $filterIds IDs to filter on.
-     *
-     * @return DisplayConfig
      */
     public function setFilterIds(array $filterIds): DisplayConfig
     {
@@ -390,7 +345,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $filterPriority Priority filter.
      *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -408,8 +362,6 @@ class DisplayConfig implements JsonSerializable
      * If set, only this section is shown.
      *
      * @param mixed $filterSection A section ID, or 0.
-     *
-     * @return DisplayConfig
      */
     public function setFilterSection(mixed $filterSection): DisplayConfig
     {
@@ -421,8 +373,6 @@ class DisplayConfig implements JsonSerializable
      * Whether or not to show inactive sections.
      *
      * @param bool|string $showInactive True or False.
-     *
-     * @return DisplayConfig
      */
     public function setShowInactive(bool|string $showInactive): DisplayConfig
     {
@@ -435,7 +385,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $showPriority Multiple values.
      *
-     * @return DisplayConfig
      *
      * @throws Exception
      */
@@ -453,8 +402,6 @@ class DisplayConfig implements JsonSerializable
      * Whether or not to show the priority editor.
      *
      * @param bool|string $showPriorityEditor True or False.
-     *
-     * @return DisplayConfig
      */
     public function setShowPriorityEditor(bool|string $showPriorityEditor): DisplayConfig
     {

@@ -63,8 +63,6 @@ class Item extends Model
 
     /**
      * Returns the completion stamp.
-     *
-     * @return ?Carbon
      */
     public function getCompletedAt(): ?Carbon
     {
@@ -73,8 +71,6 @@ class Item extends Model
 
     /**
      * Returns the primary key.
-     *
-     * @return ?int
      */
     public function getId(): ?int
     {
@@ -83,8 +79,6 @@ class Item extends Model
 
     /**
      * Returns the priority of the task.
-     *
-     * @return int
      */
     public function getPriority(): int
     {
@@ -93,8 +87,6 @@ class Item extends Model
 
     /**
      * Returns the section for this item.
-     *
-     * @return ?Section
      */
     public function getSection(): ?Section
     {
@@ -103,8 +95,6 @@ class Item extends Model
 
     /**
      * Returns the status of the task.
-     *
-     * @return string
      */
     public function getStatus(): string
     {
@@ -113,8 +103,6 @@ class Item extends Model
 
     /**
      * Returns the task itself.
-     *
-     * @return string
      */
     public function getTask(): string
     {
@@ -123,8 +111,6 @@ class Item extends Model
 
     /**
      * Returns the user for this item.
-     *
-     * @return ?User
      */
     public function getUser(): ?User
     {
@@ -136,8 +122,6 @@ class Item extends Model
      *
      * @param Builder $query The query builder.
      * @param User    $user  The user to filter by.
-     *
-     * @return void
      */
     public function scopeForUser(Builder $query, User $user): void
     {
@@ -148,8 +132,6 @@ class Item extends Model
      * Scope: open items only.
      *
      * @param Builder $query The query builder.
-     *
-     * @return void
      */
     public function scopeOpen(Builder $query): void
     {
@@ -172,8 +154,6 @@ class Item extends Model
      * @param mixed $completedAt The completion stamp.  Pass `null` to wipe it
      *                           out, anything else gets fed into Carbon's
      *                           constructor.
-     *
-     * @return Item
      */
     public function setCompletedAt(mixed $completedAt): Item
     {
@@ -185,8 +165,6 @@ class Item extends Model
      * Sets the priority of the task.
      *
      * @param int $priority The priority of the task.
-     *
-     * @return Item
      */
     public function setPriority(int $priority): Item
     {
@@ -198,8 +176,6 @@ class Item extends Model
      * Sets the section for this item.
      *
      * @param Section|null $section The section to set.
-     *
-     * @return Item
      */
     public function setSection(?Section $section): Item
     {
@@ -211,8 +187,6 @@ class Item extends Model
      * Sets the status of the task.
      *
      * @param string $status The status of the task.
-     *
-     * @return Item
      */
     public function setStatus(string $status): Item
     {
@@ -224,8 +198,6 @@ class Item extends Model
      * Sets the task itself.
      *
      * @param string $task The task itself.
-     *
-     * @return Item
      */
     public function setTask(string $task): Item
     {
@@ -237,8 +209,6 @@ class Item extends Model
      * Sets the user for this item.
      *
      * @param User|null $user The user for this item.
-     *
-     * @return Item
      */
     public function setUser(?User $user): Item
     {

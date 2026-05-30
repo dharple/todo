@@ -45,8 +45,6 @@ class Section extends Model
 
     /**
      * Returns the ID of this section.
-     *
-     * @return int
      */
     public function getId(): int
     {
@@ -55,8 +53,6 @@ class Section extends Model
 
     /**
      * Returns the name of this section.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -65,8 +61,6 @@ class Section extends Model
 
     /**
      * Returns the status of this section.
-     *
-     * @return string
      */
     public function getStatus(): string
     {
@@ -75,8 +69,6 @@ class Section extends Model
 
     /**
      * Returns the user for this section.
-     *
-     * @return ?User
      */
     public function getUser(): ?User
     {
@@ -97,8 +89,6 @@ class Section extends Model
      * Scope: active sections only.
      *
      * @param Builder $query The query builder.
-     *
-     * @return void
      */
     public function scopeActive(Builder $query): void
     {
@@ -109,8 +99,6 @@ class Section extends Model
      * Sets the name of this section.
      *
      * @param string $name The name of this section.
-     *
-     * @return Section
      */
     public function setName(string $name): Section
     {
@@ -122,8 +110,6 @@ class Section extends Model
      * Sets the status for this section.
      *
      * @param string $status The status for this section.
-     *
-     * @return Section
      */
     public function setStatus(string $status): Section
     {
@@ -135,8 +121,6 @@ class Section extends Model
      * Sets the user for this section.
      *
      * @param User|null $user The user to set.
-     *
-     * @return Section
      */
     public function setUser(?User $user): Section
     {

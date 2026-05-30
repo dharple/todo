@@ -29,8 +29,6 @@ class SetTimezone
      *
      * @param Request $request The incoming request.
      * @param Closure $next    The next middleware.
-     *
-     * @return Response
      */
     public function handle(Request $request, Closure $next): Response
     {

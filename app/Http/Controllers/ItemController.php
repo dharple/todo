@@ -40,8 +40,6 @@ class ItemController extends Controller
      * Displays the main to-do list.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return View
      */
     public function index(Request $request): View
     {
@@ -105,8 +103,6 @@ class ItemController extends Controller
      * Handles bulk item actions submitted from the main to-do list.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function indexPost(Request $request): RedirectResponse
     {
@@ -177,8 +173,6 @@ class ItemController extends Controller
      * Displays the bulk item add form.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return View
      */
     public function itemBulkAdd(Request $request): View
     {
@@ -203,8 +197,6 @@ class ItemController extends Controller
      * Handles the bulk item add form submission.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function itemBulkAddPost(Request $request): RedirectResponse
     {
@@ -246,8 +238,6 @@ class ItemController extends Controller
      * Displays the item editor (create or edit one or more items).
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return View
      */
     public function itemEdit(Request $request): View
     {
@@ -295,7 +285,6 @@ class ItemController extends Controller
      *
      * @param Request $request The current HTTP request.
      *
-     * @return RedirectResponse
      *
      * @throws \Exception If an item cannot be found in the POST data.
      */
@@ -380,8 +369,6 @@ class ItemController extends Controller
      * Displays the item prioritization form.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return View
      */
     public function itemPrioritize(Request $request): View
     {
@@ -426,8 +413,6 @@ class ItemController extends Controller
      * Handles the item prioritization form submission.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function itemPriorizePost(Request $request): RedirectResponse
     {
@@ -475,8 +460,6 @@ class ItemController extends Controller
      * method for sessions.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return DisplayConfig
      */
     protected function loadDisplayConfig(Request $request): DisplayConfig
     {
@@ -492,8 +475,6 @@ class ItemController extends Controller
      *
      * @param Request       $request The current HTTP request.
      * @param DisplayConfig $config  The config to save.
-     *
-     * @return void
      */
     protected function saveDisplayConfig(Request $request, DisplayConfig $config): void
     {

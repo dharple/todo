@@ -23,36 +23,27 @@ abstract class BaseDisplay
 {
     /**
      * The DisplayConfig to use.
-     *
-     * @var DisplayConfig
      */
     protected DisplayConfig $config;
 
     /**
      * The rendered item count.
-     *
-     * @var ?ItemCount
      */
     protected ?ItemCount $itemCount = null;
 
     /**
      * The actual output.
-     *
-     * @var string
      */
     protected string $output = '';
 
     /**
      * Whether or not the output has been built.
-     *
-     * @var bool
      */
     protected bool $outputBuilt = false;
 
     /**
      * Builds the output for this display.
      *
-     * @return void
      *
      * @throws Exception
      */
@@ -64,8 +55,6 @@ abstract class BaseDisplay
 
     /**
      * Returns the generated output for this display.
-     *
-     * @return string
      */
     public function getOutput(): string
     {
@@ -82,8 +71,6 @@ abstract class BaseDisplay
 
     /**
      * Returns the output count.
-     *
-     * @return ItemCount
      */
     public function getOutputCount(): ItemCount
     {
@@ -99,8 +86,6 @@ abstract class BaseDisplay
      *
      * @param string               $template  The template name in dot notation.
      * @param array<string, mixed> $variables The variables to pass to the template.
-     *
-     * @return string
      */
     protected function render(string $template, array $variables = []): string
     {
@@ -109,8 +94,6 @@ abstract class BaseDisplay
 
     /**
      * Resets the output for this display.
-     *
-     * @return void
      */
     protected function resetOutput(): void
     {

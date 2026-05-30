@@ -42,8 +42,6 @@ class ItemsDeletedPurgeCommand extends Command
 
     /**
      * Executes the command.
-     *
-     * @return int
      */
     public function handle(): int
     {

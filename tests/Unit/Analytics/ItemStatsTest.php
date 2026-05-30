@@ -31,22 +31,16 @@ class ItemStatsTest extends TestCase
 
     /**
      * Active section belonging to the primary test user.
-     *
-     * @var Section
      */
     private Section $activeSection;
 
     /**
      * Primary test user.
-     *
-     * @var User
      */
     private User $user;
 
     /**
      * Sets up a fresh user and active section before each test, and clears the cache.
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -70,8 +64,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Resets Carbon's test time after each test.
-     *
-     * @return void
      */
     protected function tearDown(): void
     {
@@ -84,8 +76,6 @@ class ItemStatsTest extends TestCase
      *
      * @param string $created   Creation datetime string.
      * @param string $completed Completion datetime string.
-     *
-     * @return Item
      */
     private function createClosedItem(string $created, string $completed): Item
     {
@@ -105,8 +95,6 @@ class ItemStatsTest extends TestCase
      *
      * @param string  $created The creation datetime string.
      * @param Section $section The section to place the item in.
-     *
-     * @return Item
      */
     private function createOpenItem(string $created, Section $section): Item
     {
@@ -123,8 +111,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies that getAverage returns 0.0 when no items exist for the user.
-     *
-     * @return void
      */
     public function testGetAverageReturnsZeroWithNoItems(): void
     {
@@ -135,8 +121,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies that an item created and closed on the same day counts as 1 day.
-     *
-     * @return void
      */
     public function testGetAverageWithItemCreatedAndClosedOnSameDay(): void
     {
@@ -150,8 +134,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies that an item open for exactly 10 days counts as 11 days.
-     *
-     * @return void
      */
     public function testGetAverageWithItemOpenForTenDays(): void
     {
@@ -165,8 +147,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies the average across multiple closed items with differing ages.
-     *
-     * @return void
      */
     public function testGetAverageAcrossMultipleClosedItems(): void
     {
@@ -183,8 +163,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies that an open item in an active section is included in the average.
-     *
-     * @return void
      */
     public function testGetAverageIncludesOpenItemsInActiveSections(): void
     {
@@ -200,8 +178,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies that an open item in an inactive section is excluded from the average.
-     *
-     * @return void
      */
     public function testGetAverageExcludesOpenItemsInInactiveSections(): void
     {
@@ -222,8 +198,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies that deleted items are excluded from the average.
-     *
-     * @return void
      */
     public function testGetAverageExcludesDeletedItems(): void
     {
@@ -244,8 +218,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies that items belonging to other users are excluded from the average.
-     *
-     * @return void
      */
     public function testGetAverageExcludesOtherUsersItems(): void
     {
@@ -280,8 +252,6 @@ class ItemStatsTest extends TestCase
 
     /**
      * Verifies the average when a mix of closed and active open items are present.
-     *
-     * @return void
      */
     public function testGetAverageWithMixedClosedAndOpenItems(): void
     {

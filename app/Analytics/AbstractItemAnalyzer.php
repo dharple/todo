@@ -40,8 +40,6 @@ abstract class AbstractItemAnalyzer
 
     /**
      * The ordering for this analyzer.
-     *
-     * @var string
      */
     protected string $ordering;
 
@@ -219,8 +217,6 @@ abstract class AbstractItemAnalyzer
      * Sets the ordering to use for the analytics.
      *
      * @param string $ordering The ordering to use.
-     *
-     * @return AbstractItemAnalyzer
      */
     public function setOrdering(string $ordering): AbstractItemAnalyzer
     {

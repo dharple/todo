@@ -20,15 +20,11 @@ class ItemCount
 {
     /**
      * The number of closed items.
-     *
-     * @var int
      */
     protected int $closedCount = 0;
 
     /**
      * The number of open items.
-     *
-     * @var int
      */
     protected int $openCount = 0;
 
@@ -36,8 +32,6 @@ class ItemCount
      * Adds another count to this count.
      *
      * @param ItemCount $count The count to add.
-     *
-     * @return ItemCount
      */
     public function add(ItemCount $count): ItemCount
     {
@@ -50,8 +44,6 @@ class ItemCount
      * Adds to the closed count.
      *
      * @param int $count The number of items to add.
-     *
-     * @return ItemCount
      */
     public function addClosed(int $count = 1): ItemCount
     {
@@ -63,8 +55,6 @@ class ItemCount
      * Adds to the open count.
      *
      * @param int $count The number of items to add.
-     *
-     * @return ItemCount
      */
     public function addOpen(int $count = 1): ItemCount
     {
@@ -74,8 +64,6 @@ class ItemCount
 
     /**
      * Returns the total number of closed items.
-     *
-     * @return int
      */
     public function getClosedCount(): int
     {
@@ -84,8 +72,6 @@ class ItemCount
 
     /**
      * Returns the total number of open items.
-     *
-     * @return int
      */
     public function getOpenCount(): int
     {
@@ -94,8 +80,6 @@ class ItemCount
 
     /**
      * Returns the total number of open AND closed items.
-     *
-     * @return int
      */
     public function getTotalCount(): int
     {
@@ -106,8 +90,6 @@ class ItemCount
      * Sets the closed count.
      *
      * @param int $count Value to set.
-     *
-     * @return ItemCount
      */
     public function setClosedCount(int $count): ItemCount
     {
@@ -119,8 +101,6 @@ class ItemCount
      * Sets the open count.
      *
      * @param int $count Value to set.
-     *
-     * @return ItemCount
      */
     public function setOpenCount(int $count): ItemCount
     {

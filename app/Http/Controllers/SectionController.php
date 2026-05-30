@@ -31,8 +31,6 @@ class SectionController extends Controller
      * Displays the section management form.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return View
      */
     public function sectionEdit(Request $request): View
     {
@@ -49,8 +47,6 @@ class SectionController extends Controller
      * Handles the section management form submission.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return RedirectResponse
      */
     public function sectionEditPost(Request $request): RedirectResponse
     {

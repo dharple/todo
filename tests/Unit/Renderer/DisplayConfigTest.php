@@ -26,8 +26,6 @@ class DisplayConfigTest extends TestCase
 {
     /**
      * Verifies that the constructor does not apply non-saved fields (filterIds, showPriorityEditor).
-     *
-     * @return void
      */
     public function testConstructorIgnoresNonSavedFields(): void
     {
@@ -42,8 +40,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that the constructor initializes fields from the provided array.
-     *
-     * @return void
      */
     public function testConstructorInitializesFromArray(): void
     {
@@ -70,8 +66,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies all default property values.
-     *
-     * @return void
      */
     public function testDefaults(): void
     {
@@ -91,8 +85,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that jsonSerialize returns exactly the saved fields.
-     *
-     * @return void
      */
     public function testJsonSerialize(): void
     {
@@ -117,8 +109,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that processRequest maps underscore query params to camelCase fields.
-     *
-     * @return void
      */
     public function testProcessRequest(): void
     {
@@ -147,8 +137,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that processRequest ignores unrecognized query params.
-     *
-     * @return void
      */
     public function testProcessRequestIgnoresUnknownParams(): void
     {
@@ -160,8 +148,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that processRequest returns the same DisplayConfig instance (fluent interface).
-     *
-     * @return void
      */
     public function testProcessRequestReturnsSelf(): void
     {
@@ -174,8 +160,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that setFilterAging rejects invalid values.
-     *
-     * @return void
      */
     public function testSetFilterAgingInvalid(): void
     {
@@ -185,8 +169,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Data provider for testSetFilterAgingValid.
-     *
-     * @return array
      */
     public static function validFilterAgingProvider(): array
     {
@@ -203,8 +185,6 @@ class DisplayConfigTest extends TestCase
      * Verifies that setFilterAging accepts all valid values.
      *
      * @param string $value The valid aging filter value to test.
-     *
-     * @return void
      */
     #[DataProvider('validFilterAgingProvider')]
     public function testSetFilterAgingValid(string $value): void
@@ -218,8 +198,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that setFilterClosed rejects invalid values.
-     *
-     * @return void
      */
     public function testSetFilterClosedInvalid(): void
     {
@@ -246,8 +224,6 @@ class DisplayConfigTest extends TestCase
      * Verifies that setFilterClosed accepts all valid values.
      *
      * @param string $value The valid closed filter value to test.
-     *
-     * @return void
      */
     #[DataProvider('validFilterClosedProvider')]
     public function testSetFilterClosedValid(string $value): void
@@ -261,8 +237,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that setFilterDeleted rejects invalid values.
-     *
-     * @return void
      */
     public function testSetFilterDeletedInvalid(): void
     {
@@ -289,8 +263,6 @@ class DisplayConfigTest extends TestCase
      * Verifies that setFilterDeleted accepts all valid values.
      *
      * @param string $value The valid deleted filter value to test.
-     *
-     * @return void
      */
     #[DataProvider('validFilterDeletedProvider')]
     public function testSetFilterDeletedValid(string $value): void
@@ -304,8 +276,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that setFilterFreshness rejects invalid values.
-     *
-     * @return void
      */
     public function testSetFilterFreshnessInvalid(): void
     {
@@ -333,8 +303,6 @@ class DisplayConfigTest extends TestCase
      * Verifies that setFilterFreshness accepts all valid values.
      *
      * @param string $value The valid freshness filter value to test.
-     *
-     * @return void
      */
     #[DataProvider('validFilterFreshnessProvider')]
     public function testSetFilterFreshnessValid(string $value): void
@@ -348,8 +316,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that setFilterIds stores the array and returns self.
-     *
-     * @return void
      */
     public function testSetFilterIds(): void
     {
@@ -363,8 +329,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that setFilterPriority rejects invalid values.
-     *
-     * @return void
      */
     public function testSetFilterPriorityInvalid(): void
     {
@@ -391,8 +355,6 @@ class DisplayConfigTest extends TestCase
      * Verifies that setFilterPriority accepts all valid values.
      *
      * @param string $value The valid priority filter value to test.
-     *
-     * @return void
      */
     #[DataProvider('validFilterPriorityProvider')]
     public function testSetFilterPriorityValid(string $value): void
@@ -424,8 +386,6 @@ class DisplayConfigTest extends TestCase
      *
      * @param mixed $input    The input value to set.
      * @param int   $expected The expected integer result.
-     *
-     * @return void
      */
     #[DataProvider('filterSectionProvider')]
     public function testSetFilterSection(mixed $input, int $expected): void
@@ -458,8 +418,6 @@ class DisplayConfigTest extends TestCase
      *
      * @param bool|string $input    The input value to set.
      * @param bool        $expected The expected boolean result.
-     *
-     * @return void
      */
     #[DataProvider('showInactiveProvider')]
     public function testSetShowInactive(bool|string $input, bool $expected): void
@@ -492,8 +450,6 @@ class DisplayConfigTest extends TestCase
      *
      * @param bool|string $input    The input value to set.
      * @param bool        $expected The expected boolean result.
-     *
-     * @return void
      */
     #[DataProvider('showPriorityEditorProvider')]
     public function testSetShowPriorityEditor(bool|string $input, bool $expected): void
@@ -507,8 +463,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that setShowPriority rejects invalid values.
-     *
-     * @return void
      */
     public function testSetShowPriorityInvalid(): void
     {
@@ -534,8 +488,6 @@ class DisplayConfigTest extends TestCase
      * Verifies that setShowPriority accepts all valid values.
      *
      * @param string $value The valid show priority value to test.
-     *
-     * @return void
      */
     #[DataProvider('validShowPriorityProvider')]
     public function testSetShowPriorityValid(string $value): void
@@ -549,8 +501,6 @@ class DisplayConfigTest extends TestCase
 
     /**
      * Verifies that __sleep returns only the saved field names.
-     *
-     * @return void
      */
     public function testSleep(): void
     {
