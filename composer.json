@@ -16,7 +16,7 @@
         "laravel/pail": "^1.2.6",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.9.4",
-        "outsanity/phpcs": ">=0.4.0",
+        "outsanity/phpcs": "^1.1.0",
         "phpunit/phpunit": "^12.5.26",
         "rector/rector": "^2.4.4"
     },
