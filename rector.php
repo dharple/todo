@@ -11,7 +11,6 @@ return RectorConfig::configure()
         __DIR__ . '/app',
         __DIR__ . '/tests',
     ])
-    ->withPhpSets(php83: true)
     ->withImportNames(
         importShortClasses: false,
         removeUnusedImports: true,
