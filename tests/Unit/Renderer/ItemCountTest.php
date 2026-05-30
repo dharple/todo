@@ -16,8 +16,16 @@ namespace Tests\Unit\Renderer;
 use App\Renderer\ItemCount;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Tests for ItemCount.
+ */
 class ItemCountTest extends TestCase
 {
+    /**
+     * Tests that add() combines two ItemCount instances correctly.
+     *
+     * @return void
+     */
     public function testAdd(): void
     {
         $first  = new ItemCount();
@@ -34,6 +42,11 @@ class ItemCountTest extends TestCase
         $this->assertEquals(10, $first->getClosedCount());
     }
 
+    /**
+     * Tests that addClosed() increments the closed count correctly.
+     *
+     * @return void
+     */
     public function testAddClosed(): void
     {
         $count = new ItemCount();
@@ -46,6 +59,11 @@ class ItemCountTest extends TestCase
         $this->assertEquals(0, $count->getOpenCount());
     }
 
+    /**
+     * Tests that addOpen() increments the open count correctly.
+     *
+     * @return void
+     */
     public function testAddOpen(): void
     {
         $count = new ItemCount();
@@ -58,6 +76,11 @@ class ItemCountTest extends TestCase
         $this->assertEquals(0, $count->getClosedCount());
     }
 
+    /**
+     * Tests that getTotalCount() returns the sum of open and closed counts.
+     *
+     * @return void
+     */
     public function testGetTotalCount(): void
     {
         $count = new ItemCount();
@@ -66,6 +89,11 @@ class ItemCountTest extends TestCase
         $this->assertEquals(105, $count->getTotalCount());
     }
 
+    /**
+     * Tests that setClosedCount() sets the closed count without affecting open count.
+     *
+     * @return void
+     */
     public function testSetClosedCount(): void
     {
         $count = new ItemCount();
@@ -74,6 +102,11 @@ class ItemCountTest extends TestCase
         $this->assertEquals(0, $count->getOpenCount());
     }
 
+    /**
+     * Tests that setOpenCount() sets the open count without affecting closed count.
+     *
+     * @return void
+     */
     public function testSetOpenCount(): void
     {
         $count = new ItemCount();
