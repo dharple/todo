@@ -56,7 +56,6 @@ class SectionDisplay extends BaseDisplay
      *
      * @param Builder $qb The query builder to use.
      *
-     *
      * @throws Exception
      */
     protected function applyFreshnessFilter(Builder $qb): void
@@ -140,7 +139,6 @@ class SectionDisplay extends BaseDisplay
 
     /**
      * Builds the output for this display.
-     *
      *
      * @throws Exception
      */

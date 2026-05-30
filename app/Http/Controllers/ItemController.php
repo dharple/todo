@@ -285,7 +285,6 @@ class ItemController extends Controller
      *
      * @param Request $request The current HTTP request.
      *
-     *
      * @throws \Exception If an item cannot be found in the POST data.
      */
     public function itemEditPost(Request $request): RedirectResponse

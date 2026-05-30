@@ -44,7 +44,6 @@ abstract class BaseDisplay
     /**
      * Builds the output for this display.
      *
-     *
      * @throws Exception
      */
     protected function buildOutput(): void

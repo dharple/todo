@@ -240,7 +240,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param Request $request The incoming HTTP request to process.
      *
-     *
      * @throws Exception
      */
     public function processRequest(Request $request): DisplayConfig
@@ -262,7 +261,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $filterAging Aging filter.
      *
-     *
      * @throws Exception
      */
     public function setFilterAging(string $filterAging): DisplayConfig
@@ -279,7 +277,6 @@ class DisplayConfig implements JsonSerializable
      * Sets the closed filter.
      *
      * @param string $filterClosed Closed filter.
-     *
      *
      * @throws Exception
      */
@@ -298,7 +295,6 @@ class DisplayConfig implements JsonSerializable
      *
      * @param string $filterDeleted Deleted filter.
      *
-     *
      * @throws Exception
      */
     public function setFilterDeleted(string $filterDeleted): DisplayConfig
@@ -315,7 +311,6 @@ class DisplayConfig implements JsonSerializable
      * Sets the freshness filter.
      *
      * @param string $filterFreshness Freshness filter.
-     *
      *
      * @throws Exception
      */
@@ -344,7 +339,6 @@ class DisplayConfig implements JsonSerializable
      * Sets the priority filter.
      *
      * @param string $filterPriority Priority filter.
-     *
      *
      * @throws Exception
      */
@@ -384,7 +378,6 @@ class DisplayConfig implements JsonSerializable
      * Whether or not to show the priority in the list display.
      *
      * @param string $showPriority Multiple values.
-     *
      *
      * @throws Exception
      */
