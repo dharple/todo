@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use RectorLaravel\Set\LaravelSetProvider;
-use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -15,9 +14,6 @@ return RectorConfig::configure()
         importShortClasses: false,
         removeUnusedImports: true,
     )
-    ->withSkip([
-        AddOverrideAttributeToOverriddenMethodsRector::class
-    ])
     ->withPreparedSets(
         deadCode: true,
     )
