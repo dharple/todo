@@ -18,5 +18,8 @@ return RectorConfig::configure()
     ->withSkip([
         AddOverrideAttributeToOverriddenMethodsRector::class
     ])
+    ->withPreparedSets(
+        deadCode: true,
+    )
     ->withSetProviders(LaravelSetProvider::class)
     ->withComposerBased(laravel: true);
