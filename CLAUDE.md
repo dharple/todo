@@ -5,26 +5,67 @@ code in this repository.
 
 ## Project Overview
 
-Laravel to-do list web app, originally written in 2007 without any framework.
+This is a Laravel web app, designed to keep track of a user's open tasks, and
+to report on completed tasks.  Each user has their own set of tasks, and their
+own set of sections, used to group the tasks.  This is the 3rd iteration of
+this project.  It was written in 2007 with no framework, then converted to a
+Symfony project, and finally converted to use Laravel.
 
 ## Commands
 
+### Setup
+
 ```bash
-composer install                          # install dependencies
-composer test                             # run PHPUnit tests
-composer phpcs                            # check code style (PSR-12 + outsanity ruleset)
-composer phpcbf                           # auto-fix style issues
-composer phpstan                          # static analysis (level 5, all paths)
-vendor/bin/rector process                 # apply PHP 8.3 modernization rules
-vendor/bin/phpunit --filter testMethod    # run a single test by name
+composer install
+./artisan key:generate
+./artisan migrate
+```
 
-php artisan migrate
-php artisan user:add <username>
-php artisan user:password <username>
+### Running
 
-# Start dev server
-composer go
-# or: php artisan serve
+```bash
+composer go     # Flush caches and start PHP dev server on localhost:8000
+```
+
+### Manage Users
+
+```bash
+./artisan user:add      username password
+./artisan user:password username
+```
+
+### Cleanup Tools
+
+```bash
+./artisan items:closed:list
+./artisan items:closed:purge
+./artisan items:deleted:list
+./artisan items:deleted:purge
+```
+
+### Database
+
+```bash
+./artisan migrate         # Apply migrations
+./artisan migrate:fresh   # Drop and recreate database
+```
+
+### Dev Tools
+
+```bash
+# All of these commands can take one or more filenames or directories on the
+# command line, to narrow the scope of their execution
+
+composer phpstan    # Static Analysis
+composer phpcs      # Check Code Style
+composer phpcbf     # Fix Code Style
+composer rector     # Show Opportunities for Automatic Refactoring
+composer test       # Run unit tests
+
+# Direct access tools
+
+vendor/bin/rector   # Do Automatic Refactoring
+vendor/bin/phpunit --filter <pattern> # Run unit tests matching a given pattern
 ```
 
 ## Tech Stack
