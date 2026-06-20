@@ -28,6 +28,7 @@ return [
     | An example configuration is provided for each database system which
     | is supported by Laravel. You're free to add / remove connections.
     |
+    | SQLite tuned per https://kerkour.com/sqlite-for-servers
     */
 
     'connections' => [
@@ -37,11 +38,16 @@ return [
             'url' => env('DB_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
+            'prefix_indexes' => null,
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
-            'busy_timeout' => null,
-            'journal_mode' => null,
-            'synchronous' => null,
-            'transaction_mode' => 'DEFERRED',
+            'busy_timeout' => 5000,
+            'journal_mode' => 'WAL',
+            'synchronous' => 'FULL',
+            'transaction_mode' => 'IMMEDIATE',
+            'pragmas' => [
+                'cache_size' => -64000,
+                'temp_store' => 'MEMORY',
+            ],
         ],
 
         'mysql' => [
@@ -96,7 +102,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => env('DB_SSLMODE', 'prefer'),
+            'sslmode' => 'prefer',
         ],
 
         'sqlsrv' => [

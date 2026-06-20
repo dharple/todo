@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hide inactive sections when adding new items.
 - Split the GET and POST endpoints into separate methods using Claude Code.
 - Split the Account edit page into two pages.
+- Tuned SQLite for server operation per [Sylvain Kerkour].
 - Updated stat caching to use Laravel's Cache facade.
 - Updated deploy script to work with Laravel.
 - Updated DisplayConfig to work with Laravel's serialization, and to stop
@@ -241,3 +242,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [@dependabot]: https://github.com/dependabot
 [@snyk]: https://snyk.io
+[Sylvain Kerkour]: https://kerkour.com/sqlite-for-servers
