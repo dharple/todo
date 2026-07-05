@@ -3,9 +3,12 @@ $('select[name="edit_section_id"]').change(function () {
 });
 
 //
-// Experimental Chart.js support
+// Chart.js support
 //
-// Colors by Manish @ SchemeColor: https://www.schemecolor.com/author/manish
+// Color Palette
+//
+// - URL: https://lospec.com/palette-list/caramel-autumn
+// - Author: https://lospec.com/aina-gelabert
 //
 
 var config = {
@@ -13,12 +16,10 @@ var config = {
     data: {
         datasets: [{
             backgroundColor: [
-                '#52939D',
-                '#395F80',
-                '#DE8F4E',
-                '#FED8B1',
-                '#DFBD9A',
-                '#D99057'
+                '#290143',
+                '#a22fc9',
+                '#ff8b40',
+                '#fff4b8',
             ],
             label: 'Tasks Done'
         }]
