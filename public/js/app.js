@@ -7,8 +7,8 @@ $('select[name="edit_section_id"]').change(function () {
 //
 // Color Palette
 //
-// - URL: https://lospec.com/palette-list/caramel-autumn
-// - Author: https://lospec.com/aina-gelabert
+// - URL: https://lospec.com/palette-list/lost-woods
+// - Author: https://lospec.com/braquen
 //
 
 var config = {
@@ -16,10 +16,10 @@ var config = {
     data: {
         datasets: [{
             backgroundColor: [
-                '#290143',
-                '#a22fc9',
-                '#ff8b40',
-                '#fff4b8',
+                '#8da343',
+                '#6b641b',
+                '#652626',
+                '#250e38',
             ],
             label: 'Tasks Done'
         }]
