@@ -7,8 +7,8 @@ $('select[name="edit_section_id"]').change(function () {
 //
 // Color Palette
 //
-// - URL: https://lospec.com/palette-list/lost-woods
-// - Author: https://lospec.com/braquen
+// - URL: https://lospec.com/palette-list/into-blinding-tenebris
+// - Author: https://lospec.com/dorian-termini
 //
 
 var config = {
@@ -16,10 +16,10 @@ var config = {
     data: {
         datasets: [{
             backgroundColor: [
-                '#8da343',
-                '#6b641b',
-                '#652626',
-                '#250e38',
+                '#ffa300',
+                '#e93841',
+                '#7d3ebf',
+                '#0000aa',
             ],
             label: 'Tasks Done'
         }]
