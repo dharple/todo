@@ -118,7 +118,7 @@
 
             Filter Aging:&nbsp;&nbsp;
             @foreach ($filterAgingValues as $value => $label)
-                @if ($config->getFilterAging() === $value)
+                @if ($config->getFilterAging() == $value)
                     {{ $label }}
                 @else
                     <a href="{{ route('index', ['filter_aging' => $value]) }}">{{ $label }}</a>
