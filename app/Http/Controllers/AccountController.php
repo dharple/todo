@@ -52,8 +52,6 @@ class AccountController extends Controller
      * Draws the password editor.
      *
      * @param Request $request The current HTTP request.
-     *
-     * @return Response
      */
     public function password(Request $request): View
     {
