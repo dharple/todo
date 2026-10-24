@@ -33,6 +33,14 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "policy": {
+            "cooldown": {
+                "period": "3 days",
+                "ignore": {
+                    "outsanity/*": "internal packages"
+                }
+            }
         }
     },
     "autoload": {
