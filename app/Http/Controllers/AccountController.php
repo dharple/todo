@@ -97,6 +97,8 @@ class AccountController extends Controller
             return redirect()->route('password')->with('controller_errors', $errors);
         }
 
+        $request->session()->regenerate(true);
+
         return redirect()->route('index');
     }
 }

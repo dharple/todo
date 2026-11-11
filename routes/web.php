@@ -21,7 +21,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginPost']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth', SetTimezone::class])->group(function () {
+Route::middleware(['auth', 'auth.session', SetTimezone::class])->group(function () {
     Route::get('/', [ItemController::class, 'index'])->name('index');
     Route::post('/', [ItemController::class, 'indexPost']);
 
