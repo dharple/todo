@@ -83,6 +83,10 @@ vendor/bin/phpunit --filter <pattern> # Run unit tests matching a given pattern
 
 **Timezone**: `App\Http\Middleware\SetTimezone` sets `date_default_timezone_set()` on every authenticated request via the web middleware stack (registered in `bootstrap/app.php`).
 
+**Login throttling**: `POST /login` uses the `login` rate limiter defined in `AppServiceProvider`: 3/minute per IP and 5/minute per username, configured under `custom.throttling.login` in `config/custom.php`. The username limit is the backstop if the client IP is forged or rotated.
+
+**Proxies**: `App\Http\Middleware\TrustProxies` replaces the framework's middleware. `config/trustedproxy.php` reads `TRUSTED_PROXIES` and `TRUSTED_PROXY_CLIENT_IP_HEADER`. With neither set, the framework trusts all proxies on Laravel Cloud (also Forge and Vapor), and Laravel Cloud uses `CF-Connecting-IP` as the visitor's IP. When moving to another host behind a proxy, set `TRUSTED_PROXIES`, or every visitor shares the proxy's IP.
+
 **Session / DisplayConfig**: `App\Renderer\DisplayConfig` is stored in Laravel's session under the key `displayConfig`. Load and save it via `session('displayConfig')` / `session(['displayConfig' => $config])`.
 
 **Data model**: Three Eloquent models — `User` owns `Section[]` and `Item[]`; each `Item` belongs to a `Section` and a `User`. Item status is a plain string column (`Open`, `Closed`, `Deleted`). No `created_at`/`updated_at` timestamp columns — `$timestamps = false` on all models.
