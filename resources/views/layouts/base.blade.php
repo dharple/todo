@@ -15,14 +15,13 @@
         <link rel="manifest" href="{{ asset('assets/favicon/site.webmanifest') }}">
     </head>
     <body>
-        @if (!empty($errors ?? []))
-            @foreach ($errors as $error)
-                <span style="color: red;">{{ $error }}</span>
-                <br />
-                <hr />
-                <br />
-            @endforeach
-        @endif
+        <div class="container">
+            @if (!empty($errors ?? []))
+                @foreach ($errors as $error)
+                    <div class="alert alert-danger">{{ $error }}</div>
+                @endforeach
+            @endif
+        </div>
 
         <div class="container">
             @yield('body')
