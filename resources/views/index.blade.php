@@ -13,7 +13,7 @@
         </div>
         <div class="col-6 text-end">
             <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMenu" aria-expanded="{{ $countOpen > 0 ? 'true' : 'false' }}" aria-controls="collapseMenu">
-                &#x2630;
+                <i class="fas fa-bars"></i>
             </button>
         </div>
     </div>

@@ -27,11 +27,11 @@
             <div class="col-1 text-end print">
                 <span class="align-top checkboxes">
                     @if ($item->getStatus() === 'Open')
-                        &#x2610;
+                        <i class="far fa-square"></i>
                     @elseif ($item->getStatus() === 'Closed')
-                        &#x2611;
+                        <i class="far fa-check-square"></i>
                     @else
-                        &#x2612;
+                        <i class="fas fa-times"></i>
                     @endif
                 </span>
             </div>
