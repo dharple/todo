@@ -31,7 +31,7 @@
                     @elseif ($item->getStatus() === 'Closed')
                         <i class="far fa-check-square"></i>
                     @else
-                        <i class="fas fa-times"></i>
+                        <i class="fas fa-trash-alt"></i>
                     @endif
                 </span>
             </div>
