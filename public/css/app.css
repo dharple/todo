@@ -182,6 +182,10 @@ div.chartContainer {
         font-size: 1.1rem;
     }
 
+    div.checkboxes {
+        margin-top: 0.15rem !important;
+    }
+
     div.item-row {
         line-height: 1.15;
     }
@@ -206,9 +210,5 @@ div.chartContainer {
 
     .no-print {
         display: none;
-    }
-
-    span.checkboxes {
-        font-family: "Times New Roman", serif;
     }
 }

@@ -24,8 +24,8 @@
                     {{ $item->getPriority() }}
                 @endif
             </div>
-            <div class="col-1 text-end print">
-                <span class="align-top checkboxes">
+            <div class="col-1 checkboxes print">
+                <span>
                     @if ($item->getStatus() === 'Open')
                         <i class="far fa-square"></i>
                     @elseif ($item->getStatus() === 'Closed')
