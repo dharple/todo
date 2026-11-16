@@ -15,14 +15,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Converted from Symfony 5.4 to Laravel 13 using Claude Code.
 - Hide inactive sections when adding new items.
-- Split the GET and POST endpoints into separate methods using Claude Code.
 - Split the Account edit page into two pages.
+- Split the GET and POST endpoints into separate methods using Claude Code.
+- Switched from jsdelivr to cdnjs.
+- Switched from Unicode to Font Awesome 5.
 - Tuned SQLite for server operation per [Sylvain Kerkour].
-- Updated stat caching to use Laravel's Cache facade.
 - Updated deploy script to work with Laravel.
 - Updated DisplayConfig to work with Laravel's serialization, and to stop
   accessing `$_REQUEST` directly.
 - Updated route names to drop `app_` prefix.
+- Updated stat caching to use Laravel's Cache facade.
 
 ### Fixed
 
@@ -33,6 +35,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Removed legacy routes.
+
+### Security
+
+- Enabled login throttling, trusted proxies, and Content-Security-Policy rules.
 
 ## [2.3.0] - 2026-05-23
 
