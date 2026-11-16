@@ -87,6 +87,8 @@ vendor/bin/phpunit --filter <pattern> # Run unit tests matching a given pattern
 
 **Proxies**: `App\Http\Middleware\TrustProxies` replaces the framework's middleware. `config/trustedproxy.php` reads `TRUSTED_PROXIES` and `TRUSTED_PROXY_CLIENT_IP_HEADER`. With neither set, the framework trusts all proxies on Laravel Cloud (also Forge and Vapor), and Laravel Cloud uses `CF-Connecting-IP` as the visitor's IP. When moving to another host behind a proxy, set `TRUSTED_PROXIES`, or every visitor shares the proxy's IP.
 
+**Content Security Policy**: `App\Http\Middleware\ContentSecurityPolicy` is prepended to the `web` group (so it also covers auth redirects and CSRF errors). Directives live under `custom.csp.directives` in `config/custom.php`. `CSP_REPORT_ONLY=true` sends `Content-Security-Policy-Report-Only` instead, which `.env.example` uses for local development (Laravel's debug error pages need inline scripts). The policy has no `'unsafe-inline'`, so views must not use inline `<script>`, `<style>`, `on*=` handlers, or `style=""` attributes; put behavior in `public/js/app.js`, styles in `public/css/app.css`, and pass data to scripts through `data-*` attributes. External assets come only from `cdnjs.cloudflare.com`.
+
 **Session / DisplayConfig**: `App\Renderer\DisplayConfig` is stored in Laravel's session under the key `displayConfig`. Load and save it via `session('displayConfig')` / `session(['displayConfig' => $config])`.
 
 **Data model**: Three Eloquent models — `User` owns `Section[]` and `Item[]`; each `Item` belongs to a `Section` and a `User`. Item status is a plain string column (`Open`, `Closed`, `Deleted`). No `created_at`/`updated_at` timestamp columns — `$timestamps = false` on all models.

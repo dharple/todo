@@ -32,7 +32,7 @@
         @include('partials.form.section')
         <br />
 
-        <span style="vertical-align: top; padding-right: 3pt;">Task:</span>
+        <span class="task-label">Task:</span>
         <textarea name="task[{{ $itemId }}]" rows=1 cols=60>{{ $item->getTask() }}</textarea>
         <br />
 

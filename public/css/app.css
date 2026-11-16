@@ -212,3 +212,8 @@ div.chartContainer {
         display: none;
     }
 }
+
+span.task-label {
+    vertical-align: top;
+    padding-right: 3pt;
+}

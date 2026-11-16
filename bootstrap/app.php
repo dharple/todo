@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ContentSecurityPolicy;
 use App\Http\Middleware\SetTimezone;
 use App\Http\Middleware\TrustProxies;
 use Illuminate\Foundation\Application;
@@ -15,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->replace(BaseTrustProxies::class, TrustProxies::class);
-        $middleware->web(append: [SetTimezone::class]);
+        $middleware->web(prepend: [ContentSecurityPolicy::class], append: [SetTimezone::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

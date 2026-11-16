@@ -3,9 +3,6 @@
 @section('title', 'To Do List For ' . now()->format('F jS, Y'))
 
 @section('body')
-<script>
-    var chartData = {!! json_encode($chartData) !!}
-</script>
 <div class="no-print">
     <div class="row mb-3">
         <div class="col-6 text-start">
@@ -63,7 +60,7 @@
             Items Shown / Open: {{ $countShown }} / {{ $countOpen }}
         </div>
         <div class="col-sm-12 col-lg-4 chartContainer">
-            <canvas id="tasksByWeek" class="mainChart"></canvas>
+            <canvas id="tasksByWeek" class="mainChart" data-chart="{{ json_encode($chartData) }}"></canvas>
         </div>
         <div class="col-sm-12 col-lg-4 text-lg-end">
             Filter Closed Items:&nbsp;&nbsp;
@@ -184,7 +181,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#accountModal">
                     My Account
                 </button>
-                <a href="{{ route('logout') }}" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                <button type="submit" form="logout-form" class="btn btn-danger">Logout</button>
             </div>
             <div class="col-sm-12 col-lg-4 mb-2 text-sm-center text-lg-end">
                 @if ($showAdvanced)
@@ -250,5 +247,5 @@
     </div>
 </div>
 
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">@csrf</form>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
 @endsection

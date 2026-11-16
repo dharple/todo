@@ -57,6 +57,8 @@ $(document).ready(function() {
         // the index page and one for the printed view.
         //
 
+        let chartData = $('#tasksByWeek').data('chart');
+
         config.data.datasets[0].data = $.map(chartData, function(row, i) {
             return row.done;
         });
