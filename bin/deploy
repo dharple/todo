@@ -20,6 +20,6 @@ cd $BASE
 git stash save
 git pull
 composer install --no-dev -o
-./artisan migrate
+./artisan migrate --force
 ./artisan optimize
 ./artisan up
