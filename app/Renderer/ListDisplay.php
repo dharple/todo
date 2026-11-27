@@ -18,6 +18,7 @@ use App\Models\Section;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Displays a list of sections.
@@ -28,6 +29,21 @@ class ListDisplay extends BaseDisplay
      * The footer template to display.
      */
     protected string $footer;
+
+    /**
+     * The rendered sections.
+     */
+    protected string $sectionOutput = '';
+
+    /**
+     * The number of sections rendered, or null if not yet rendered.
+     */
+    protected ?int $sectionsDrawn = null;
+
+    /**
+     * The number of open items the user has, or null if not yet loaded.
+     */
+    protected ?int $totalOpenCount = null;
 
     /**
      * Constructs a new ListDisplay.
@@ -71,18 +87,40 @@ class ListDisplay extends BaseDisplay
      */
     protected function buildOutput(): void
     {
+        if ($this->sectionsDrawn === null) {
+            $this->buildSections();
+        }
+
+        $this->output = $this->render('partials.list.wrapper', [
+            'footer'        => $this->replaceTotals($this->footer ?? ''),
+            'sectionsDrawn' => $this->sectionsDrawn,
+            'sectionOutput' => $this->sectionOutput,
+        ]);
+
+        $this->outputBuilt = true;
+    }
+
+    /**
+     * Renders each section and tallies the items shown.
+     *
+     * @throws Exception
+     */
+    protected function buildSections(): void
+    {
         $qb = Section::where('user_id', $this->user->id)->orderBy('name');
 
         $this->applySectionFilter($qb);
         $this->applyStatusFilter($qb);
 
         $sections = $qb->get();
+        $items    = SectionDisplay::loadItems($this->config, $sections->modelKeys());
 
-        $sectionOutput = '';
-        $sectionsDrawn = 0;
+        $this->itemCount     = new ItemCount();
+        $this->sectionOutput = '';
+        $this->sectionsDrawn = 0;
 
         foreach ($sections as $section) {
-            $sectionDisplay = new SectionDisplay($section, $this->config);
+            $sectionDisplay = new SectionDisplay($section, $this->config, $items[$section->id] ?? new Collection());
 
             $build = $sectionDisplay->getOutput();
 
@@ -90,19 +128,19 @@ class ListDisplay extends BaseDisplay
                 continue;
             }
 
-            $sectionOutput .= $build;
-            $sectionsDrawn++;
+            $this->sectionOutput .= $build;
+            $this->sectionsDrawn++;
 
-            $this->getOutputCount()->add($sectionDisplay->getOutputCount());
+            $this->itemCount->add($sectionDisplay->getOutputCount());
         }
+    }
 
-        $this->output = $this->render('partials.list.wrapper', [
-            'footer'        => $this->replaceTotals($this->footer ?? ''),
-            'sectionsDrawn' => $sectionsDrawn,
-            'sectionOutput' => $sectionOutput,
-        ]);
-
-        $this->outputBuilt = true;
+    /**
+     * Returns the number of open items the user has, shown or not.
+     */
+    public function getTotalOpenCount(): int
+    {
+        return $this->totalOpenCount ??= Item::forUser($this->user)->open()->count();
     }
 
     /**
@@ -114,7 +152,7 @@ class ListDisplay extends BaseDisplay
     {
         $grandTotal = $this->getOutputCount()->getOpenCount();
         $str        = str_replace('{GRAND_TOTAL}', (string) $grandTotal, $str);
-        $total      = Item::forUser($this->user)->open()->count();
+        $total      = $this->getTotalOpenCount();
 
         return str_replace('{NOT_SHOWN}', sprintf('%d', $total - $grandTotal), $str);
     }
@@ -126,8 +164,10 @@ class ListDisplay extends BaseDisplay
      */
     public function setFooter(string $footer): ListDisplay
     {
-        $this->resetOutput();
-        $this->footer = $footer;
+        // Only the wrapper needs rendering again; keep the rendered sections.
+        $this->output      = '';
+        $this->outputBuilt = false;
+        $this->footer      = $footer;
         return $this;
     }
 }

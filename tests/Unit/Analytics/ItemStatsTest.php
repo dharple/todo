@@ -268,4 +268,19 @@ class ItemStatsTest extends TestCase
         // (5 + 11) / 2 = 8.0
         $this->assertSame(8.0, $stats->getAverage());
     }
+
+    /**
+     * Verifies that the yearly summary stops once every closed item is accounted for.
+     */
+    public function testYearlySummaryStopsAtFirstYear(): void
+    {
+        Carbon::setTestNow('2024-06-01 12:00:00');
+
+        $this->createClosedItem('2023-01-01 12:00:00', '2023-01-02 12:00:00');
+        $this->createClosedItem('2024-01-01 12:00:00', '2024-01-02 12:00:00');
+
+        $stats = new ItemStats($this->user);
+
+        $this->assertSame([2024 => 1, 2023 => 1], $stats->getYearlySummary());
+    }
 }

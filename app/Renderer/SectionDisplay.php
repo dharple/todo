@@ -18,6 +18,7 @@ use App\Models\Section;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Displays a section.
@@ -27,10 +28,11 @@ class SectionDisplay extends BaseDisplay
     /**
      * Constructs a new SectionDisplay.
      *
-     * @param Section       $section The section to render.
-     * @param DisplayConfig $config  The display config to use.
+     * @param Section                    $section The section to render.
+     * @param DisplayConfig              $config  The display config to use.
+     * @param Collection<int, Item>|null $items   Items already loaded with loadItems(), or null to query them.
      */
-    public function __construct(protected Section $section, DisplayConfig $config)
+    public function __construct(protected Section $section, DisplayConfig $config, protected ?Collection $items = null)
     {
         $this->config = $config;
     }
@@ -49,6 +51,24 @@ class SectionDisplay extends BaseDisplay
 
             $qb->where('created_at', '<=', $start->format('Y-m-d H:i:s'));
         }
+    }
+
+    /**
+     * Applies all filters and the display order to the main query builder.
+     *
+     * @param Builder $qb The query builder to use.
+     *
+     * @throws Exception
+     */
+    protected function applyFilters(Builder $qb): void
+    {
+        $qb->orderBy('priority')->orderBy('task');
+
+        $this->applyAgingFilter($qb);
+        $this->applyFreshnessFilter($qb);
+        $this->applyIdFilter($qb);
+        $this->applyPriorityFilter($qb);
+        $this->applyStatusFilter($qb);
     }
 
     /**
@@ -146,17 +166,12 @@ class SectionDisplay extends BaseDisplay
     {
         $priorityLevels = DisplayHelper::getPriorityLevels();
 
-        $qb = Item::where('section_id', $this->section->getId())
-            ->orderBy('priority')
-            ->orderBy('task');
-
-        $this->applyAgingFilter($qb);
-        $this->applyFreshnessFilter($qb);
-        $this->applyIdFilter($qb);
-        $this->applyPriorityFilter($qb);
-        $this->applyStatusFilter($qb);
-
-        $items = $qb->get();
+        $items = $this->items;
+        if ($items === null) {
+            $qb = Item::where('section_id', $this->section->getId());
+            $this->applyFilters($qb);
+            $items = $qb->get();
+        }
 
         if ($items->isEmpty()) {
             $this->outputBuilt = true;
@@ -191,5 +206,29 @@ class SectionDisplay extends BaseDisplay
         ]);
 
         $this->outputBuilt = true;
+    }
+
+    /**
+     * Loads the items to display for several sections in one query.
+     *
+     * @param DisplayConfig   $config     The display config to use.
+     * @param array<int, int> $sectionIds The sections to load items for.
+     *
+     * @return array<int, Collection<int, Item>> Items keyed by section ID, in display order.
+     *
+     * @throws Exception
+     */
+    public static function loadItems(DisplayConfig $config, array $sectionIds): array
+    {
+        $qb = Item::whereIn('section_id', $sectionIds);
+
+        (new self(new Section(), $config))->applyFilters($qb);
+
+        $ret = [];
+        foreach ($qb->get()->groupBy('section_id') as $sectionId => $items) {
+            $ret[(int) $sectionId] = $items;
+        }
+
+        return $ret;
     }
 }

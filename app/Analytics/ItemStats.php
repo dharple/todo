@@ -17,6 +17,7 @@ use App\Models\Item;
 use App\Models\Section;
 use Carbon\Carbon;
 use DateTime;
+use DateTimeImmutable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -31,6 +32,13 @@ class ItemStats extends AbstractItemAnalyzer
      * @var integer
      */
     protected const CACHE_TIMEOUT = 3;
+
+    /**
+     * Counts already looked up during this request, keyed by cache key.
+     *
+     * @var array<string, int>
+     */
+    protected array $results = [];
 
     /**
      * Returns analytics for a given year.
@@ -118,6 +126,10 @@ class ItemStats extends AbstractItemAnalyzer
     {
         $key = hash('md5', serialize([__METHOD__, $this->user->id, $start, $end]));
 
+        if (isset($this->results[$key])) {
+            return $this->results[$key];
+        }
+
         Log::debug(sprintf(
             '%s, %s, %s, %s, %s, %s',
             __METHOD__,
@@ -128,7 +140,7 @@ class ItemStats extends AbstractItemAnalyzer
             $end ?? 'null'
         ));
 
-        return (int) Cache::remember($key, static::CACHE_TIMEOUT, fn () =>
+        return $this->results[$key] = (int) Cache::remember($key, static::CACHE_TIMEOUT, fn () =>
             $this->createQueryBuilder($start, $end)->count());
     }
 
@@ -152,23 +164,30 @@ class ItemStats extends AbstractItemAnalyzer
                 ->where('status', 'Active')
                 ->pluck('id');
 
-            $items = Item::where('user_id', $this->user->id)
+            // Raw rows and native date math: hydrating models and using Carbon
+            // here is slow for users with many closed items.
+            $rows = Item::where('user_id', $this->user->id)
                 ->where(function ($q) use ($activeSectionIds) {
                     $q->where('status', 'Closed')
                         ->orWhere(function ($q2) use ($activeSectionIds) {
                             $q2->where('status', 'Open')->whereIn('section_id', $activeSectionIds);
                         });
                 })
-                ->get();
+                ->toBase()
+                ->get(['created_at', 'completed_at']);
 
-            if ($items->isEmpty()) {
+            if ($rows->isEmpty()) {
                 $result = 0.0;
             } else {
-                $total = $items->sum(function (Item $item) {
-                    $completed = $item->completed_at ?? Carbon::now();
-                    return (int) max($item->created_at->diffInDays($completed), 0) + 1;
-                });
-                $result = $total / $items->count();
+                $now   = Carbon::now()->toDateTimeImmutable();
+                $total = 0;
+                foreach ($rows as $row) {
+                    $created   = new DateTimeImmutable((string) $row->created_at);
+                    $completed = ($row->completed_at === null) ? $now : new DateTimeImmutable((string) $row->completed_at);
+                    $diff      = $created->diff($completed);
+                    $total    += ($diff->invert ? 0 : (int) $diff->days) + 1;
+                }
+                $result = $total / $rows->count();
             }
 
             return $result;
@@ -213,7 +232,7 @@ class ItemStats extends AbstractItemAnalyzer
      */
     public function getYearlySummary(): array
     {
-        $year    = (int) date('Y');
+        $year    = Carbon::now()->year;
         $minYear = $year - 10;
         $total   = $this->doneTotal();
         $seen    = 0;
@@ -224,7 +243,7 @@ class ItemStats extends AbstractItemAnalyzer
 
             $ret[$year] = $current;
 
-            $total += $current;
+            $seen += $current;
             $year--;
         }
 

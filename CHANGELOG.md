@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Sped up the home page by loading items for all sections in one query and
+  computing average turnaround without hydrating every item.
+
+### Fixed
+
+- Yearly summary on the home page no longer lists empty years before the
+  first completed item.
+
 ## [3.0.0] - 2026-11-22
 
 ### Added

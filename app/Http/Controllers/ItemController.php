@@ -69,7 +69,7 @@ class ItemController extends Controller
         $listOutput     = $listDisplay->getOutput();
         $itemCount      = $listDisplay->getOutputCount()->getTotalCount();
         $shownOpenCount = $listDisplay->getOutputCount()->getOpenCount();
-        $totalOpenCount = Item::forUser($user)->open()->count();
+        $totalOpenCount = $listDisplay->getTotalOpenCount();
 
         $hideFooter = (($shownOpenCount === $totalOpenCount) && ($itemStats->doneTotal() === 0));
         if ($hideFooter) {
